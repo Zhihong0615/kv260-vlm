@@ -1,0 +1,34 @@
+# Model/checkpoint artifacts
+models/hf/
+models/gguf/
+*.gguf
+*.safetensors
+*.bin
+
+# FPGA outputs and generated projects
+*.bit
+*.xclbin
+*.xo
+fpga/vivado/*/runs/
+fpga/vivado/*/.Xil/
+fpga/vivado/*/*.cache/
+fpga/vivado/*/*.hw/
+fpga/vivado/*/*.ip_user_files/
+fpga/hls/*/build/
+fpga/hls/*/.autopilot/
+
+# Large or transient logs
+logs/raw/
+*.jou
+*.str
+*.log
+!env/ssh_test.log
+
+# Local Python environment and scratch
+.venv-model/
+.venv-hosttools/
+tools/
+runtime/llama.cpp/
+work/
+__pycache__/
+*.pyc

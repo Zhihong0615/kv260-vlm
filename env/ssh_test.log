@@ -1,0 +1,21 @@
+KV260 SSH test — 2026-09-22
+
+Existing host configuration:
+  Host kria
+  HostName 192.168.77.2
+  User ubuntu
+  IdentityFile /home/zhiro/.ssh/kria_codex_ed25519
+
+ssh -o BatchMode=yes -o ConnectTimeout=5 kria 'uname -a'
+PASS
+Linux kria 5.15.0-1027-xilinx-zynqmp #31-Ubuntu SMP Wed Feb 21 04:33:09 UTC 2024 aarch64 aarch64 GNU/Linux
+
+scp kria:/etc/hostname -> ~/research/kv260-vlm/work/kv260_hostname.txt
+PASS; received content: kria
+
+rsync --copy-links kria:/etc/os-release -> ~/research/kv260-vlm/work/kv260_os_release_copy2.txt
+PASS; received Ubuntu 22.04.4 LTS
+
+Notes:
+- The first rsync without --copy-links preserved the remote /etc/os-release symlink; this is expected rsync behavior and is retained as a work-area artifact.
+- No board files, firmware, bitstream, or system configuration were changed.

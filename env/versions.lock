@@ -1,0 +1,49 @@
+# KV260 VLM environment lock / audit record
+# Date: 2026-09-22, Asia/Shanghai
+
+[host]
+os = Ubuntu 24.04.5 LTS
+kernel = 7.0.0-31-generic
+arch = x86_64
+gcc = 13.3.0
+git = 2.43.0
+python = 3.12.3
+cmake = 3.31.6 (project-local .venv-hosttools fallback; system package absent)
+ninja = 1.11.1.4 (project-local .venv-hosttools fallback; system package absent)
+ccache = 4.9.1 (project-local extracted Ubuntu noble package; system package absent)
+
+[amd_toolchain]
+vivado = UNKNOWN (not installed)
+vitis = UNKNOWN (not installed)
+vitis_hls = UNKNOWN (not installed)
+k26_device = UNKNOWN (Vivado absent)
+kv260_board_part = UNKNOWN (Vivado absent)
+
+[llama_cpp]
+repo = https://github.com/ggml-org/llama.cpp.git
+commit = 7ab4ee7baad2d920464cbacfad4f4b07cf111fd2
+checkout = shallow clone on 2026-09-22; CPU Release/Ninja build PASS
+source_version = 0.4.1-dev; ggml 0.24.0
+
+[model_python]
+venv = ~/research/kv260-vlm/.venv-model (project-local virtualenv fallback)
+transformers = 5.7.0
+huggingface_hub = 1.5.0 (compatible with transformers 5.7.0)
+model_repo = openbmb/MiniCPM-V-4.6
+model_revision = 36f34a661a4bd35d0dc2294cb044d2584646c7d3
+processor_revision = 36f34a661a4bd35d0dc2294cb044d2584646c7d3
+gguf = UNKNOWN
+mmproj = UNKNOWN
+
+[kv260]
+os = Ubuntu 22.04.4 LTS
+kernel = 5.15.0-1027-xilinx-zynqmp
+arch = aarch64
+xmutil = 1.2ubuntu1 (command exists; listapps permission-blocked)
+xrt_package = 2.13.479-0ubuntu2
+xrt_runtime = 2.13.0
+device = KV260 revB; xbutil device ready
+cma_total_kb = 1024000
+cma_free_kb = 1014300
+model_image_change = no
+boot_or_qspi_change = no
