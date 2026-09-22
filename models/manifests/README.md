@@ -1,8 +1,8 @@
 # Model manifests
 
-当前 GGUF/mmproj 尚未生成，因此不创建伪造的 `model_manifest.json`。模型文件正按固定 revision 下载。完成模型转换后，必须记录 repo、revision、processor revision、llama.cpp commit、转换命令、量化格式及 SHA256。
+GGUF/mmproj 已按固定 revision 生成；`model_manifest.json` 记录 repo、revision、processor revision、llama.cpp commit、转换命令、量化格式及 SHA256。重新生成时必须运行 `sha256sum -c models/SHA256SUMS`。
 
-已固定的上游 revision（下载/转换仍需完成）：
+已固定并实际使用的上游 revision：
 
 - Repo: `openbmb/MiniCPM-V-4.6`
 - Revision: `36f34a661a4bd35d0dc2294cb044d2584646c7d3`

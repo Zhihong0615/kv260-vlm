@@ -1,0 +1,4 @@
+aa67da5820411176d0f9593a00265bc25a73c45f62dc5a605a93b1b5516a0d34  models/hf/MiniCPM-V-4.6/model.safetensors
+5f986bf2979637b5b13b2d31dc0524710abb516b50bfb1538e9e84563dc77c1a  models/gguf/MiniCPM-V-4.6-f16.gguf
+ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293  models/gguf/mmproj-MiniCPM-V-4.6-f16.gguf
+24cb90cc8788f6431dfe3d7b9709ea1e63c64503aa2d585362a6083b58fcc4db  models/gguf/MiniCPM-V-4.6-Q4_K_M.gguf

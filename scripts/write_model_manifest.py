@@ -25,6 +25,7 @@ def main() -> int:
     parser.add_argument("--hf-repo", required=True)
     parser.add_argument("--revision", required=True)
     parser.add_argument("--processor-revision", required=True)
+    parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--gguf", type=Path, required=True)
     parser.add_argument("--mmproj", type=Path, required=True)
     parser.add_argument("--quantized", type=Path, required=True)
@@ -32,7 +33,7 @@ def main() -> int:
     parser.add_argument("--conversion-command", required=True)
     args = parser.parse_args()
 
-    artifacts = [args.gguf, args.mmproj, args.quantized]
+    artifacts = [args.checkpoint, args.gguf, args.mmproj, args.quantized]
     missing = [str(path) for path in artifacts if not path.is_file()]
     if missing:
         parser.error("missing artifact(s): " + ", ".join(missing))

@@ -54,10 +54,13 @@ REMOTE
 ssh_rc=$?
 
 printf '%s\n' "$remote_output"
-if [[ "$ssh_rc" -ne 0 ]]; then
-  fail SSH "remote checks returned $ssh_rc"
+if [[ "$ssh_rc" -eq 255 ]]; then
+  fail SSH "connection or authentication failed"
 else
   pass SSH "$SSH_HOST reachable"
+fi
+if [[ "$ssh_rc" -ne 0 && "$ssh_rc" -ne 255 ]]; then
+  fail remote_checks "remote audit returned $ssh_rc"
 fi
 grep -q '^FPGA_MANAGER=present$' <<<"$remote_output" && pass FPGA_manager present || fail FPGA_manager missing
 grep -q '^CMA=CmaTotal:' <<<"$remote_output" && pass CMA "CmaTotal reported" || fail CMA unknown

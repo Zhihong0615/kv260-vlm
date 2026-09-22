@@ -45,6 +45,13 @@ gguf_count="$(find "$PROJECT_ROOT/models/gguf" -maxdepth 1 -type f -name '*.gguf
 mmproj_count="$(find "$PROJECT_ROOT/models/gguf" -maxdepth 1 -type f -iname '*mmproj*.gguf' 2>/dev/null | wc -l)"
 [[ "$mmproj_count" -gt 0 ]] && pass mmproj "$mmproj_count file(s)" || fail mmproj none
 [[ -f "$PROJECT_ROOT/models/SHA256SUMS" ]] && pass SHA256SUMS present || fail SHA256SUMS missing
+if [[ -f "$PROJECT_ROOT/models/SHA256SUMS" ]]; then
+  if (cd "$PROJECT_ROOT" && sha256sum -c models/SHA256SUMS >/dev/null); then
+    pass artifact_hashes "SHA256SUMS verified"
+  else
+    fail artifact_hashes "SHA256SUMS mismatch"
+  fi
+fi
 
 if [[ "$failures" -eq 0 ]]; then
   echo "Model environment: PASS"
