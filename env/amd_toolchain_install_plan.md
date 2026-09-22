@@ -1,6 +1,6 @@
 # AMD/Xilinx 2024.2 install plan
 
-状态：`BLOCKED — installer 未提供且当前 sudo 不可用`。
+状态：`IN PROGRESS — 2024.2 Web Installer 已认证，后台下载/安装中`。
 
 ## 目标
 
@@ -21,24 +21,25 @@
 
 | 项目 | 计划值 | 状态 |
 |---|---|---|
-| 官方 installer 文件 | AMD/Xilinx Unified Installer 2024.2 | `UNKNOWN`（本机未发现） |
-| installer SHA256 | UNKNOWN | 待下载后记录 |
-| 安装根目录 | `/tools/Xilinx/2024.2/` | 待 root 权限和 installer |
-| settings64.sh | `/tools/Xilinx/Vivado/2024.2/settings64.sh` 或安装器实际路径 | 待安装后确认 |
-| 预计空间 | 完整 Vitis 约 200 GB；器件/组件选择会影响实际值 | 可用空间约 390 GB，空间层面满足 |
-| 预计时间 | UNKNOWN；取决于网络、磁盘和组件选择 | 待实测 |
+| 官方 installer 文件 | `FPGAs_AdaptiveSoCs_Unified_2024.2_1113_2356_Lin64.bin` | AMD 官方 Web Installer；Makeself 自检 PASS |
+| installer SHA256 | `accbea8a0f4096d5242aaef2ad22d3b349a791163a366add48628ab96960a395` | 已记录 |
+| 安装根目录 | `/home/zhiro/research/kv260-vlm/tools/Xilinx/` | project-local、无需 root |
+| settings64.sh | `tools/Xilinx/Vitis/2024.2/settings64.sh` 或 Vivado 对应路径 | 安装结束后确认 |
+| 下载选择 | Vitis Unified、Kria SOM/Starter Kit、Zynq UltraScale+ MPSoC、Edge acceleration devices | 93.74 GB |
+| 后台服务 | `kv260-amd-install-2024-2.service` | user systemd service，运行中 |
+| 可用空间 | 约 372 GB（安装启动时） | 满足 |
 
 ## 安装前必须完成
 
-1. 用户在有交互式 sudo 的终端执行 `sudo apt update`。
-2. 安装基础包：`cmake ninja-build ccache python3-pip python3-venv libcurl4-openssl-dev tmux screen htop` 及任务说明中的其余包。
-3. 从 AMD 官方账户获取 2024.2 Unified Installer，并记录文件名、SHA256、下载时间和来源页面。
-4. 安装器中选择 Vivado、Vitis、Vitis HLS 及 K26 所需 device support。
+1. AMD 账户认证已完成；令牌文件权限为 owner-read-only。
+2. 安装器和内部 archive 完整性检查已通过。
+3. 安装配置保存在 `env/amd-vitis-2024.2-install_config.txt`。
+4. 安装采用 user-local 目录，不依赖 host sudo；系统级可选库和 cable drivers 仍需另行验证。
 
 ## 安装后验收
 
 ```bash
-source /tools/Xilinx/Vivado/2024.2/settings64.sh
+source env/setup_fpga.sh
 vivado -version
 vitis -version
 vitis_hls -version
@@ -48,4 +49,4 @@ vitis_hls -version
 
 ## 未执行的高风险动作
 
-没有自动下载未知来源的 installer，没有更换软件源，没有覆盖已有工具链（当前未发现已有工具链），没有执行系统升级，也没有触碰 KV260 镜像、QSPI、boot firmware 或启动分区。
+没有更换软件源，没有覆盖已有工具链（启动前未发现已有工具链），没有执行系统升级，也没有触碰 KV260 镜像、QSPI、boot firmware 或启动分区。

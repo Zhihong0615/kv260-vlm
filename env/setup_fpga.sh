@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 # Source this file for FPGA work; it intentionally does not modify ~/.bashrc.
 
+_fpga_project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 _fpga_settings="${FPGA_SETTINGS64:-}"
 if [[ -z "$_fpga_settings" ]]; then
   for _candidate in \
+    "$_fpga_project_root/tools/Xilinx/Vitis/2024.2/settings64.sh" \
+    "$_fpga_project_root/tools/Xilinx/Vivado/2024.2/settings64.sh" \
     /tools/Xilinx/Vivado/2024.2/settings64.sh \
     /tools/Xilinx/Vitis/2024.2/settings64.sh \
     /opt/Xilinx/Vivado/2024.2/settings64.sh \
@@ -27,3 +31,5 @@ echo "FPGA environment loaded from $_fpga_settings"
 vivado -version
 vitis -version
 vitis_hls -version
+
+unset _fpga_project_root _fpga_settings _candidate
