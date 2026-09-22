@@ -1,6 +1,7 @@
 # MiniCPM-V 4.6 model-preparation environment.
 # These are intentionally pinned. The native python3-venv/python3-pip path is blocked
 # by sudo policy, so the project-local venv uses pinned virtualenv as a fallback.
+--extra-index-url https://download.pytorch.org/whl/cpu
 numpy==2.2.6
 pillow==11.3.0
 safetensors==0.5.3
@@ -8,6 +9,7 @@ sentencepiece==0.2.0
 protobuf==5.29.5
 huggingface_hub==1.5.0
 transformers==5.7.0
+torch==2.9.1+cpu
 
-# The model config reports transformers 5.7.0. PyTorch is intentionally not added here:
-# no accelerator/runtime target was authorized for this preparation phase.
+# The model config reports transformers 5.7.0. CPU-only torch is for conversion only;
+# no accelerator/runtime target is being enabled in this preparation phase.

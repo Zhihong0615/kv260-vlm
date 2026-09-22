@@ -17,6 +17,7 @@ if [[ -x "$venv_python" ]] && "$venv_python" -m pip --version >/dev/null 2>&1; t
     [protobuf]=google.protobuf
     [huggingface-hub]=huggingface_hub
     [transformers]=transformers
+    [torch]=torch
   )
   declare -A requirement_names=(
     [Pillow]=pillow
@@ -32,7 +33,7 @@ if [[ -x "$venv_python" ]] && "$venv_python" -m pip --version >/dev/null 2>&1; t
     else
       fail "pkg:$distribution" not-importable
     fi
-  done < <(printf '%s\n' numpy Pillow safetensors sentencepiece protobuf huggingface-hub transformers)
+  done < <(printf '%s\n' numpy Pillow safetensors sentencepiece protobuf huggingface-hub transformers torch)
 else
   fail Python_venv "missing"
 fi
