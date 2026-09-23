@@ -17,10 +17,11 @@ Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02
 | B04 | Static-Key Coverage Analyst | Quantify whether B03's selected-request shape variation is represented by a per-op full signature key and whether group identity adds observed shape information. | R02 PASS on exact B03 target; B03 trace manifest in `orchestration/evidence_snapshots/B04_static_key_coverage/SOURCE.sha256`. | Compact key-coverage analysis, script, and exact-SHA handoff. | P2 high | DELIVERED / INTEGRATED — worker commit `966fbf5372a0e1f47f11da999a9298625233870a`; R03 PASS. | `agent/B04-static-key-coverage` / `/home/zhiro/research/kv260-vlm-workers/B04-static-key-coverage` |
 | R03 | Independent B04 Evidence Reviewer | Recompute B04's static-key coverage and coarse-key collision summaries from the frozen B03 traces. | Frozen B04 commit `966fbf5372a0e1f47f11da999a9298625233870a`; no inference, tests, or board activity. | `reviews/B04_static_key_coverage_independent_review.md` and exact-SHA handoff. | Gate-critical | DELIVERED / INTEGRATED — **PASS**, P0=0/P1=0/P2=0; reviewer commit `af1e3893d2eb4cd1a7675501cff273ac2a9aa6ed`; coordinator merge `ccba27d62d4a8a845080d592fd140f28afc177a7`. | `agent/R03-B04-review` / `/home/zhiro/research/kv260-vlm-workers/R03-B04-review` / target B04 SHA above |
 | E02 | Runner Readiness Remediation Builder | Apply four bounded source-level fixes to the frozen CPU runner/preflight without board activity or tests. | E01 source snapshot `880096cc50f4d37692012136ef7d204856df40ca`; no primary writes. | Two-source patch and exact-SHA handoff with unresolved findings retained. | P2 high | ACTIVE — exact source, task brief, and nine-entry manifest frozen; source-only changes, no execution. | `agent/E02-runner-remediation` / `/home/zhiro/research/kv260-vlm-workers/E02-runner-remediation` / `7385c0b10033244b3e203a3b152ca63720207222` |
+| B05 | Ordered Media-Group Trace Analyst | Check whether trace order adds any evidence beyond full per-op keys and group sets, and whether a sequence-sensitive static null is needed before future timing work. | R03 PASS and frozen B03/B04 trace evidence; offline only. | Deterministic sequence audit, compact report, and exact-SHA handoff. | P2 exploratory | ACTIVE — eleven B03/B04 inputs frozen; no execution. | `agent/B05-ordered-group-trace-audit` / `/home/zhiro/research/kv260-vlm-workers/B05-ordered-group-trace-audit` / `f7ad31d98ba96846c2a7522f114f6e310f63b19b` |
 
 ## Worker dispatch and task brief paths
 
-A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03 are complete; their branches remain preserved as individual source-of-record outputs. E02 is active in a new isolated worker branch. Do not reopen completed worker branches as writers. The R01, R02 and R03 review activations are under `orchestration/review_activations/`; E02's builder activation is `orchestration/activations/E02.md`.
+A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03 are complete; their branches remain preserved as individual source-of-record outputs. E02 and B05 are active in isolated worker branches. Do not reopen completed worker branches as writers. The R01, R02 and R03 review activations are under `orchestration/review_activations/`; E02 and B05 builder activations are `orchestration/activations/E02.md` and `orchestration/activations/B05.md`.
 
 The frozen task brief paths for completed, active and queued tasks are:
 
@@ -31,6 +32,7 @@ The frozen task brief paths for completed, active and queued tasks are:
 - B03: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B03.md`
 - B04: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B04.md` (delivered and integrated after R02/R03)
 - E02: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_E02.md` (queued; source-only remediation)
+- B05: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B05.md` (active; offline ordered-trace null audit)
 - R02: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/review_activations/R02.md`
 - R03: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/review_activations/R03.md`
 

@@ -129,3 +129,10 @@
 - **Frozen source:** E01 snapshot `880096cc50f4d37692012136ef7d204856df40ca`; nine-entry manifest SHA-256 `0a021eb8c8abd55cbf95442e83667284bc672e99831a3fd159e8610de6a9deed`; all nine entries passed before activation. Task brief SHA-256 `5765f81c890bde5865bf04e8a95ef2710a5df3b905caa54bbd388aacfb09edcf`.
 - **Boundary:** source-copy and edits only in an isolated worktree. No tests, syntax checks, dry plans, board access, inference, primary-checkout writes, or remote publication. P2-5/6/7 and external execution gates remain open; this is not board readiness.
 - **Decision gate:** independent source review is required before integration. Keep P3 at `NO_GO_NOW`.
+
+## 2026-09-24 — Activate B05 ordered media-group trace audit
+
+- **Decision:** Audit the one remaining static question from B03/B04 before scheduling any group-aware timing experiment: whether ordered per-op signature sequences add information beyond the full per-op key and the already-audited group sets.
+- **Frozen source:** eleven B03/B04 artifacts with manifest `orchestration/evidence_snapshots/B05_ordered_group_trace_audit/SOURCE.sha256`; all hashes are bound to coordinator commit `f7ad31d98ba96846c2a7522f114f6e310f63b19b`.
+- **Worker:** `agent/B05-ordered-group-trace-audit`, isolated at exact base `f7ad31d98ba96846c2a7522f114f6e310f63b19b`.
+- **Boundary:** offline trace analysis only. This can reject an unnecessary sequence hypothesis or motivate a later gated timing comparison against a static ordered-sequence/replay control. It cannot establish a K26 cost, bottleneck, novelty, or method advantage. No tests, board work, or publication. P3 stays `NO_GO_NOW`.
