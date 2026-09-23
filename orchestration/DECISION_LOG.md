@@ -169,3 +169,10 @@
 - **Builder:** isolated branch `agent/E03-runner-validation-hardening`, worktree `/home/zhiro/research/kv260-vlm-workers/E03-runner-validation-hardening`; worker result must directly parent the frozen base and change only the two preflight/runner sources plus its handoff.
 - **Boundary:** static source edits only. No tests, syntax checks, dry plans, board access, SSH, inference, primary-checkout writes, answer/annotation reads, or GitHub activity. E01 P2-5/6/7 and all external board gates remain open; this is not board readiness. P3 remains `NO_GO_NOW`.
 - **Review:** queue exact-target R06 after the worker commit; integrate only after independent PASS.
+
+## 2026-09-24 — Deliver E03 and activate R06
+
+- **Worker result:** E03 commit `9c048ce95400a8156c919dd0d0bb4279cace47cc` directly parents the frozen base `c550d3fe7e5272e6fee42d259d7f861b55ea4b2a`, is clean, and changes only `scripts/run_board_cpu_p2_textvqa.py` plus its handoff. The four-entry input manifest passed after the edit. Runner SHA-256: `aa44a21e98ed6bbded3681ba80f3f2f81ed5496dabf6b1f5a726f413e7270528`; handoff SHA-256: `b6151a144f3b4decba3f4507c479bffd625feb8c71b9e37d32d1d2c4b60000d6`.
+- **Change summary:** both host and embedded board gates reject malformed, non-finite, and negative load values through a blocking reason; CPU-row threshold indexing is guarded by successful row-schema validation. This is static source hardening only. No tests or execution occurred.
+- **Review activation:** R06 is active against exact target `9c048ce95400a8156c919dd0d0bb4279cace47cc`. Its five-entry manifest SHA-256 is `8fc8b41e33da2f1fcbe99aa10b7cabcadcf9d99dca03f44e5c1aa465510f1ca9`; task brief SHA-256 is `047c54113bf7eb108fa157a7270b97845a10c2fdbc3d5ecfe26ad1663b3ec56b`; activation SHA-256 is `22ccaafdf3006e71c183e1d940ed88b89e1357032e356028c5749ee30bd8b27c`.
+- **Decision boundary:** do not integrate until exact-SHA R06 PASS. P2-5/6/7, fixed review paths, ALPHA, live resources, external owner-window proof, and all board execution gates remain open; P3 stays `NO_GO_NOW`.
