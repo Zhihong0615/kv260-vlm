@@ -1,0 +1,1121 @@
+#!/usr/bin/env python3
+"""Plan or run one bounded KV260 CPU-only TextVQA development request.
+
+The default path is a local dry plan. Execution requires an earlier successful
+synthetic ALPHA check, hash-bound independent reviews, a confirmed owner window,
+and fresh board resource gates. One invocation starts at most one real image.
+"""
+
+from __future__ import annotations
+
+import argparse
+import getpass
+import hashlib
+import importlib.util
+import json
+import re
+import subprocess
+import sys
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+
+ROOT = Path(__file__).resolve().parents[1]
+RAW_ROOT = ROOT / "experiments/raw"
+DERIVED_ROOT = ROOT / "experiments/derived"
+MANIFEST_PATH = ROOT / "datasets/textvqa_v0.5.1_dev_50_seed20260923/manifest.json"
+ATTESTATION_PATH = RAW_ROOT / "kv260_cpu_p2_baseline_round01/cpu_build_attestation_v1.json"
+PREFLIGHT_SOURCE = ROOT / "scripts/board_cpu_preflight_remote.py"
+PARSER_PATH = ROOT / "scripts/parse_board_textvqa_pilot.py"
+ADAPTER_REVIEW = ROOT / "reviews/kv260_cpu_p2_textvqa_output_contract_v2_independent_review.md"
+RUNNER_REVIEW = ROOT / "reviews/board_cpu_p2_textvqa_runner_independent_review.md"
+PINNED_RUNTIME_COMMIT = "7ab4ee7baad2d920464cbacfad4f4b07cf111fd2"
+MANIFEST_SHA256 = "62c32317029e40895ffd8e476e8a845416dac9d1d9490dfd6efb5f28a4374962"
+MODEL_SHA256 = "8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773"
+MMPROJ_SHA256 = "ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293"
+CLI_SHA256 = "84bfa2f5f91f13503b5a1349e05594cda30c01613227187cfb9e48e7b805f1d7"
+ATTESTATION_SHA256 = "48cfe4fa9c5a4647ecb193ca91c6eaa07a539abd8addb2407ec14bf4d87755c2"
+PREFLIGHT_SOURCE_SHA256 = "fad954fbef94946d12de9a22d67e82a15951a7d715a02201a7c92d968192aa02"
+BOARD_BASE = "/home/ubuntu/kv260-vlm-p2-cpu"
+RUN_IDS = {qid: f"kv260_cpu_p2_tvqa_q{qid}_r01" for qid in (38299, 37804, 35419)}
+ORDER = (38299, 37804, 35419)
+SYSTEMD_UNITS = ("jupyter.service", "apt-daily.service", "apt-daily-upgrade.service")
+MIN_MEM_AVAILABLE_KIB = 2_750_000
+MIN_CMA_FREE_KIB = 700_000
+MIN_HOME_FREE_BYTES = 1 << 30
+MAX_LOAD1 = 1.5
+MAX_BUSY_CORES_PER_PROCESS = 0.25
+CLI_TIMEOUT_SECONDS = 300
+REMOTE_WATCHDOG_SECONDS = 540
+HOST_WAIT_SECONDS = 600
+RUN_ID_RE = re.compile(r"[a-z][a-z0-9_-]{7,79}\Z")
+
+
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def write_json(path: Path, value: dict[str, Any]) -> None:
+    with path.open("x", encoding="utf-8") as stream:
+        json.dump(value, stream, ensure_ascii=False, sort_keys=True, indent=2)
+        stream.write("\n")
+
+
+def captured_output_bytes(value: bytes | str | None) -> bytes:
+    if value is None:
+        return b""
+    return value.encode("utf-8", errors="replace") if isinstance(value, str) else value
+
+
+def persist_transport_failure(raw_dir: Path, stem: str, exc: Exception) -> dict[str, Any]:
+    """Preserve partial stdout/stderr when a bounded transport operation fails."""
+    (raw_dir / f"{stem}.stdout").write_bytes(captured_output_bytes(getattr(exc, "output", None)))
+    (raw_dir / f"{stem}.stderr").write_bytes(captured_output_bytes(getattr(exc, "stderr", None)))
+    return {f"{stem}_transport_error": repr(exc),
+            f"{stem}_timed_out": isinstance(exc, subprocess.TimeoutExpired)}
+
+
+def systemd_gate_reasons(states: dict[str, Any]) -> list[str]:
+    reasons: list[str] = []
+    jupyter = states.get("jupyter.service", {}) if isinstance(states, dict) else {}
+    if (jupyter.get("active_state") != "active" or jupyter.get("returncode") != 0 or
+            jupyter.get("timed_out") is not False):
+        reasons.append("JUPYTER")
+    for unit in ("apt-daily.service", "apt-daily-upgrade.service"):
+        state = states.get(unit, {}) if isinstance(states, dict) else {}
+        if (state.get("active_state") != "inactive" or state.get("returncode") != 3 or
+                state.get("timed_out") is not False):
+            reasons.append("PACKAGE_UPGRADE_SERVICE")
+    return reasons
+
+
+def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
+    """Apply the CPU request gates to one schema-validated remote snapshot."""
+    reasons: list[str] = []
+    memory = snapshot.get("memory_kib", {})
+    if snapshot.get("arch", "").lower() != "aarch64" or snapshot.get("cpu_count") != 4:
+        reasons.append("BOARD_IDENTITY")
+    if memory.get("MemAvailable", 0) < MIN_MEM_AVAILABLE_KIB:
+        reasons.append("MEMAVAILABLE")
+    if memory.get("CmaFree", 0) < MIN_CMA_FREE_KIB:
+        reasons.append("CMAFREE")
+    if memory.get("SwapTotal") != 0 or memory.get("SwapFree") != 0:
+        reasons.append("SWAP")
+    if snapshot.get("home_free_bytes", 0) < MIN_HOME_FREE_BYTES:
+        reasons.append("DISK")
+    reasons.extend(systemd_gate_reasons(snapshot.get("systemd_service_states", {})))
+    try:
+        load1 = float(snapshot["loadavg"].split()[0])
+    except (KeyError, IndexError, TypeError, ValueError):
+        load1 = float("inf")
+    if load1 > MAX_LOAD1:
+        reasons.append("LOAD")
+    processes = snapshot.get("selected_processes")
+    if not isinstance(processes, list) or any(
+            not isinstance(row, dict) or not isinstance(row.get("comm"), str)
+            for row in processes):
+        reasons.append("PROCESS_STATE_UNKNOWN")
+    else:
+        forbidden_names = {"llama-mtmd-cli", "llama-server", "vivado", "vitis_hls", "xbutil",
+                            "cmake", "ninja", "cc1", "cc1plus", "apt", "apt-get", "dpkg",
+                            "dpkg-deb", "rsync"}
+        if any(row["comm"] in forbidden_names or
+               (row["comm"] == "unattended-upgr" and row.get("role") != "shutdown_waiter")
+               for row in processes):
+            reasons.append("BUSY_PROCESS")
+    packagekit = snapshot.get("packagekit_transaction_state", {})
+    if (not isinstance(packagekit, dict) or
+            packagekit.get("state") not in ("SERVICE_INACTIVE", "NO_ACTIVE_TRANSACTIONS") or
+            packagekit.get("timed_out") is not False):
+        reasons.append("PACKAGEKIT_STATE")
+    return reasons
+
+
+def write_record(directory: Path, phase: str, value: dict[str, Any]) -> None:
+    write_json(directory / f"runner_record_{phase}.json", value)
+
+
+def checked_raw_path(path: Path) -> Path:
+    resolved = path.resolve()
+    if resolved.parent != RAW_ROOT.resolve():
+        raise ValueError("TextVQA case directories must be direct children of experiments/raw")
+    if resolved.exists():
+        raise ValueError("refusing to reuse existing append-only raw directory: " + str(resolved))
+    return resolved
+
+
+def load_manifest() -> tuple[dict[str, Any], dict[int, dict[str, Any]]]:
+    if sha256_file(MANIFEST_PATH) != MANIFEST_SHA256:
+        raise ValueError("TextVQA development manifest SHA mismatch")
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    if manifest.get("kind") != "textvqa_v0.5.1_validation_development_subset":
+        raise ValueError("unexpected TextVQA manifest kind")
+    samples: dict[int, dict[str, Any]] = {}
+    for sample in manifest["samples"]:
+        qid = sample["question_id"]
+        if qid in RUN_IDS:
+            if qid in samples:
+                raise ValueError(f"duplicate qid {qid} in development manifest")
+            image = manifest["images"][sample["image_id"]]
+            if (not isinstance(sample["answers"], list) or len(sample["answers"]) != 10 or
+                    not re.fullmatch(r"[0-9a-f]{64}", image["sha256"])):
+                raise ValueError(f"invalid frozen development sample {qid}")
+            samples[qid] = {**sample, "image_bytes": image["bytes"],
+                             "image_relative_path": image["path"]}
+    if tuple(qid for qid in ORDER if qid in samples) != ORDER:
+        raise ValueError("one or more frozen TextVQA qids are absent")
+    return manifest, samples
+
+
+def alpha_proof(path: Path) -> dict[str, Any]:
+    if path.is_symlink():
+        raise ValueError("--alpha-proof may not be a symlink")
+    proof_dir = path.resolve()
+    if proof_dir.parent != RAW_ROOT.resolve() or not proof_dir.is_dir():
+        raise ValueError("--alpha-proof must be a completed direct-child experiments/raw directory")
+    record_path = proof_dir / "run.json"
+    status_path = proof_dir / "remote_status.json"
+    copy_manifest_path = proof_dir / "raw_copy_manifest.json"
+    if not all(p.is_file() for p in (record_path, status_path, copy_manifest_path)):
+        raise ValueError("synthetic ALPHA proof lacks final run/status/copy records")
+    if any(p.is_symlink() for p in (record_path,status_path,copy_manifest_path)):
+        raise ValueError("synthetic ALPHA proof files may not be symlinks")
+    record = json.loads(record_path.read_text(encoding="utf-8"))
+    status = json.loads(status_path.read_text(encoding="utf-8"))
+    copied = json.loads(copy_manifest_path.read_text(encoding="utf-8"))
+    remote = record.get("remote_result") or {}
+    board_result = proof_dir / "board_complete_snapshot/result.json"
+    if not board_result.is_file() or board_result.is_symlink():
+        raise ValueError("synthetic ALPHA board result is missing")
+    board = json.loads(board_result.read_text(encoding="utf-8"))
+    if (record.get("status") != "SYNTHETIC_WIRING_PASS" or
+            record.get("board_inference_attempted") is not True or
+            record.get("remote_state") != "COMPLETE" or
+            record.get("raw_copy_returncode") != 0 or
+            record.get("raw_copy_manifest_mismatch") or
+            status.get("state") != "COMPLETE" or
+            status.get("completion_marker_valid") is not True or
+            not copied or board.get("status") != "SYNTHETIC_WIRING_PASS" or
+            board.get("wrapper_returncode") != 0 or
+            board.get("time_child_exit_status") != 0 or
+            board.get("remote_process_cleanup_verified") is not True or
+            "inference_started_at_utc" not in board):
+        raise ValueError("synthetic ALPHA evidence does not prove one clean, copied board request")
+    return {"path": str(proof_dir), "run_id": record.get("run_id"),
+            "run_json_sha256": sha256_file(record_path),
+            "board_result_sha256": sha256_file(board_result),
+            "remote_status_sha256": sha256_file(status_path),
+            "copy_manifest_sha256": sha256_file(copy_manifest_path)}
+
+
+def review_gate(path: Path, subject_sha: str, label: str) -> dict[str, str]:
+    if not path.is_file():
+        raise ValueError(f"missing independent {label} review: {path}")
+    body = path.read_text(encoding="utf-8")
+    if subject_sha not in body:
+        raise ValueError(f"{label} review does not bind current file SHA {subject_sha}")
+    if not re.search(r"(?im)^review_mode:\s*independent_static\s*$", body):
+        raise ValueError(f"{label} review is not explicitly marked independent_static")
+    if not re.search(r"(?im)^reviewer_role:\s*independent_reviewer\s*$", body):
+        raise ValueError(f"{label} review does not identify an independent reviewer")
+    if "SELF_REVIEW_ONLY" in body:
+        raise ValueError(f"{label} review is self-review-only")
+    for level in ("P0", "P1"):
+        if not re.search(rf"{level}\s*[:：]\s*0\b", body):
+            raise ValueError(f"{label} review does not report {level}=0")
+    return {"path": str(path), "sha256": sha256_file(path), "subject_sha256": subject_sha}
+
+
+def static_prerequisites(alpha_path: Path) -> dict[str, Any]:
+    manifest, _ = load_manifest()
+    if sha256_file(PREFLIGHT_SOURCE) != PREFLIGHT_SOURCE_SHA256:
+        raise ValueError("read-only board preflight script SHA mismatch")
+    if sha256_file(ATTESTATION_PATH) != ATTESTATION_SHA256:
+        raise ValueError("successful board CPU build attestation SHA mismatch")
+    attestation = json.loads(ATTESTATION_PATH.read_text(encoding="utf-8"))
+    if (attestation.get("schema") != "kv260_cpu_p2_build_attestation_v1" or
+            attestation.get("runtime_commit") != PINNED_RUNTIME_COMMIT or
+            attestation.get("build_exit_code") != 0 or
+            attestation.get("cli_sha256") != CLI_SHA256):
+        raise ValueError("board CPU build attestation does not bind the pinned successful build")
+    parser_sha = sha256_file(PARSER_PATH)
+    runner_sha = sha256_file(Path(__file__).resolve())
+    return {
+        "manifest_sha256": MANIFEST_SHA256,
+        "runtime_commit": PINNED_RUNTIME_COMMIT,
+        "model_sha256": MODEL_SHA256,
+        "mmproj_sha256": MMPROJ_SHA256,
+        "cli_sha256": CLI_SHA256,
+        "build_attestation_sha256": ATTESTATION_SHA256,
+        "preflight_source_sha256": PREFLIGHT_SOURCE_SHA256,
+        "parser_sha256": parser_sha,
+        "runner_sha256": runner_sha,
+        "alpha_proof": alpha_proof(alpha_path),
+        "adapter_review": review_gate(ADAPTER_REVIEW, parser_sha, "TextVQA adapter"),
+        "runner_review": review_gate(RUNNER_REVIEW, runner_sha, "TextVQA runner"),
+        "manifest_sample_count": len(manifest["samples"]),
+    }
+
+
+def sha_argv(argv: list[str]) -> str:
+    return hashlib.sha256(json.dumps(argv, ensure_ascii=False,
+                                     separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
+REMOTE_WORKER = r'''
+import fcntl
+import hashlib
+import json
+import os
+import re
+import shutil
+import signal
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
+from pathlib import Path
+
+BASE = Path("/home/ubuntu/kv260-vlm-p2-cpu")
+RUNS = BASE / "runs"
+ACTIVE = None
+TERMINATION_UNPROVEN = False
+
+def utc(): return datetime.now(timezone.utc).isoformat()
+def systemd_state(unit):
+    try:
+        result=subprocess.run(["systemctl","is-active",unit],capture_output=True,text=True,check=False,timeout=5)
+        return {"active_state":result.stdout.strip() or "UNKNOWN","returncode":result.returncode,"timed_out":False}
+    except subprocess.TimeoutExpired:
+        return {"active_state":"UNKNOWN","returncode":None,"timed_out":True}
+    except OSError as exc:
+        return {"active_state":"UNKNOWN","returncode":None,"timed_out":False,"error":type(exc).__name__}
+def collect_systemd_states():
+    return {unit:systemd_state(unit) for unit in ("jupyter.service","apt-daily.service","apt-daily-upgrade.service","packagekit.service")}
+def packagekit_transaction_state(services):
+    state=services.get("packagekit.service",{})
+    if state.get("active_state")=="inactive" and state.get("returncode")==3 and state.get("timed_out") is False:
+        return {"state":"SERVICE_INACTIVE","transaction_ids":[],"returncode":None,"timed_out":False}
+    if state.get("active_state")!="active" or state.get("returncode")!=0 or state.get("timed_out") is not False:
+        return {"state":"UNKNOWN","transaction_ids":[],"returncode":None,"timed_out":False}
+    try:
+        result=subprocess.run(["busctl","--system","call","org.freedesktop.PackageKit",
+                               "/org/freedesktop/PackageKit","org.freedesktop.PackageKit",
+                               "GetTransactionList"],capture_output=True,text=True,check=False,timeout=10)
+    except subprocess.TimeoutExpired:
+        return {"state":"UNKNOWN","transaction_ids":[],"returncode":None,"timed_out":True}
+    except OSError as exc:
+        return {"state":"UNKNOWN","transaction_ids":[],"returncode":None,"timed_out":False,
+                "error":type(exc).__name__}
+    words=result.stdout.split()
+    if result.returncode!=0 or len(words)<2 or words[0]!="ao":
+        return {"state":"UNKNOWN","transaction_ids":[],"returncode":result.returncode,"timed_out":False}
+    try: count=int(words[1])
+    except ValueError: count=-1
+    if count<0 or len(words)!=count+2:
+        return {"state":"UNKNOWN","transaction_ids":[],"returncode":result.returncode,"timed_out":False}
+    tids=words[2:]
+    return {"state":"NO_ACTIVE_TRANSACTIONS" if not tids else "ACTIVE_TRANSACTIONS",
+            "transaction_ids":tids,"returncode":result.returncode,"timed_out":False}
+def systemd_gate_reasons(states):
+    reasons=[]
+    j=states.get("jupyter.service",{}) if isinstance(states,dict) else {}
+    if j.get("active_state")!="active" or j.get("returncode")!=0 or j.get("timed_out") is not False:
+        reasons.append("JUPYTER")
+    for unit in ("apt-daily.service","apt-daily-upgrade.service"):
+        state=states.get(unit,{}) if isinstance(states,dict) else {}
+        if state.get("active_state")!="inactive" or state.get("returncode")!=3 or state.get("timed_out") is not False:
+            reasons.append("PACKAGE_UPGRADE_SERVICE")
+    return reasons
+def sha_file(path):
+    h=hashlib.sha256()
+    with Path(path).open("rb") as f:
+        for b in iter(lambda:f.read(1<<20),b""): h.update(b)
+    return h.hexdigest()
+def save(path,obj):
+    with Path(path).open("x",encoding="utf-8") as f:
+        json.dump(obj,f,ensure_ascii=False,sort_keys=True,indent=2); f.write("\n"); f.flush(); os.fsync(f.fileno())
+def proc_rows():
+    rows={}
+    for e in Path("/proc").iterdir():
+        if not e.name.isdigit(): continue
+        try:
+            raw=(e/"stat").read_text(); tail=raw[raw.rfind(")")+2:].split()
+            ticks=int(tail[11])+int(tail[12]); name=(e/"comm").read_text().strip()
+            status=(e/"status").read_text().splitlines()
+            uid=int(next(x for x in status if x.startswith("Uid:")).split()[1])
+            cmd=(e/"cmdline").read_bytes().replace(b"\0",b" ").decode(errors="replace").lower()
+            role="process"
+            if name=="unattended-upgr":
+                argv=[arg.decode(errors="replace") for arg in (e/"cmdline").read_bytes().split(b"\0") if arg]
+                role=("shutdown_waiter" if len(argv)>=2 and argv[-2:]==[
+                    "/usr/share/unattended-upgrades/unattended-upgrade-shutdown","--wait-for-signal"]
+                    else "unattended_upgrade")
+            rows[int(e.name)]={"ticks":ticks,"comm":name,"uid":uid,"cmd":cmd,"role":role}
+        except (OSError,ValueError,IndexError,StopIteration): continue
+    return rows
+def snapshot():
+    mem={}
+    for line in Path("/proc/meminfo").read_text().splitlines():
+        k,v=line.split(":",1)
+        if k in ("MemAvailable","CmaFree","SwapTotal","SwapFree","MemTotal"): mem[k]=int(v.strip().split()[0])
+    vms={}
+    for line in Path("/proc/vmstat").read_text().splitlines():
+        k,v=line.split()
+        if k in ("oom_kill","pgmajfault","pswpin","pswpout"): vms[k]=int(v)
+    services=collect_systemd_states()
+    packagekit=packagekit_transaction_state(services)
+    j=services["jupyter.service"]
+    sv=os.statvfs(str(Path.home()))
+    rows=proc_rows()
+    interesting={"unattended-upgr","apt","apt-get","dpkg","dpkg-deb","packagekitd",
+                 "llama-mtmd-cli","llama-server","vivado","vitis_hls","xbutil","cmake",
+                 "ninja","cc1","cc1plus","gcc","g++","make","rsync"}
+    procs=[{"pid":p,"uid":r["uid"],"comm":r["comm"],"role":r["role"]} for p,r in rows.items() if r["comm"] in interesting]
+    return {"schema":"kv260_cpu_p2_textvqa_runtime_preflight_v3",
+            "captured_at_utc":utc(),"scope":"read-only bounded CPU-only TextVQA preflight",
+            "arch":__import__("platform").machine(),"cpu_count":os.cpu_count(),"memory_kib":mem,
+            "vmstat_global":vms,"home_free_bytes":sv.f_bavail*sv.f_frsize,
+            "loadavg":Path("/proc/loadavg").read_text().strip(),"systemd_service_states":services,
+            "jupyter_active":j["active_state"],"jupyter_returncode":j["returncode"],
+            "packagekit_transaction_state":packagekit,
+            "selected_processes":procs,"process_count":len(rows),
+            "cpu_frequency_khz":{p.name:int((p/"cpufreq/scaling_cur_freq").read_text()) for p in sorted(Path("/sys/devices/system/cpu").glob("cpu[0-9]*")) if (p/"cpufreq/scaling_cur_freq").is_file()},
+            "thermal_c":{z.name:round(int((z/"temp").read_text())/1000,3) for z in sorted(Path("/sys/class/thermal").glob("thermal_zone*")) if (z/"temp").is_file()}}
+def gate(s, pre, before=None):
+    reasons=[]; m=s["memory_kib"]
+    if s["arch"].lower()!="aarch64" or s["cpu_count"]!=4: reasons.append("BOARD_IDENTITY")
+    if m.get("MemAvailable",0)<CONFIG["min_mem_available_kib"]: reasons.append("MEMAVAILABLE")
+    if m.get("CmaFree",0)<CONFIG["min_cma_free_kib"]: reasons.append("CMAFREE")
+    if m.get("SwapTotal")!=0 or m.get("SwapFree")!=0: reasons.append("SWAP")
+    if s.get("home_free_bytes",0)<CONFIG["min_home_free_bytes"]: reasons.append("DISK")
+    reasons.extend(systemd_gate_reasons(s.get("systemd_service_states",{})))
+    load=float(s["loadavg"].split()[0])
+    if load>CONFIG["max_load1"]: reasons.append("LOAD")
+    forbidden_names={"apt","apt-get","dpkg","dpkg-deb","llama-mtmd-cli","llama-server","vivado","vitis_hls","xbutil","cmake","ninja","cc1","cc1plus","gcc","g++","make","rsync"}
+    forbidden=[p for p in s["selected_processes"]
+               if (p["comm"] in forbidden_names or
+                   (p["comm"]=="unattended-upgr" and p.get("role")!="shutdown_waiter"))]
+    if forbidden: reasons.append("BUSY_PROCESS")
+    pkg=s.get("packagekit_transaction_state",{})
+    if (not isinstance(pkg,dict) or
+            pkg.get("state") not in ("SERVICE_INACTIVE","NO_ACTIVE_TRANSACTIONS") or
+            pkg.get("timed_out") is not False): reasons.append("PACKAGEKIT_STATE")
+    if before is not None:
+        hz=os.sysconf("SC_CLK_TCK"); elapsed=2.0
+        for pid,row in s["_rows_after"].items():
+            if pid==os.getpid(): continue
+            old=before.get(pid)
+            if old and (row["ticks"]-old["ticks"])/hz/elapsed>=CONFIG["max_busy_cores_per_process"]:
+                reasons.append("BUSY_CPU"); break
+    return reasons
+def rich_snapshot():
+    before=proc_rows(); time.sleep(2); after=proc_rows(); s=snapshot(); s["_rows_after"]=after
+    reasons=gate(s,True,before)
+    s.pop("_rows_after",None); s["gate_reasons"]=reasons
+    return s
+def stop_group(p):
+    global TERMINATION_UNPROVEN
+    if p is None or p.poll() is not None: return True
+    try: os.killpg(p.pid,signal.SIGTERM)
+    except ProcessLookupError: pass
+    try: p.wait(timeout=8); return True
+    except subprocess.TimeoutExpired:
+        try: os.killpg(p.pid,signal.SIGKILL)
+        except ProcessLookupError: pass
+        try: p.wait(timeout=5); return True
+        except subprocess.TimeoutExpired: TERMINATION_UNPROVEN=True; return False
+def on_signal(sig,_frame):
+    if not stop_group(ACTIVE): raise RuntimeError("child termination unproven")
+    raise InterruptedError("remote worker signal "+str(sig))
+for sig in (signal.SIGTERM,signal.SIGHUP,signal.SIGINT): signal.signal(sig,on_signal)
+def argv_sha(a): return hashlib.sha256(json.dumps(a,ensure_ascii=False,separators=(",",":")).encode()).hexdigest()
+def write_result(case_dir, state): save(case_dir/"result.json",state)
+def owned_cli_processes():
+    needle=str(BASE/"build-cpu/bin/llama-mtmd-cli").encode(); found=[]; unreadable=[]
+    for entry in Path("/proc").iterdir():
+        if not entry.name.isdigit() or int(entry.name)==os.getpid(): continue
+        try:
+            if needle in (entry/"cmdline").read_bytes(): found.append(int(entry.name))
+        except PermissionError: unreadable.append(int(entry.name))
+        except OSError: continue
+    return sorted(found),sorted(unreadable)
+
+def main():
+    RUNS.mkdir(parents=True,exist_ok=True)
+    lock=(RUNS/".cpu_p2_runner.lock").open("a+")
+    try: fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+    except BlockingIOError:
+        print(json.dumps({"status":"REMOTE_LOCK_BUSY","cli_started":False},sort_keys=True)); return 2
+    case_id=CONFIG["run_id"]; run_dir=RUNS/case_id
+    outcome={"run_id":case_id,"status":"PRECHECK_BLOCKED","captured_at_utc":utc(),"cli_started":False}
+    child=None; start_wall=None; start_mono=None
+    try:
+        if run_dir.exists(): raise RuntimeError("board run ID already exists")
+        initial=rich_snapshot(); outcome["initial_preflight"] = initial
+        if initial["gate_reasons"]:
+            outcome["gate_reasons"]=initial["gate_reasons"]; print(json.dumps(outcome,sort_keys=True)); return 3
+        base=BASE; cli=base/"build-cpu/bin/llama-mtmd-cli"
+        model=base/"input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf"
+        mmproj=base/"input/mmproj-MiniCPM-V-4.6-f16.gguf"
+        image=base/"input/textvqa-dev50"/(CONFIG["image_id"]+".jpg")
+        cache=base/"build-cpu/CMakeCache.txt"
+        source=base/"staging/llama_cpp_7ab4ee7_source.tar.gz"
+        if sha_file(cli)!=CONFIG["cli_sha256"] or sha_file(model)!=CONFIG["model_sha256"] or sha_file(mmproj)!=CONFIG["mmproj_sha256"] or sha_file(image)!=CONFIG["image_sha256"]:
+            raise RuntimeError("board CLI/model/mmproj/image SHA mismatch")
+        if image.stat().st_size!=CONFIG["image_bytes"]: raise RuntimeError("board image byte-size mismatch")
+        if sha_file(source)!=CONFIG["source_archive_sha256"]: raise RuntimeError("pinned source archive mismatch")
+        if sha_file(cache)!=CONFIG["cmake_cache_sha256"]: raise RuntimeError("CMakeCache differs from attested build")
+        cache_text=cache.read_text(errors="replace")
+        required=("CMAKE_BUILD_TYPE:STRING=Release","GGML_NATIVE:BOOL=OFF","LLAMA_BUILD_TOOLS:BOOL=ON",
+                  "LLAMA_BUILD_TESTS:BOOL=OFF","LLAMA_BUILD_EXAMPLES:BOOL=OFF")
+        if any(item not in cache_text for item in required): raise RuntimeError("CPU-only CMake configuration mismatch")
+        if any(option+":BOOL=ON" in cache_text for option in ("GGML_CUDA","GGML_VULKAN","GGML_SYCL","GGML_HIP","GGML_OPENCL")):
+            raise RuntimeError("non-CPU CMake backend is enabled")
+        libs=[]
+        for item in CONFIG["local_shared_libraries"]:
+            path=base/item["path"]
+            if sha_file(path)!=item["sha256"]: raise RuntimeError("attested library mismatch: "+item["path"])
+            libs.append({"path":str(path),"sha256":item["sha256"]})
+        file_check=subprocess.run(["file","-b",str(cli)],capture_output=True,text=True,timeout=10)
+        elf_check=subprocess.run(["readelf","-h",str(cli)],capture_output=True,text=True,timeout=10)
+        ldd_check=subprocess.run(["ldd",str(cli)],capture_output=True,text=True,timeout=20)
+        if file_check.returncode!=0 or "aarch64" not in file_check.stdout.lower(): raise RuntimeError("file does not identify AArch64 CLI")
+        if elf_check.returncode!=0 or "aarch64" not in elf_check.stdout.lower(): raise RuntimeError("readelf does not identify AArch64 CLI")
+        if ldd_check.returncode!=0 or "not found" in ldd_check.stdout.lower(): raise RuntimeError("ldd reports a missing library")
+        attested_paths={str((base/item["path"]).resolve()) for item in CONFIG["local_shared_libraries"]}
+        ldd_local=[]
+        for line in ldd_check.stdout.splitlines():
+            match=re.search(r"=>\s+(/\S+)",line) or re.match(r"\s*(/\S+)",line)
+            if match:
+                resolved=str(Path(match.group(1)).resolve())
+                if resolved.startswith(str(base.resolve())+"/"):
+                    if resolved not in attested_paths: raise RuntimeError("ldd has an unattested board-local library")
+                    ldd_local.append(resolved)
+        if not ldd_local: raise RuntimeError("ldd did not resolve any attested board-local library")
+        help_run=subprocess.run([str(cli),"--help"],capture_output=True,timeout=30)
+        if help_run.returncode!=0: raise RuntimeError("board CLI --help failed")
+        pre=rich_snapshot()
+        if pre["gate_reasons"]:
+            outcome["status"]="PRECHECK_BLOCKED"; outcome["gate_reasons"]=pre["gate_reasons"]
+            outcome["preflight_before"]=pre; print(json.dumps(outcome,sort_keys=True)); return 3
+        run_dir.mkdir(mode=0o700)
+        a=CONFIG["argv"]
+        written=utc()
+        command={"schema":"kv260_cpu_p2_textvqa_command_v1","question_id":CONFIG["question_id"],
+                 "image_id":CONFIG["image_id"],"runtime_commit":CONFIG["runtime_commit"],
+                 "manifest_sha256":CONFIG["manifest_sha256"],"model_sha256":CONFIG["model_sha256"],
+                 "mmproj_sha256":CONFIG["mmproj_sha256"],"cli_sha256":CONFIG["cli_sha256"],
+                 "image_path":str(image),"image_sha256":CONFIG["image_sha256"],"image_bytes":CONFIG["image_bytes"],
+                 "argv":a,"working_directory":str(BASE),"environment":{"MTMD_TEST_RESPONSE_MARKER":"UNSET",
+                 "marker_removed_before_launch":True,"marker_was_present_before_removal":CONFIG["marker_was_present"]},
+                 "written_before_launch_at_utc":written}
+        input_record={"schema":"kv260_cpu_p2_textvqa_input_verification_v1","question_id":CONFIG["question_id"],
+                      "image_id":CONFIG["image_id"],"image_path":str(image),"image_sha256":CONFIG["image_sha256"],
+                      "image_bytes":CONFIG["image_bytes"],"verification_returncode":0,"verified_before_cli":True,
+                      "verification_scope":"board_filesystem_prelaunch","verified_at_utc":utc()}
+        artifact={"schema":"kv260_cpu_p2_textvqa_artifact_verification_v1","question_id":CONFIG["question_id"],
+                  "runtime_commit":CONFIG["runtime_commit"],"verification_returncode":0,"verified_before_cli":True,
+                  "verified_at_utc":utc(),"cli_path":str(cli),"cli_sha256":CONFIG["cli_sha256"],
+                  "model_path":str(model),"model_sha256":CONFIG["model_sha256"],"mmproj_path":str(mmproj),
+                  "mmproj_sha256":CONFIG["mmproj_sha256"],"cpu_build_attestation_sha256":CONFIG["attestation_sha256"],
+                  "verification_scope":"board_filesystem_prelaunch","source_archive_sha256":CONFIG["source_archive_sha256"],
+                  "cmake_cache_sha256":CONFIG["cmake_cache_sha256"],"cmake_cpu_only_configuration_verified":True,
+                  "elf_file_summary":file_check.stdout.strip(),"elf_readelf_machine":next((line.strip() for line in elf_check.stdout.splitlines() if "Machine:" in line),""),
+                  "ldd_no_missing":True,"ldd_local_library_paths":sorted(set(ldd_local))}
+        save(run_dir/"command.json",command); save(run_dir/"input_verification.json",input_record); save(run_dir/"artifact_verification.json",artifact)
+        save(run_dir/"preflight_before.json",pre)
+        start_wall=utc(); start_mono=time.monotonic(); rc=None
+        env=os.environ.copy(); env.pop("MTMD_TEST_RESPONSE_MARKER",None); env["LC_ALL"]="C"
+        with (run_dir/"stdout.log").open("xb") as out,(run_dir/"stderr.log").open("xb") as err:
+            child=subprocess.Popen(a,cwd=BASE,env=env,stdout=out,stderr=err,start_new_session=True)
+            globals()["ACTIVE"]=child
+            rc=child.wait(timeout=330)
+        globals()["ACTIVE"]=None
+        elapsed=round(time.monotonic()-start_mono,6); ended=utc()
+        post=rich_snapshot(); save(run_dir/"preflight_after.json",post)
+        resource=run_dir/"resource.txt"
+        resource_text=resource.read_text(errors="replace") if resource.is_file() else ""
+        child_match=re.search(r"Exit status:\s*(\d+)",resource_text)
+        image_after=sha_file(image)
+        post_image={"schema":"kv260_cpu_p2_textvqa_image_post_verification_v1","question_id":CONFIG["question_id"],
+                    "image_id":CONFIG["image_id"],"image_path":str(image),"image_sha256":image_after,
+                    "image_bytes":image.stat().st_size,"verified_after_cli":True,"verified_at_utc":utc()}
+        save(run_dir/"image_post_verification.json",post_image)
+        child_status=int(child_match.group(1)) if child_match else None
+        owned,unreadable=owned_cli_processes()
+        cleanup_verified=not owned and not unreadable and not TERMINATION_UNPROVEN
+        state={"schema":"kv260_cpu_p2_textvqa_execution_v1","question_id":CONFIG["question_id"],"cli_started":True,
+               "started_at_utc":start_wall,"ended_at_utc":ended,"elapsed_monotonic_seconds":elapsed,
+               "wrapper_returncode":rc,"time_child_exit_status":child_status,"execution_complete":True,
+               "raw_copy_complete":True,"timeout_seconds":CONFIG["timeout_seconds"],"resource_txt_sha256":sha_file(resource) if resource.is_file() else None,
+               "command_json_sha256":sha_file(run_dir/"command.json"),"input_verification_json_sha256":sha_file(run_dir/"input_verification.json"),
+               "artifact_verification_json_sha256":sha_file(run_dir/"artifact_verification.json"),"stdout_log_sha256":sha_file(run_dir/"stdout.log"),
+               "stderr_log_sha256":sha_file(run_dir/"stderr.log"),"preflight_before_json_sha256":sha_file(run_dir/"preflight_before.json"),
+               "preflight_after_json_sha256":sha_file(run_dir/"preflight_after.json"),"image_post_verification_json_sha256":sha_file(run_dir/"image_post_verification.json"),
+               "spawn_pid":child.pid,"spawn_argv_sha256":argv_sha(a),"stdout_stderr_same_child_capture":True,
+               "runner_sha256":CONFIG["runner_sha256"],"remote_run_dir":str(run_dir),
+               "remote_process_cleanup_verified":cleanup_verified}
+        write_result(run_dir,state)
+        outcome.update({"status":"REQUEST_FINISHED","cli_started":True,"run_dir":str(run_dir),"result_sha256":sha_file(run_dir/"result.json"),
+                        "wrapper_returncode":rc,"time_child_exit_status":child_status,"postflight_gate_reasons":post["gate_reasons"]})
+        if rc!=0 or child_status!=0 or image_after!=CONFIG["image_sha256"] or post["gate_reasons"]:
+            outcome["stop_after_this_request"]=True
+        if not cleanup_verified:
+            outcome["status"]="REMOTE_STATE_UNKNOWN"; outcome["owned_cli_processes"]=owned
+            outcome["unreadable_processes"]=unreadable; print(json.dumps(outcome,sort_keys=True)); return 5
+        manifest={}
+        for p in sorted(run_dir.iterdir()):
+            if p.is_symlink(): raise RuntimeError("symlink in board raw run directory")
+            if p.is_file(): manifest[p.name]={"bytes":p.stat().st_size,"sha256":sha_file(p)}
+        save(run_dir/"completion.json",{"schema":"kv260_cpu_p2_textvqa_board_completion_v1","run_id":case_id,
+                                       "manifest":manifest,"completed_at_utc":utc(),"worker_pid":os.getpid()})
+        outcome["completion_sha256"]=sha_file(run_dir/"completion.json")
+        print(json.dumps(outcome,sort_keys=True)); return 0 if outcome.get("stop_after_this_request") is not True else 4
+    except Exception as exc:
+        if ACTIVE is not None:
+            if not stop_group(ACTIVE): TERMINATION_UNPROVEN=True
+            globals()["ACTIVE"]=None
+        outcome["error"]=repr(exc); outcome["child_termination_unproven"]=TERMINATION_UNPROVEN
+        if child is None:
+            # The worker reached no successful Popen call, so this is a known non-start.
+            if run_dir.exists() and not (run_dir/"result.json").exists():
+                try:
+                    save(run_dir/"result.json",{"schema":"kv260_cpu_p2_textvqa_execution_v1",
+                         "question_id":CONFIG["question_id"],"cli_started":False,
+                         "non_start_reason":"PREFLIGHT_BLOCKED","non_start_at_utc":utc(),"prior_run_id":None})
+                except OSError: pass
+            outcome.update({"status":"PRECHECK_BLOCKED","cli_started":False})
+            print(json.dumps(outcome,sort_keys=True)); return 3
+
+        # Popen succeeded: preserve this in the attempted denominator even if a
+        # later operation failed. Complete a partial manifest only when no owned
+        # CLI remains and the process state is fully observable.
+        owned,unreadable=owned_cli_processes()
+        cleanup_verified=not owned and not unreadable and not TERMINATION_UNPROVEN
+        ended=utc()
+        if cleanup_verified and run_dir.exists() and (run_dir/"result.json").is_file() and not (run_dir/"completion.json").exists():
+            try:
+                saved=json.loads((run_dir/"result.json").read_text(encoding="utf-8"))
+                if saved.get("cli_started") is True and saved.get("remote_process_cleanup_verified") is True:
+                    manifest={}
+                    for p in sorted(run_dir.iterdir()):
+                        if p.is_symlink(): raise RuntimeError("symlink in board raw run directory")
+                        if p.is_file(): manifest[p.name]={"bytes":p.stat().st_size,"sha256":sha_file(p)}
+                    save(run_dir/"completion.json",{"schema":"kv260_cpu_p2_textvqa_board_completion_v1",
+                         "run_id":case_id,"manifest":manifest,"completed_at_utc":utc(),"worker_pid":os.getpid()})
+                    outcome.update({"status":"REQUEST_FINISHED","cli_started":True,
+                                    "run_dir":str(run_dir),"result_sha256":sha_file(run_dir/"result.json"),
+                                    "remote_process_cleanup_verified":True,"stop_after_this_request":True})
+                    print(json.dumps(outcome,sort_keys=True)); return 4
+            except Exception as completion_exc:
+                outcome["partial_completion_error"]=repr(completion_exc)
+        if cleanup_verified and run_dir.exists() and not (run_dir/"result.json").exists():
+            try:
+                if not (run_dir/"preflight_after.json").is_file():
+                    save(run_dir/"preflight_after.json",rich_snapshot())
+                image=BASE/"input/textvqa-dev50"/(CONFIG["image_id"]+".jpg")
+                if not (run_dir/"image_post_verification.json").is_file() and image.is_file():
+                    save(run_dir/"image_post_verification.json",{
+                        "schema":"kv260_cpu_p2_textvqa_image_post_verification_v1",
+                        "question_id":CONFIG["question_id"],"image_id":CONFIG["image_id"],
+                        "image_path":str(image),"image_sha256":sha_file(image),
+                        "image_bytes":image.stat().st_size,"verified_after_cli":True,"verified_at_utc":utc()})
+                resource=run_dir/"resource.txt"
+                if not resource.exists(): resource.write_text("",encoding="utf-8")
+                try:
+                    resource_text=resource.read_text(errors="replace")
+                    m=re.search(r"Exit status:\s*(\d+)",resource_text)
+                    child_status=int(m.group(1)) if m else None
+                except OSError: child_status=None
+                def optional_sha(name):
+                    p=run_dir/name
+                    return sha_file(p) if p.is_file() else None
+                partial={"schema":"kv260_cpu_p2_textvqa_execution_v1",
+                         "question_id":CONFIG["question_id"],"cli_started":True,
+                         "started_at_utc":start_wall or ended,"ended_at_utc":ended,
+                         "elapsed_monotonic_seconds":round(time.monotonic()-start_mono,6) if start_mono is not None else None,
+                         "wrapper_returncode":child.poll(),"time_child_exit_status":child_status,
+                         "execution_complete":False,"raw_copy_complete":False,
+                         "timeout_seconds":CONFIG["timeout_seconds"],
+                         "resource_txt_sha256":optional_sha("resource.txt"),
+                         "command_json_sha256":optional_sha("command.json"),
+                         "input_verification_json_sha256":optional_sha("input_verification.json"),
+                         "artifact_verification_json_sha256":optional_sha("artifact_verification.json"),
+                         "preflight_before_json_sha256":optional_sha("preflight_before.json"),
+                         "preflight_after_json_sha256":optional_sha("preflight_after.json"),
+                         "image_post_verification_json_sha256":optional_sha("image_post_verification.json"),
+                         "stdout_log_sha256":optional_sha("stdout.log"),"stderr_log_sha256":optional_sha("stderr.log"),
+                         "spawn_pid":child.pid,"spawn_argv_sha256":argv_sha(CONFIG["argv"]),
+                         "stdout_stderr_same_child_capture":True,"runner_sha256":CONFIG["runner_sha256"],
+                         "remote_run_dir":str(run_dir),"remote_process_cleanup_verified":True}
+                write_result(run_dir,partial)
+                manifest={}
+                for p in sorted(run_dir.iterdir()):
+                    if p.is_symlink(): raise RuntimeError("symlink in board raw run directory")
+                    if p.is_file(): manifest[p.name]={"bytes":p.stat().st_size,"sha256":sha_file(p)}
+                save(run_dir/"completion.json",{"schema":"kv260_cpu_p2_textvqa_board_completion_v1",
+                     "run_id":case_id,"manifest":manifest,"completed_at_utc":utc(),"worker_pid":os.getpid()})
+                outcome.update({"status":"REQUEST_FINISHED","cli_started":True,
+                                "run_dir":str(run_dir),"result_sha256":sha_file(run_dir/"result.json"),
+                                "remote_process_cleanup_verified":True,"stop_after_this_request":True})
+                print(json.dumps(outcome,sort_keys=True)); return 4
+            except Exception as partial_exc:
+                outcome["partial_attempt_record_error"]=repr(partial_exc)
+        outcome.update({"status":"REMOTE_RUN_FAILED_UNKNOWN","cli_started":True,
+                        "remote_process_cleanup_verified":cleanup_verified,
+                        "owned_cli_processes":owned,"unreadable_processes":unreadable})
+        print(json.dumps(outcome,sort_keys=True)); return 5
+    finally:
+        fcntl.flock(lock.fileno(),fcntl.LOCK_UN); lock.close()
+
+if __name__=="__main__": raise SystemExit(main())
+'''
+
+
+def ssh_python(source: str, timeout: int) -> subprocess.CompletedProcess[bytes]:
+    argv = ["ssh", "-T", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10",
+            "-o", "ServerAliveInterval=15", "-o", "ServerAliveCountMax=3", "kria", "python3 -"]
+    return subprocess.run(argv, input=source.encode(), stdout=subprocess.PIPE,
+                          stderr=subprocess.PIPE, timeout=timeout, check=False)
+
+
+def remote_status_source(run_id: str) -> str:
+    return "RUN_ID=" + repr(run_id) + r'''
+import fcntl,hashlib,json,os
+from pathlib import Path
+base=Path("/home/ubuntu/kv260-vlm-p2-cpu"); run=base/"runs"/RUN_ID
+out={"state":"REMOTE_STATE_UNKNOWN","run_id":RUN_ID,"run_dir_exists":run.exists()}
+lock_path=base/"runs/.cpu_p2_runner.lock"
+try:
+    with lock_path.open("rb") as f:
+        fcntl.flock(f.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB); out["runner_lock_free"]=True
+        fcntl.flock(f.fileno(),fcntl.LOCK_UN)
+except (BlockingIOError,OSError): out["runner_lock_free"]=False
+needle=str(base/"build-cpu/bin/llama-mtmd-cli").encode(); found=[]; unreadable=[]
+for e in Path("/proc").iterdir():
+    if not e.name.isdigit() or int(e.name)==os.getpid(): continue
+    try:
+        if needle in (e/"cmdline").read_bytes(): found.append(int(e.name))
+    except PermissionError: unreadable.append(int(e.name))
+    except OSError: pass
+out["board_cli_processes"]=sorted(found); out["unreadable_processes"]=sorted(unreadable)
+complete=run/"completion.json"; result=run/"result.json"
+if complete.is_file() and result.is_file():
+    try:
+        c=json.loads(complete.read_text()); r=json.loads(result.read_text()); good=True
+        manifest=c.get("manifest",{})
+        if not isinstance(manifest,dict) or not manifest or len(manifest)>64: good=False
+        for name,meta in manifest.items() if isinstance(manifest,dict) else []:
+            if not isinstance(name,str) or Path(name).name!=name or not isinstance(meta,dict): good=False; break
+            p=run/name
+            if p.is_symlink() or not p.is_file() or not isinstance(meta.get("bytes"),int) or p.stat().st_size!=meta["bytes"]:
+                good=False; break
+            h=hashlib.sha256()
+            with p.open("rb") as stream:
+                for block in iter(lambda:stream.read(1<<20),b""): h.update(block)
+            if h.hexdigest()!=meta.get("sha256"): good=False; break
+        out["completion_marker_valid"]=bool(good and c.get("schema")=="kv260_cpu_p2_textvqa_board_completion_v1"
+            and c.get("run_id")==RUN_ID and r.get("remote_process_cleanup_verified") is True)
+        out["result_status"]="CLI_STARTED" if r.get("cli_started") is True else r.get("status")
+    except (OSError,ValueError,KeyError,TypeError): out["completion_marker_valid"]=False
+else: out["completion_marker_valid"]=False
+if out.get("runner_lock_free") and out.get("completion_marker_valid") and not found and not unreadable:
+    out["state"]="COMPLETE"
+print(json.dumps(out,sort_keys=True))
+'''
+
+
+def load_adapter():
+    spec = importlib.util.spec_from_file_location("board_textvqa_adapter", PARSER_PATH)
+    if spec is None or spec.loader is None:
+        raise RuntimeError("cannot load reviewed host adapter")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    sys.path.insert(0, str((ROOT / "scripts/vendor").resolve()))
+    from m4c_evaluators import TextVQAAccuracyEvaluator
+    return module, TextVQAAccuracyEvaluator()
+
+
+def assess_previous(qid: int, samples: dict[int, dict[str, Any]], manifest: dict[str, Any],
+                    adapter: Any, evaluator: Any) -> dict[str, Any]:
+    raw_dir = RAW_ROOT / RUN_IDS[qid]
+    if not raw_dir.is_dir():
+        raise ValueError(f"previous qid {qid} lacks immutable raw result")
+    return adapter.inspect_case(qid, raw_dir, samples[qid], manifest, MANIFEST_SHA256,
+                                MANIFEST_PATH, evaluator, "pilot")
+
+
+def make_nonstart(qid: int, reason: str, prior_run_id: str | None) -> None:
+    directory = RAW_ROOT / RUN_IDS[qid]
+    if directory.exists():
+        if (directory / "result.json").exists():
+            raise ValueError("refusing to overwrite existing append-only attempt state: " + str(directory))
+        raise ValueError("cannot append non-start state to existing partial raw directory: " + str(directory))
+    directory.mkdir(mode=0o775)
+    state = {"schema": "kv260_cpu_p2_textvqa_execution_v1", "question_id": qid,
+             "cli_started": False, "non_start_reason": reason,
+             "non_start_at_utc": datetime.now(timezone.utc).isoformat(),
+             "prior_run_id": prior_run_id}
+    write_json(directory / "result.json", state)
+
+
+def record_nonstart_in_existing(directory: Path, qid: int, reason: str,
+                                prior_run_id: str | None) -> None:
+    if (directory / "result.json").exists():
+        raise ValueError("refusing to overwrite existing append-only attempt state: " + str(directory))
+    state = {"schema": "kv260_cpu_p2_textvqa_execution_v1", "question_id": qid,
+             "cli_started": False, "non_start_reason": reason,
+             "non_start_at_utc": datetime.now(timezone.utc).isoformat(),
+             "prior_run_id": prior_run_id}
+    write_json(directory / "result.json", state)
+
+
+def expected_argv(qid: int, sample: dict[str, Any], run_dir: str) -> list[str]:
+    image_path = f"{BOARD_BASE}/input/textvqa-dev50/{sample['image_id']}.jpg"
+    prompt = ("Answer the following question based only on the image. Give a short, direct answer.\nQuestion: "
+              + sample["question"] + "\nAnswer:")
+    return ["timeout", "--verbose", "--signal=TERM", "--kill-after=10s", "300s",
+            "/usr/bin/time", "-v", "-o", f"{run_dir}/resource.txt",
+            f"{BOARD_BASE}/build-cpu/bin/llama-mtmd-cli", "-m",
+            f"{BOARD_BASE}/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf", "--mmproj",
+            f"{BOARD_BASE}/input/mmproj-MiniCPM-V-4.6-f16.gguf", "--image", image_path,
+            "-p", prompt, "-t", "2", "-tb", "2", "-c", "4096", "-n", "48",
+            "--seed", "42", "--temp", "0", "--top-p", "1", "--top-k", "0",
+            "--device", "none", "-ngl", "0", "--no-mmproj-offload", "--no-warmup",
+            "--perf", "-lv", "4"]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--qid", type=int, choices=ORDER)
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--owner-window-confirmed", action="store_true")
+    parser.add_argument("--owner-window-ref", default=None)
+    parser.add_argument("--alpha-proof", type=Path)
+    parser.add_argument("--build-attestation", type=Path, default=ATTESTATION_PATH)
+    args = parser.parse_args()
+
+    manifest, samples = load_manifest()
+
+    if args.execute and (args.qid is None or not args.owner_window_confirmed or args.alpha_proof is None):
+        parser.error("--execute requires --qid, --owner-window-confirmed and --alpha-proof")
+    qids = (args.qid,) if args.qid else ORDER
+    plans = []
+    for qid in qids:
+        sample = samples[qid]
+        image = (MANIFEST_PATH.parent / sample["image_relative_path"]).resolve()
+        if not image.is_file() or image.stat().st_size != sample["image_bytes"] or sha256_file(image) != sample["image_sha256"]:
+            raise ValueError(f"frozen host image is missing or changed for qid {qid}")
+        raw = RAW_ROOT / RUN_IDS[qid]
+        remote = f"{BOARD_BASE}/runs/{RUN_IDS[qid]}"
+        plans.append({"question_id": qid, "image_id": sample["image_id"],
+                      "image_sha256": sample["image_sha256"], "image_bytes": sample["image_bytes"],
+                      "local_raw_dir": str(raw), "board_run_dir": remote,
+                      "argv": expected_argv(qid, sample, remote)})
+
+    if not args.execute:
+        blocked=[]
+        if not args.alpha_proof:
+            blocked.append("SYNTHETIC_ALPHA_PROOF_NOT_SUPPLIED")
+        else:
+            try:
+                alpha_proof(args.alpha_proof)
+            except (OSError,ValueError,KeyError,TypeError) as exc:
+                blocked.append("SYNTHETIC_ALPHA_PROOF_INVALID: "+str(exc))
+        for review_path,subject,label,missing_reason in (
+                (ADAPTER_REVIEW,sha256_file(PARSER_PATH),"TextVQA adapter","INDEPENDENT_ADAPTER_REVIEW_MISSING_OR_STALE"),
+                (RUNNER_REVIEW,sha256_file(Path(__file__).resolve()),"TextVQA runner","INDEPENDENT_RUNNER_REVIEW_MISSING_OR_STALE")):
+            try:
+                review_gate(review_path,subject,label)
+            except (OSError,ValueError) as exc:
+                blocked.append(missing_reason+": "+str(exc))
+        if sha256_file(PREFLIGHT_SOURCE) != PREFLIGHT_SOURCE_SHA256:
+            blocked.append("PREFLIGHT_SCRIPT_SHA_MISMATCH")
+        if not args.owner_window_confirmed:
+            blocked.append("OWNER_WINDOW_NOT_CONFIRMED")
+        dry = {"schema": "kv260_cpu_p2_textvqa_runner_dry_plan_v2", "mode": "dry_plan_only",
+               "created_at_utc": datetime.now(timezone.utc).isoformat(), "runtime_commit": PINNED_RUNTIME_COMMIT,
+               "runner_path":str(Path(__file__).resolve()),"runner_sha256":sha256_file(Path(__file__).resolve()),
+               "adapter_path":str(PARSER_PATH.resolve()),"adapter_sha256":sha256_file(PARSER_PATH),
+               "read_only_preflight_script_path":str(PREFLIGHT_SOURCE.resolve()),
+               "read_only_preflight_script_sha256":sha256_file(PREFLIGHT_SOURCE),
+               "read_only_preflight_script_sha256_expected":PREFLIGHT_SOURCE_SHA256,
+               "manifest_sha256": MANIFEST_SHA256, "build_attestation_path": str(args.build_attestation.resolve()),
+               "build_attestation_sha256_expected": ATTESTATION_SHA256,
+               "alpha_proof_required": True, "independent_adapter_and_runner_reviews_required": True,
+               "execution_ready":False,"execution_blocked_reasons":blocked,
+               "live_board_resource_gate":"NOT_CHECKED_NO_BOARD_CONNECTION",
+               "owner_window_confirmed": bool(args.owner_window_confirmed),
+               "gates": {"memavailable_kib_min": MIN_MEM_AVAILABLE_KIB,"cmafree_kib_min": MIN_CMA_FREE_KIB,
+                         "home_free_bytes_min": MIN_HOME_FREE_BYTES,"load1_max": MAX_LOAD1,
+                         "no_swap": True,"jupyter_active": True,"no_unattended_upgrades": True,
+                         "one_fresh_cli_per_owner_window": True,"max_cli_seconds": CLI_TIMEOUT_SECONDS,
+                         "max_total_cli_seconds": 900},"requests": plans}
+        print(json.dumps(dry, ensure_ascii=False, sort_keys=True, indent=2))
+        return 0
+
+    # All review and ALPHA proof gates are checked before any board connection.
+    proof = static_prerequisites(args.alpha_proof)
+    if args.build_attestation.resolve() != ATTESTATION_PATH.resolve():
+        raise ValueError("this runner version is bound to the frozen build attestation path")
+    qid = args.qid
+    assert qid is not None
+    index = ORDER.index(qid)
+    adapter, evaluator = load_adapter()
+    def stop_later(reason: str) -> None:
+        for later_qid in ORDER[index+1:]:
+            try:
+                make_nonstart(later_qid,reason,RUN_IDS[qid])
+            except ValueError as exc:
+                outcome.setdefault("later_nonstart_record_conflicts",[]).append(
+                    {"question_id":later_qid,"error":str(exc)})
+    for previous_qid in ORDER[:index]:
+        prior = assess_previous(previous_qid, samples, manifest, adapter, evaluator)
+        if prior["attempted"] is not True or not prior["answer_parse_ok"] or not prior["image_processing_verified"]:
+            for later in ORDER[index:]:
+                make_nonstart(later, "PRIOR_CASE_FAILED", RUN_IDS[previous_qid])
+            print(json.dumps({"status":"PRIOR_CASE_FAILED","failed_qid":previous_qid,
+                              "new_qid_not_started":qid},sort_keys=True))
+            return 1
+    raw_dir = checked_raw_path(RAW_ROOT / RUN_IDS[qid])
+    sample = samples[qid]
+    image = (MANIFEST_PATH.parent / sample["image_relative_path"]).resolve()
+    marker_was_present = "MTMD_TEST_RESPONSE_MARKER" in __import__("os").environ
+    board_run_dir = f"{BOARD_BASE}/runs/{RUN_IDS[qid]}"
+    cfg = {"run_id":RUN_IDS[qid],"question_id":qid,"image_id":sample["image_id"],
+           "image_sha256":sample["image_sha256"],"image_bytes":sample["image_bytes"],
+           "manifest_sha256":MANIFEST_SHA256,"runtime_commit":PINNED_RUNTIME_COMMIT,
+           "model_sha256":MODEL_SHA256,"mmproj_sha256":MMPROJ_SHA256,"cli_sha256":CLI_SHA256,
+           "source_archive_sha256":"5fe5b3133f7c31f42cc9597059ddb69f31045dbbf3fbfe8bd57236ab0626efe9",
+           "attestation_sha256":ATTESTATION_SHA256,"cmake_cache_sha256":json.loads(ATTESTATION_PATH.read_text())["cmake_cache_sha256"],
+           "local_shared_libraries":json.loads(ATTESTATION_PATH.read_text())["local_shared_libraries"],
+           "argv":expected_argv(qid,sample,board_run_dir),"marker_was_present":marker_was_present,
+           "min_mem_available_kib":MIN_MEM_AVAILABLE_KIB,"min_cma_free_kib":MIN_CMA_FREE_KIB,
+           "min_home_free_bytes":MIN_HOME_FREE_BYTES,"max_load1":MAX_LOAD1,
+           "max_busy_cores_per_process":MAX_BUSY_CORES_PER_PROCESS,"timeout_seconds":CLI_TIMEOUT_SECONDS,
+           "runner_sha256":proof["runner_sha256"],"owner_window":{"confirmed":True,
+              "operator_login":getpass.getuser(),"confirmed_at_utc":datetime.now(timezone.utc).isoformat(),
+              "coordination_reference":args.owner_window_ref}}
+    outcome = {"schema":"kv260_cpu_p2_textvqa_runner_local_record_v1","run_id":RUN_IDS[qid],
+               "question_id":qid,"owner_window":cfg["owner_window"],"proofs":proof,
+               "runner_sha256":proof["runner_sha256"],"parser_sha256":proof["parser_sha256"],
+               "host_started_at_utc":datetime.now(timezone.utc).isoformat(),"status":"PRECHECK_IN_PROGRESS"}
+    raw_dir.mkdir(mode=0o775)
+    write_record(raw_dir, "start", outcome)
+    (raw_dir / "remote_worker.py").write_text("CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER,encoding="utf-8")
+
+    def abort_before_cli(reason: str, phase: str, detail: str) -> int:
+        outcome.update({"status":phase.upper(),"board_inference_attempted":False,
+                        "error":detail,"ended_at_utc":datetime.now(timezone.utc).isoformat()})
+        write_record(raw_dir, phase, outcome)
+        record_nonstart_in_existing(raw_dir,qid,reason,None)
+        for later_qid in ORDER[index+1:]:
+            make_nonstart(later_qid,reason,None)
+        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True))
+        return 1
+
+    # Read-only preflight; do not stage an image while the board is busy.
+    try:
+        preflight = ssh_python(PREFLIGHT_SOURCE.read_text(encoding="utf-8"), 35)
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        out = getattr(exc,"output",None) or b""
+        err = getattr(exc,"stderr",None) or b""
+        (raw_dir / "preflight_before.transport.stdout").write_bytes(out)
+        (raw_dir / "preflight_before.transport.stderr").write_bytes(err)
+        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_transport_failed",repr(exc))
+    (raw_dir / "preflight_before.transport.stdout").write_bytes(preflight.stdout)
+    (raw_dir / "preflight_before.transport.stderr").write_bytes(preflight.stderr)
+    if preflight.returncode != 0:
+        outcome["preflight_returncode"]=preflight.returncode
+        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_transport_failed",
+                                f"read-only SSH preflight exited {preflight.returncode}")
+    try:
+        snapshot=json.loads(preflight.stdout)
+    except (ValueError,UnicodeDecodeError) as exc:
+        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_invalid",
+                                "read-only SSH preflight returned invalid JSON: "+repr(exc))
+    if (not isinstance(snapshot,dict) or not isinstance(snapshot.get("memory_kib"),dict) or
+            not isinstance(snapshot.get("selected_process_counts"),dict) or
+            not isinstance(snapshot.get("selected_processes"),list) or
+            not isinstance(snapshot.get("packagekit_transaction_state"),dict) or
+            not isinstance(snapshot.get("loadavg"),str) or "arch" not in snapshot or
+            "cpu_count" not in snapshot or "home_free_bytes" not in snapshot or
+            "jupyter_active" not in snapshot or "jupyter_returncode" not in snapshot or
+            snapshot.get("schema")!="kv260_cpu_p2_textvqa_runtime_preflight_v3" or
+            not isinstance(snapshot.get("systemd_service_states"),dict)):
+        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_invalid",
+                                "read-only SSH preflight omitted required resource fields")
+    process_rows=snapshot.get("selected_processes",[])
+    if any(not isinstance(p,dict) or not isinstance(p.get("comm"),str) for p in process_rows):
+        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_invalid",
+                                "read-only SSH preflight returned malformed process details")
+    reasons=preflight_resource_gate_reasons(snapshot)
+    snapshot["gate_reasons"]=reasons
+    write_json(raw_dir / "preflight_before.json", snapshot)
+    if reasons:
+        outcome.update({"status":"PREFLIGHT_BLOCKED","gate_reasons":reasons,
+                        "board_inference_attempted":False,"ended_at_utc":datetime.now(timezone.utc).isoformat()})
+        write_record(raw_dir, "preflight_blocked",outcome)
+        record_nonstart_in_existing(raw_dir,qid,"PREFLIGHT_BLOCKED",None)
+        for later in ORDER[index+1:]: make_nonstart(later,"PREFLIGHT_BLOCKED",None)
+        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+
+    # Copy only the three frozen original JPEGs; never send annotations or labels.
+    remote_input=f"{BOARD_BASE}/input/textvqa-dev50/"
+    mkdir_source=f"from pathlib import Path; Path({(BOARD_BASE+'/input/textvqa-dev50')!r}).mkdir(parents=True,exist_ok=True); print('INPUT_DIR_READY')"
+    try:
+        staged=ssh_python(mkdir_source,30)
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return abort_before_cli("INPUT_UNAVAILABLE","input_directory_failed",repr(exc))
+    (raw_dir/"input_directory.stdout").write_bytes(staged.stdout)
+    (raw_dir/"input_directory.stderr").write_bytes(staged.stderr)
+    if staged.returncode!=0:
+        return abort_before_cli("INPUT_UNAVAILABLE","input_directory_failed",
+                                f"board user input directory setup exited {staged.returncode}")
+    # rsync's -e option must precede source/destination.
+    rsync_argv=["rsync","-a","--ignore-existing","-e","ssh -T -o BatchMode=yes -o ConnectTimeout=10","--",
+                str(image),f"kria:{remote_input}{sample['image_id']}.jpg"]
+    try:
+        transfer=subprocess.run(rsync_argv,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=60,check=False)
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        (raw_dir/"image_transfer.stdout").write_bytes(getattr(exc,"output",None) or b"")
+        (raw_dir/"image_transfer.stderr").write_bytes(getattr(exc,"stderr",None) or b"")
+        return abort_before_cli("INPUT_UNAVAILABLE","image_transfer_failed",repr(exc))
+    (raw_dir/"image_transfer.stdout").write_bytes(transfer.stdout)
+    (raw_dir/"image_transfer.stderr").write_bytes(transfer.stderr)
+    if transfer.returncode!=0:
+        return abort_before_cli("INPUT_UNAVAILABLE","image_transfer_failed",
+                                f"board image staging exited {transfer.returncode}")
+
+    worker="CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER
+    worker_path=raw_dir/"remote_worker.py"
+    remote_cmd=f"timeout --verbose --signal=TERM --kill-after=15s {REMOTE_WATCHDOG_SECONDS}s python3 -"
+    remote_argv=["ssh","-T","-o","BatchMode=yes","-o","ConnectTimeout=10","-o","ServerAliveInterval=15",
+                 "-o","ServerAliveCountMax=3","kria",remote_cmd]
+    started=datetime.now(timezone.utc).isoformat()
+    try:
+        result=subprocess.run(remote_argv,input=worker.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,
+                              timeout=HOST_WAIT_SECONDS,check=False)
+        transport={"argv":remote_argv,"started_at_utc":started,"ended_at_utc":datetime.now(timezone.utc).isoformat(),
+                   "returncode":result.returncode,"timed_out":False,
+                   "worker_sha256":sha256_file(worker_path),"stdout_sha256":hashlib.sha256(result.stdout).hexdigest(),
+                   "stderr_sha256":hashlib.sha256(result.stderr).hexdigest()}
+    except subprocess.TimeoutExpired as exc:
+        result=None
+        transport={"argv":remote_argv,"started_at_utc":started,"ended_at_utc":datetime.now(timezone.utc).isoformat(),
+                   "returncode":None,"timed_out":True,"worker_sha256":sha256_file(worker_path),
+                   "stdout_sha256":hashlib.sha256(exc.stdout or b"").hexdigest(),"stderr_sha256":hashlib.sha256(exc.stderr or b"").hexdigest()}
+    write_json(raw_dir/"worker.transport.json",transport)
+    outcome["remote_transport"]=transport; outcome["status"]="REMOTE_COMPLETED" if result else "REMOTE_STATE_UNKNOWN"
+    if result:
+        (raw_dir/"worker.stdout").write_bytes(result.stdout); (raw_dir/"worker.stderr").write_bytes(result.stderr)
+        try: outcome["remote_result"]=json.loads(result.stdout.decode().splitlines()[-1])
+        except (ValueError,IndexError,UnicodeDecodeError): outcome["remote_result_parse_failed"]=True
+    outcome["ended_at_utc"]=datetime.now(timezone.utc).isoformat()
+    write_record(raw_dir, "remote_outcome", outcome)
+    if result is None or outcome.get("remote_result",{}).get("status") not in ("REQUEST_FINISHED","PRECHECK_BLOCKED"):
+        stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir,"remote_unresolved",outcome)
+        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+
+    if outcome["remote_result"]["status"]=="PRECHECK_BLOCKED":
+        # The remote worker did not create its case directory or launch a CLI.
+        record_nonstart_in_existing(raw_dir,qid,"PREFLIGHT_BLOCKED",None)
+        for later in ORDER[index+1:]: make_nonstart(later,"PREFLIGHT_BLOCKED",None)
+        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+
+    try:
+        status_reply=ssh_python(remote_status_source(RUN_IDS[qid]),45)
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        outcome.update(persist_transport_failure(raw_dir,"remote_status",exc))
+        outcome["status"]="REMOTE_STATE_UNKNOWN"
+        stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir,"remote_state_unknown",outcome)
+        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+    (raw_dir/"remote_status.stdout").write_bytes(status_reply.stdout)
+    (raw_dir/"remote_status.stderr").write_bytes(status_reply.stderr)
+    if status_reply.returncode!=0:
+        outcome["status"]="REMOTE_STATE_UNKNOWN"; outcome["remote_status_returncode"]=status_reply.returncode
+        stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir, "remote_state_unknown",outcome); print(json.dumps(outcome,ensure_ascii=False)); return 1
+    try: remote_status=json.loads(status_reply.stdout)
+    except (ValueError,UnicodeDecodeError): remote_status={"state":"REMOTE_STATE_UNKNOWN","parse_failed":True}
+    write_json(raw_dir/"remote_status.json",remote_status)
+    outcome["remote_state"]=remote_status.get("state")
+    if remote_status.get("state")!="COMPLETE":
+        outcome["status"]="REMOTE_STATE_UNKNOWN"; stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir, "remote_state_unknown",outcome)
+        print(json.dumps(outcome,ensure_ascii=False)); return 1
+
+    remote_dir=f"{BOARD_BASE}/runs/{RUN_IDS[qid]}/"
+    try:
+        copied=subprocess.run(["rsync","-a","-e","ssh -T -o BatchMode=yes -o ConnectTimeout=10","--",
+                               f"kria:{remote_dir}",str(raw_dir)+"/"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,
+                              timeout=90,check=False)
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        outcome.update(persist_transport_failure(raw_dir,"raw_copy",exc))
+        outcome["status"]="EVIDENCE_COPY_INCOMPLETE"
+        stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir,"copy_incomplete",outcome)
+        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+    (raw_dir/"raw_copy.stdout").write_bytes(copied.stdout); (raw_dir/"raw_copy.stderr").write_bytes(copied.stderr)
+    if copied.returncode!=0:
+        outcome["status"]="EVIDENCE_COPY_INCOMPLETE"; outcome["raw_copy_returncode"]=copied.returncode
+        stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir, "copy_incomplete",outcome); print(json.dumps(outcome,ensure_ascii=False)); return 1
+    try:
+        completion_sha=adapter.verify_board_completion_manifest(raw_dir,qid)
+        completion=json.loads((raw_dir/"completion.json").read_text(encoding="utf-8"))
+    except (OSError,ValueError,KeyError,TypeError) as exc:
+        outcome["status"]="EVIDENCE_COPY_INCOMPLETE"; outcome["completion_manifest_error"]=repr(exc)
+        stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir,"copy_manifest_invalid",outcome)
+        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+    mismatches=[]
+    for name,row in completion["manifest"].items():
+        p=raw_dir/name
+        if not p.is_file() or p.stat().st_size!=row["bytes"] or sha256_file(p)!=row["sha256"]:
+            mismatches.append(name)
+    if mismatches:
+        outcome["status"]="EVIDENCE_COPY_INCOMPLETE"; outcome["copy_mismatches"]=mismatches
+        stop_later("PRIOR_CASE_UNRESOLVED")
+        write_record(raw_dir, "copy_mismatch",outcome); print(json.dumps(outcome,ensure_ascii=False)); return 1
+    outcome["raw_copy_returncode"]=0; outcome["copied_manifest_matches_board"]=True
+    receipt={"schema":"kv260_cpu_p2_textvqa_host_copy_verification_v1",
+             "question_id":qid,"run_id":RUN_IDS[qid],"completion_json_sha256":completion_sha,
+             "board_files_verified":True,
+             "verified_file_names":sorted(set(completion["manifest"])|{"completion.json"}),
+             "verified_at_utc":datetime.now(timezone.utc).isoformat()}
+    write_json(raw_dir/"host_copy_verification.json",receipt)
+    outcome["host_copy_verification_sha256"]=sha256_file(raw_dir/"host_copy_verification.json")
+    outcome["completion_json_sha256"]=completion_sha
+    parsed=adapter.inspect_case(qid,raw_dir,samples[qid],manifest,MANIFEST_SHA256,MANIFEST_PATH,evaluator,"pilot")
+    outcome["host_adapter_case_status"]=parsed["status"]
+    outcome["answer_parse_ok"]=parsed["answer_parse_ok"]
+    outcome["image_processing_verified"]=parsed["image_processing_verified"]
+    outcome["host_adapter_completion_json_sha256"]=parsed.get("completion_json_sha256")
+    outcome["host_adapter_board_completion_manifest_verified"]=parsed.get("board_completion_manifest_verified")
+    if not parsed["answer_parse_ok"] or not parsed["image_processing_verified"]:
+        outcome["stop_after_this_request"]=True
+        write_json(raw_dir/"runner_host_assessment.json",{k:parsed[k] for k in ("question_id","attempted","status","answer_parse_ok","image_processing_verified","errors")})
+        write_record(raw_dir, "final", outcome)
+        for later in ORDER[index+1:]: make_nonstart(later,"PRIOR_CASE_FAILED",RUN_IDS[qid])
+    else:
+        outcome["stop_after_this_request"]=outcome.get("remote_result",{}).get("stop_after_this_request",False)
+        write_json(raw_dir/"runner_host_assessment.json",{k:parsed[k] for k in ("question_id","attempted","status","answer_parse_ok","image_processing_verified","errors")})
+        write_record(raw_dir, "final", outcome)
+        if outcome["stop_after_this_request"]:
+            for later in ORDER[index+1:]: make_nonstart(later,"PRIOR_CASE_STOP_RULE",RUN_IDS[qid])
+    print(json.dumps(outcome,ensure_ascii=False,sort_keys=True))
+    return 0 if not outcome.get("stop_after_this_request") else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
