@@ -1,6 +1,8 @@
 # R02 independent review — B03 selected op traces
 
-**Verdict: FAIL for the activated exact-base acceptance predicate.** The frozen inputs, trace artifacts, request/image identities, group counts, and bounded interpretation claims pass independent review. One P2 provenance finding remains: the B03 commit is based on a different parent than the activation's frozen worker base. P0: 0 · P1: 0 · P2: 1.
+*Re-audit note: this revision supersedes the initial exact-base finding after checking the canonical coordinator activation and branch reflog. The reviewed B03 target is unchanged.*
+
+**Verdict: PASS.** The canonical activation, branch creation record, and B03 commit history agree on the exact worker base; the frozen inputs, trace artifacts, request/image identities, group counts, and bounded interpretation claims also pass independent review. One P2 documentation ambiguity remains because the worker tree carries an older copy of the activation record. P0: 0 · P1: 0 · P2: 1.
 
 ## Review binding
 
@@ -9,8 +11,9 @@
 - Reviewed B03 commit: `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`.
 - B03 direct parent: `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2`.
 - Reviewer branch/worktree: `agent/R02-B03-review`, created at the exact B03 commit above. The review deliverables are the only additions planned on this branch; no B03 source or experiment artifact is changed.
-- Frozen activation record: `orchestration/activations/B03.md`, which names `1909bef4aa0558fed04c00fead7b6f68180e4684` as the worker base (lines 3–4) and requires a clean worker based exactly on that base (line 10).
-- Evidence boundary: this review uses only the frozen B03 snapshot and files committed in the reviewed B03 tree. No primary-checkout files, raw runs outside the frozen snapshot, network, or chat history were used. No tests, dry plans, syntax checks, benchmarks, SSH, board commands, or inference were run.
+- Canonical activation record: `orchestration/activations/B03.md` at coordinator commit `f3081626b18865b87ed21690a3759b4c4ecdd24b` (committed `2026-09-24 02:17:46 +0800`), SHA-256 `b403ff73b1d359f74b6e66969cec464b48cbe53908e09d376b30b94a3f19122e`. It freezes base `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2` and requires the worker to be based exactly there (lines 3–4, 10).
+- Exact-base verification: the B03 branch reflog records creation from `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2` at `2026-09-24T02:17:54+08:00`; reviewed B03 commit `4d7ce5e5fa5e750833cb5a05b8b3a15364861134` has that exact direct parent. The canonical activation commit is a child of that base and precedes branch creation.
+- Evidence boundary: source/artifact review uses the frozen B03 snapshot and files committed in the reviewed B03 tree. For this re-audit only, the authoritative coordinator activation record and the local Git branch reflog were also checked to resolve the base discrepancy. No primary-checkout data, external raw runs, network, tests, dry plans, syntax checks, benchmarks, SSH, board commands, or inference were used.
 
 ## Source and artifact integrity
 
@@ -62,8 +65,8 @@ For qid 35419 I recomputed per-group complete vision signatures from trace rows 
 
 | Priority | Finding | Exact condition, consequence, and bounded fix |
 |---|---|---|
-| P2 | **Activation/base provenance mismatch** | `orchestration/activations/B03.md:3–4,10` freezes `1909bef4aa0558fed04c00fead7b6f68180e4684` as the exact worker base. The reviewed B03 commit's actual parent is `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2`, and the handoff names that parent (`orchestration/handoffs/B03_selected_qid_optrace_handoff.md:3`). Between those commits, `orchestration/task_briefs/TASK_B03.md:19` was changed to require reading only the four frozen `command.json` records and not parsing the full run manifest. The resulting trace provenance is auditable and the later instruction is narrower, so this does not undermine trace identity or metadata claims. It does mean the activated requirement “based exactly on the frozen base” is not met as recorded. For a future run, refresh the activation to name the actual worker-start SHA after task-brief changes, then branch exactly there; preserve this run's trace artifacts and record the lineage correction in orchestration metadata. |
+| P2 | **Stale activation copy in the worker tree** | The worker tree's `orchestration/activations/B03.md` (SHA-256 `00ae83b5f0c9ec4349356f2c097f326d5842e06bfe079dae59cdaff2046d9105`) still names `1909bef4aa0558fed04c00fead7b6f68180e4684` at lines 3–4, while the canonical coordinator activation at commit `f3081626b18865b87ed21690a3759b4c4ecdd24b` (SHA-256 above) names `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2`. The B03 branch reflog and B03 direct parent both confirm that canonical base, so the exact-base acceptance requirement is satisfied; the stale duplicate can mislead readers who inspect only the worker tree. For future handoffs, cite the canonical activation commit explicitly or label worker-tree copies as superseded; no experiment artifact change is needed. |
 
 ## Gate disposition
 
-Source-manifest, selected-input, trace-hash, JSONL identity, redaction, group-count, and bounded-claim checks pass. **The current activated gate is not fully satisfied** because its exact-base acceptance predicate fails as documented above. This review does not change global go/no-go status or authorize any experiment or board activity.
+Source-manifest, selected-input, trace-hash, JSONL identity, redaction, group-count, bounded-claim, and exact-base checks pass. **The current activated gate is satisfied.** The stale duplicate activation copy is a documentation ambiguity only. This review does not change global go/no-go status or authorize any experiment or board activity.
