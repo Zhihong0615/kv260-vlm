@@ -1,7 +1,7 @@
 # Active Tasks
 
 Updated: 2026-09-24  
-Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01 and R01/E01/B02 are delivered on isolated worktrees and integrated in the coordinator branch. No worker is currently active.
+Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01 and R01/E01/B02 are delivered on isolated worktrees and integrated in the coordinator branch. B03 is the sole active host-only measurement task.
 
 | Task ID | Role | Problem | Dependencies | Expected deliverable | Priority | State | Branch / Worktree / Base |
 |---|---|---|---|---|---|---|---|
@@ -12,10 +12,11 @@ Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01 and R01/E01
 | R01 | Adversarial Research Reviewer | Attack novelty, evidence, workload support, strongest controls and falsification of A/B/C candidates. | A01/B01/C01 are integrated and hash-frozen; D01 is not a dependency. | `reviews/current_candidate_review.md` and compact exact-SHA handoff. | Gate-critical | DELIVERED / INTEGRATED — result **FAIL**; review commit `ea1bfff920c1dc6571c0258935ad6697ea6a2225`; coordinator merge `7657525a147ce08ac2a3ac6b75a919b4fa6ebb8a`. | `agent/R01-candidate-review` / `/home/zhiro/research/kv260-vlm-workers/R01-candidate-review` / `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b` |
 | E01 | Current P2 Gate Reviewer | Independently review current parser, runner, and preflight hashes; identify execution-gate defects without board access. | Frozen source snapshot commit `880096cc50f4d37692012136ef7d204856df40ca`. | `reviews/current_p2_gate_independent_review.md` and exact-SHA handoff. | Gate-critical | DELIVERED / INTEGRATED — P0=0, P1=0, P2=7; worker commit `9830c219f4f0a8f4c6361f57a668e210e0625ef7`; coordinator merge `772fa8ad9985ee4c932226f7b9d12d2d5e70318d`. Configured runner review paths remain unsatisfied. | `agent/E01-p2-gate-review` / `/home/zhiro/research/kv260-vlm-workers/E01-p2-gate-review` / `d5ab097050a74bf0eeec35a6d3b635e238ea25e9` |
 | B02 | Workload Pattern Evidence Analyst | Reconcile four existing selected host requests against their exact commands/logs and identify the dispatch-time evidence gap. | Frozen snapshot commit `548d6229d9fbff67db5103933d9c837259d6b4f4`; no new collection. | `experiments/derived/selected_host_pattern_audit_B02.md` and compact handoff. | P2 high | DELIVERED / INTEGRATED — all 20 source hashes verified; final worker HEAD `eb0c7a64a9cebac30187f414a8f0b5421a7c9acf`; coordinator merge `bf7cc170c9fddcf40d843a9851958fe1d24cef6f`. | `agent/B02-workload-pattern-audit` / `/home/zhiro/research/kv260-vlm-workers/B02-workload-pattern-audit` / `a7b9d5cd2e9ec2212689de0838bd46f91a9c4691` |
+| B03 | Selected Request Trace Builder | Capture one CPU-only graph metadata trace for each of the four already-audited TextVQA requests and compare phase/op shape inventories. | Exact B02 handoff plus 39 frozen source hashes in `orchestration/evidence_snapshots/B03_selected_qid_optraces/SOURCE.sha256`; no board access. | Redacted run manifest, compressed traces, compact shape summary, and exact-SHA handoff. | P2 high | ACTIVE — isolated host metadata capture only; no timing, answer-label inspection, or board activity. | `agent/B03-selected-qid-optraces` / `/home/zhiro/research/kv260-vlm-workers/B03-selected-qid-optraces` / exact base in `orchestration/activations/B03.md` |
 
 ## Worker dispatch and task brief paths
 
-A01/B01/C01/D01/R01/E01/B02 are complete; their branches remain preserved as individual source-of-record outputs. Do not reopen them as writers. The R01 activation record is `orchestration/review_activations/R01.md`.
+A01/B01/C01/D01/R01/E01/B02 are complete; their branches remain preserved as individual source-of-record outputs. Do not reopen them as writers. B03 is the sole active worker and follows `orchestration/task_briefs/TASK_B03.md`. The R01 activation record is `orchestration/review_activations/R01.md`.
 
 The frozen task brief paths for completed baseline tasks are:
 
@@ -23,6 +24,7 @@ The frozen task brief paths for completed baseline tasks are:
 - B01: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B01.md`
 - C01: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_C01.md`
 - D01: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_D01.md`
+- B03: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B03.md`
 
 Each worker verified the exact branch and clean base SHA in its brief. C01 started without waiting for A01/B01 and its final handoff cites their results. R01 and E01 remain independent reviewers of their respective frozen snapshots; B02 performed offline reconciliation of its frozen evidence.
 
