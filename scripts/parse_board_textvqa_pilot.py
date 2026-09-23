@@ -157,6 +157,88 @@ def utc_timestamp(value: Any) -> datetime:
     return timestamp
 
 
+def classify_resource_snapshot_evidence(prelaunch: Any, post_run: Any,
+                                        mode: str) -> dict[str, Any]:
+    """Classify point-in-time snapshots without implying continuous monitoring."""
+    if mode == "rehearsal":
+        return {
+            "resource_evidence_scope":
+                "host_rehearsal_direct_local_file_hashes_only; board resources not sampled",
+            "in_run_resource_monitoring_performed": False,
+            "prelaunch_resource_gate_status": "NOT_APPLICABLE",
+            "prelaunch_gate_reasons": None,
+            "post_run_resource_gate_status": "NOT_APPLICABLE",
+            "postflight_gate_reasons": None,
+            "resource_gates_verified": None,
+        }
+
+    def classify(snapshot: Any, stage: str) -> tuple[str, list[str] | None]:
+        if snapshot is None:
+            return "NOT_AVAILABLE", None
+        if (not isinstance(snapshot, dict) or
+                snapshot.get("schema") != "kv260_cpu_p2_textvqa_runtime_preflight_v3" or
+                not isinstance(snapshot.get("gate_reasons"), list) or
+                any(not isinstance(reason, str) for reason in snapshot["gate_reasons"])):
+            return "MALFORMED", None
+        services = snapshot.get("systemd_service_states")
+        required_units = ("jupyter.service", "apt-daily.service", "apt-daily-upgrade.service")
+        if (not isinstance(services, dict) or
+                any(not isinstance(services.get(unit), dict) or
+                    not isinstance(services[unit].get("active_state"), str) or
+                    not isinstance(services[unit].get("returncode"), int) or
+                    isinstance(services[unit].get("returncode"), bool) or
+                    not isinstance(services[unit].get("timed_out"), bool)
+                    for unit in required_units)):
+            return "MALFORMED", None
+        packagekit = snapshot.get("packagekit_transaction_state")
+        if (not isinstance(packagekit, dict) or
+                not isinstance(packagekit.get("state"), str) or
+                not isinstance(packagekit.get("timed_out"), bool)):
+            return "MALFORMED", None
+        if stage == "prelaunch":
+            memory = snapshot.get("memory_kib")
+            loadavg = snapshot.get("loadavg")
+            processes = snapshot.get("selected_processes")
+            if (not isinstance(memory, dict) or
+                    any(not isinstance(memory.get(key), int) or isinstance(memory.get(key), bool)
+                        for key in ("MemAvailable", "CmaFree", "SwapTotal", "SwapFree")) or
+                    not isinstance(snapshot.get("jupyter_active"), str) or
+                    not isinstance(snapshot.get("home_free_bytes"), int) or
+                    isinstance(snapshot.get("home_free_bytes"), bool) or
+                    not isinstance(loadavg, str) or not loadavg.split() or
+                    not isinstance(processes, list) or
+                    any(not isinstance(row, dict) for row in processes) or
+                    not isinstance(snapshot.get("timeout_executable"), dict)):
+                return "MALFORMED", None
+            try:
+                float(loadavg.split()[0])
+            except (IndexError, ValueError):
+                return "MALFORMED", None
+            try:
+                validate_timeout_identity(snapshot.get("timeout_executable"), "board preflight")
+            except (TypeError, ValueError):
+                return "MALFORMED", None
+        try:
+            utc_timestamp(snapshot.get("captured_at_utc"))
+        except (TypeError, ValueError):
+            return "MALFORMED", None
+        reasons = list(snapshot["gate_reasons"])
+        return ("PASS" if not reasons else "FAIL"), reasons
+
+    pre_status, pre_reasons = classify(prelaunch, "prelaunch")
+    post_status, post_reasons = classify(post_run, "post_run")
+    return {
+        "resource_evidence_scope":
+            "board_prelaunch_and_post_run_point_in_time_snapshots_only",
+        "in_run_resource_monitoring_performed": False,
+        "prelaunch_resource_gate_status": pre_status,
+        "prelaunch_gate_reasons": pre_reasons,
+        "post_run_resource_gate_status": post_status,
+        "postflight_gate_reasons": post_reasons,
+        "resource_gates_verified": pre_status == "PASS" and post_status == "PASS",
+    }
+
+
 def has_label_keys(value: Any) -> bool:
     if isinstance(value, dict):
         for key, child in value.items():
@@ -425,6 +507,7 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
         "stop_reason_eos_or_antiprompt": "UNAVAILABLE",
         "max_new_tokens_hit": "UNAVAILABLE",
     }
+    result.update(classify_resource_snapshot_evidence(None, None, mode))
     errors: list[str] = result["errors"]
     raw_json_errors = inspect_raw_json_labels(raw_dir)
     state_path = raw_dir / "result.json"
@@ -630,6 +713,12 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                     "timeout executable identity is missing or mismatched in execution provenance")
             pre_before = read_json(paths["preflight_before.json"])
             pre_after = read_json(paths["preflight_after.json"])
+            resource_evidence = classify_resource_snapshot_evidence(pre_before, pre_after, mode)
+            result.update(resource_evidence)
+            result["resource_gates_verified"] = False
+            fail_if(resource_evidence["prelaunch_resource_gate_status"] not in ("PASS", "FAIL") or
+                    resource_evidence["post_run_resource_gate_status"] not in ("PASS", "FAIL"),
+                    "board resource snapshot is malformed")
             image_after = read_json(paths["image_post_verification.json"])
             started_at = utc_timestamp(state.get("started_at_utc"))
             ended_at = utc_timestamp(state.get("ended_at_utc"))
@@ -677,8 +766,9 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
             fail_if(packagekit_after.get("state") not in ("SERVICE_INACTIVE", "NO_ACTIVE_TRANSACTIONS") or
                     packagekit_after.get("timed_out") is not False,
                     "post-run PackageKit transaction state is active or unknown")
-            result["postflight_gate_reasons"] = pre_after["gate_reasons"]
-            result["postflight_resources_remain_within_gates"] = not pre_after["gate_reasons"]
+            result["postflight_resources_remain_within_gates"] = (
+                resource_evidence["post_run_resource_gate_status"] == "PASS"
+            )
             fail_if(image_after.get("schema") != "kv260_cpu_p2_textvqa_image_post_verification_v1" or
                     image_after.get("question_id") != qid or
                     image_after.get("image_id") != sample["image_id"] or
@@ -692,6 +782,7 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
             fail_if(not runner_path.is_file() or state.get("runner_sha256") != sha256(runner_path),
                     "reviewed TextVQA runner identity missing or changed")
             result["execution_provenance_scope"] = "board_runner_records_and_prelaunch_hashes"
+            result["resource_gates_verified"] = bool(resource_evidence["resource_gates_verified"])
         else:
             for key, digest in (("cli", HOST_CLI_SHA256),
                                 ("model", MODEL_SHA256), ("mmproj", MMPROJ_SHA256)):
@@ -700,7 +791,6 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                         f"host {key} file SHA does not match command")
             result["execution_provenance_scope"] = "host_rehearsal_direct_local_file_hashes"
         result["command_input_binding_verified"] = True
-        result["resource_gates_verified"] = True
         environment = command.get("environment", {})
         fail_if(not isinstance(environment, dict) or set(environment) != ENVIRONMENT_KEYS,
                 "environment record fields must exactly match the runner marker contract")
@@ -733,9 +823,12 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
         errors.append("STDERR_NOT_UTF8")
     events = inspect_events(stderr)
     result["image_events"] = events
+    resource_gate_for_mode_passed = (
+        mode == "rehearsal" or result.get("resource_gates_verified") is True
+    )
     result["image_processing_verified"] = bool(
         clean and raw_hashes_verified and result.get("command_input_binding_verified") and
-        result.get("resource_gates_verified") and
+        resource_gate_for_mode_passed and
         events["event_predicate_pass"]
     )
     if not result["image_processing_verified"]:
