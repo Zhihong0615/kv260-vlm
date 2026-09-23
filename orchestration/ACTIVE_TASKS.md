@@ -1,7 +1,7 @@
 # Active Tasks
 
 Updated: 2026-09-24  
-Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03/E02/R04 are integrated. B05 is delivered; R05 is the active independent review.
+Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03/E02/R04/B05/R05 are integrated.
 
 | Task ID | Role | Problem | Dependencies | Expected deliverable | Priority | State | Branch / Worktree / Base |
 |---|---|---|---|---|---|---|---|
@@ -17,13 +17,13 @@ Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02
 | B04 | Static-Key Coverage Analyst | Quantify whether B03's selected-request shape variation is represented by a per-op full signature key and whether group identity adds observed shape information. | R02 PASS on exact B03 target; B03 trace manifest in `orchestration/evidence_snapshots/B04_static_key_coverage/SOURCE.sha256`. | Compact key-coverage analysis, script, and exact-SHA handoff. | P2 high | DELIVERED / INTEGRATED — worker commit `966fbf5372a0e1f47f11da999a9298625233870a`; R03 PASS. | `agent/B04-static-key-coverage` / `/home/zhiro/research/kv260-vlm-workers/B04-static-key-coverage` |
 | R03 | Independent B04 Evidence Reviewer | Recompute B04's static-key coverage and coarse-key collision summaries from the frozen B03 traces. | Frozen B04 commit `966fbf5372a0e1f47f11da999a9298625233870a`; no inference, tests, or board activity. | `reviews/B04_static_key_coverage_independent_review.md` and exact-SHA handoff. | Gate-critical | DELIVERED / INTEGRATED — **PASS**, P0=0/P1=0/P2=0; reviewer commit `af1e3893d2eb4cd1a7675501cff273ac2a9aa6ed`; coordinator merge `ccba27d62d4a8a845080d592fd140f28afc177a7`. | `agent/R03-B04-review` / `/home/zhiro/research/kv260-vlm-workers/R03-B04-review` / target B04 SHA above |
 | E02 | Runner Readiness Remediation Builder | Apply four bounded source-level fixes to the frozen CPU runner/preflight without board activity or tests. | E01 source snapshot `880096cc50f4d37692012136ef7d204856df40ca`; no primary writes. | Two-source patch and exact-SHA handoff with unresolved findings retained. | P2 high | INTEGRATED — worker `aad962435278e470d36b3a0f247e9fb5624cf0f1`; R04 **PASS**, P0=0/P1=0/P2=2 conditional; coordinator merge `0779431550886d982c7244e424d246e9a648a1b0`. | `agent/E02-runner-remediation` / `/home/zhiro/research/kv260-vlm-workers/E02-runner-remediation` / exact base above |
-| B05 | Ordered Media-Group Trace Analyst | Check whether trace order adds any evidence beyond full per-op keys and group sets, and whether a sequence-sensitive static null is needed before future timing work. | R03 PASS and frozen B03/B04 trace evidence; offline only. | Deterministic sequence audit, compact report, and exact-SHA handoff. | P2 exploratory | DELIVERED — worker commit `dbaf1372342b7535b33200a49a3711269d28fa07`, direct parent `f7ad31d98ba96846c2a7522f114f6e310f63b19b`; **R05 queued**. | `agent/B05-ordered-group-trace-audit` / `/home/zhiro/research/kv260-vlm-workers/B05-ordered-group-trace-audit` / frozen base above |
+| B05 | Ordered Media-Group Trace Analyst | Check whether trace order adds any evidence beyond full per-op keys and group sets, and whether a sequence-sensitive static null is needed before future timing work. | R03 PASS and frozen B03/B04 trace evidence; offline only. | Deterministic sequence audit, compact report, and exact-SHA handoff. | P2 exploratory | INTEGRATED — worker `dbaf1372342b7535b33200a49a3711269d28fa07`; R05 **PASS**, P0=0/P1=0/P2=0, review `7890ba0640ade88937f58eeb3ca2a13dca3cd5cd`; coordinator merge `45665f9961db555a1d7f24a154c695cb55841660`. | `agent/B05-ordered-group-trace-audit` / `/home/zhiro/research/kv260-vlm-workers/B05-ordered-group-trace-audit` / frozen base above |
 | R04 | Independent E02 Runner Reviewer | Audit E02's source-only runner remediation against the exact frozen input snapshot and behavior contract. | Frozen E02 commit `aad962435278e470d36b3a0f247e9fb5624cf0f1`; no execution. | Review report and exact-SHA handoff. | Gate-critical | INTEGRATED — review commit `e187bae6d630a0bf45d7ed0de9a5bf277da17f5a`; **PASS**, P0=0/P1=0/P2=2 conditional; coordinator merge `9064a56056cdcf29b1e8ed2a1a15201c05c9f6ea`. | `agent/R04-E02-review` / `/home/zhiro/research/kv260-vlm-workers/R04-E02-review` / exact E02 target above |
-| R05 | Independent B05 Trace Reviewer | Recompute ordered-key evidence from the exact B03 traces and audit the static-null conclusion. | Frozen B05 commit `dbaf1372342b7535b33200a49a3711269d28fa07`; after R04. | Review report and exact-SHA handoff. | P2 exploratory | ACTIVE — six R05 manifest entries and eleven B05 inputs frozen; independent recomputation only. | `agent/R05-B05-review` / `/home/zhiro/research/kv260-vlm-workers/R05-B05-review` / target B05 SHA above |
+| R05 | Independent B05 Trace Reviewer | Recompute ordered-key evidence from the exact B03 traces and audit the static-null conclusion. | Frozen B05 commit `dbaf1372342b7535b33200a49a3711269d28fa07`; after R04. | Review report and exact-SHA handoff. | P2 exploratory | INTEGRATED — **PASS**, P0=0/P1=0/P2=0; reviewer `7890ba0640ade88937f58eeb3ca2a13dca3cd5cd`, direct parent exact B05 target; coordinator merge `cb9b23f31ca1b1d49f4cfe97d359233e1c41e4da`. | `agent/R05-B05-review` / `/home/zhiro/research/kv260-vlm-workers/R05-B05-review` / target B05 SHA above |
 
 ## Worker dispatch and task brief paths
 
-A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03/E02/R04 are integrated; their branches remain preserved as individual source-of-record outputs. B05 is delivered and R05 is the active independent review. Do not reopen completed worker branches as writers. Review activations are under `orchestration/review_activations/`; builder activations are under `orchestration/activations/`.
+A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03/E02/R04/B05/R05 are integrated; their branches remain preserved as individual source-of-record outputs. Do not reopen completed worker branches as writers. Review activations are under `orchestration/review_activations/`; builder activations are under `orchestration/activations/`.
 
 The frozen task brief paths for completed, active and queued tasks are:
 
@@ -34,9 +34,9 @@ The frozen task brief paths for completed, active and queued tasks are:
 - B03: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B03.md`
 - B04: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B04.md` (delivered and integrated after R02/R03)
 - E02: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_E02.md` (integrated; source-only remediation)
-- B05: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B05.md` (delivered; offline ordered-trace null audit)
+- B05: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B05.md` (integrated; offline ordered-trace null audit)
 - R04: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_R04.md` (integrated; independent E02 runner review)
-- R05: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_R05.md` (active; independent B05 trace review)
+- R05: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_R05.md` (integrated; independent B05 trace review)
 - R02: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/review_activations/R02.md`
 - R03: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/review_activations/R03.md`
 
