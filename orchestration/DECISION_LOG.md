@@ -190,3 +190,12 @@
 - **Builder:** isolated branch `agent/E04-timeout-identity`, worktree `/home/zhiro/research/kv260-vlm-workers/E04-timeout-identity`; the final commit must directly parent the frozen base and only modify the named runner/preflight/active-parser paths plus handoff.
 - **Boundary:** source changes only. No tests, syntax checks, execution, SSH, board access, inference, primary-checkout writes, answer/annotation reads, or GitHub activity. P2-5/P2-7 and external execution gates remain open; no live timeout identity is claimed. P3 remains `NO_GO_NOW`.
 - **Review:** queue exact-target R07 after the builder commit; integrate only after independent PASS.
+
+## 2026-09-24 — Deliver E04 and activate R07
+
+- **Worker result:** E04 commit `4dad4f86792ac3e29b5cdb4db392101dc398e745` directly parents frozen base `e6d867280badf8ce20cafc5082532cfc491058a1`; its worktree is clean and its four changed paths match the scoped runner, preflight, active parser, and handoff. The seven-entry E04 input manifest passed after the edit.
+- **Output hashes:** runner `cf0577bac5bc39eb42e43289eead86febeb30e6012adf0254860f3e24437d1fc`; board preflight `16d5bf8a2158dd16f409fb6708fe60440cc95585e98f41044ce5732b192c9616`; active parser `120c88faf788e73b2257dbab545572a0e6bf46864ab4ed30628191c43772baa3`; handoff `9c26820d843807224c4614cdf8955cad72913a77edcf506342061b570db1ba35`.
+- **Static change summary:** both remote timeout invocations use `/usr/bin/timeout`; preflight captures the resolved path and hash, the host gate blocks before staging on unusable identity, the worker rechecks immediately before CLI wrapper launch, and parser/result provenance binds these fields. No tests, syntax checks, execution, SSH, or board reads occurred; no live board timeout identity is claimed.
+- **Separate limitation:** handoff documents the pre-existing marker-schema mismatch between the frozen E01 parser and current worker outputs. Keep it as a separate source task; successful-run parser acceptance is not ready to rely on until that contract is reconciled.
+- **R07 activation:** exact target `4dad4f86792ac3e29b5cdb4db392101dc398e745`, required parent `e6d867280badf8ce20cafc5082532cfc491058a1`; task brief SHA-256 `ccdc2f7ce2da979ac08f4acb1ea24037c38c1ff60f21ccb098e1a01f87b2844d`; four-entry output manifest SHA-256 `9762359327070c54f212e86ed6900024c2efc555b7bf8e6e6a4cc56ae47ba0a9`. Independent exact-target review is active; integrate only after PASS.
+- **Decision boundary:** E04/R07 do not clear P2-5/P2-7 or any external board gate. P3 remains `NO_GO_NOW`.

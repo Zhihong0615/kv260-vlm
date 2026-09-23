@@ -3,7 +3,7 @@
 Updated: 2026-09-24
 Coordinator branch: `orchestration/dispatch-20260924`
 Coordinator worktree: `/home/zhiro/research/kv260-vlm-orchestration`
-Coordinator head before this state refresh: `9064a56056cdcf29b1e8ed2a1a15201c05c9f6ea`
+Coordinator head before this state refresh: `19a22d50f3ff35deb62ba81a4107bc9ecd52354a`
 Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, baseline `094edc130489dc59dd9333e4ae6b0aa4c8013149`.
 
 ## Stage and decision
@@ -14,7 +14,7 @@ Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, ba
 - P3: **NO_GO_NOW**. No research RTL, research bitstream, or board VLM inference.
 - P4–P8: not started.
 
-This is an active end-to-end research project. E02/R04/B05/R05/E03/R06 are integrated; E04 is active as bounded timeout identity hardening. E03/R06 close two conditional source-validation findings only; they do not advance the board gate. The B05/R05 offline trace result closes the narrow media-group sequence question for four selected host requests; it cannot advance the board gate or change the novelty decision by itself.
+This is an active end-to-end research project. E02/R04/B05/R05/E03/R06 are integrated; E04 source work is delivered and R07 is reviewing the exact target. E03/R06 close two conditional source-validation findings only; they do not advance the board gate. The B05/R05 offline trace result closes the narrow media-group sequence question for four selected host requests; it cannot advance the board gate or change the novelty decision by itself.
 
 ## Board and host evidence
 
@@ -40,7 +40,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06 are integ
 
 - **E02 runner remediation:** delivered as `aad962435278e470d36b3a0f247e9fb5624cf0f1`, direct parent `7385c0b10033244b3e203a3b152ca63720207222`, integrated at `0779431550886d982c7244e424d246e9a648a1b0`. All nine original E01 snapshot hashes passed. R04 reviewed all four scoped changes and passed; conditional residuals remain. No tests or execution occurred. P2-5/6/7, configured review paths, ALPHA, live-resource evidence, and external owner-window proof stay unresolved.
 - **E03 / R06:** E03 worker `9c048ce95400a8156c919dd0d0bb4279cace47cc` directly parents frozen base `c550d3fe7e5272e6fee42d259d7f861b55ea4b2a`; R06 reviewer `a62e955458d4791fe197112c7bcb9cd4a17689bd` directly parents the exact E03 target. R06 **PASS**, P0=0/P1=0/P2=0; coordinator merges are `f63c664c5e39e7311b08cdb9550c50ad6d527b95` and `d0f6c77bca03c37462de8a10e18bd690ef2a1242`. The source change hardens only invalid load and malformed CPU-row input paths. No tests or execution occurred. This does not clear P2-5/6/7 or external board gates.
-- **E04 timeout identity:** activated from exact source base `e6d867280badf8ce20cafc5082532cfc491058a1` to close only E01 P2-6. It freezes the current runner/preflight, archived parser, E01 review, and E03/R06 evidence. It requires an absolute timeout executable path, runtime hash attestation/recheck, aligned parser validation, and exact-target R07 before integration. No live board identity is known or claimed; no tests/execution are included.
+- **E04 timeout identity:** target `4dad4f86792ac3e29b5cdb4db392101dc398e745` directly parents exact source base `e6d867280badf8ce20cafc5082532cfc491058a1`; its seven-entry input manifest passed after the edit and the worker tree is clean. R07 is active against this exact target. The handoff records a separate pre-existing parser marker-schema mismatch that must be resolved before relying on successful-run parser acceptance. No live board identity is known or claimed; no tests/execution are included.
 - **B05 ordered trace audit:** worker `dbaf1372342b7535b33200a49a3711269d28fa07`, direct parent `f7ad31d98ba96846c2a7522f114f6e310f63b19b`, integrated at `45665f9961db555a1d7f24a154c695cb55841660`. It compares ordered full-key sequences and adjacent transitions against B04's per-op-key and group-set nulls using only frozen B03/B04 metadata. It cannot establish timing or novelty.
 - **R04 / R05:** R04 review commit `e187bae6d630a0bf45d7ed0de9a5bf277da17f5a` is integrated at `9064a56056cdcf29b1e8ed2a1a15201c05c9f6ea`. R05 **PASS**, P0=0/P1=0/P2=0, reviewer commit `7890ba0640ade88937f58eeb3ca2a13dca3cd5cd`, integrated at `cb9b23f31ca1b1d49f4cfe97d359233e1c41e4da`. Reviews are isolated and prohibit tests, board access, and publication.
 - Exact task, source-manifest, and activation records are in `orchestration/task_briefs/`, `orchestration/evidence_snapshots/`, and `orchestration/activations/`. `ACTIVE_TASKS.md` is the current dispatch table.
@@ -57,7 +57,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06 are integ
 ## Next scheduling decisions
 
 1. Keep the B05/R05 negative result closed; do not reactivate a group-aware selector claim on these four traces.
-2. Complete E04's P2-6 timeout identity hardening and exact-SHA R07 review; integrate only after PASS.
+2. Complete exact-SHA R07 review of E04; integrate only after PASS, then schedule the parser marker-contract mismatch as a separate bounded source task.
 3. Keep P2-5/P2-7, configured review paths, ALPHA, live resources, and a separate owner window as open gates; any board timing work remains gated.
 4. Refresh `ACTIVE_TASKS.md`, this state page, and `DECISION_LOG.md` after each reviewed integration. Do not edit the primary checkout or the frozen global no-go file.
 5. Continue to label host metadata as host evidence and keep P3 `NO_GO_NOW`.
