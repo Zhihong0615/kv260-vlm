@@ -62,9 +62,10 @@ Any candidate may be rejected. The current global novelty verdict remains unchan
 - C01 Architecture Candidates: delivered and integrated. Final worker HEAD `d0c52e94830ca17b5629e2f1f703840ab84e09ac`; coordinator merge `12b32d191000bbf1acfd71cbe7ed4c7c292796dd`. Verdict: none is strong enough; no measured K26 failure interval or advantage over static controls.
 - D01 Board Readiness / Recovery: delivered and integrated. Final worker HEAD `ead34c7873dc0582e8ba4aa6c0b95b043edd7c91`; coordinator merge `e2c6d11b6e60739a3a804cd6643853e088dbde9c`. Runbook is fail-closed; physical recovery and image-specific rollback remain unverified.
 - R01 Adversarial Reviewer: active on frozen target `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b`; branch/worktree/base are recorded in `orchestration/review_activations/R01.md`.
+- E01 Current P2 Gate Reviewer: active on frozen snapshot `880096cc50f4d37692012136ef7d204856df40ca`; current parser, runner, preflight, focused test source, contract, dry-plan and stale prior reviews are hash-recorded in `orchestration/evidence_snapshots/E01_p2_static_gate_review/SOURCE.sha256`. Its worktree is isolated and it is prohibited from tests, dry plans, SSH, board access, inference, and source edits.
 
 No user-visible Codex task window has been created. A01/B01/C01 are running through delegated worker agents in their isolated worktrees; do not start duplicate writers in those branches.
 
 ## Next decision
 
-Wait for R01's exact-SHA adversarial report. Keep P3 at NO_GO_NOW unless the independent Reviewer finds no FAIL, evidence supports a concrete falsifiable mechanism, numeric and board-safety contracts close, and the user explicitly approves the first research-bitstream load. D's runbook is readiness documentation; it does not itself satisfy any board gate.
+Wait for R01's exact-SHA adversarial report and E01's current-SHA static review. Keep P3 at NO_GO_NOW unless the independent novelty review supports a falsifiable mechanism, evidence beats the strongest controls, numeric and board-safety contracts close, and the user explicitly approves the first research-bitstream load. E01 may only resolve or strengthen the CPU-only runner review gate; it does not authorize board execution. D's runbook is readiness documentation; it does not itself satisfy any board gate.

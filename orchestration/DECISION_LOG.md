@@ -26,3 +26,11 @@
 - **Research decision:** A01 and C01 independently conclude that no current candidate survives as a method claim. B01 only prioritizes future workload measurements; D01 records that first-bitstream recovery remains blocked. Global status and P3 were not changed.
 - **Freeze and activation:** Exact R01 target is `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b`; it contains A/B/C handoffs, their frozen input manifests, a verified `TASK_R01.sha256`, and the byte-matched global `status/go_no_go.md`. R01 worktree `agent/R01-candidate-review` was created cleanly from that SHA. The activation record and current brief identify the target; R01 reviews only that immutable commit.
 - **Next step:** Wait for R01's committed adversarial review. Keep all board state-changing work and first-bitstream load blocked.
+
+## 2026-09-24 — Activate E01 current-SHA P2 gate review
+
+- **Decision:** Independently review the current parser, runner, and preflight hashes because both existing static reviews bind older source versions and the dry-plan execution gate rejects them as stale.
+- **Frozen source target:** `880096cc50f4d37692012136ef7d204856df40ca`, containing only the explicit E01 source snapshot and SHA-256 manifest copied byte-for-byte from the primary evidence checkout.
+- **Scope:** Source-only static review of parser/runner/preflight, with focused-test coverage inspected as text. No tests, dry plans, syntax checks, SSH, board access, inference, source fixes, or GitHub actions.
+- **Rationale and boundary:** This can close or strengthen a software evidence gate. It cannot satisfy synthetic ALPHA, a current live resource check, an owner window, physical recovery, or authorize board execution.
+- **Next step:** Integrate E01's exact-SHA handoff only after verifying its clean worker branch and all frozen input hashes. Keep P2 board inference paused and P3 at `NO_GO_NOW`.
