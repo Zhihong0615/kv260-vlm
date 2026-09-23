@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import re
 import sys
 from datetime import datetime
@@ -32,6 +33,21 @@ BUILD_ATTESTATION = RAW_ROOT / "kv260_cpu_p2_baseline_round01/cpu_build_attestat
 BUILD_ATTESTATION_SHA256 = "48cfe4fa9c5a4647ecb193ca91c6eaa07a539abd8addb2407ec14bf4d87755c2"
 BOARD_BASE = Path("/home/ubuntu/kv260-vlm-p2-cpu")
 TIMEOUT_EXECUTABLE_PATH = "/usr/bin/timeout"
+MIN_MEM_AVAILABLE_KIB = 2_750_000
+MIN_CMA_FREE_KIB = 700_000
+MIN_HOME_FREE_BYTES = 1 << 30
+MAX_LOAD1 = 1.5
+RESOURCE_SNAPSHOT_SCOPE = "read-only bounded CPU-only TextVQA preflight"
+RESOURCE_SYSTEMD_UNITS = (
+    "jupyter.service", "apt-daily.service", "apt-daily-upgrade.service", "packagekit.service",
+)
+FORBIDDEN_RESOURCE_PROCESSES = {
+    "apt", "apt-get", "dpkg", "dpkg-deb", "llama-mtmd-cli", "llama-server", "vivado",
+    "vitis_hls", "xbutil", "cmake", "ninja", "cc1", "cc1plus", "gcc", "g++", "make", "rsync",
+}
+SELECTED_RESOURCE_PROCESSES = FORBIDDEN_RESOURCE_PROCESSES | {
+    "unattended-upgr", "packagekitd",
+}
 PILOT_QIDS = (38299, 37804, 35419)
 PROMPT_PREFIX = "Answer the following question based only on the image. Give a short, direct answer.\nQuestion: "
 PROMPT_SUFFIX = "\nAnswer:"
@@ -155,6 +171,283 @@ def utc_timestamp(value: Any) -> datetime:
     fail_if(timestamp.tzinfo is None or timestamp.utcoffset().total_seconds() != 0,
             "timestamp is not UTC")
     return timestamp
+
+
+def snapshot_timestamps_bracket_cli_interval(pre_stamp: datetime, started_at: datetime,
+                                             ended_at: datetime, post_stamp: datetime) -> bool:
+    """Require point-in-time snapshots to enclose a forward-ordered CLI interval."""
+    return pre_stamp <= started_at <= ended_at <= post_stamp
+
+
+def resource_gates_verified_for_cli_interval(resource_evidence: Any, pre_stamp: datetime,
+                                             started_at: datetime, ended_at: datetime,
+                                             post_stamp: datetime) -> bool:
+    return (isinstance(resource_evidence, dict) and
+            resource_evidence.get("resource_gates_verified") is True and
+            snapshot_timestamps_bracket_cli_interval(pre_stamp, started_at, ended_at, post_stamp))
+
+
+def classify_resource_snapshot_evidence(prelaunch: Any, post_run: Any, mode: str,
+                                        expected_timeout_identity: Any = None) -> dict[str, Any]:
+    """Validate both runner snapshots and reject empty-but-contradictory gates."""
+    if mode == "rehearsal":
+        return {
+            "resource_evidence_scope":
+                "host_rehearsal_direct_local_file_hashes_only; board resources not sampled",
+            "in_run_resource_monitoring_performed": False,
+            "prelaunch_resource_gate_status": "NOT_APPLICABLE",
+            "prelaunch_gate_reasons": None,
+            "prelaunch_resource_consistency_issues": [],
+            "post_run_resource_gate_status": "NOT_APPLICABLE",
+            "postflight_gate_reasons": None,
+            "post_run_resource_consistency_issues": [],
+            "resource_gates_verified": None,
+        }
+
+    def is_int(value: Any, minimum: int = 0) -> bool:
+        return isinstance(value, int) and not isinstance(value, bool) and value >= minimum
+
+    def is_finite_number(value: Any) -> bool:
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
+            return False
+        try:
+            return math.isfinite(value)
+        except (OverflowError, TypeError):
+            return False
+
+    def classify(snapshot: Any, stage: str) -> tuple[str, list[str] | None, list[str], Any]:
+        if snapshot is None:
+            return "NOT_AVAILABLE", None, ["snapshot_missing"], None
+        if not isinstance(snapshot, dict):
+            return "MALFORMED", None, ["snapshot_not_object"], None
+        logged_reasons = snapshot.get("gate_reasons")
+        if (snapshot.get("schema") != "kv260_cpu_p2_textvqa_runtime_preflight_v3" or
+                not isinstance(logged_reasons, list) or
+                any(not isinstance(reason, str) for reason in logged_reasons)):
+            return "MALFORMED", None, ["schema_or_gate_reasons_malformed"], None
+        try:
+            utc_timestamp(snapshot.get("captured_at_utc"))
+        except (TypeError, ValueError):
+            return "MALFORMED", list(logged_reasons), ["captured_at_utc_malformed"], None
+
+        required_common = (
+            "scope", "arch", "cpu_count", "memory_kib", "vmstat_global", "home_free_bytes",
+            "loadavg", "systemd_service_states", "jupyter_active", "jupyter_returncode",
+            "packagekit_transaction_state", "timeout_executable", "selected_processes",
+            "process_count", "cpu_frequency_khz", "thermal_c",
+        )
+        if any(key not in snapshot for key in required_common):
+            return "MALFORMED", list(logged_reasons), ["required_snapshot_field_missing"], None
+        if snapshot["scope"] != RESOURCE_SNAPSHOT_SCOPE:
+            return "MALFORMED", list(logged_reasons), ["scope_malformed_or_unexpected"], None
+        if not isinstance(snapshot["arch"], str) or not is_int(snapshot["cpu_count"]):
+            return "MALFORMED", list(logged_reasons), ["board_identity_malformed"], None
+
+        memory = snapshot["memory_kib"]
+        memory_keys = ("MemTotal", "MemAvailable", "CmaFree", "SwapTotal", "SwapFree")
+        if (not isinstance(memory, dict) or
+                any(not is_int(memory.get(key)) for key in memory_keys)):
+            return "MALFORMED", list(logged_reasons), ["memory_snapshot_malformed"], None
+        if (memory["MemTotal"] <= 0 or memory["MemAvailable"] > memory["MemTotal"] or
+                memory["CmaFree"] > memory["MemTotal"] or
+                memory["SwapFree"] > memory["SwapTotal"]):
+            return "MALFORMED", list(logged_reasons), ["memory_snapshot_internally_inconsistent"], None
+        if not is_int(snapshot["home_free_bytes"]):
+            return "MALFORMED", list(logged_reasons), ["home_free_bytes_malformed"], None
+        vmstat = snapshot["vmstat_global"]
+        if (not isinstance(vmstat, dict) or
+                any(not is_int(vmstat.get(key)) for key in ("oom_kill", "pgmajfault", "pswpin", "pswpout"))):
+            return "MALFORMED", list(logged_reasons), ["vmstat_global_malformed"], None
+
+        loadavg = snapshot["loadavg"]
+        if not isinstance(loadavg, str) or len(loadavg.split()) != 5:
+            return "MALFORMED", list(logged_reasons), ["loadavg_malformed"], None
+        load_fields = loadavg.split()
+        try:
+            load_values = [float(value) for value in load_fields[:3]]
+        except (IndexError, ValueError, OverflowError):
+            return "MALFORMED", list(logged_reasons), ["loadavg_malformed"], None
+        if (any(not math.isfinite(value) or value < 0 for value in load_values) or
+                not re.fullmatch(r"\d+/\d+", load_fields[3]) or
+                not load_fields[4].isdigit()):
+            return "MALFORMED", list(logged_reasons), ["loadavg_nonfinite_or_negative"], None
+        load1 = load_values[0]
+
+        services = snapshot["systemd_service_states"]
+        if not isinstance(services, dict):
+            return "MALFORMED", list(logged_reasons), ["systemd_service_states_malformed"], None
+        for unit in RESOURCE_SYSTEMD_UNITS:
+            record = services.get(unit)
+            if (not isinstance(record, dict) or
+                    not isinstance(record.get("active_state"), str) or not record.get("active_state") or
+                    "returncode" not in record or
+                    (record.get("returncode") is not None and not is_int(record.get("returncode"))) or
+                    not isinstance(record.get("timed_out"), bool) or
+                    ("error" in record and not isinstance(record["error"], str))):
+                return "MALFORMED", list(logged_reasons), [f"service_record_malformed:{unit}"], None
+        if (not isinstance(snapshot["jupyter_active"], str) or
+                "jupyter_returncode" not in snapshot or
+                (snapshot["jupyter_returncode"] is not None and
+                 not is_int(snapshot["jupyter_returncode"]))):
+            return "MALFORMED", list(logged_reasons), ["jupyter_summary_malformed"], None
+
+        packagekit = snapshot["packagekit_transaction_state"]
+        if (not isinstance(packagekit, dict) or not isinstance(packagekit.get("state"), str) or
+                not isinstance(packagekit.get("transaction_ids"), list) or
+                any(not isinstance(item, str) for item in packagekit["transaction_ids"]) or
+                "returncode" not in packagekit or
+                (packagekit.get("returncode") is not None and not is_int(packagekit.get("returncode"))) or
+                not isinstance(packagekit.get("timed_out"), bool) or
+                ("error" in packagekit and not isinstance(packagekit["error"], str))):
+            return "MALFORMED", list(logged_reasons), ["packagekit_record_malformed"], None
+
+        timeout_identity = snapshot["timeout_executable"]
+        try:
+            validate_timeout_identity(timeout_identity, f"{stage} board snapshot")
+        except (TypeError, ValueError):
+            return "MALFORMED", list(logged_reasons), ["timeout_identity_malformed"], None
+        if (expected_timeout_identity is not None and
+                timeout_identity != expected_timeout_identity):
+            return "MALFORMED", list(logged_reasons), ["timeout_identity_mismatch"], timeout_identity
+
+        processes = snapshot["selected_processes"]
+        if not isinstance(processes, list):
+            return "MALFORMED", list(logged_reasons), ["selected_processes_malformed"], timeout_identity
+        if not is_int(snapshot["process_count"], 1) or snapshot["process_count"] < len(processes):
+            return "MALFORMED", list(logged_reasons), ["process_count_malformed"], timeout_identity
+        if (not isinstance(snapshot["cpu_frequency_khz"], dict) or
+                any(not isinstance(cpu, str) or not is_int(freq)
+                    for cpu, freq in snapshot["cpu_frequency_khz"].items())):
+            return "MALFORMED", list(logged_reasons), ["cpu_frequency_khz_malformed"], timeout_identity
+        if (not isinstance(snapshot["thermal_c"], dict) or
+                any(not isinstance(zone, str) or not is_finite_number(temp)
+                    for zone, temp in snapshot["thermal_c"].items())):
+            return "MALFORMED", list(logged_reasons), ["thermal_c_malformed"], timeout_identity
+
+        selected_names = SELECTED_RESOURCE_PROCESSES
+        seen_pids: set[int] = set()
+        process_issues: list[str] = []
+        for row in processes:
+            if (not isinstance(row, dict) or not is_int(row.get("pid"), 1) or
+                    not is_int(row.get("uid")) or not isinstance(row.get("comm"), str) or
+                    not row.get("comm") or not isinstance(row.get("role"), str) or
+                    not row.get("role")):
+                return "MALFORMED", list(logged_reasons), ["selected_process_row_malformed"], timeout_identity
+            if row["comm"] not in selected_names:
+                return "MALFORMED", list(logged_reasons), ["selected_process_name_unexpected"], timeout_identity
+            if ((row["comm"] == "unattended-upgr" and
+                 row["role"] not in ("shutdown_waiter", "unattended_upgrade")) or
+                    (row["comm"] != "unattended-upgr" and row["role"] != "process")):
+                return "MALFORMED", list(logged_reasons), ["selected_process_role_malformed"], timeout_identity
+            if row["pid"] in seen_pids:
+                process_issues.append("selected_process_pid_duplicate")
+            seen_pids.add(row["pid"])
+
+        issues: list[str] = process_issues
+        if snapshot["arch"].lower() != "aarch64" or snapshot["cpu_count"] != 4:
+            issues.append("board_identity_gate")
+        if (memory["MemAvailable"] < MIN_MEM_AVAILABLE_KIB or
+                memory["CmaFree"] < MIN_CMA_FREE_KIB):
+            issues.append("memory_or_cma_gate")
+        if memory["SwapTotal"] != 0 or memory["SwapFree"] != 0:
+            issues.append("swap_gate")
+        if snapshot["home_free_bytes"] < MIN_HOME_FREE_BYTES:
+            issues.append("home_disk_gate")
+        if load1 > MAX_LOAD1:
+            issues.append("load_gate")
+
+        jupyter = services["jupyter.service"]
+        apt_daily = services["apt-daily.service"]
+        apt_upgrade = services["apt-daily-upgrade.service"]
+        packagekit_service = services["packagekit.service"]
+        if (snapshot["jupyter_active"] != jupyter["active_state"] or
+                snapshot["jupyter_returncode"] != jupyter["returncode"]):
+            issues.append("jupyter_summary_disagrees_with_service")
+        if any("error" in services[unit] for unit in RESOURCE_SYSTEMD_UNITS):
+            issues.append("systemd_service_query_error")
+        if (jupyter["active_state"] != "active" or jupyter["returncode"] != 0 or
+                jupyter["timed_out"] is not False):
+            issues.append("jupyter_service_gate")
+        if any(record["active_state"] != "inactive" or record["returncode"] != 3 or
+               record["timed_out"] is not False for record in (apt_daily, apt_upgrade)):
+            issues.append("package_upgrade_service_gate")
+
+        package_state = packagekit["state"]
+        package_ids = packagekit["transaction_ids"]
+        if packagekit["timed_out"] is not False or package_ids:
+            issues.append("packagekit_transaction_gate")
+        if "error" in packagekit:
+            issues.append("packagekit_query_error")
+        if package_state == "SERVICE_INACTIVE":
+            if (packagekit_service["active_state"] != "inactive" or
+                    packagekit_service["returncode"] != 3 or packagekit_service["timed_out"] is not False or
+                    packagekit["returncode"] is not None):
+                issues.append("packagekit_service_state_inconsistent")
+        elif package_state == "NO_ACTIVE_TRANSACTIONS":
+            if (packagekit_service["active_state"] != "active" or
+                    packagekit_service["returncode"] != 0 or packagekit_service["timed_out"] is not False or
+                    packagekit["returncode"] != 0):
+                issues.append("packagekit_service_state_inconsistent")
+        else:
+            issues.append("packagekit_state_gate")
+
+        forbidden = FORBIDDEN_RESOURCE_PROCESSES
+        if any(row["comm"] in forbidden or
+               (row["comm"] == "unattended-upgr" and row["role"] != "shutdown_waiter")
+               for row in processes):
+            issues.append("forbidden_process_gate")
+
+        if stage not in ("prelaunch", "post_run"):
+            return "MALFORMED", list(logged_reasons), ["snapshot_stage_unknown"], timeout_identity
+        reasons = list(logged_reasons)
+        if reasons:
+            return "FAIL", reasons, issues, timeout_identity
+        if issues:
+            return "INCONSISTENT", reasons, issues, timeout_identity
+        return "PASS", reasons, [], timeout_identity
+
+    expected_identity_error = None
+    if expected_timeout_identity is None:
+        if prelaunch is not None or post_run is not None:
+            expected_identity_error = "command_timeout_identity_missing"
+    else:
+        try:
+            validate_timeout_identity(expected_timeout_identity, "command")
+        except (TypeError, ValueError):
+            expected_identity_error = "command_timeout_identity_malformed"
+    pre_status, pre_reasons, pre_issues, pre_timeout = classify(prelaunch, "prelaunch")
+    post_status, post_reasons, post_issues, post_timeout = classify(post_run, "post_run")
+    if expected_identity_error:
+        if prelaunch is not None:
+            pre_status = "MALFORMED"
+            pre_issues = [*pre_issues, expected_identity_error]
+        if post_run is not None:
+            post_status = "MALFORMED"
+            post_issues = [*post_issues, expected_identity_error]
+    if (pre_status in ("PASS", "FAIL") and post_status in ("PASS", "FAIL") and
+            pre_timeout != post_timeout):
+        post_status = "INCONSISTENT"
+        post_issues = [*post_issues, "timeout_identity_differs_between_snapshots"]
+    if (expected_timeout_identity is not None and
+            pre_status in ("PASS", "FAIL") and pre_timeout != expected_timeout_identity):
+        pre_status = "INCONSISTENT"
+        pre_issues = [*pre_issues, "prelaunch_timeout_identity_differs_from_command"]
+    if (expected_timeout_identity is not None and
+            post_status in ("PASS", "FAIL") and post_timeout != expected_timeout_identity):
+        post_status = "INCONSISTENT"
+        post_issues = [*post_issues, "post_run_timeout_identity_differs_from_command"]
+    return {
+        "resource_evidence_scope":
+            "board_prelaunch_and_post_run_point_in_time_snapshots_only",
+        "in_run_resource_monitoring_performed": False,
+        "prelaunch_resource_gate_status": pre_status,
+        "prelaunch_gate_reasons": pre_reasons,
+        "prelaunch_resource_consistency_issues": pre_issues,
+        "post_run_resource_gate_status": post_status,
+        "postflight_gate_reasons": post_reasons,
+        "post_run_resource_consistency_issues": post_issues,
+        "resource_gates_verified": pre_status == "PASS" and post_status == "PASS",
+    }
 
 
 def has_label_keys(value: Any) -> bool:
@@ -425,6 +718,7 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
         "stop_reason_eos_or_antiprompt": "UNAVAILABLE",
         "max_new_tokens_hit": "UNAVAILABLE",
     }
+    result.update(classify_resource_snapshot_evidence(None, None, mode))
     errors: list[str] = result["errors"]
     raw_json_errors = inspect_raw_json_labels(raw_dir)
     state_path = raw_dir / "result.json"
@@ -630,6 +924,17 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                     "timeout executable identity is missing or mismatched in execution provenance")
             pre_before = read_json(paths["preflight_before.json"])
             pre_after = read_json(paths["preflight_after.json"])
+            resource_evidence = classify_resource_snapshot_evidence(
+                pre_before, pre_after, mode, timeout_identity
+            )
+            result.update(resource_evidence)
+            result["resource_gates_verified"] = False
+            valid_snapshot_statuses = ("PASS", "FAIL", "INCONSISTENT")
+            fail_if(resource_evidence["prelaunch_resource_gate_status"] not in valid_snapshot_statuses or
+                    resource_evidence["post_run_resource_gate_status"] not in valid_snapshot_statuses,
+                    "board resource snapshot is malformed")
+            fail_if(resource_evidence["prelaunch_resource_gate_status"] != "PASS",
+                    "prelaunch board resource snapshot did not pass all frozen gates")
             image_after = read_json(paths["image_post_verification.json"])
             started_at = utc_timestamp(state.get("started_at_utc"))
             ended_at = utc_timestamp(state.get("ended_at_utc"))
@@ -640,15 +945,16 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                     "timeout executable path/hash differs from read-only preflight identity")
             pre_stamp = utc_timestamp(pre_before.get("captured_at_utc"))
             post_stamp = utc_timestamp(pre_after.get("captured_at_utc"))
-            fail_if(pre_stamp > started_at or post_stamp < ended_at,
-                    "board resource snapshot timestamp is outside the CLI interval")
+            fail_if(not snapshot_timestamps_bracket_cli_interval(
+                        pre_stamp, started_at, ended_at, post_stamp),
+                    "board snapshots do not bracket a forward-ordered CLI interval")
             memory = pre_before.get("memory_kib", {})
-            fail_if(memory.get("MemAvailable", 0) < 2_750_000 or
-                    memory.get("CmaFree", 0) < 700_000 or
+            fail_if(memory.get("MemAvailable", 0) < MIN_MEM_AVAILABLE_KIB or
+                    memory.get("CmaFree", 0) < MIN_CMA_FREE_KIB or
                     memory.get("SwapTotal") != 0 or memory.get("SwapFree") != 0 or
                     pre_before.get("jupyter_active") != "active" or
-                    pre_before.get("home_free_bytes", 0) < (1 << 30) or
-                    float(pre_before.get("loadavg", "99").split()[0]) > 1.5,
+                    pre_before.get("home_free_bytes", 0) < MIN_HOME_FREE_BYTES or
+                    float(pre_before.get("loadavg", "99").split()[0]) > MAX_LOAD1,
                     "prelaunch board snapshot violates the frozen P2 gate")
             service_states = pre_before.get("systemd_service_states", {})
             jupyter_state = service_states.get("jupyter.service", {})
@@ -677,8 +983,9 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
             fail_if(packagekit_after.get("state") not in ("SERVICE_INACTIVE", "NO_ACTIVE_TRANSACTIONS") or
                     packagekit_after.get("timed_out") is not False,
                     "post-run PackageKit transaction state is active or unknown")
-            result["postflight_gate_reasons"] = pre_after["gate_reasons"]
-            result["postflight_resources_remain_within_gates"] = not pre_after["gate_reasons"]
+            result["postflight_resources_remain_within_gates"] = (
+                resource_evidence["post_run_resource_gate_status"] == "PASS"
+            )
             fail_if(image_after.get("schema") != "kv260_cpu_p2_textvqa_image_post_verification_v1" or
                     image_after.get("question_id") != qid or
                     image_after.get("image_id") != sample["image_id"] or
@@ -692,6 +999,9 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
             fail_if(not runner_path.is_file() or state.get("runner_sha256") != sha256(runner_path),
                     "reviewed TextVQA runner identity missing or changed")
             result["execution_provenance_scope"] = "board_runner_records_and_prelaunch_hashes"
+            result["resource_gates_verified"] = resource_gates_verified_for_cli_interval(
+                resource_evidence, pre_stamp, started_at, ended_at, post_stamp
+            )
         else:
             for key, digest in (("cli", HOST_CLI_SHA256),
                                 ("model", MODEL_SHA256), ("mmproj", MMPROJ_SHA256)):
@@ -700,7 +1010,6 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                         f"host {key} file SHA does not match command")
             result["execution_provenance_scope"] = "host_rehearsal_direct_local_file_hashes"
         result["command_input_binding_verified"] = True
-        result["resource_gates_verified"] = True
         environment = command.get("environment", {})
         fail_if(not isinstance(environment, dict) or set(environment) != ENVIRONMENT_KEYS,
                 "environment record fields must exactly match the runner marker contract")
@@ -733,9 +1042,12 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
         errors.append("STDERR_NOT_UTF8")
     events = inspect_events(stderr)
     result["image_events"] = events
+    resource_gate_for_mode_passed = (
+        mode == "rehearsal" or result.get("resource_gates_verified") is True
+    )
     result["image_processing_verified"] = bool(
         clean and raw_hashes_verified and result.get("command_input_binding_verified") and
-        result.get("resource_gates_verified") and
+        resource_gate_for_mode_passed and
         events["event_predicate_pass"]
     )
     if not result["image_processing_verified"]:
