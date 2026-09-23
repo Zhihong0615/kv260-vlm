@@ -148,3 +148,9 @@
 - **Worker result:** B05 commit `dbaf1372342b7535b33200a49a3711269d28fa07` has the exact direct parent `f7ad31d98ba96846c2a7522f114f6e310f63b19b`, a clean tree, and all eleven frozen input hashes passed before/after analysis. Its four output hashes match the handoff.
 - **Preliminary finding:** all 24 groups reproduce B04's five full-key-set classes; multiset, ordered-sequence, and adjacent-transition partitions have identical membership. No same-set/different-sequence pairs were found. B05 recommends stopping the group-aware dynamic-selector question on these traces and retaining an ordered-sequence/replay table as a static control if later cost measurement is justified.
 - **Decision:** this is a worker result pending independent R05 recomputation. Queue R05 behind gate-critical R04. No K26 timing or novelty inference; P3 remains `NO_GO_NOW`.
+
+## 2026-09-24 — Integrate E02 and R04
+
+- **Integration:** E02 worker commit `aad962435278e470d36b3a0f247e9fb5624cf0f1` was merged at `0779431550886d982c7244e424d246e9a648a1b0`; R04 review commit `e187bae6d630a0bf45d7ed0de9a5bf277da17f5a` was merged at `9064a56056cdcf29b1e8ed2a1a15201c05c9f6ea`.
+- **Review result:** PASS for the four scoped remediations, P0=0/P1=0/P2=2 conditional. The residuals are non-finite `loadavg` input failing the threshold open if corrupted/substituted, and malformed CPU-row input bypassing the structured blocked record while still aborting before image staging. Both remain documented and unfixed in this scope.
+- **Remaining gate:** P2-5 continuous resource monitoring, P2-6 timeout executable identity, P2-7 orchestration tests, configured fixed review paths, ALPHA proof, live board resources, and an external owner-window reservation remain open. This integration is not board readiness; no tests or board actions occurred. Keep P3 `NO_GO_NOW`.
