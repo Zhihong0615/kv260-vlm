@@ -90,3 +90,11 @@
 - **Current status:** Exploratory coordinator-side read-only calculation found 24 media groups, 914 vision node observations and 66 unique full per-op keys per group, with five distinct cross-request key-set classes. These counts are not yet a deliverable or a method claim.
 - **Rationale and boundary:** B03's callback runs after backend splitting, so shape-key coverage cannot prove `supports_op` eligibility, final placement, cost, or K26 advantage. The analysis can only establish whether the recorded per-op metadata already distinguishes the observed shape groups.
 - **Next step:** Finish R02 first. On PASS, integrate the exact reviewer and B03 commits, then activate B04 on the exact B03 source commit. Keep P3 at `NO_GO_NOW`.
+
+## 2026-09-24 — Integrate B03 traces and R02 review
+
+- **Integration:** Merged reviewer branch `agent/R02-B03-review` at `8aa54cbb28bde5a28f33a343b7db071f6afe474a`; coordinator merge `3e57050f4992ce20b452e43bd4c9bee33cf26436` integrates both the exact B03 target `4d7ce5e5fa5e750833cb5a05b8b3a15364861134` and its independent review.
+- **Review result:** Corrected R02 verdict is **PASS**, P0=0/P1=0/P2=1. The canonical activation record at `f3081626b18865b87ed21690a3759b4c4ecdd24b` froze worker base `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2`; branch reflog and B03 direct parent match it. The remaining P2 is an older duplicate activation file inside the B03 worker tree; no trace artifact correction is needed.
+- **Evidence result:** Four trace hashes, decompressed hashes, request/image identities, 914 vision nodes per group, and B03 claim limits passed review. Qid 35419's full op/dtype/dimension/stride signatures distinguish the orientation groups even though its `MUL_MAT`-only signature set is shared.
+- **Research interpretation:** B03 confirms observed host graph-shape variation and strengthens the static shape/stride null. It establishes no K26 placement, timing, resource, transfer, or method advantage. R01's global novelty **FAIL** and P3 `NO_GO_NOW` remain unchanged.
+- **Next step:** Activate the queued B04 static-key coverage analysis from its frozen manifest, using only the B03 traces. No inference or board activity follows from this review.
