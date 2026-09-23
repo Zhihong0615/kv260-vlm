@@ -20,7 +20,7 @@ The host records support workload priority and future test-shape selection, not 
 - Reproduce with that manifest check, then follow the nine frozen note files and profile formulas. The shape occupancy screen is inherited from the already-verified analytical note; no derived source code or raw trace was modified/copied.
 - No tests were added or run. Review/checks were limited to initial Git state, source hashes, existing evidence reconciliation, and final Git diff/status.
 - The source status records board inference paused pending current-SHA parser/runner review, synthetic ALPHA evidence, and an inference-specific owner window. No board action was attempted.
-- Delivery commit: recorded in the final response; resolve the delivered commit with `git rev-parse HEAD` in this worktree.
+- Deliverable-content commit (profile plus initial handoff): `c0b35f155c604b28b04cc433339d6d62446a7c3d`. The following handoff metadata commit records this identifier.
 
 ## Top hardware-relevant workloads
 
