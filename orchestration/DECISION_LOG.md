@@ -81,3 +81,12 @@
 - **Interpretation:** the selected traces expose real ordered per-group shape changes and strengthen the exact per-op shape/stride static control. They do not establish backend eligibility from this callback, K26 costs, traffic, resource pressure, or method advantage. No candidate or novelty claim is promoted.
 - **Review:** activated R02 on the exact B03 SHA; activation record `orchestration/review_activations/R02.md`. Coordinator integration waits for its committed independent review.
 - **Stage decision:** R01 remains **FAIL**; P3 remains `NO_GO_NOW`. B03 involved no tests, answers/annotations, source checkout changes, board activity, or remote GitHub actions.
+
+## 2026-09-24 — Queue B04 static-key coverage behind R02
+
+- **Decision:** Prepare a narrow offline analysis of B03's strongest per-op static null while R02 independently reviews the frozen B03 result. B04 is queued and must not activate before R02 passes.
+- **Frozen target/inputs:** B03 worker commit `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`; eight trace/summary artifacts in `orchestration/evidence_snapshots/B04_static_key_coverage/SOURCE.sha256`. All eight hashes passed in the B03 worker tree.
+- **Scope:** Count full static op signatures and compare them with coarse keys and media-group identifiers. This uses only the four existing compressed CPU traces and B03 metadata; no inference, answers, annotations, board access, tests, or source/runtime changes.
+- **Current status:** Exploratory coordinator-side read-only calculation found 24 media groups, 914 vision node observations and 66 unique full per-op keys per group, with five distinct cross-request key-set classes. These counts are not yet a deliverable or a method claim.
+- **Rationale and boundary:** B03's callback runs after backend splitting, so shape-key coverage cannot prove `supports_op` eligibility, final placement, cost, or K26 advantage. The analysis can only establish whether the recorded per-op metadata already distinguishes the observed shape groups.
+- **Next step:** Finish R02 first. On PASS, integrate the exact reviewer and B03 commits, then activate B04 on the exact B03 source commit. Keep P3 at `NO_GO_NOW`.

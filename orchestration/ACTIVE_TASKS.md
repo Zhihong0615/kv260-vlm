@@ -14,18 +14,20 @@ Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02
 | B02 | Workload Pattern Evidence Analyst | Reconcile four existing selected host requests against their exact commands/logs and identify the dispatch-time evidence gap. | Frozen snapshot commit `548d6229d9fbff67db5103933d9c837259d6b4f4`; no new collection. | `experiments/derived/selected_host_pattern_audit_B02.md` and compact handoff. | P2 high | DELIVERED / INTEGRATED — all 20 source hashes verified; final worker HEAD `eb0c7a64a9cebac30187f414a8f0b5421a7c9acf`; coordinator merge `bf7cc170c9fddcf40d843a9851958fe1d24cef6f`. | `agent/B02-workload-pattern-audit` / `/home/zhiro/research/kv260-vlm-workers/B02-workload-pattern-audit` / `a7b9d5cd2e9ec2212689de0838bd46f91a9c4691` |
 | B03 | Selected Request Trace Builder | Capture one CPU-only graph metadata trace for each of the four already-audited TextVQA requests and compare phase/op shape inventories. | Exact B02 handoff plus 39 frozen source hashes in `orchestration/evidence_snapshots/B03_selected_qid_optraces/SOURCE.sha256`; no board access. | Redacted run manifest, compressed traces, compact shape summary, and exact-SHA handoff. | P2 high | DELIVERED / REVIEW PENDING — worker commit `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`, based exactly on `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2`. | `agent/B03-selected-qid-optraces` / `/home/zhiro/research/kv260-vlm-workers/B03-selected-qid-optraces` / exact base in `orchestration/activations/B03.md` |
 | R02 | Independent B03 Evidence Reviewer | Audit B03 input/output integrity, trace group semantics and the limits of its claims without repeating inference. | Frozen B03 commit `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`; no board access or tests. | `reviews/B03_selected_optrace_independent_review.md` and exact-SHA review handoff. | Gate-critical | ACTIVE — read-only review in a separate worktree based exactly on the B03 commit. | `agent/R02-B03-review` / `/home/zhiro/research/kv260-vlm-workers/R02-B03-review` / `4d7ce5e5fa5e750833cb5a05b8b3a15364861134` |
+| B04 | Static-Key Coverage Analyst | Quantify whether B03's selected-request shape variation is represented by a per-op full signature key and whether group identity adds observed shape information. | R02 PASS on exact B03 target; B03 trace manifest in `orchestration/evidence_snapshots/B04_static_key_coverage/SOURCE.sha256`. | Compact key-coverage analysis, script, and exact-SHA handoff. | P2 high | QUEUED — brief and source hashes frozen; activation waits for R02. | Planned `agent/B04-static-key-coverage` / exact B03 commit `4d7ce5e5fa5e750833cb5a05b8b3a15364861134` |
 
 ## Worker dispatch and task brief paths
 
 A01/B01/C01/D01/R01/E01/B02 are complete; their branches remain preserved as individual source-of-record outputs. Do not reopen them as writers. B03's experiment is committed; R02 is the sole active worker and reviews only its exact frozen SHA. The R01 and R02 activation records are `orchestration/review_activations/R01.md` and `orchestration/review_activations/R02.md`.
 
-The frozen task brief paths for completed baseline tasks are:
+The frozen task brief paths for completed and queued tasks are:
 
 - A01: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_A01.md`
 - B01: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B01.md`
 - C01: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_C01.md`
 - D01: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_D01.md`
 - B03: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B03.md`
+- B04: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B04.md` (queued; activate only after R02 PASS)
 - R02: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/review_activations/R02.md`
 
 Each worker verified the exact branch and clean base SHA in its brief. C01 started without waiting for A01/B01 and its final handoff cites their results. R01 and E01 remain independent reviewers of their respective frozen snapshots; B02 performed offline reconciliation of its frozen evidence.
