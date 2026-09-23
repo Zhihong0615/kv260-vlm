@@ -73,3 +73,11 @@
 - **Activation:** Worker branch `agent/B03-selected-qid-optraces` starts from clean coordinator commit `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2`; activation record `orchestration/activations/B03.md` freezes the branch, worktree and acceptance conditions. All 39 source hashes passed before activation. The experiment reads only the four frozen `command.json` records and image files; it does not parse the full baseline run manifest.
 - **Boundaries:** Worktree-only writes; read-only primary source, image and model paths. No answer labels or generated answers, no per-op timing, no tests, no board SSH/inference/reboot/bitstream, and no GitHub publication. This cannot change P3 `NO_GO_NOW`.
 - **Next step:** Verify all frozen hashes, execute the four bounded host captures, and integrate only after checking exact-base commit, clean worker tree, trace integrity, and the task's evidence limits.
+
+## 2026-09-24 — Complete B03 capture; activate independent review
+
+- **Capture commit:** `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`, with exact parent `2f31453557cdbb1501cdda33c52c32e0a3ef7cf2`; worker tree is clean. All 39 frozen input hashes passed before and after collection.
+- **Evidence result:** four CPU-only requests passed. Media-batch counts (5, 7, 7, 5 by qid 34609/35005/35419/35950) match B02 token-sequence lengths. Qid 35005 changes dense matrix shapes after the first group. Qid 35419 changes spatial orientation while retaining a shared dense matrix shape/stride set. Full details and hashes are in the worker handoff and derived JSON.
+- **Interpretation:** the selected traces expose real ordered per-group shape changes and strengthen the exact per-op shape/stride static control. They do not establish backend eligibility from this callback, K26 costs, traffic, resource pressure, or method advantage. No candidate or novelty claim is promoted.
+- **Review:** activated R02 on the exact B03 SHA; activation record `orchestration/review_activations/R02.md`. Coordinator integration waits for its committed independent review.
+- **Stage decision:** R01 remains **FAIL**; P3 remains `NO_GO_NOW`. B03 involved no tests, answers/annotations, source checkout changes, board activity, or remote GitHub actions.
