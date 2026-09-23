@@ -43,7 +43,7 @@ This one measurement establishes the K26 CPU Amdahl ceiling and whether candidat
 - Added `orchestration/handoffs/C_architecture_candidates.md` and `spec/architecture_candidate_matrix_C01.md`.
 - No RTL/HLS, tests, board work, source-overlay edits, raw trace changes, or global status/novelty/go-no-go edits.
 - Checks: required branch/base/clean starting state verified; all nine frozen source hashes matched; coordinator A/B handoff directory checked after analysis began and was empty at that time.
-- Initial reasoning commit SHA: to be recorded in the final commit metadata after commit.
+- Initial reasoning content commit: `f99b964cf4efecaae5bf924b150cb16bdcf064c6` (`Add C01 architecture candidate screen`). Later A/B incorporation, if warranted, must be a separate commit.
 - No A/B evidence has been incorporated. Revisit only if committed A/B handoffs materially change the ranking; any such incorporation belongs in a separate update commit with exact A/B and C SHAs.
 
 ## Unresolved dependencies
