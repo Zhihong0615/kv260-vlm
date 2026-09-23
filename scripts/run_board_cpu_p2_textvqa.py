@@ -38,8 +38,9 @@ MODEL_SHA256 = "8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773
 MMPROJ_SHA256 = "ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293"
 CLI_SHA256 = "84bfa2f5f91f13503b5a1349e05594cda30c01613227187cfb9e48e7b805f1d7"
 ATTESTATION_SHA256 = "48cfe4fa9c5a4647ecb193ca91c6eaa07a539abd8addb2407ec14bf4d87755c2"
-PREFLIGHT_SOURCE_SHA256 = "2366b7f5291fbb51e859e943a7453baa033cf41ed64668017689d97ddc9db959"
+PREFLIGHT_SOURCE_SHA256 = "16d5bf8a2158dd16f409fb6708fe60440cc95585e98f41044ce5732b192c9616"
 BOARD_BASE = "/home/ubuntu/kv260-vlm-p2-cpu"
+TIMEOUT_EXECUTABLE_PATH = "/usr/bin/timeout"
 RUN_IDS = {qid: f"kv260_cpu_p2_tvqa_q{qid}_r01" for qid in (38299, 37804, 35419)}
 ORDER = (38299, 37804, 35419)
 SYSTEMD_UNITS = ("jupyter.service", "apt-daily.service", "apt-daily-upgrade.service")
@@ -120,6 +121,16 @@ def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
         reasons.append("LOAD_STATE_UNKNOWN")
     elif load1 > MAX_LOAD1:
         reasons.append("LOAD")
+    timeout_identity = snapshot.get("timeout_executable")
+    if (not isinstance(timeout_identity, dict) or
+            set(timeout_identity) != {"path", "resolved_path", "sha256", "usable"} or
+            timeout_identity.get("path") != TIMEOUT_EXECUTABLE_PATH or
+            not isinstance(timeout_identity.get("resolved_path"), str) or
+            not Path(timeout_identity["resolved_path"]).is_absolute() or
+            not isinstance(timeout_identity.get("sha256"), str) or
+            not re.fullmatch(r"[0-9a-f]{64}", timeout_identity["sha256"]) or
+            timeout_identity.get("usable") is not True):
+        reasons.append("TIMEOUT_EXECUTABLE_UNKNOWN")
     processes = snapshot.get("selected_processes")
     if not isinstance(processes, list) or any(
             not isinstance(row, dict) or not isinstance(row.get("comm"), str) or
@@ -341,6 +352,7 @@ from pathlib import Path
 
 BASE = Path("/home/ubuntu/kv260-vlm-p2-cpu")
 RUNS = BASE / "runs"
+TIMEOUT_EXECUTABLE_PATH = "/usr/bin/timeout"
 ACTIVE = None
 TERMINATION_UNPROVEN = False
 
@@ -395,6 +407,24 @@ def sha_file(path):
     with Path(path).open("rb") as f:
         for b in iter(lambda:f.read(1<<20),b""): h.update(b)
     return h.hexdigest()
+def timeout_executable_identity():
+    identity={"path":TIMEOUT_EXECUTABLE_PATH,"resolved_path":None,"sha256":None,"usable":False}
+    path=Path(TIMEOUT_EXECUTABLE_PATH)
+    try:
+        identity["resolved_path"]=str(path.resolve(strict=True))
+        if not path.is_file() or not os.access(path,os.X_OK): return identity
+        identity["sha256"]=sha_file(path); identity["usable"]=True
+    except (OSError,RuntimeError): pass
+    return identity
+def timeout_provenance_fields(expected, observed, verified, checked_at):
+    return {"timeout_executable_path":expected.get("path"),
+            "timeout_executable_resolved_path":expected.get("resolved_path"),
+            "timeout_executable_sha256":expected.get("sha256"),
+            "timeout_executable_recheck_path":observed.get("path"),
+            "timeout_executable_recheck_resolved_path":observed.get("resolved_path"),
+            "timeout_executable_recheck_sha256":observed.get("sha256"),
+            "timeout_executable_identity_verified":verified,
+            "timeout_executable_rechecked_at_utc":checked_at}
 def save(path,obj):
     with Path(path).open("x",encoding="utf-8") as f:
         json.dump(obj,f,ensure_ascii=False,sort_keys=True,indent=2); f.write("\n"); f.flush(); os.fsync(f.fileno())
@@ -442,6 +472,7 @@ def snapshot():
             "loadavg":Path("/proc/loadavg").read_text().strip(),"systemd_service_states":services,
             "jupyter_active":j["active_state"],"jupyter_returncode":j["returncode"],
             "packagekit_transaction_state":packagekit,
+            "timeout_executable":timeout_executable_identity(),
             "selected_processes":procs,"process_count":len(rows),
             "cpu_frequency_khz":{p.name:int((p/"cpufreq/scaling_cur_freq").read_text()) for p in sorted(Path("/sys/devices/system/cpu").glob("cpu[0-9]*")) if (p/"cpufreq/scaling_cur_freq").is_file()},
             "thermal_c":{z.name:round(int((z/"temp").read_text())/1000,3) for z in sorted(Path("/sys/class/thermal").glob("thermal_zone*")) if (z/"temp").is_file()}}
@@ -457,6 +488,16 @@ def gate(s, pre, before=None):
     except (AttributeError,KeyError,IndexError,TypeError,ValueError): load=float("nan")
     if not math.isfinite(load) or load<0: reasons.append("LOAD_STATE_UNKNOWN")
     elif load>CONFIG["max_load1"]: reasons.append("LOAD")
+    timeout_identity=s.get("timeout_executable")
+    if (not isinstance(timeout_identity,dict) or
+            timeout_identity != CONFIG.get("timeout_executable") or
+            timeout_identity.get("path") != TIMEOUT_EXECUTABLE_PATH or
+            timeout_identity.get("usable") is not True or
+            not isinstance(timeout_identity.get("resolved_path"),str) or
+            not Path(timeout_identity["resolved_path"]).is_absolute() or
+            not isinstance(timeout_identity.get("sha256"),str) or
+            not re.fullmatch(r"[0-9a-f]{64}",timeout_identity["sha256"])):
+        reasons.append("TIMEOUT_EXECUTABLE_MISMATCH")
     forbidden_names={"apt","apt-get","dpkg","dpkg-deb","llama-mtmd-cli","llama-server","vivado","vitis_hls","xbutil","cmake","ninja","cc1","cc1plus","gcc","g++","make","rsync"}
     forbidden=[p for p in s["selected_processes"]
                if (p["comm"] in forbidden_names or
@@ -515,6 +556,10 @@ def main():
     case_id=CONFIG["run_id"]; run_dir=RUNS/case_id
     outcome={"run_id":case_id,"status":"PRECHECK_BLOCKED","captured_at_utc":utc(),"cli_started":False}
     child=None; start_wall=None; start_mono=None
+    timeout_expected=CONFIG.get("timeout_executable",{})
+    timeout_recheck={"path":TIMEOUT_EXECUTABLE_PATH,"resolved_path":None,"sha256":None,"usable":False}
+    timeout_identity_verified=False
+    timeout_rechecked_at=None
     try:
         if run_dir.exists(): raise RuntimeError("board run ID already exists")
         initial=rich_snapshot(); outcome["initial_preflight"] = initial
@@ -566,13 +611,12 @@ def main():
             outcome["preflight_before"]=pre; print(json.dumps(outcome,sort_keys=True)); return 3
         run_dir.mkdir(mode=0o700)
         a=CONFIG["argv"]
-        written=utc()
         command={"schema":"kv260_cpu_p2_textvqa_command_v1","question_id":CONFIG["question_id"],
                  "image_id":CONFIG["image_id"],"runtime_commit":CONFIG["runtime_commit"],
                  "manifest_sha256":CONFIG["manifest_sha256"],"model_sha256":CONFIG["model_sha256"],
                  "mmproj_sha256":CONFIG["mmproj_sha256"],"cli_sha256":CONFIG["cli_sha256"],
                  "image_path":str(image),"image_sha256":CONFIG["image_sha256"],"image_bytes":CONFIG["image_bytes"],
-                 "argv":a,"working_directory":str(BASE),"written_before_launch_at_utc":written}
+                 "argv":a,"working_directory":str(BASE),"written_before_launch_at_utc":None}
         input_record={"schema":"kv260_cpu_p2_textvqa_input_verification_v1","question_id":CONFIG["question_id"],
                       "image_id":CONFIG["image_id"],"image_path":str(image),"image_sha256":CONFIG["image_sha256"],
                       "image_bytes":CONFIG["image_bytes"],"verification_returncode":0,"verified_before_cli":True,
@@ -588,16 +632,30 @@ def main():
                   "ldd_no_missing":True,"ldd_local_library_paths":sorted(set(ldd_local))}
         save(run_dir/"input_verification.json",input_record); save(run_dir/"artifact_verification.json",artifact)
         save(run_dir/"preflight_before.json",pre)
-        start_wall=utc(); start_mono=time.monotonic(); rc=None
+        rc=None
         env=os.environ.copy()
         marker_was_present_before_removal="MTMD_TEST_RESPONSE_MARKER" in env
         env.pop("MTMD_TEST_RESPONSE_MARKER",None)
         env["LC_ALL"]="C"
+        if not isinstance(a,list) or not a or a[0]!=TIMEOUT_EXECUTABLE_PATH:
+            raise RuntimeError("CLI wrapper argv does not use the fixed timeout executable path")
+        timeout_recheck=timeout_executable_identity()
+        timeout_identity_verified=(timeout_recheck.get("usable") is True and
+                                   timeout_recheck==timeout_expected)
+        if not timeout_identity_verified:
+            raise RuntimeError("timeout executable identity changed before CLI launch")
+        timeout_rechecked_at=utc()
+        command["timeout_executable"]=timeout_expected
+        command["timeout_executable_recheck"]=timeout_recheck
+        command["timeout_executable_identity_verified"]=True
+        command["timeout_executable_rechecked_at_utc"]=timeout_rechecked_at
+        command["written_before_launch_at_utc"]=utc()
         command["environment"]={"marker_name":"MTMD_TEST_RESPONSE_MARKER",
                                 "marker_present_before_removal":marker_was_present_before_removal,
                                 "marker_present_in_cli_environment":False,
                                 "marker_removed_before_launch":True}
         save(run_dir/"command.json",command)
+        start_wall=utc(); start_mono=time.monotonic()
         with (run_dir/"stdout.log").open("xb") as out,(run_dir/"stderr.log").open("xb") as err:
             child=subprocess.Popen(a,cwd=BASE,env=env,stdout=out,stderr=err,start_new_session=True)
             globals()["ACTIVE"]=child
@@ -625,6 +683,7 @@ def main():
                "stderr_log_sha256":sha_file(run_dir/"stderr.log"),"preflight_before_json_sha256":sha_file(run_dir/"preflight_before.json"),
                "preflight_after_json_sha256":sha_file(run_dir/"preflight_after.json"),"image_post_verification_json_sha256":sha_file(run_dir/"image_post_verification.json"),
                "spawn_pid":child.pid,"spawn_argv_sha256":argv_sha(a),"stdout_stderr_same_child_capture":True,
+               **timeout_provenance_fields(timeout_expected,timeout_recheck,timeout_identity_verified,timeout_rechecked_at),
                "marker_was_present_before_removal":marker_was_present_before_removal,
                "runner_sha256":CONFIG["runner_sha256"],"remote_run_dir":str(run_dir),
                "remote_process_cleanup_verified":cleanup_verified}
@@ -655,7 +714,8 @@ def main():
                 try:
                     save(run_dir/"result.json",{"schema":"kv260_cpu_p2_textvqa_execution_v1",
                          "question_id":CONFIG["question_id"],"cli_started":False,
-                         "non_start_reason":"PREFLIGHT_BLOCKED","non_start_at_utc":utc(),"prior_run_id":None})
+                         "non_start_reason":"PREFLIGHT_BLOCKED","non_start_at_utc":utc(),"prior_run_id":None,
+                         **timeout_provenance_fields(timeout_expected,timeout_recheck,timeout_identity_verified,timeout_rechecked_at)})
                 except OSError: pass
             outcome.update({"status":"PRECHECK_BLOCKED","cli_started":False})
             print(json.dumps(outcome,sort_keys=True)); return 3
@@ -719,6 +779,7 @@ def main():
                          "image_post_verification_json_sha256":optional_sha("image_post_verification.json"),
                          "stdout_log_sha256":optional_sha("stdout.log"),"stderr_log_sha256":optional_sha("stderr.log"),
                          "spawn_pid":child.pid,"spawn_argv_sha256":argv_sha(CONFIG["argv"]),
+                         **timeout_provenance_fields(timeout_expected,timeout_recheck,timeout_identity_verified,timeout_rechecked_at),
                          "stdout_stderr_same_child_capture":True,"runner_sha256":CONFIG["runner_sha256"],
                          "remote_run_dir":str(run_dir),"remote_process_cleanup_verified":True}
                 write_result(run_dir,partial)
@@ -828,7 +889,13 @@ def make_nonstart(qid: int, reason: str, prior_run_id: str | None) -> None:
     state = {"schema": "kv260_cpu_p2_textvqa_execution_v1", "question_id": qid,
              "cli_started": False, "non_start_reason": reason,
              "non_start_at_utc": datetime.now(timezone.utc).isoformat(),
-             "prior_run_id": prior_run_id}
+             "prior_run_id": prior_run_id,
+             "timeout_executable_path": None, "timeout_executable_resolved_path": None,
+             "timeout_executable_sha256": None, "timeout_executable_recheck_path": None,
+             "timeout_executable_recheck_resolved_path": None,
+             "timeout_executable_recheck_sha256": None,
+             "timeout_executable_identity_verified": False,
+             "timeout_executable_rechecked_at_utc": None}
     write_json(directory / "result.json", state)
 
 
@@ -839,7 +906,13 @@ def record_nonstart_in_existing(directory: Path, qid: int, reason: str,
     state = {"schema": "kv260_cpu_p2_textvqa_execution_v1", "question_id": qid,
              "cli_started": False, "non_start_reason": reason,
              "non_start_at_utc": datetime.now(timezone.utc).isoformat(),
-             "prior_run_id": prior_run_id}
+             "prior_run_id": prior_run_id,
+             "timeout_executable_path": None, "timeout_executable_resolved_path": None,
+             "timeout_executable_sha256": None, "timeout_executable_recheck_path": None,
+             "timeout_executable_recheck_resolved_path": None,
+             "timeout_executable_recheck_sha256": None,
+             "timeout_executable_identity_verified": False,
+             "timeout_executable_rechecked_at_utc": None}
     write_json(directory / "result.json", state)
 
 
@@ -847,7 +920,7 @@ def expected_argv(qid: int, sample: dict[str, Any], run_dir: str) -> list[str]:
     image_path = f"{BOARD_BASE}/input/textvqa-dev50/{sample['image_id']}.jpg"
     prompt = ("Answer the following question based only on the image. Give a short, direct answer.\nQuestion: "
               + sample["question"] + "\nAnswer:")
-    return ["timeout", "--verbose", "--signal=TERM", "--kill-after=10s", "300s",
+    return [TIMEOUT_EXECUTABLE_PATH, "--verbose", "--signal=TERM", "--kill-after=10s", "300s",
             "/usr/bin/time", "-v", "-o", f"{run_dir}/resource.txt",
             f"{BOARD_BASE}/build-cpu/bin/llama-mtmd-cli", "-m",
             f"{BOARD_BASE}/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf", "--mmproj",
@@ -981,7 +1054,8 @@ def main() -> int:
                "host_started_at_utc":datetime.now(timezone.utc).isoformat(),"status":"PRECHECK_IN_PROGRESS"}
     raw_dir.mkdir(mode=0o775)
     write_record(raw_dir, "start", outcome)
-    (raw_dir / "remote_worker.py").write_text("CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER,encoding="utf-8")
+    worker_path=raw_dir / "remote_worker.py"
+    worker_path.write_text("CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER,encoding="utf-8")
 
     def abort_before_cli(reason: str, phase: str, detail: str) -> int:
         outcome.update({"status":phase.upper(),"board_inference_attempted":False,
@@ -1039,6 +1113,12 @@ def main() -> int:
         for later in ORDER[index+1:]: make_nonstart(later,"PREFLIGHT_BLOCKED",None)
         print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
 
+    timeout_identity=snapshot["timeout_executable"]
+    cfg["timeout_executable"]=timeout_identity
+    outcome["timeout_executable"]=timeout_identity
+    worker="CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER
+    worker_path.write_text(worker,encoding="utf-8")
+
     # Copy only the three frozen original JPEGs; never send annotations or labels.
     remote_input=f"{BOARD_BASE}/input/textvqa-dev50/"
     mkdir_source=f"from pathlib import Path; Path({(BOARD_BASE+'/input/textvqa-dev50')!r}).mkdir(parents=True,exist_ok=True); print('INPUT_DIR_READY')"
@@ -1066,9 +1146,7 @@ def main() -> int:
         return abort_before_cli("INPUT_UNAVAILABLE","image_transfer_failed",
                                 f"board image staging exited {transfer.returncode}")
 
-    worker="CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER
-    worker_path=raw_dir/"remote_worker.py"
-    remote_cmd=f"timeout --verbose --signal=TERM --kill-after=15s {REMOTE_WATCHDOG_SECONDS}s python3 -"
+    remote_cmd=f"{TIMEOUT_EXECUTABLE_PATH} --verbose --signal=TERM --kill-after=15s {REMOTE_WATCHDOG_SECONDS}s python3 -"
     remote_argv=["ssh","-T","-o","BatchMode=yes","-o","ConnectTimeout=10","-o","ServerAliveInterval=15",
                  "-o","ServerAliveCountMax=3","kria",remote_cmd]
     started=datetime.now(timezone.utc).isoformat()
@@ -1077,6 +1155,7 @@ def main() -> int:
                               timeout=HOST_WAIT_SECONDS,check=False)
         transport={"argv":remote_argv,"started_at_utc":started,"ended_at_utc":datetime.now(timezone.utc).isoformat(),
                    "returncode":result.returncode,"timed_out":False,
+                   "timeout_executable":timeout_identity,
                    "worker_sha256":sha256_file(worker_path),"stdout_sha256":hashlib.sha256(result.stdout).hexdigest(),
                    "stderr_sha256":hashlib.sha256(result.stderr).hexdigest()}
     except subprocess.TimeoutExpired as exc:
@@ -1086,6 +1165,7 @@ def main() -> int:
         outcome.update(persist_transport_failure(raw_dir,"worker",exc))
         transport={"argv":remote_argv,"started_at_utc":started,"ended_at_utc":datetime.now(timezone.utc).isoformat(),
                    "returncode":None,"timed_out":True,"worker_sha256":sha256_file(worker_path),
+                   "timeout_executable":timeout_identity,
                    "stdout_sha256":hashlib.sha256(timeout_stdout).hexdigest(),
                    "stderr_sha256":hashlib.sha256(timeout_stderr).hexdigest(),
                    "partial_output_preserved":True}
