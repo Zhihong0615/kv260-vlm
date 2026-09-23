@@ -1,6 +1,11 @@
 import unittest
+from datetime import datetime, timedelta, timezone
 
-from scripts.parse_board_textvqa_pilot import classify_resource_snapshot_evidence
+from scripts.parse_board_textvqa_pilot import (
+    classify_resource_snapshot_evidence,
+    resource_gates_verified_for_cli_interval,
+    snapshot_timestamps_bracket_cli_interval,
+)
 
 
 TIMEOUT_IDENTITY = {
@@ -61,6 +66,11 @@ def classify(pre=None, post=None):
     )
 
 
+def interval_minutes(pre, started, ended, post):
+    origin = datetime(2026, 9, 24, tzinfo=timezone.utc)
+    return tuple(origin + timedelta(minutes=value) for value in (pre, started, ended, post))
+
+
 class ResourceSnapshotContractTests(unittest.TestCase):
     def test_both_runner_snapshots_pass(self):
         result = classify()
@@ -69,6 +79,33 @@ class ResourceSnapshotContractTests(unittest.TestCase):
         self.assertTrue(result["resource_gates_verified"])
         self.assertFalse(result["in_run_resource_monitoring_performed"])
         self.assertIn("point_in_time", result["resource_evidence_scope"])
+
+    def test_valid_full_cli_interval_ordering_preserves_passing_resource_gates(self):
+        evidence = classify()
+        stamps = interval_minutes(0, 1, 2, 3)
+        self.assertTrue(evidence["resource_gates_verified"])
+        self.assertTrue(snapshot_timestamps_bracket_cli_interval(*stamps))
+        self.assertTrue(resource_gates_verified_for_cli_interval(evidence, *stamps))
+
+    def test_reversed_cli_interval_disables_passing_resource_gates(self):
+        evidence = classify()
+        stamps = interval_minutes(0, 2, 1, 3)
+        self.assertTrue(evidence["resource_gates_verified"])
+        self.assertFalse(snapshot_timestamps_bracket_cli_interval(*stamps))
+        self.assertFalse(resource_gates_verified_for_cli_interval(evidence, *stamps))
+
+    def test_post_snapshot_before_cli_start_disables_passing_resource_gates(self):
+        evidence = classify()
+        pre_stamp, started_at, ended_at, post_stamp = interval_minutes(0, 3, 1, 2)
+        self.assertTrue(evidence["resource_gates_verified"])
+        self.assertGreater(post_stamp, ended_at)
+        self.assertLess(post_stamp, started_at)
+        self.assertFalse(snapshot_timestamps_bracket_cli_interval(
+            pre_stamp, started_at, ended_at, post_stamp
+        ))
+        self.assertFalse(resource_gates_verified_for_cli_interval(
+            evidence, pre_stamp, started_at, ended_at, post_stamp
+        ))
 
     def test_prelaunch_gate_reasons_fail_combined_gate(self):
         result = classify(pre=runner_snapshot(["LOAD"]))

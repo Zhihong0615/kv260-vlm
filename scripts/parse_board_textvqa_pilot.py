@@ -173,6 +173,20 @@ def utc_timestamp(value: Any) -> datetime:
     return timestamp
 
 
+def snapshot_timestamps_bracket_cli_interval(pre_stamp: datetime, started_at: datetime,
+                                             ended_at: datetime, post_stamp: datetime) -> bool:
+    """Require point-in-time snapshots to enclose a forward-ordered CLI interval."""
+    return pre_stamp <= started_at <= ended_at <= post_stamp
+
+
+def resource_gates_verified_for_cli_interval(resource_evidence: Any, pre_stamp: datetime,
+                                             started_at: datetime, ended_at: datetime,
+                                             post_stamp: datetime) -> bool:
+    return (isinstance(resource_evidence, dict) and
+            resource_evidence.get("resource_gates_verified") is True and
+            snapshot_timestamps_bracket_cli_interval(pre_stamp, started_at, ended_at, post_stamp))
+
+
 def classify_resource_snapshot_evidence(prelaunch: Any, post_run: Any, mode: str,
                                         expected_timeout_identity: Any = None) -> dict[str, Any]:
     """Validate both runner snapshots and reject empty-but-contradictory gates."""
@@ -931,8 +945,9 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                     "timeout executable path/hash differs from read-only preflight identity")
             pre_stamp = utc_timestamp(pre_before.get("captured_at_utc"))
             post_stamp = utc_timestamp(pre_after.get("captured_at_utc"))
-            fail_if(pre_stamp > started_at or post_stamp < ended_at,
-                    "board resource snapshot timestamp is outside the CLI interval")
+            fail_if(not snapshot_timestamps_bracket_cli_interval(
+                        pre_stamp, started_at, ended_at, post_stamp),
+                    "board snapshots do not bracket a forward-ordered CLI interval")
             memory = pre_before.get("memory_kib", {})
             fail_if(memory.get("MemAvailable", 0) < MIN_MEM_AVAILABLE_KIB or
                     memory.get("CmaFree", 0) < MIN_CMA_FREE_KIB or
@@ -984,7 +999,9 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
             fail_if(not runner_path.is_file() or state.get("runner_sha256") != sha256(runner_path),
                     "reviewed TextVQA runner identity missing or changed")
             result["execution_provenance_scope"] = "board_runner_records_and_prelaunch_hashes"
-            result["resource_gates_verified"] = bool(resource_evidence["resource_gates_verified"])
+            result["resource_gates_verified"] = resource_gates_verified_for_cli_interval(
+                resource_evidence, pre_stamp, started_at, ended_at, post_stamp
+            )
         else:
             for key, digest in (("cli", HOST_CLI_SHA256),
                                 ("model", MODEL_SHA256), ("mmproj", MMPROJ_SHA256)):
