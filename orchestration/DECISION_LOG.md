@@ -114,3 +114,10 @@
 - **Builder result:** All 21,936 vision-node records have the fields needed to construct a full static key; 267 distinct full keys occur across 24 groups. There are five group-set equivalence classes. The coarse `MUL_MAT` M/N/K key has 44 entries and no full-key merges; op plus output shape has 233 entries and 30 merges. The JSON/Markdown clarify signature-field completeness and pairwise recurrence counts.
 - **Review:** Activated R03 in a separate worktree to verify the eight source hashes, exact parent, unique-key/group counts, request intersections, coarse-key collisions, and interpretation limits independently. No inference, tests, board work or publication.
 - **Decision boundary:** B04 recommends rejecting media-group ordinal as additional operator-signature information for these four traces. This does not test stateful allocation, resource admission, backend choice, submission/wait cost, or K26 performance. Keep B04 unintegrated pending R03 and P3 at `NO_GO_NOW`.
+
+## 2026-09-24 — Integrate B04 and R03; queue runner gate remediation
+
+- **Integration:** Merged `agent/R03-B04-review` at commit `af1e3893d2eb4cd1a7675501cff273ac2a9aa6ed`; coordinator merge `ccba27d62d4a8a845080d592fd140f28afc177a7` includes B04 target `966fbf5372a0e1f47f11da999a9298625233870a` and the independent review.
+- **Review result:** R03 PASS, P0=0/P1=0/P2=0. All eight frozen source hashes and four B04 artifact hashes pass. Independent recomputation matches the node/key/group counts, all request intersections, and coarse-key collisions.
+- **Research decision:** Reject the narrow hypothesis that a media-group ordinal adds operator-signature information beyond the full static key for these four selected traces. Retain the full per-op key as the static null. Do not generalize this to stateful resource pressure, backend eligibility, cost, or K26 performance; none was observed.
+- **Next task:** Queue E02 to patch four source-level runner findings from E01 in an isolated worktree. No tests, board activity, or primary-checkout writes are included. P3 remains `NO_GO_NOW`.
