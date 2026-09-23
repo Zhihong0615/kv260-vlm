@@ -66,7 +66,7 @@ EXECUTION_KEYS = {
     "timeout_executable_path", "timeout_executable_resolved_path", "timeout_executable_sha256",
     "timeout_executable_recheck_path", "timeout_executable_recheck_resolved_path",
     "timeout_executable_recheck_sha256", "timeout_executable_identity_verified",
-    "timeout_executable_rechecked_at_utc",
+    "timeout_executable_rechecked_at_utc", "marker_was_present_before_removal",
 }
 ARTIFACT_KEYS = {
     "schema", "question_id", "runtime_commit", "verification_returncode", "verified_before_cli",
@@ -76,7 +76,8 @@ ARTIFACT_KEYS = {
     "elf_file_summary", "elf_readelf_machine", "ldd_no_missing", "ldd_local_library_paths",
 }
 ENVIRONMENT_KEYS = {
-    "MTMD_TEST_RESPONSE_MARKER", "marker_removed_before_launch", "marker_was_present_before_removal",
+    "marker_name", "marker_present_before_removal", "marker_present_in_cli_environment",
+    "marker_removed_before_launch",
 }
 SAFE_NON_LABEL_METADATA_KEYS = {"answerparseok"}
 HOST_COPY_RECEIPT_NAME = "host_copy_verification.json"
@@ -701,12 +702,16 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
         result["command_input_binding_verified"] = True
         result["resource_gates_verified"] = True
         environment = command.get("environment", {})
-        fail_if(not isinstance(environment, dict), "environment record must be object")
+        fail_if(not isinstance(environment, dict) or set(environment) != ENVIRONMENT_KEYS,
+                "environment record fields must exactly match the runner marker contract")
         exact_keys(environment, ENVIRONMENT_KEYS, "environment")
-        fail_if(environment.get("MTMD_TEST_RESPONSE_MARKER") != "UNSET" or
+        fail_if(environment.get("marker_name") != "MTMD_TEST_RESPONSE_MARKER" or
+                not isinstance(environment.get("marker_present_before_removal"), bool) or
+                environment.get("marker_present_in_cli_environment") is not False or
                 environment.get("marker_removed_before_launch") is not True or
-                not isinstance(environment.get("marker_was_present_before_removal"), bool),
-                "MTMD_TEST_RESPONSE_MARKER absence not recorded at launch")
+                not isinstance(state.get("marker_was_present_before_removal"), bool) or
+                state.get("marker_was_present_before_removal") != environment.get("marker_present_before_removal"),
+                "marker environment or execution-result provenance is missing or inconsistent")
         result["marker_absence_verified"] = True
     except (OSError, ValueError, KeyError, TypeError) as exc:
         errors.append(f"COMMAND_OR_INPUT_CONTRACT: {exc}")
