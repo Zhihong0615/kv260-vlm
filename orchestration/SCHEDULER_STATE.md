@@ -4,7 +4,7 @@ Updated: 2026-09-24
 Coordinator branch: `orchestration/dispatch-20260924`  
 Coordinator worktree: `/home/zhiro/research/kv260-vlm-orchestration`  
 Worker baseline: `094edc130489dc59dd9333e4ae6b0aa4c8013149` on local `master`  
-Git remote: `origin` → `https://github.com/Zhihong0615/kv260-vlm.git` (HTTPS; authentication/access not verified)
+Git remote: `origin` → `https://github.com/Zhihong0615/kv260-vlm.git` (HTTPS; authenticated via GitHub CLI and system Keyring; private repository has no default branch/refs yet)
 
 ## Stage and decision
 
@@ -30,6 +30,7 @@ This remains an active end-to-end research project. The present dispatch is limi
 - ReCoVLM directly covers heterogeneous VLM phase assignment, visual-token normalization to fixed shapes, KV transfer reduction, static KV residency, CPU LM-head work, and MoE bank-group placement. Its Orin/VU9P results do not establish KV260 feasibility.
 - Current checked-in project HEAD is `094edc130489dc59dd9333e4ae6b0aa4c8013149`. The primary checkout `/home/zhiro/research/kv260-vlm` is on `master` with extensive uncommitted and untracked research artifacts; `experiments/` is about 1.3 GB and includes large traces/source archives. Do not make a broad commit or copy all raw data into worker branches.
 - Worker input documents are read-only at `/home/zhiro/research/kv260-vlm`; their per-task SHA-256 manifests are in `orchestration/source_snapshots/` on this coordinator branch. Worker code and outputs belong in their isolated worktrees.
+- A01/B01/C01/D01 completed from the exact clean baseline with all frozen input hashes passing; their handoffs are integrated on this coordinator branch. Their results preserve the distinction between host/analytical evidence and missing K26 measurements.
 
 ## Current research question
 
@@ -52,18 +53,18 @@ Any candidate may be rejected. The current global novelty verdict remains unchan
 - No frozen numeric tolerance / held-out quality contract for a PL path.
 - No verified UART recovery route; no USB-UART was connected in the last recorded check.
 - No new research-bitstream image, hash, load procedure, rollback proof, or user approval for first load.
-- `origin` is configured with the user-provided HTTPS URL. Unauthenticated access failed because Git could not obtain a username; repository reachability and permissions remain unverified. No push, issue, PR, or publication has been attempted. Do not place account passwords or tokens in Git URLs, task files, or chat.
+- `origin` is authenticated and readable; GitHub reports the private repository has no default branch and `git ls-remote --heads origin` returns no refs. No branch, issue, PR, or project data has been pushed. Any remote publication remains a separate explicit action. No credential is in the URL or project files.
 
 ## Active work
 
-- A01 Prior-Art / Novelty: delegated worker running in its isolated worktree; branch/HEAD/source hashes passed preflight.
-- B01 Workload Profile: delegated worker running; initial preflight confirmation pending.
-- C01 Architecture Candidates: delegated worker running; initial preflight confirmation pending.
-- D01 Board Readiness / Recovery: brief and isolated worktree prepared; queued until a worker slot opens.
-- R01 Adversarial Reviewer: queued; do not start until A/B/C handoffs and their exact commits are frozen.
+- A01 Prior-Art / Novelty: delivered and integrated. Final worker HEAD `ca2e2101027eb3596b6747c6a5e91bcc80df6f00`; coordinator merge `ac888a540a22be96bafe9976471dc6c41838d5ce`. Verdict: no method claim survives current evidence/prior-art comparison.
+- B01 Workload Profile: delivered and integrated. Final worker HEAD `16bd6abf60a92bacca74d6f28124fb085b865153`; coordinator merge `e43406f62ff4fc9226b1bf5c07fea485b43842b7`. Host traces prioritize vision/projector then image-prefill but do not select hardware dimensions.
+- C01 Architecture Candidates: delivered and integrated. Final worker HEAD `d0c52e94830ca17b5629e2f1f703840ab84e09ac`; coordinator merge `12b32d191000bbf1acfd71cbe7ed4c7c292796dd`. Verdict: none is strong enough; no measured K26 failure interval or advantage over static controls.
+- D01 Board Readiness / Recovery: delivered and integrated. Final worker HEAD `ead34c7873dc0582e8ba4aa6c0b95b043edd7c91`; coordinator merge `e2c6d11b6e60739a3a804cd6643853e088dbde9c`. Runbook is fail-closed; physical recovery and image-specific rollback remain unverified.
+- R01 Adversarial Reviewer: ready to activate against a frozen coordinator commit containing A/B/C handoffs and unchanged global `status/go_no_go.md`.
 
 No user-visible Codex task window has been created. A01/B01/C01 are running through delegated worker agents in their isolated worktrees; do not start duplicate writers in those branches.
 
 ## Next decision
 
-After A/B/C deliver committed handoffs, compare each candidate against its closest prior art and strongest static control. Keep P3 at NO_GO_NOW unless an independent Reviewer finds no FAIL, the evidence supports a concrete falsifiable mechanism, numeric and board-safety contracts close, and the user explicitly approves the first research-bitstream load. D's runbook work does not itself satisfy those gates.
+Freeze the integrated A/B/C handoffs and activate R01 on the exact commit. Keep P3 at NO_GO_NOW unless the independent Reviewer finds no FAIL, evidence supports a concrete falsifiable mechanism, numeric and board-safety contracts close, and the user explicitly approves the first research-bitstream load. D's runbook is readiness documentation; it does not itself satisfy any board gate.

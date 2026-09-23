@@ -17,3 +17,11 @@
 - **Verification:** `git remote -v` reports the same fetch and push URL. No credential is embedded in the URL. An unauthenticated fetch could not read a username, so repository reachability and account access remain unverified; no push, issue, PR, or publication was attempted.
 - **Credential handling:** Do not collect or store the account password in chat or project files. If authentication is needed, use a local secure credential prompt/manager or a GitHub token entered through that secure mechanism.
 - **Coordination:** Existing task briefs remain frozen. Workers must not push or create GitHub artifacts; the Scheduler controls any later remote operation.
+
+## 2026-09-24 — Authenticate remote locally and integrate A/B/C/D handoffs
+
+- **Authentication:** GitHub CLI device authorization completed for `Zhihong0615`; `gh auth status` reports the token in the system Keyring. A repository-local Git credential helper calls GitHub CLI; no account credential is stored in the remote URL or project files. `gh repo view` verifies `Zhihong0615/kv260-vlm` exists and is private. The repository has no default branch name, and `git ls-remote --heads origin` returned no refs, so the remote is currently empty. No push, issue, or PR was created.
+- **Worker verification:** A01/B01/C01/D01 branches were clean at their final SHAs; their respective frozen source hash manifests passed. No primary-checkout artifacts were staged or modified by integration.
+- **Integration:** Merged A01 at `ca2e2101027eb3596b6747c6a5e91bcc80df6f00` (`ac888a540a22be96bafe9976471dc6c41838d5ce`), B01 at `16bd6abf60a92bacca74d6f28124fb085b865153` (`e43406f62ff4fc9226b1bf5c07fea485b43842b7`), C01 at `d0c52e94830ca17b5629e2f1f703840ab84e09ac` (`12b32d191000bbf1acfd71cbe7ed4c7c292796dd`), and D01 at `ead34c7873dc0582e8ba4aa6c0b95b043edd7c91` (`e2c6d11b6e60739a3a804cd6643853e088dbde9c`).
+- **Research decision:** A01 and C01 independently conclude that no current candidate survives as a method claim. B01 only prioritizes future workload measurements; D01 records that first-bitstream recovery remains blocked. Global status and P3 were not changed.
+- **Next step:** Freeze the integrated A/B/C handoffs and activate R01 on that exact tree. Keep all board state-changing work and first-bitstream load blocked.
