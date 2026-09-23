@@ -98,3 +98,12 @@
 - **Evidence result:** Four trace hashes, decompressed hashes, request/image identities, 914 vision nodes per group, and B03 claim limits passed review. Qid 35419's full op/dtype/dimension/stride signatures distinguish the orientation groups even though its `MUL_MAT`-only signature set is shared.
 - **Research interpretation:** B03 confirms observed host graph-shape variation and strengthens the static shape/stride null. It establishes no K26 placement, timing, resource, transfer, or method advantage. R01's global novelty **FAIL** and P3 `NO_GO_NOW` remain unchanged.
 - **Next step:** Activate the queued B04 static-key coverage analysis from its frozen manifest, using only the B03 traces. No inference or board activity follows from this review.
+
+## 2026-09-24 — Activate B04 static per-op key coverage
+
+- **Decision:** Start a bounded offline analysis of the four reviewed B03 traces to quantify the strongest static full-key control and test whether media-group identity adds any observed operator-shape information.
+- **Review gate:** R02 PASS on exact B03 commit `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`; corrected review `8aa54cbb28bde5a28f33a343b7db071f6afe474a`, integrated at `3e57050f4992ce20b452e43bd4c9bee33cf26436`.
+- **Frozen worker:** branch `agent/B04-static-key-coverage`, worktree `/home/zhiro/research/kv260-vlm-workers/B04-static-key-coverage`, exact base `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`.
+- **Frozen instructions/inputs:** B04 brief and eight-entry manifest at coordinator commit `4d640226786c875a5713a7d16399c49ac7aa2f35`; task brief SHA-256 `c751ab00c8ba3ff698785426b73d9e8d4db816ad87e2652836c2cdd2385c8201`; manifest SHA-256 `a7c610bc01361a20510c2c84d9f45ea6312f0bb521caeabdc1403c9d654e2ef6`. All eight B03 artifact hashes passed against the source commit.
+- **Scope:** Only parse the existing compressed metadata traces and B03 summaries. No new inference, answers/annotations, tests, board action, source/runtime edit, or GitHub publication. The analysis cannot establish K26 placement or performance.
+- **Next step:** Produce a compact reproducible report and handoff; keep P3 at `NO_GO_NOW`.
