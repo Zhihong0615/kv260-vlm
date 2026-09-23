@@ -41,3 +41,11 @@
 - **Evidence:** R01 reviewed only frozen target `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b`; its source manifests passed and worker commit `ea1bfff920c1dc6571c0258935ad6697ea6a2225` has that exact target as parent. Result: **FAIL**. H1–H3 lack a measured K26 failure interval and advantage over strongest static controls; H4/H5 are screened out. Proposed numerical thresholds also conflict across A01/C01 and are not preregistered.
 - **Integration:** Added the exact-SHA review and compact handoff to the coordinator branch in merge `7657525a147ce08ac2a3ac6b75a919b4fa6ebb8a`. The frozen source `status/go_no_go.md` was not edited; the review is recorded here and in `SCHEDULER_STATE.md`.
 - **Next step:** E01 is independently reviewing the current P2 parser/runner/preflight hashes. Continue the safe P1/P2 work; no RTL, research bitstream, or board inference follows from this review.
+
+## 2026-09-24 — Activate B02 selected host workload audit
+
+- **Decision:** Continue P2 by checking whether existing real VLM request logs support the proposed workload/selector questions before collecting new traces.
+- **Frozen evidence:** `548d6229d9fbff67db5103933d9c837259d6b4f4` contains four selected development qids, their command/log/resource records, the hashed dev50 workload inventory, and prior shape/dispatch-time audits. All 20 source artifacts passed the frozen manifest check.
+- **Scope:** Offline reconciliation only. B02 will not run inference or scripts, inspect answer labels, access the board, edit source evidence, or change status/novelty conclusions.
+- **Rationale:** The audit can establish whether existing logs expose request identity, ordered visual groups and op-shape coverage, and where the evidence still stops. It cannot establish a K26 failure interval or PL benefit.
+- **Next step:** Integrate its report only after exact-source and clean-branch validation. Continue to hold P3 at `NO_GO_NOW`.
