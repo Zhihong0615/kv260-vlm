@@ -1,0 +1,1096 @@
+{
+  "evidence_level": "DERIVED_HOST_CPU_MEDIA_BATCH_TO_GRAPH_SHAPE_SUMMARY",
+  "source_run_sha256": "17101b734bbefb125015fac1d5cfb59798feac289b22269247eaceed06b66209",
+  "source_trace_sha256_compressed": {
+    "34609": "32cb519e717268dd6de4165fd584b084e1259d00811f9ab553fb40d2309377d9",
+    "35005": "9396e8a90238e4ba1288cf90705ab14e7ced7a609c5c2708f5c0a733d59fbec6",
+    "35419": "5e369bf5cfb529e06db69b1c0e54b9638d28ee0b77df37a88f061a04c4a20035",
+    "35950": "3ed0f0352ce0ae0b9ca1fe247e6e5fab44e8b3aab8f9fc0f08085fa5a8082026"
+  },
+  "request_count": 4,
+  "all_token_batch_counts_match_media_batch_counts": true,
+  "requests": [
+    {
+      "question_id": 34609,
+      "image_id": "181f00d3ee2b2076",
+      "image_size": [
+        1024,
+        729
+      ],
+      "image_sha256": "26401f0395f38a5c780f9d05d0eeba956876ba762159585e8ece52eafb8d1bfd",
+      "n_tokens_batch_from_B02": [
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "encoded_media_batch_count": 5,
+      "token_batch_count_matches_media_batch_count": true,
+      "ordered_media_batches": [
+        {
+          "group": 0,
+          "chunk_index": 1,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2016,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                504,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                42336,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                36,
+                28,
+                1
+              ],
+              "input_width": 504,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 1,
+          "chunk_index": 3,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2016,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                504,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                42336,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                36,
+                28,
+                1
+              ],
+              "input_width": 504,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 2,
+          "chunk_index": 5,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2016,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                504,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                42336,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                36,
+                28,
+                1
+              ],
+              "input_width": 504,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 3,
+          "chunk_index": 7,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2016,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                504,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                42336,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                36,
+                28,
+                1
+              ],
+              "input_width": 504,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 4,
+          "chunk_index": 9,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2016,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                504,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                42336,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                36,
+                28,
+                1
+              ],
+              "input_width": 504,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        }
+      ],
+      "unique_request_vision_im2col_shape_count": 1,
+      "unique_request_vision_mul_mat_shape_count": 11
+    },
+    {
+      "question_id": 35005,
+      "image_id": "97c8c2c2c6f572f1",
+      "image_size": [
+        1024,
+        1024
+      ],
+      "image_sha256": "2512aeae080117e96813702fc68733be80a4051fc1e871d926306c37a91abdb6",
+      "n_tokens_batch_from_B02": [
+        64,
+        70,
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "encoded_media_batch_count": 7,
+      "token_batch_count_matches_media_batch_count": true,
+      "ordered_media_batches": [
+        {
+          "group": 0,
+          "chunk_index": 1,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                1792,
+                802816,
+                2408448
+              ],
+              "input_raw_ne": [
+                448,
+                448,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                37632,
+                1204224
+              ],
+              "output_ne": [
+                588,
+                32,
+                32,
+                1
+              ],
+              "input_width": 448,
+              "input_height": 448
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "f16ba3c8e2f51d01b1620bf71c97e8f2913ae065097ea89a25c0a394b8c167be"
+        },
+        {
+          "group": 1,
+          "chunk_index": 3,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                878080,
+                2634240
+              ],
+              "input_raw_ne": [
+                560,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1317120
+              ],
+              "output_ne": [
+                588,
+                40,
+                28,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "1a02b59a145bdccbc989c77f1ed582984acede582a89a0bd9174657c6bdd91ae"
+        },
+        {
+          "group": 2,
+          "chunk_index": 5,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                878080,
+                2634240
+              ],
+              "input_raw_ne": [
+                560,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1317120
+              ],
+              "output_ne": [
+                588,
+                40,
+                28,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "1a02b59a145bdccbc989c77f1ed582984acede582a89a0bd9174657c6bdd91ae"
+        },
+        {
+          "group": 3,
+          "chunk_index": 7,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                878080,
+                2634240
+              ],
+              "input_raw_ne": [
+                560,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1317120
+              ],
+              "output_ne": [
+                588,
+                40,
+                28,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "1a02b59a145bdccbc989c77f1ed582984acede582a89a0bd9174657c6bdd91ae"
+        },
+        {
+          "group": 4,
+          "chunk_index": 9,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                878080,
+                2634240
+              ],
+              "input_raw_ne": [
+                560,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1317120
+              ],
+              "output_ne": [
+                588,
+                40,
+                28,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "1a02b59a145bdccbc989c77f1ed582984acede582a89a0bd9174657c6bdd91ae"
+        },
+        {
+          "group": 5,
+          "chunk_index": 11,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                878080,
+                2634240
+              ],
+              "input_raw_ne": [
+                560,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1317120
+              ],
+              "output_ne": [
+                588,
+                40,
+                28,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "1a02b59a145bdccbc989c77f1ed582984acede582a89a0bd9174657c6bdd91ae"
+        },
+        {
+          "group": 6,
+          "chunk_index": 13,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                878080,
+                2634240
+              ],
+              "input_raw_ne": [
+                560,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1317120
+              ],
+              "output_ne": [
+                588,
+                40,
+                28,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "1a02b59a145bdccbc989c77f1ed582984acede582a89a0bd9174657c6bdd91ae"
+        }
+      ],
+      "unique_request_vision_im2col_shape_count": 2,
+      "unique_request_vision_mul_mat_shape_count": 22
+    },
+    {
+      "question_id": 35419,
+      "image_id": "004b75d1299e653c",
+      "image_size": [
+        1024,
+        819
+      ],
+      "image_sha256": "f703a5ce6bbf7c1aa1dd11fda26a7a30323913d404d771d51deba387c840c5f6",
+      "n_tokens_batch_from_B02": [
+        63,
+        63,
+        63,
+        63,
+        63,
+        63,
+        63
+      ],
+      "encoded_media_batch_count": 7,
+      "token_batch_count_matches_media_batch_count": true,
+      "ordered_media_batches": [
+        {
+          "group": 0,
+          "chunk_index": 1,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2016,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                504,
+                392,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                42336,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                36,
+                28,
+                1
+              ],
+              "input_width": 504,
+              "input_height": 392
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 1,
+          "chunk_index": 3,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                1568,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                392,
+                504,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                32928,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                28,
+                36,
+                1
+              ],
+              "input_width": 392,
+              "input_height": 504
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 2,
+          "chunk_index": 5,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                1568,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                392,
+                504,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                32928,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                28,
+                36,
+                1
+              ],
+              "input_width": 392,
+              "input_height": 504
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 3,
+          "chunk_index": 7,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                1568,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                392,
+                504,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                32928,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                28,
+                36,
+                1
+              ],
+              "input_width": 392,
+              "input_height": 504
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 4,
+          "chunk_index": 9,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                1568,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                392,
+                504,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                32928,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                28,
+                36,
+                1
+              ],
+              "input_width": 392,
+              "input_height": 504
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 5,
+          "chunk_index": 11,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                1568,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                392,
+                504,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                32928,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                28,
+                36,
+                1
+              ],
+              "input_width": 392,
+              "input_height": 504
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        },
+        {
+          "group": 6,
+          "chunk_index": 13,
+          "chunks_added": 1,
+          "chunks_total": 15,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                1568,
+                790272,
+                2370816
+              ],
+              "input_raw_ne": [
+                392,
+                504,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                32928,
+                1185408
+              ],
+              "output_ne": [
+                588,
+                28,
+                36,
+                1
+              ],
+              "input_width": 392,
+              "input_height": 504
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "4c532b7787aa4930e6163fca0adec6ff07966031b2f15a8f931abd8701f83737"
+        }
+      ],
+      "unique_request_vision_im2col_shape_count": 2,
+      "unique_request_vision_mul_mat_shape_count": 11
+    },
+    {
+      "question_id": 35950,
+      "image_id": "9d85d260f22be0c8",
+      "image_size": [
+        1024,
+        633
+      ],
+      "image_sha256": "225ff76c542d9f49474f60dfeb316e3ca31828b44b3ebaee52dcb3eeec984c30",
+      "n_tokens_batch_from_B02": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "encoded_media_batch_count": 5,
+      "token_batch_count_matches_media_batch_count": true,
+      "ordered_media_batches": [
+        {
+          "group": 0,
+          "chunk_index": 1,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                752640,
+                2257920
+              ],
+              "input_raw_ne": [
+                560,
+                336,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1128960
+              ],
+              "output_ne": [
+                588,
+                40,
+                24,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 336
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "d323b45564b1bfa7df6e49ad9495b9f5d8223aadf6d35cd0f3b15e03e820a6c9"
+        },
+        {
+          "group": 1,
+          "chunk_index": 3,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                752640,
+                2257920
+              ],
+              "input_raw_ne": [
+                560,
+                336,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1128960
+              ],
+              "output_ne": [
+                588,
+                40,
+                24,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 336
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "d323b45564b1bfa7df6e49ad9495b9f5d8223aadf6d35cd0f3b15e03e820a6c9"
+        },
+        {
+          "group": 2,
+          "chunk_index": 5,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                752640,
+                2257920
+              ],
+              "input_raw_ne": [
+                560,
+                336,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1128960
+              ],
+              "output_ne": [
+                588,
+                40,
+                24,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 336
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "d323b45564b1bfa7df6e49ad9495b9f5d8223aadf6d35cd0f3b15e03e820a6c9"
+        },
+        {
+          "group": 3,
+          "chunk_index": 7,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                752640,
+                2257920
+              ],
+              "input_raw_ne": [
+                560,
+                336,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1128960
+              ],
+              "output_ne": [
+                588,
+                40,
+                24,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 336
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "d323b45564b1bfa7df6e49ad9495b9f5d8223aadf6d35cd0f3b15e03e820a6c9"
+        },
+        {
+          "group": 4,
+          "chunk_index": 9,
+          "chunks_added": 1,
+          "chunks_total": 11,
+          "vision_node_count": 914,
+          "unique_im2col_shapes": [
+            {
+              "input_raw_dtype": "f32",
+              "input_raw_nb": [
+                4,
+                2240,
+                752640,
+                2257920
+              ],
+              "input_raw_ne": [
+                560,
+                336,
+                3,
+                1
+              ],
+              "output_dtype": "f16",
+              "output_nb": [
+                2,
+                1176,
+                47040,
+                1128960
+              ],
+              "output_ne": [
+                588,
+                40,
+                24,
+                1
+              ],
+              "input_width": 560,
+              "input_height": 336
+            }
+          ],
+          "unique_vision_mul_mat_shape_count": 11,
+          "vision_mul_mat_shape_set_sha256": "d323b45564b1bfa7df6e49ad9495b9f5d8223aadf6d35cd0f3b15e03e820a6c9"
+        }
+      ],
+      "unique_request_vision_im2col_shape_count": 1,
+      "unique_request_vision_mul_mat_shape_count": 11
+    }
+  ],
+  "interpretation": [
+    "Each media_batch group is one mtmd_batch_encode call and is ordered by the media chunk index in the CLI graph; it is not a crop identity.",
+    "The equal counts align B02's ordered n_tokens_batch records with the traced media batches, but this summary does not claim a crop-level mapping.",
+    "The IM2COL input/output shapes show per-batch preprocessing-dependent vision graph shape variation for the selected requests.",
+    "These are CPU logical graph shapes. They reveal neither K26 backend choice nor physical memory traffic, timing, or resource occupancy."
+  ]
+}
