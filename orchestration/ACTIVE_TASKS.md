@@ -1,7 +1,7 @@
 # Active Tasks
 
 Updated: 2026-09-24  
-Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01 delivered on isolated worktrees and are integrated in the coordinator branch. R01 is ready to activate against a frozen A/B/C target.
+Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01 delivered on isolated worktrees and are integrated in the coordinator branch. R01 is active against a frozen A/B/C target.
 
 | Task ID | Role | Problem | Dependencies | Expected deliverable | Priority | State | Branch / Worktree / Base |
 |---|---|---|---|---|---|---|---|
@@ -9,11 +9,11 @@ Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01 delivered o
 | B01 | Profiling / Workload Researcher | Convert current host traces into a hardware-decision profile and rank the measurements still missing. | Frozen source inputs; no new board activity. | `orchestration/handoffs/B_workload_handoff.md` and a concise reproducible profile under `experiments/derived/`. | P2 high | DELIVERED / INTEGRATED — final worker HEAD `16bd6abf60a92bacca74d6f28124fb085b865153`; coordinator merge `e43406f62ff4fc9226b1bf5c07fea485b43842b7` | `agent/B01-workload-profile` / `/home/zhiro/research/kv260-vlm-workers/B01-workload-profile` / `094edc130489dc59dd9333e4ae6b0aa4c8013149` |
 | C01 | Architecture Hypothesis Researcher | Screen no more than three mechanisms against current evidence, closest prior art and strongest static controls. | Start immediately from frozen inputs; later incorporate committed A01/B01 handoffs. | `orchestration/handoffs/C_architecture_candidates.md` and optional compact `spec/` matrix. | P1 highest | DELIVERED / INTEGRATED — final worker HEAD `d0c52e94830ca17b5629e2f1f703840ab84e09ac`; coordinator merge `12b32d191000bbf1acfd71cbe7ed4c7c292796dd` | `agent/C01-architecture-candidates` / `/home/zhiro/research/kv260-vlm-workers/C01-architecture-candidates` / `094edc130489dc59dd9333e4ae6b0aa4c8013149` |
 | D01 | Board Readiness / Recovery Researcher | Convert recorded board evidence into a fail-closed, operator-usable first-bitstream runbook while marking unknown recovery paths. | Frozen board records; documentation only. | `orchestration/handoffs/D_board_readiness_handoff.md` and `docs/first_bitstream_runbook.md`. | P2 high | DELIVERED / INTEGRATED — final worker HEAD `ead34c7873dc0582e8ba4aa6c0b95b043edd7c91`; coordinator merge `e2c6d11b6e60739a3a804cd6643853e088dbde9c` | `agent/D01-board-readiness` / `/home/zhiro/research/kv260-vlm-workers/D01-board-readiness` / `094edc130489dc59dd9333e4ae6b0aa4c8013149` |
-| R01 | Adversarial Research Reviewer | Attack novelty, evidence, workload support, strongest controls and falsification of A/B/C candidates. | A01, B01 and C01 handoffs are committed and integrated; Scheduler freezes exact target and activation record. | `reviews/current_candidate_review.md` and compact exact-SHA handoff. | Gate-critical | READY TO ACTIVATE — freeze coordinator target before creating its isolated worktree. | Planned branch: `agent/R01-candidate-review`; isolated worktree and exact base to be recorded in activation. |
+| R01 | Adversarial Research Reviewer | Attack novelty, evidence, workload support, strongest controls and falsification of A/B/C candidates. | A01/B01/C01 are integrated and hash-frozen; D01 is not a dependency. | `reviews/current_candidate_review.md` and compact exact-SHA handoff. | Gate-critical | ACTIVE — frozen review target `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b`; isolated start state verified before dispatch. | `agent/R01-candidate-review` / `/home/zhiro/research/kv260-vlm-workers/R01-candidate-review` / `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b` |
 
 ## Worker dispatch and task brief paths
 
-A01/B01/C01/D01 are complete; their branches remain preserved as individual source-of-record outputs. Do not reopen them as writers. R01 is the only next worker and must be isolated from the frozen review target.
+A01/B01/C01/D01 are complete; their branches remain preserved as individual source-of-record outputs. Do not reopen them as writers. R01 is the sole active worker and reviews only the frozen target; its activation record is `orchestration/review_activations/R01.md`.
 
 The frozen task brief paths are:
 

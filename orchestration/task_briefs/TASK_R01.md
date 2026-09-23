@@ -8,24 +8,26 @@ Independent reviewer. Do not participate in A/B/C candidate construction and do 
 
 # Current project HEAD
 
-Queued. At activation, Scheduler will freeze the exact integration/base commit containing the Task Brief, A/B/C handoffs, their referenced input hashes, and the unchanged global go/no-go. Record that exact SHA here before dispatch. Do not start against today's dirty source checkout.
+Frozen review target: `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b` (exact A/B/C integration and evidence snapshot commit). The target includes the unchanged global `status/go_no_go.md`, byte-matched to source SHA-256 `16c10d283170670466fb69f54f324d76c3fdfbdd61d52bc46585bcb403038738`. The activated brief and record are committed later on the coordinator branch; they do not change the review target.
 
 # Branch / Worktree / Base commit
 
-Planned branch: `agent/R01-candidate-review`  
-Worktree: Scheduler assigns a new isolated worktree at activation.  
-Base commit: set to the exact frozen input commit at activation.  
-Required start state: clean worktree; branch and `git rev-parse HEAD` must match the activated brief. Stop on any mismatch.
+- Branch: `agent/R01-candidate-review`
+- Worktree: `/home/zhiro/research/kv260-vlm-workers/R01-candidate-review`
+- Base commit / review target: `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b`
+Required start state: clean worktree; verify branch is `agent/R01-candidate-review` and `git rev-parse HEAD` equals the exact base above. Stop on any mismatch.
 
 # Stage
 
-Queued after the A/B/C handoffs are committed. D01 is not a dependency.
+Active after A/B/C handoffs were committed, integrated, and hash-frozen. D01 is not a dependency.
 
 # Question
 
 Do any proposed architecture candidates establish a real, falsifiable contribution beyond the closest FPGA/LLM/VLM mechanisms and the strongest static control, using evidence that supports the stated KV260 + MiniCPM-V claims?
 
 # Read first
+
+Read only the activated Task Brief and the frozen review target. The activated version is committed on the coordinator branch after the target SHA above; the Scheduler supplies its commit in the worker dispatch. The exact reviewed content is the target SHA above, not later scheduler metadata.
 
 At activation, read only:
 
@@ -35,17 +37,18 @@ At activation, read only:
 4. `orchestration/handoffs/A_novelty_handoff.md`.
 5. `orchestration/handoffs/B_workload_handoff.md`.
 6. `orchestration/handoffs/C_architecture_candidates.md`.
-7. The primary papers and exact raw/derived evidence cited by A/B/C.
-8. The source snapshot/hash manifests named in the handoffs.
+7. The primary papers and exact raw/derived evidence cited by A/B/C, only through the paths named in their handoffs/manifests.
+8. The source snapshot/hash manifests named in the handoffs; verify them before using any external read-only evidence path.
 
-Do not inspect uncommitted files or use worker chat histories.
+Run `sha256sum -c orchestration/source_snapshots/TASK_R01.sha256` from the review target. For external source files, use only exact paths in the committed A/B/C source manifests and stop on any hash mismatch. Do not inspect arbitrary uncommitted files or use worker chat histories.
 
 # Known facts
 
 - Broad PhaseMap novelty was rejected; P3 remains NO_GO_NOW.
 - Existing prior work already covers phase assignment, fixed-shape visual-token normalization, streaming/fusion, matrix dispatch, KV movement/residency, command aggregation, and bank/port assignment in adjacent settings.
 - Current evidence is mainly host-side; it does not prove KV260 traffic, physical occupancy, PS–PL cost, or complete board VLM performance.
-- A/B/C handoffs and the current frozen commit do not yet exist; this task must remain queued until they are committed.
+- A01/B01/C01 handoffs are committed in the frozen target. Worker final SHAs are A=`ca2e2101027eb3596b6747c6a5e91bcc80df6f00`, B=`16bd6abf60a92bacca74d6f28124fb085b865153`, and C=`d0c52e94830ca17b5629e2f1f703840ab84e09ac`.
+- The frozen target contains the exact A/B/C deliverable hashes in `orchestration/source_snapshots/TASK_R01.sha256`; each worker's own source manifest is also committed.
 
 # Important uncertainties
 
@@ -89,4 +92,4 @@ Quote exact commits and cite source paths/hashes. Provide a repair list if FAIL.
 
 # Stop conditions
 
-Do not begin until the Scheduler publishes the activation SHA and all required committed handoffs are present. Stop if the input hashes fail or the review target changes. Do not work around missing evidence with chat context.
+Do not begin until the Scheduler's committed activation record names the target and the start-state checks pass. Stop if any input hash fails or the review target changes. Do not work around missing evidence with chat context.

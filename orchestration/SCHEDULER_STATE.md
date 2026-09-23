@@ -61,10 +61,10 @@ Any candidate may be rejected. The current global novelty verdict remains unchan
 - B01 Workload Profile: delivered and integrated. Final worker HEAD `16bd6abf60a92bacca74d6f28124fb085b865153`; coordinator merge `e43406f62ff4fc9226b1bf5c07fea485b43842b7`. Host traces prioritize vision/projector then image-prefill but do not select hardware dimensions.
 - C01 Architecture Candidates: delivered and integrated. Final worker HEAD `d0c52e94830ca17b5629e2f1f703840ab84e09ac`; coordinator merge `12b32d191000bbf1acfd71cbe7ed4c7c292796dd`. Verdict: none is strong enough; no measured K26 failure interval or advantage over static controls.
 - D01 Board Readiness / Recovery: delivered and integrated. Final worker HEAD `ead34c7873dc0582e8ba4aa6c0b95b043edd7c91`; coordinator merge `e2c6d11b6e60739a3a804cd6643853e088dbde9c`. Runbook is fail-closed; physical recovery and image-specific rollback remain unverified.
-- R01 Adversarial Reviewer: ready to activate against a frozen coordinator commit containing A/B/C handoffs and unchanged global `status/go_no_go.md`.
+- R01 Adversarial Reviewer: active on frozen target `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b`; branch/worktree/base are recorded in `orchestration/review_activations/R01.md`.
 
 No user-visible Codex task window has been created. A01/B01/C01 are running through delegated worker agents in their isolated worktrees; do not start duplicate writers in those branches.
 
 ## Next decision
 
-Freeze the integrated A/B/C handoffs and activate R01 on the exact commit. Keep P3 at NO_GO_NOW unless the independent Reviewer finds no FAIL, evidence supports a concrete falsifiable mechanism, numeric and board-safety contracts close, and the user explicitly approves the first research-bitstream load. D's runbook is readiness documentation; it does not itself satisfy any board gate.
+Wait for R01's exact-SHA adversarial report. Keep P3 at NO_GO_NOW unless the independent Reviewer finds no FAIL, evidence supports a concrete falsifiable mechanism, numeric and board-safety contracts close, and the user explicitly approves the first research-bitstream load. D's runbook is readiness documentation; it does not itself satisfy any board gate.
