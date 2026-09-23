@@ -19,6 +19,7 @@ Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02
 | E02 | Runner Readiness Remediation Builder | Apply four bounded source-level fixes to the frozen CPU runner/preflight without board activity or tests. | E01 source snapshot `880096cc50f4d37692012136ef7d204856df40ca`; no primary writes. | Two-source patch and exact-SHA handoff with unresolved findings retained. | P2 high | DELIVERED — worker commit `aad962435278e470d36b3a0f247e9fb5624cf0f1`, direct parent `7385c0b10033244b3e203a3b152ca63720207222`; **R04 active**. | `agent/E02-runner-remediation` / `/home/zhiro/research/kv260-vlm-workers/E02-runner-remediation` / exact base above |
 | B05 | Ordered Media-Group Trace Analyst | Check whether trace order adds any evidence beyond full per-op keys and group sets, and whether a sequence-sensitive static null is needed before future timing work. | R03 PASS and frozen B03/B04 trace evidence; offline only. | Deterministic sequence audit, compact report, and exact-SHA handoff. | P2 exploratory | DELIVERED — worker commit `dbaf1372342b7535b33200a49a3711269d28fa07`, direct parent `f7ad31d98ba96846c2a7522f114f6e310f63b19b`; **R05 queued**. | `agent/B05-ordered-group-trace-audit` / `/home/zhiro/research/kv260-vlm-workers/B05-ordered-group-trace-audit` / frozen base above |
 | R04 | Independent E02 Runner Reviewer | Audit E02's source-only runner remediation against the exact frozen input snapshot and behavior contract. | Frozen E02 commit `aad962435278e470d36b3a0f247e9fb5624cf0f1`; no execution. | Review report and exact-SHA handoff. | Gate-critical | ACTIVE — exact target/output hashes frozen; no tests or board activity. | `agent/R04-E02-review` / `/home/zhiro/research/kv260-vlm-workers/R04-E02-review` / target E02 SHA above |
+| R05 | Independent B05 Trace Reviewer | Recompute ordered-key evidence from the exact B03 traces and audit the static-null conclusion. | Frozen B05 commit `dbaf1372342b7535b33200a49a3711269d28fa07`; after R04. | Review report and exact-SHA handoff. | P2 exploratory | QUEUED behind R04 — target and six output/input hashes frozen; offline only. | `agent/R05-B05-review` / `/home/zhiro/research/kv260-vlm-workers/R05-B05-review` / target B05 SHA above |
 
 ## Worker dispatch and task brief paths
 
@@ -35,6 +36,7 @@ The frozen task brief paths for completed, active and queued tasks are:
 - E02: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_E02.md` (delivered; source-only remediation)
 - B05: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_B05.md` (delivered; offline ordered-trace null audit)
 - R04: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_R04.md` (active; independent E02 runner review)
+- R05: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/task_briefs/TASK_R05.md` (queued; independent B05 trace review)
 - R02: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/review_activations/R02.md`
 - R03: `/home/zhiro/research/kv260-vlm-orchestration/orchestration/review_activations/R03.md`
 

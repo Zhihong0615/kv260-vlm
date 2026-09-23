@@ -142,3 +142,9 @@
 - **Worker result:** E02 commit `aad962435278e470d36b3a0f247e9fb5624cf0f1` has exact direct parent `7385c0b10033244b3e203a3b152ca63720207222` and a clean worktree. It changes only the two runner/preflight sources and its handoff. The nine-entry frozen E01 snapshot verified; the runner pins the new preflight hash.
 - **Review correction before finalization:** a static scheduler walk-through found the first per-process CPU denominator could include both full `/proc` scans and underestimate early PIDs. The builder amended the calculation to use a conservative per-PID lower-bound interval (end of first `stat` read to start of second) and documented the rationale. No tests or execution were run.
 - **Decision:** do not integrate E02 until R04 independently reviews exact target `aad962435278e470d36b3a0f247e9fb5624cf0f1`. The review checks all four requested changes and preserves E01 P2-5/6/7 and external gates as unresolved. P3 remains `NO_GO_NOW`.
+
+## 2026-09-24 — Deliver B05 and queue independent review
+
+- **Worker result:** B05 commit `dbaf1372342b7535b33200a49a3711269d28fa07` has the exact direct parent `f7ad31d98ba96846c2a7522f114f6e310f63b19b`, a clean tree, and all eleven frozen input hashes passed before/after analysis. Its four output hashes match the handoff.
+- **Preliminary finding:** all 24 groups reproduce B04's five full-key-set classes; multiset, ordered-sequence, and adjacent-transition partitions have identical membership. No same-set/different-sequence pairs were found. B05 recommends stopping the group-aware dynamic-selector question on these traces and retaining an ordered-sequence/replay table as a static control if later cost measurement is justified.
+- **Decision:** this is a worker result pending independent R05 recomputation. Queue R05 behind gate-critical R04. No K26 timing or novelty inference; P3 remains `NO_GO_NOW`.
