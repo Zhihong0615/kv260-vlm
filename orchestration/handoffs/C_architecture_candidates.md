@@ -1,7 +1,8 @@
 # C01 architecture candidate screen and handoff
 
-Date: 2026-09-24  
-Status: initial frozen-evidence screen complete; no accelerator method candidate passes.  
+Date: 2026-09-24
+
+Status: initial frozen-evidence screen complete; no accelerator method candidate passes.
 Verdict: **NONE OF THEM IS STRONG ENOUGH.** P3 remains `NO_GO_NOW`.
 
 ## Decision boundary and provenance
