@@ -107,3 +107,10 @@
 - **Frozen instructions/inputs:** B04 brief and eight-entry manifest at coordinator commit `4d640226786c875a5713a7d16399c49ac7aa2f35`; task brief SHA-256 `c751ab00c8ba3ff698785426b73d9e8d4db816ad87e2652836c2cdd2385c8201`; manifest SHA-256 `a7c610bc01361a20510c2c84d9f45ea6312f0bb521caeabdc1403c9d654e2ef6`. All eight B03 artifact hashes passed against the source commit.
 - **Scope:** Only parse the existing compressed metadata traces and B03 summaries. No new inference, answers/annotations, tests, board action, source/runtime edit, or GitHub publication. The analysis cannot establish K26 placement or performance.
 - **Next step:** Produce a compact reproducible report and handoff; keep P3 at `NO_GO_NOW`.
+
+## 2026-09-24 — Activate independent B04 review
+
+- **Frozen target:** B04 commit `966fbf5372a0e1f47f11da999a9298625233870a`, based exactly on B03 commit `4d7ce5e5fa5e750833cb5a05b8b3a15364861134`.
+- **Builder result:** All 21,936 vision-node records have the fields needed to construct a full static key; 267 distinct full keys occur across 24 groups. There are five group-set equivalence classes. The coarse `MUL_MAT` M/N/K key has 44 entries and no full-key merges; op plus output shape has 233 entries and 30 merges. The JSON/Markdown clarify signature-field completeness and pairwise recurrence counts.
+- **Review:** Activated R03 in a separate worktree to verify the eight source hashes, exact parent, unique-key/group counts, request intersections, coarse-key collisions, and interpretation limits independently. No inference, tests, board work or publication.
+- **Decision boundary:** B04 recommends rejecting media-group ordinal as additional operator-signature information for these four traces. This does not test stateful allocation, resource admission, backend choice, submission/wait cost, or K26 performance. Keep B04 unintegrated pending R03 and P3 at `NO_GO_NOW`.
