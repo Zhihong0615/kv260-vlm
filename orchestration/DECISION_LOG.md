@@ -121,3 +121,11 @@
 - **Review result:** R03 PASS, P0=0/P1=0/P2=0. All eight frozen source hashes and four B04 artifact hashes pass. Independent recomputation matches the node/key/group counts, all request intersections, and coarse-key collisions.
 - **Research decision:** Reject the narrow hypothesis that a media-group ordinal adds operator-signature information beyond the full static key for these four selected traces. Retain the full per-op key as the static null. Do not generalize this to stateful resource pressure, backend eligibility, cost, or K26 performance; none was observed.
 - **Next task:** Queue E02 to patch four source-level runner findings from E01 in an isolated worktree. No tests, board activity, or primary-checkout writes are included. P3 remains `NO_GO_NOW`.
+
+## 2026-09-24 — Activate E02 source-only runner remediation
+
+- **Decision:** Address four bounded E01 findings before attempting to reopen the CPU runner path: pre-staging per-process CPU check, board-side marker provenance, bounded timeout state recovery with partial-output persistence, and mandatory owner-window reference.
+- **Frozen worker:** branch `agent/E02-runner-remediation`, worktree `/home/zhiro/research/kv260-vlm-workers/E02-runner-remediation`, exact base `7385c0b10033244b3e203a3b152ca63720207222`.
+- **Frozen source:** E01 snapshot `880096cc50f4d37692012136ef7d204856df40ca`; nine-entry manifest SHA-256 `0a021eb8c8abd55cbf95442e83667284bc672e99831a3fd159e8610de6a9deed`; all nine entries passed before activation. Task brief SHA-256 `5765f81c890bde5865bf04e8a95ef2710a5df3b905caa54bbd388aacfb09edcf`.
+- **Boundary:** source-copy and edits only in an isolated worktree. No tests, syntax checks, dry plans, board access, inference, primary-checkout writes, or remote publication. P2-5/6/7 and external execution gates remain open; this is not board readiness.
+- **Decision gate:** independent source review is required before integration. Keep P3 at `NO_GO_NOW`.
