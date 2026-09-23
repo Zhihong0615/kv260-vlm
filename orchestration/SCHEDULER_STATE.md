@@ -4,7 +4,7 @@ Updated: 2026-09-24
 Coordinator branch: `orchestration/dispatch-20260924`  
 Coordinator worktree: `/home/zhiro/research/kv260-vlm-orchestration`  
 Worker baseline: `094edc130489dc59dd9333e4ae6b0aa4c8013149` on local `master`  
-Git remote: none configured
+Git remote: `origin` → `https://github.com/Zhihong0615/kv260-vlm.git` (HTTPS; authentication/access not verified)
 
 ## Stage and decision
 
@@ -52,7 +52,7 @@ Any candidate may be rejected. The current global novelty verdict remains unchan
 - No frozen numeric tolerance / held-out quality contract for a PL path.
 - No verified UART recovery route; no USB-UART was connected in the last recorded check.
 - No new research-bitstream image, hash, load procedure, rollback proof, or user approval for first load.
-- No Git remote; GitHub Issues, pushes and PRs are unavailable. Do not add a remote or publish data.
+- `origin` is configured with the user-provided HTTPS URL. Unauthenticated access failed because Git could not obtain a username; repository reachability and permissions remain unverified. No push, issue, PR, or publication has been attempted. Do not place account passwords or tokens in Git URLs, task files, or chat.
 
 ## Active work
 
