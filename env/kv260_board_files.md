@@ -1,13 +1,18 @@
 # KV260 board files
 
-状态：`BLOCKED / UNKNOWN`。
+状态：`PASS`（Vivado 2024.2 真实查询）。
 
-当前主机没有 Vivado 2024.2，因此不能运行 `get_board_parts *kv260*`，也不能把 board definition 记为有效。当前也没有发现 `/tools/Xilinx`、`/opt/Xilinx` 或 AMD 安装目录。
+项目本地 Vivado 位于
+`/home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/`。执行
+`get_board_parts *kv260*` 返回 3 个 board part：
 
-待 Vivado 2024.2 安装后执行：
-
-```tcl
-get_board_parts *kv260*
+```text
+xilinx.com:kv260_som:part0:1.2
+xilinx.com:kv260_som:part0:1.3
+xilinx.com:kv260_som:part0:1.4
 ```
 
-并把真实 board part、安装路径、版本和来源写回本文件。若查询为空，只使用 AMD 官方 board files；不从不明 GitHub 仓库下载。
+Vivado smoke test 使用最新返回项 `1.4`，成功完成 implementation 和
+bitstream 生成。K26 device database 同时返回
+`xck26-sfvc784-2LV-c` 与 `xck26-sfvc784-2LVI-i`。未从第三方仓库下载 board
+files。

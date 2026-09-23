@@ -1,6 +1,6 @@
 # KV260 inventory
 
-审计时间：2026-09-22；连接配置使用现有 SSH host `kria`（192.168.77.2，用户 `ubuntu`）。未修改板端镜像。
+审计时间：2026-09-22 至 2026-09-23；连接配置使用现有 SSH host `kria`（192.168.77.2，用户 `ubuntu`）。未修改板端镜像。
 
 ## 系统
 
@@ -44,7 +44,7 @@ Device Ready: Yes
 
 可执行文件：`/usr/bin/xbutil`、`/usr/bin/xclbinutil`。
 
-## xmutil 权限问题
+## xmutil 只读权限
 
 普通用户执行 `xmutil listapps` 时 dfx manager 返回：
 
@@ -53,7 +53,20 @@ DFX-MGRD> ERROR:initSocket():374 connect(/tmp/dfx-mgrd.socket): Permission denie
 write: Transport endpoint is not connected
 ```
 
-`sudo -n xmutil listapps` 也因板端 sudo 需要密码而无法执行。虽然该命令的 shell return code 为 0，但错误文本表示不能将 `xmutil listapps` 记为 PASS。状态：`BLOCKED（需要用户在板端交互式授权或提供合适的只读权限）`。
+2026-09-23 经用户在板端交互式输入一次 sudo 密码，安装了最小 sudoers
+规则：
+
+```text
+ubuntu ALL=(root) NOPASSWD: /usr/bin/xmutil listapps
+```
+
+规则文件 `/etc/sudoers.d/90-kv260-xmutil-listapps` 为 `root:root 0440`，安装
+时由 `visudo -cf` 校验。随后真实执行
+`sudo -n /usr/bin/xmutil listapps` 成功，返回应用
+`k26-starter-kits`。`sudo -n -l` 中唯一的 NOPASSWD xmutil 项就是上述精确
+命令；没有给 `loadapp`、`unloadapp` 或 `bootfw_update` 免密权限。
+
+状态：`PASS`。详细证据见 `env/xmutil_permission_audit.md`。
 
 ## 设备节点
 

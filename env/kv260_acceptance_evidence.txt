@@ -1,0 +1,41 @@
+KV260 read-only acceptance evidence
+Date: 2026-09-23 Asia/Shanghai
+SSH target: kria (ubuntu@192.168.77.2 via existing SSH config)
+
+COMMAND=scripts/check_kv260_env.sh
+EXIT_CODE=0
+OS=Ubuntu 22.04.4 LTS
+KERNEL=5.15.0-1027-xilinx-zynqmp
+ARCH=aarch64
+CMA=CmaTotal: 1024000 kB
+FPGA_MANAGER=present
+XMUTIL=/usr/bin/xmutil
+XMUTIL_LISTAPPS=ok
+XMUTIL_LISTAPPS_MODE=sudo-n-exact-command
+XMUTIL_LISTAPPS_OUTPUT_BEGIN
+Accelerator       Accel_type  Base              Base_type  #slots(PL+AIE)  Active_slot
+k26-starter-kits  XRT_FLAT    k26-starter-kits  XRT_FLAT   (0+0)           0
+XMUTIL_LISTAPPS_OUTPUT_END
+XRT_PACKAGE=2.13.479-0ubuntu2
+XRT_RUNTIME=2.13.0
+MODEL=ZynqMP KV260 revB
+DEVICE=[0000:00:00.0] KV260
+DEVICE_READY=Yes
+RESULT=KV260 environment: PASS
+RECHECK=2026-09-23 after checker tightened to require header and k26-starter-kits row; exit 0
+
+SUDOERS_FILE=/etc/sudoers.d/90-kv260-xmutil-listapps
+SUDOERS_STAT=root:root 0440
+SUDOERS_INSTALL_VALIDATION=visudo parsed OK
+SUDO_N_LIST_BEGIN
+Matching Defaults entries for ubuntu on kria:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin, use_pty
+
+User ubuntu may run the following commands on kria:
+    (ALL : ALL) ALL
+    (root) NOPASSWD: /usr/bin/xmutil listapps
+SUDO_N_LIST_END
+
+The general `(ALL : ALL) ALL` entry is the pre-existing password-required sudo
+policy. The only NOPASSWD xmutil entry is the exact read-only listapps command.
+No xmutil write subcommand was executed during this audit.

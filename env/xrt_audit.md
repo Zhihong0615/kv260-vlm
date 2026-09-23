@@ -1,13 +1,13 @@
 # XRT / Vitis acceleration audit
 
-审计时间：2026-09-22。
+审计时间：2026-09-22 至 2026-09-23。
 
 ## Host
 
-- `vitis`: not found
-- `vivado`: not found
-- Host XRT/platform packages: `UNKNOWN`（主机工具链尚未安装）
-- Host available platforms: `UNKNOWN`
+- `vitis`: 2024.2（project-local）
+- `vivado`: 2024.2（project-local）
+- `vitis_hls`: 2024.2（project-local）
+- K26 device / KV260 board database：`PASS`
 
 ## KV260
 
@@ -28,4 +28,7 @@ Device Ready         : Yes
 
 板端 XRT/runtime 与 KV260 device 可见性：`PASS`。
 
-Vitis application acceleration build flow：`BLOCKED`，因为主机 2024.2 工具链尚未安装；本阶段没有自动升级板端 XRT、没有更换 platform、没有启用 `.xo/.xclbin` flow。
+本轮只验收主机 Vivado/Vitis/HLS 工具与板端已有 XRT device readiness；没有
+构建或加载 `.xo/.xclbin`，因此不对完整 application acceleration runtime
+兼容性作额外声明。没有自动升级板端 XRT、没有更换 platform，也没有加载
+应用或 bitstream。

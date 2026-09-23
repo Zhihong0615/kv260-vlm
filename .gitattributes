@@ -1,0 +1,5 @@
+# Preserve tool-generated acceptance reports byte-for-byte. AMD tools emit
+# trailing spaces and extra final blank lines; these are part of hashed evidence.
+env/hls_smoke_test/evidence/*.log whitespace=-trailing-space,-blank-at-eof
+env/hls_smoke_test/evidence/*.rpt whitespace=-trailing-space,-blank-at-eof
+env/vivado_smoke_test/evidence/*.rpt whitespace=-trailing-space,-blank-at-eof

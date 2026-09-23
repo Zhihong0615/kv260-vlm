@@ -27,12 +27,22 @@ else
   status=1
 fi
 if grep -q '^CmaTotal:' /proc/meminfo; then :; else status=1; fi
-listapps_output="$(xmutil listapps 2>&1)"
-if grep -Eiq 'ERROR|Permission denied|Transport endpoint' <<<"$listapps_output"; then
-  printf '%s\n' "XMUTIL_LISTAPPS=permission-or-daemon-error"
-  status=1
-else
+listapps_output="$(sudo -n /usr/bin/xmutil listapps 2>&1)"
+listapps_rc=$?
+if [[ "$listapps_rc" -eq 0 ]] \
+  && grep -Eq '^[[:space:]]*Accelerator[[:space:]]+Accel_type[[:space:]]+Base[[:space:]]+Base_type' <<<"$listapps_output" \
+  && grep -Eq '^[[:space:]]*k26-starter-kits[[:space:]]+XRT_FLAT[[:space:]]+k26-starter-kits[[:space:]]+XRT_FLAT[[:space:]]' <<<"$listapps_output" \
+  && ! grep -Eiq 'ERROR|Permission denied|Transport endpoint|password is required|not allowed' <<<"$listapps_output"; then
   printf '%s\n' "XMUTIL_LISTAPPS=ok"
+  printf '%s\n' "XMUTIL_LISTAPPS_MODE=sudo-n-exact-command"
+  printf '%s\n' "XMUTIL_LISTAPPS_OUTPUT_BEGIN"
+  printf '%s\n' "$listapps_output"
+  printf '%s\n' "XMUTIL_LISTAPPS_OUTPUT_END"
+else
+  printf '%s\n' "XMUTIL_LISTAPPS=permission-or-daemon-error"
+  printf '%s\n' "XMUTIL_LISTAPPS_RC=$listapps_rc"
+  printf '%s\n' "XMUTIL_LISTAPPS_DIAGNOSTIC=$listapps_output"
+  status=1
 fi
 if dpkg -l 2>/dev/null | grep -q '^ii  xrt '; then
   printf '%s\n' "XRT_PACKAGE=$(dpkg -l | awk '/^ii  xrt / {print $3}')"

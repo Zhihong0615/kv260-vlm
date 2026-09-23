@@ -28,7 +28,7 @@ else
 fi
 
 if command -v vitis >/dev/null 2>&1; then
-  vitis_version="$(vitis -version 2>&1 | head -n 1)"
+  vitis_version="$(vitis -v 2>&1 | grep -m 1 'Vitis v[0-9]' || true)"
   if grep -q '2024\.2' <<<"$vitis_version"; then pass Vitis "$vitis_version"; else fail Vitis "$vitis_version (expected 2024.2)"; fi
 else
   fail Vitis "not found; source env/setup_fpga.sh after installation"
@@ -58,26 +58,25 @@ for llama_binary in llama-cli llama-server llama-mtmd-cli; do
 done
 
 if command -v vivado >/dev/null 2>&1; then
-  device_output="$(vivado -mode batch -nolog -nojournal -notrace -tempDir "$PROJECT_ROOT/work/vivado-device-check" -source /dev/stdin <<'TCL' 2>&1
-set parts [get_parts *xck26*]
-puts "K26_PART_COUNT=[llength $parts]"
-exit
-TCL
-  )"
-  if grep -q 'K26_PART_COUNT=[1-9][0-9]*' <<<"$device_output"; then pass K26_device "device database contains xck26"; else fail K26_device "xck26 not found"; fi
+  inventory_output="$(vivado -mode batch -nolog -nojournal -notrace \
+    -tempDir "$PROJECT_ROOT/work/vivado-inventory-check" \
+    -source "$PROJECT_ROOT/env/check_vivado_inventory.tcl" 2>&1)"
+  k26_count="$(sed -n 's/^K26_PART_COUNT=//p' <<<"$inventory_output" | tail -n 1)"
+  kv260_count="$(sed -n 's/^KV260_BOARD_COUNT=//p' <<<"$inventory_output" | tail -n 1)"
+
+  if [[ "$k26_count" =~ ^[1-9][0-9]*$ ]]; then
+    pass K26_device "$k26_count xck26 part(s)"
+  else
+    fail K26_device "xck26 count was ${k26_count:-unavailable}"
+  fi
+
+  if [[ "$kv260_count" =~ ^[1-9][0-9]*$ ]]; then
+    pass KV260_board "$kv260_count KV260 board part(s)"
+  else
+    fail KV260_board "KV260 board count was ${kv260_count:-unavailable}"
+  fi
 else
   fail K26_device "Vivado unavailable"
-fi
-
-if command -v vivado >/dev/null 2>&1; then
-  board_output="$(vivado -mode batch -nolog -nojournal -notrace -tempDir "$PROJECT_ROOT/work/vivado-board-check" -source /dev/stdin <<'TCL' 2>&1
-set boards [get_board_parts *kv260*]
-puts "KV260_BOARD_COUNT=[llength $boards]"
-exit
-TCL
-  )"
-  if grep -q 'KV260_BOARD_COUNT=[1-9][0-9]*' <<<"$board_output"; then pass KV260_board "board part found"; else fail KV260_board "board part not found"; fi
-else
   fail KV260_board "Vivado unavailable"
 fi
 
