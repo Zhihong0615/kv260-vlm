@@ -34,3 +34,10 @@
 - **Scope:** Source-only static review of parser/runner/preflight, with focused-test coverage inspected as text. No tests, dry plans, syntax checks, SSH, board access, inference, source fixes, or GitHub actions.
 - **Rationale and boundary:** This can close or strengthen a software evidence gate. It cannot satisfy synthetic ALPHA, a current live resource check, an owner window, physical recovery, or authorize board execution.
 - **Next step:** Integrate E01's exact-SHA handoff only after verifying its clean worker branch and all frozen input hashes. Keep P2 board inference paused and P3 at `NO_GO_NOW`.
+
+## 2026-09-24 — Integrate R01 adversarial candidate review
+
+- **Decision:** Retain no architecture candidate and keep P3 at `NO_GO_NOW`.
+- **Evidence:** R01 reviewed only frozen target `6dd1a83c4c771570b992a7ac83ec7de3d41ef60b`; its source manifests passed and worker commit `ea1bfff920c1dc6571c0258935ad6697ea6a2225` has that exact target as parent. Result: **FAIL**. H1–H3 lack a measured K26 failure interval and advantage over strongest static controls; H4/H5 are screened out. Proposed numerical thresholds also conflict across A01/C01 and are not preregistered.
+- **Integration:** Added the exact-SHA review and compact handoff to the coordinator branch in merge `7657525a147ce08ac2a3ac6b75a919b4fa6ebb8a`. The frozen source `status/go_no_go.md` was not edited; the review is recorded here and in `SCHEDULER_STATE.md`.
+- **Next step:** E01 is independently reviewing the current P2 parser/runner/preflight hashes. Continue the safe P1/P2 work; no RTL, research bitstream, or board inference follows from this review.
