@@ -14,7 +14,7 @@ Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, ba
 - P3: **NO_GO_NOW**. No research RTL, research bitstream, or board VLM inference.
 - P4–P8: not started.
 
-This is an active end-to-end research project. E02/R04/B05/R05 are integrated. The B05/R05 offline trace result closes the narrow media-group sequence question for four selected host requests; it cannot advance the board gate or change the novelty decision by itself.
+This is an active end-to-end research project. E02/R04/B05/R05 are integrated; E03 is active as bounded source-only preflight hardening. The B05/R05 offline trace result closes the narrow media-group sequence question for four selected host requests; it cannot advance the board gate or change the novelty decision by itself.
 
 ## Board and host evidence
 
@@ -39,6 +39,7 @@ This is an active end-to-end research project. E02/R04/B05/R05 are integrated. T
 ## Active tasks and exact bases
 
 - **E02 runner remediation:** delivered as `aad962435278e470d36b3a0f247e9fb5624cf0f1`, direct parent `7385c0b10033244b3e203a3b152ca63720207222`, integrated at `0779431550886d982c7244e424d246e9a648a1b0`. All nine original E01 snapshot hashes passed. R04 reviewed all four scoped changes and passed; conditional residuals remain. No tests or execution occurred. P2-5/6/7, configured review paths, ALPHA, live-resource evidence, and external owner-window proof stay unresolved.
+- **E03 input-validation hardening:** activated from exact code base `c550d3fe7e5272e6fee42d259d7f861b55ea4b2a` to address only the two conditional R04 findings: non-finite/negative load input and malformed CPU-row handling. Four source/review/handoff hashes are frozen. This source-only task requires an exact-SHA independent R06 review before integration; no tests or execution are included.
 - **B05 ordered trace audit:** worker `dbaf1372342b7535b33200a49a3711269d28fa07`, direct parent `f7ad31d98ba96846c2a7522f114f6e310f63b19b`, integrated at `45665f9961db555a1d7f24a154c695cb55841660`. It compares ordered full-key sequences and adjacent transitions against B04's per-op-key and group-set nulls using only frozen B03/B04 metadata. It cannot establish timing or novelty.
 - **R04 / R05:** R04 review commit `e187bae6d630a0bf45d7ed0de9a5bf277da17f5a` is integrated at `9064a56056cdcf29b1e8ed2a1a15201c05c9f6ea`. R05 **PASS**, P0=0/P1=0/P2=0, reviewer commit `7890ba0640ade88937f58eeb3ca2a13dca3cd5cd`, integrated at `cb9b23f31ca1b1d49f4cfe97d359233e1c41e4da`. Reviews are isolated and prohibit tests, board access, and publication.
 - Exact task, source-manifest, and activation records are in `orchestration/task_briefs/`, `orchestration/evidence_snapshots/`, and `orchestration/activations/`. `ACTIVE_TASKS.md` is the current dispatch table.
@@ -55,7 +56,7 @@ This is an active end-to-end research project. E02/R04/B05/R05 are integrated. T
 ## Next scheduling decisions
 
 1. Keep the B05/R05 negative result closed; do not reactivate a group-aware selector claim on these four traces.
-2. Decide whether a narrowly scoped E03 source-only hardening task for the two conditional R04 input-validation findings is useful, while preserving P2-5/6/7 and external execution gates as open.
-3. Use the reviewed E02/B05 results to choose the next safe research task; any board timing work remains gated and needs a separately authorized window.
+2. Complete E03's two R04 input-validation fixes and exact-SHA R06 review; integrate only after PASS.
+3. Use reviewed E02/B05 results and remaining source-only gates to choose the next safe research task; any board timing work remains gated and needs a separately authorized window.
 4. Refresh `ACTIVE_TASKS.md`, this state page, and `DECISION_LOG.md` after each reviewed integration. Do not edit the primary checkout or the frozen global no-go file.
 5. Continue to label host metadata as host evidence and keep P3 `NO_GO_NOW`.
