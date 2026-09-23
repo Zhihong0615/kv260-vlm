@@ -56,13 +56,13 @@ Any candidate may be rejected. The current global novelty verdict remains unchan
 
 ## Active work
 
-- A01 Prior-Art / Novelty: ready-to-open; isolated worktree prepared.
-- B01 Workload Profile: ready-to-open; isolated worktree prepared.
-- C01 Architecture Candidates: ready-to-open; isolated worktree prepared; must start from current evidence and later incorporate A/B handoffs.
-- D01 Board Readiness / Recovery: ready-to-open; isolated worktree prepared; documentation and recorded evidence only.
+- A01 Prior-Art / Novelty: delegated worker running in its isolated worktree; branch/HEAD/source hashes passed preflight.
+- B01 Workload Profile: delegated worker running; initial preflight confirmation pending.
+- C01 Architecture Candidates: delegated worker running; initial preflight confirmation pending.
+- D01 Board Readiness / Recovery: brief and isolated worktree prepared; queued until a worker slot opens.
 - R01 Adversarial Reviewer: queued; do not start until A/B/C handoffs and their exact commits are frozen.
 
-No Worker window has been started by the Scheduler.
+No user-visible Codex task window has been created. A01/B01/C01 are running through delegated worker agents in their isolated worktrees; do not start duplicate writers in those branches.
 
 ## Next decision
 
