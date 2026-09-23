@@ -1,9 +1,10 @@
 # KV260 Wi-Fi verification evidence
 
 Date: 2026-09-23 (Asia/Shanghai). This record contains no campus account
-credentials. Commands were run from the Ubuntu host unless noted. The SSH
-alias `kria` is the existing wired recovery route; when a command specifies
-`HostName=10.192.176.217`, the tested data path is the board's Wi-Fi IP.
+credentials. Commands were run from the Ubuntu host unless noted. During the
+tests before the alias fix, `kria` targeted wired `192.168.77.2`; commands
+with `HostName=10.192.176.217` tested the board's Wi-Fi path. The local
+`kria` alias now targets Wi-Fi, and `kria-eth` preserves the wired address.
 
 ## Radio, network and portal
 
@@ -134,7 +135,7 @@ auto-connection test, not merely inspection of a saved profile.
 
 For the physical isolation test, the user unplugged the board's Ethernet
 cable while keeping the USB-UART recovery path connected. The host's route to
-the board's Wi-Fi IP used campus Wi-Fi `wlp0s20f3`, while the wired SSH alias
+the board's Wi-Fi IP used campus Wi-Fi `wlp0s20f3`, while the wired SSH endpoint
 at `192.168.77.2` timed out. On the board, `eth0` had no IPv4 address. Five
 fresh, non-multiplexed SSH sessions to `10.192.176.217` each succeeded and
 reported the same new boot ID and Wi-Fi address. Board-side Wi-Fi-bound HTTPS
@@ -142,8 +143,8 @@ again returned HTTP 200 from `www.zju.edu.cn` and `www.baidu.com`. The
 checker was extended with an optional `KV260_WIFI_IP` override so its full
 snapshot could run with the cable physically detached; it returned exit 0,
 `ETHERNET_IPV4=` empty, campus/external HTTPS PASS and direct Wi-Fi SSH PASS.
-The default checker path still uses the configured SSH alias for wired
-recovery. This override pins the same known host key.
+The default checker path uses the configured `kria` Wi-Fi alias. The override
+pins the same known host key when a DHCP address must be supplied explicitly.
 
 The user elected to keep using wireless SSH with the cable unplugged;
 reattachment is therefore not a remaining acceptance gate. The wired

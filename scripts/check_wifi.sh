@@ -3,16 +3,20 @@
 set -uo pipefail
 
 ssh_host="${KV260_SSH_HOST:-kria}"
-wired_host="$(ssh -G "$ssh_host" 2>/dev/null | awk '$1 == "hostname" {print $2; exit}')"
+ssh_config="$(ssh -G "$ssh_host" 2>/dev/null)"
+host_key_alias="$(awk '$1 == "hostkeyalias" && $2 != "none" {print $2; exit}' <<<"$ssh_config")"
+if [[ -z "$host_key_alias" ]]; then
+  host_key_alias="$(awk '$1 == "hostname" {print $2; exit}' <<<"$ssh_config")"
+fi
 wifi_override="${KV260_WIFI_IP:-}"
 remote_ssh_options=()
 if [[ -n "$wifi_override" ]]; then
-  if [[ ! "$wifi_override" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || -z "$wired_host" ]]; then
-    printf '%s\n' 'REMOTE_CHECK=FAIL (KV260_WIFI_IP must be IPv4 and wired host-key alias must exist)'
+  if [[ ! "$wifi_override" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || -z "$host_key_alias" ]]; then
+    printf '%s\n' 'REMOTE_CHECK=FAIL (KV260_WIFI_IP must be IPv4 and host-key alias must exist)'
     exit 2
   fi
-  remote_ssh_options=(-o "HostName=$wifi_override" -o "HostKeyAlias=$wired_host" -o StrictHostKeyChecking=yes)
-  printf 'REMOTE_TRANSPORT=Wi-Fi IP %s (wired host key pinned)\n' "$wifi_override"
+  remote_ssh_options=(-o "HostName=$wifi_override" -o "HostKeyAlias=$host_key_alias" -o StrictHostKeyChecking=yes)
+  printf 'REMOTE_TRANSPORT=Wi-Fi IP %s (known host key pinned)\n' "$wifi_override"
 else
   printf '%s\n' 'REMOTE_TRANSPORT=configured SSH alias'
 fi
@@ -96,13 +100,13 @@ fi
 
 wifi_ip="$(sed -n 's/^WIFI_IPV4=//p' <<<"$remote_output" | head -n 1)"
 wifi_ip="${wifi_ip%%/*}"
-if [[ -z "$wifi_ip" || "$wifi_ip" == none || -z "$wired_host" ]]; then
-  printf '%s\n' 'SSH_WIFI=NOT_TESTED (Wi-Fi IPv4 or wired host-key alias missing)'
+if [[ -z "$wifi_ip" || "$wifi_ip" == none || -z "$host_key_alias" ]]; then
+  printf '%s\n' 'SSH_WIFI=NOT_TESTED (Wi-Fi IPv4 or host-key alias missing)'
   exit 1
 fi
 if ssh -T -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=yes \
-  -o HostName="$wifi_ip" -o HostKeyAlias="$wired_host" "$ssh_host" true 2>/dev/null; then
-  printf '%s\n' 'SSH_WIFI=PASS (wired host key pinned)'
+  -o HostName="$wifi_ip" -o HostKeyAlias="$host_key_alias" "$ssh_host" true 2>/dev/null; then
+  printf '%s\n' 'SSH_WIFI=PASS (known host key pinned)'
 else
   printf '%s\n' 'SSH_WIFI=FAIL (unreachable, client isolation or host-key mismatch)'
   exit 1

@@ -4,7 +4,8 @@ Date: 2026-09-23 (Asia/Shanghai).
 
 NetworkManager is active and owns both network connections. The existing
 `Wired connection 1` on `eth0` uses `192.168.77.2/24` when its cable is
-attached; SSH alias `kria` is the wired recovery route. `systemd-networkd` and the legacy
+attached; SSH alias `kria-eth` preserves that wired recovery route.
+`systemd-networkd` and the legacy
 `networking` service are inactive. `wpa_supplicant` is active; there is no
 hand-written conflicting Wi-Fi configuration.
 
@@ -35,18 +36,20 @@ had no IPv4 address, but direct Wi-Fi SSH (5/5 fresh sessions) and
 Wi-Fi-bound campus/external HTTPS still worked. `scripts/check_wifi.sh` can
 be run in that condition with `KV260_WIFI_IP=10.192.176.217` to target the
 known Wi-Fi IP while pinning the previously known host key; the default mode
-still starts through `kria`. The user elected to continue with wireless SSH
-and leave the Ethernet cable unplugged; its NetworkManager profile is retained
-for future recovery. The equivalent direct SSH command from the host is:
+uses the configured `kria` Wi-Fi alias. The user elected to continue with
+wireless SSH and leave the Ethernet cable unplugged; its NetworkManager
+profile is retained for future recovery. The local OpenSSH alias `kria` now
+points to the current Wi-Fi IP while `kria-eth` preserves the wired address.
+The daily command is:
 
 ```bash
-ssh -o HostName=10.192.176.217 -o HostKeyAlias=192.168.77.2 kria
+ssh kria
 ```
 
 Because the Wi-Fi address is assigned by DHCP, it may change in the future;
-verify the live address and update the command before reusing it after such a
-change. The command reuses the existing `kria` identity and pins the known
-board host key. `avahi-daemon` is active and enabled on the board, but
+verify the live address and update the `HostName` for `kria` in
+`~/.ssh/config` before reusing it after such a change. Both aliases reuse the
+existing identity and pin the known board host key. `avahi-daemon` is active and enabled on the board, but
 `getent hosts kria.local` did not resolve on this host across the campus
 network; mDNS is therefore not treated as a proven stable alternative.
 

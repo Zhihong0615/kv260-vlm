@@ -4,12 +4,16 @@ set -u
 SSH_HOST="${KV260_SSH_HOST:-kria}"
 SSH_OPTIONS=()
 if [[ -n "${KV260_WIFI_IP:-}" ]]; then
-  wired_host="$(ssh -G "$SSH_HOST" 2>/dev/null | awk '$1 == "hostname" {print $2; exit}')"
-  if [[ ! "$KV260_WIFI_IP" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || -z "$wired_host" ]]; then
+  ssh_config="$(ssh -G "$SSH_HOST" 2>/dev/null)"
+  host_key_alias="$(awk '$1 == "hostkeyalias" && $2 != "none" {print $2; exit}' <<<"$ssh_config")"
+  if [[ -z "$host_key_alias" ]]; then
+    host_key_alias="$(awk '$1 == "hostname" {print $2; exit}' <<<"$ssh_config")"
+  fi
+  if [[ ! "$KV260_WIFI_IP" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ || -z "$host_key_alias" ]]; then
     printf '%s\n' 'KV260 environment: FAIL (invalid KV260_WIFI_IP or missing host-key alias)'
     exit 2
   fi
-  SSH_OPTIONS=(-o "HostName=$KV260_WIFI_IP" -o "HostKeyAlias=$wired_host" -o StrictHostKeyChecking=yes)
+  SSH_OPTIONS=(-o "HostName=$KV260_WIFI_IP" -o "HostKeyAlias=$host_key_alias" -o StrictHostKeyChecking=yes)
 fi
 failures=0
 pass() { printf 'PASS %-24s %s\n' "$1" "$2"; }

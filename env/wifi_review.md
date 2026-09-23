@@ -27,6 +27,13 @@ retained, even though the user elected to leave Ethernet unplugged and use
 wireless SSH routinely. The installed firmware and local `iw` hashes remained
 correct after temporary package/staging cleanup.
 
+After a later report that another Codex task could not reach the board, the
+review found the local `kria` SSH alias still pointed at the unplugged wired
+address. The user's existing SSH config was updated so `kria` targets the
+current Wi-Fi DHCP address with the same identity and pinned host key;
+`kria-eth` now preserves the wired address. `ssh kria`, the default Wi-Fi
+checker and the default board-environment checker all passed afterward.
+
 The checker reports a point-in-time snapshot only: it does not itself prove
 the 10-minute tests, physical cable state or absence of SSH multiplexing.
 Those items are supported by separate evidence in `wifi_evidence.md` and by
