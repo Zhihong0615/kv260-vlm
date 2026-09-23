@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read-only KV260 CPU-baseline resource snapshot; run through batch SSH stdin."""
 
+import hashlib
 import json
 import os
 import platform
@@ -15,9 +16,29 @@ from pathlib import Path
 SYSTEMD_UNITS = ("jupyter.service", "apt-daily.service", "apt-daily-upgrade.service",
                 "packagekit.service")
 PROCESS_CPU_SAMPLE_SECONDS = 2.0
+TIMEOUT_EXECUTABLE_PATH = "/usr/bin/timeout"
 SELECTED_PROCESS_NAMES = {"llama-mtmd-cli", "llama-server", "vivado", "vitis_hls", "xbutil", "python3",
                          "cmake", "ninja", "cc1plus", "cc1", "unattended-upgr", "apt", "apt-get",
                          "dpkg", "dpkg-deb", "packagekitd", "rsync"}
+
+
+def timeout_executable_identity() -> dict:
+    identity = {"path": TIMEOUT_EXECUTABLE_PATH, "resolved_path": None,
+                "sha256": None, "usable": False}
+    path = Path(TIMEOUT_EXECUTABLE_PATH)
+    try:
+        identity["resolved_path"] = str(path.resolve(strict=True))
+        if not path.is_file() or not os.access(path, os.X_OK):
+            return identity
+        digest = hashlib.sha256()
+        with path.open("rb") as stream:
+            for block in iter(lambda: stream.read(1 << 20), b""):
+                digest.update(block)
+        identity["sha256"] = digest.hexdigest()
+        identity["usable"] = True
+    except (OSError, RuntimeError):
+        pass
+    return identity
 
 
 def systemd_state(unit: str, run=subprocess.run) -> dict:
@@ -196,6 +217,7 @@ def main() -> None:
 
     services = collect_systemd_states()
     packagekit = packagekit_transaction_state(services)
+    timeout_identity = timeout_executable_identity()
     thermal = {}
     for zone in sorted(Path("/sys/class/thermal").glob("thermal_zone*")):
         try:
@@ -216,8 +238,10 @@ def main() -> None:
         "cpu_count": os.cpu_count(),
         "memory_kib": memory,
         "home_free_bytes": statvfs.f_bavail * statvfs.f_frsize,
-        "tools_present": {name: bool(shutil.which(name)) for name in
-                           ("cmake", "g++", "make", "ninja", "rsync", "timeout", "sha256sum", "/usr/bin/time")},
+        "timeout_executable": timeout_identity,
+        "tools_present": {**{name: bool(shutil.which(name)) for name in
+                              ("cmake", "g++", "make", "ninja", "rsync", "sha256sum", "/usr/bin/time")},
+                          "timeout": timeout_identity["usable"]},
         "selected_process_counts": dict(sorted(selected.items())),
         "selected_processes": sorted(selected_processes, key=lambda row: row["pid"]),
         "preflight_pid": os.getpid(),
