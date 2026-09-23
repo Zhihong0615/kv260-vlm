@@ -49,3 +49,10 @@
 - **Scope:** Offline reconciliation only. B02 will not run inference or scripts, inspect answer labels, access the board, edit source evidence, or change status/novelty conclusions.
 - **Rationale:** The audit can establish whether existing logs expose request identity, ordered visual groups and op-shape coverage, and where the evidence still stops. It cannot establish a K26 failure interval or PL benefit.
 - **Next step:** Integrate its report only after exact-source and clean-branch validation. Continue to hold P3 at `NO_GO_NOW`.
+
+## 2026-09-24 — Integrate E01 current-SHA P2 review
+
+- **Decision:** Record the current parser/runner/preflight source review as complete with P0=0, P1=0, P2=7; retain all seven P2 findings and keep the actual configured runner gate closed.
+- **Evidence:** Frozen input snapshot `880096cc50f4d37692012136ef7d204856df40ca`; all nine manifest entries passed. Worker report commit `9830c219f4f0a8f4c6361f57a668e210e0625ef7` is based on the exact isolated start `d5ab097050a74bf0eeec35a6d3b635e238ea25e9`. Coordinator merge `772fa8ad9985ee4c932226f7b9d12d2d5e70318d` contains the exact-hash report and handoff.
+- **Gate interpretation:** The report meets the source-level review predicate for both current parser and runner hashes, but the runner reads fixed paths in the primary checkout. The report was not copied to those paths because the primary checkout is the immutable evidence source. ALPHA proof, live resources, owner window, dynamic tests, and any execution authorization remain absent/unverified.
+- **Next step:** B02 is auditing existing host visual-pattern records offline. Keep board inference paused until all taskbook gates and a separately authorized owner window are met; retain P3 `NO_GO_NOW`.
