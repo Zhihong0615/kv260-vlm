@@ -20,7 +20,7 @@ The nine source files named in the frozen brief were SHA-256 checked against `or
 
 ## Commit and blockers
 
-- Content commit SHA: **pending** (will be recorded in a metadata-only follow-up once the deliverable commit is created).
+- Content commit SHA: `07eb1057b16a69a1fd076753d5d07a0bd202e219` (initial commit carrying both deliverables; this line is recorded in a metadata-only follow-up).
 - Final task HEAD: **to be reported in the task completion message**.
 - Exact missing evidence: (1) end-to-end verified physical UART/console or other independent recovery route and responsible recovery operator; (2) exact known-good boot image/slot and validated restore target/procedure; (3) fresh current FPGA Manager / application / slot state and interpreted expected values; (4) exact research design, bitstream hash, source/build/toolchain provenance, compatibility, and PL/DMA resource gate; (5) named board owner, exclusive reservation, lock acquire/release protocol, and access identity; (6) image-specific bounded load and rollback timeouts, success signals, failure responses, and recovery steps; and (7) separate explicit user approval naming the exact bitstream hash and operation.
 - The runbook marks the load, rollback, and any future reboot as blocked; timeout/success/recovery fields remain explicitly `UNKNOWN` until the concrete image plan is reviewed.
