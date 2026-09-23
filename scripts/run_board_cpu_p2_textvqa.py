@@ -114,9 +114,11 @@ def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
     reasons.extend(systemd_gate_reasons(snapshot.get("systemd_service_states", {})))
     try:
         load1 = float(snapshot["loadavg"].split()[0])
-    except (KeyError, IndexError, TypeError, ValueError):
-        load1 = float("inf")
-    if load1 > MAX_LOAD1:
+    except (AttributeError, KeyError, IndexError, TypeError, ValueError):
+        load1 = float("nan")
+    if not math.isfinite(load1) or load1 < 0:
+        reasons.append("LOAD_STATE_UNKNOWN")
+    elif load1 > MAX_LOAD1:
         reasons.append("LOAD")
     processes = snapshot.get("selected_processes")
     if not isinstance(processes, list) or any(
@@ -147,7 +149,7 @@ def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
                for row in processes):
             reasons.append("BUSY_PROCESS")
     cpu_rows = snapshot.get("process_cpu_rows")
-    if not isinstance(cpu_rows, list) or any(
+    cpu_rows_well_formed = isinstance(cpu_rows, list) and not any(
             not isinstance(row, dict) or not isinstance(row.get("comm"), str) or
             not isinstance(row.get("pid"), int) or isinstance(row.get("pid"), bool) or
             row.get("pid", 0) <= 0 or
@@ -160,7 +162,8 @@ def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
             not isinstance(row.get("cpu_cores"), (int, float)) or
             isinstance(row.get("cpu_cores"), bool) or not math.isfinite(row.get("cpu_cores")) or
             row.get("cpu_cores", -1) < 0
-            for row in cpu_rows):
+            for row in cpu_rows)
+    if not cpu_rows_well_formed:
         reasons.append("PROCESS_STATE_UNKNOWN")
     elif len({row["pid"] for row in cpu_rows}) != len(cpu_rows):
         reasons.append("PROCESS_STATE_UNKNOWN")
@@ -177,7 +180,7 @@ def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
             not isinstance(snapshot.get("process_cpu_sample_errors"), list) or
             snapshot.get("process_cpu_sample_errors")):
         reasons.append("PROCESS_STATE_UNKNOWN")
-    elif isinstance(cpu_rows, list) and all(isinstance(row, dict) for row in cpu_rows):
+    elif cpu_rows_well_formed:
         preflight_pid = snapshot.get("preflight_pid")
         if any(row["pid"] != preflight_pid and
                row["cpu_cores"] >= MAX_BUSY_CORES_PER_PROCESS for row in cpu_rows):
@@ -325,6 +328,7 @@ REMOTE_WORKER = r'''
 import fcntl
 import hashlib
 import json
+import math
 import os
 import re
 import shutil
@@ -449,8 +453,10 @@ def gate(s, pre, before=None):
     if m.get("SwapTotal")!=0 or m.get("SwapFree")!=0: reasons.append("SWAP")
     if s.get("home_free_bytes",0)<CONFIG["min_home_free_bytes"]: reasons.append("DISK")
     reasons.extend(systemd_gate_reasons(s.get("systemd_service_states",{})))
-    load=float(s["loadavg"].split()[0])
-    if load>CONFIG["max_load1"]: reasons.append("LOAD")
+    try: load=float(s["loadavg"].split()[0])
+    except (AttributeError,KeyError,IndexError,TypeError,ValueError): load=float("nan")
+    if not math.isfinite(load) or load<0: reasons.append("LOAD_STATE_UNKNOWN")
+    elif load>CONFIG["max_load1"]: reasons.append("LOAD")
     forbidden_names={"apt","apt-get","dpkg","dpkg-deb","llama-mtmd-cli","llama-server","vivado","vitis_hls","xbutil","cmake","ninja","cc1","cc1plus","gcc","g++","make","rsync"}
     forbidden=[p for p in s["selected_processes"]
                if (p["comm"] in forbidden_names or
