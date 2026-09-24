@@ -2,13 +2,14 @@
 """Compile the locally generated tensor-capture CLI on the KV260 staging host."""
 import hashlib
 import json
+import os
 import shlex
 import subprocess
 from pathlib import Path
 
-ROOT = Path("/home/ubuntu/kv260-vlm-p2-cpu")
-SOURCE = Path("/tmp/rm04-tensor-capture/mtmd-cli-optrace.cpp")
-OUT = Path("/tmp/rm04-tensor-capture")
+ROOT = Path(os.environ.get("RM04_BOARD_ROOT", "/home/ubuntu/kv260-vlm-p2-cpu"))
+OUT = Path(os.environ.get("RM04_CAPTURE_ROOT", "/tmp/rm04-tensor-capture"))
+SOURCE = OUT / "mtmd-cli-optrace.cpp"
 BUILD = ROOT / "build-cpu"
 PINNED_RUNTIME_COMMIT = "7ab4ee7baad2d920464cbacfad4f4b07cf111fd2"
 PINNED_CLI_SHA256 = "92694f41553d76165428deddc11e5100da9bce79f66fd4918b4972bb9e6959bb"

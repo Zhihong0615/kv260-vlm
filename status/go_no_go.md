@@ -1,9 +1,11 @@
-# Initial research go/no-go
+# Research go/no-go
 
-> **Latest stage decision (RM04, 2026-09-24): `STOP_CURRENT_PL_PATH` for corrected-shape Dynamic8 `ffn_up-0`.** The exact five calls take 7.158 s on the KV260 CPU; corrected Dynamic8 takes 417,605,286 scheduled cycles each, or an optimistic 11.135 s for five at the integrated routed 187.512 MHz clock, before PL boundary cost. The full PS–PL design routes and meets its specified setup timing, but the bitstream was not loaded because the first-load runbook's recovery/rollback gates remain unverified. Actual board DMA and call-boundary numbers remain unknown. Coverage at the exact frozen shape is 16.136% of the traced vision MACs; another 71.887% uses the same arithmetic with compile-time shape changes. Full evidence: [`RM04_RESULTS.md`](../experiments/rm04_system/RM04_RESULTS.md). The RM01/P3 status below is retained as historical context and is not the current Dynamic8 path decision.
+> **Latest stage decision (RM05, 2026-09-24): `GO_K16_OR_HIGHER_STATIC` for the exact FFN-down shape `K/M/N=4304/1152/1120`.** On KV260, the five `ffn_down-0` calls take 20.628 s; existing exact-shape K16 HLS/OOC data projects 3.920 s of compute at ≈209.4 MHz (5.26× compute-only margin). Corrected K16 `ffn_up-0` is 1.60× compute-only versus its 7.156 s CPU baseline and has little 1.5× end-to-end boundary budget (0.294 s total). QID 37804 board profiling timed 845 operations in seven vision families, covering 99.25% of traced matmul MAC and 91.3% of encode+decode wall time. Proceed to real-tensor numeric validation and then minimal PL boundary feasibility for the strong exact-shape down candidate; no bitstream was loaded and no novelty claim is made. The RM04 corrected-shape Dynamic8 `ffn_up-0` path remains stopped. Full evidence: [`RM05_RESULTS.md`](../experiments/rm05/RM05_RESULTS.md).
 
-Updated: 2026-09-23 16:04 UTC  
-Decision: **NO_GO_P3_NOW; CONTINUE P1/P2**
+Updated: 2026-09-24 12:02 UTC
+Decision: **GO_K16_OR_HIGHER_STATIC (RM05 feasibility); P3 method novelty remains unproven**
+
+Sections below the previous 2026-09-23 update retain RM01 and earlier decision context. Read them as historical rather than as a summary of RM05's current hardware feasibility result.
 
 This is a stage decision, not a stop decision for the research project. Continue the authorized host-side baseline, trace, prior-art, and feasibility work. Do not start custom accelerator or research-bitstream implementation yet.
 

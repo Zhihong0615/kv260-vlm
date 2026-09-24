@@ -87,6 +87,25 @@ static bool pm_target_boundary(const PMTrace * tr, const ggml_tensor * t) {
     const char * phase_env = std::getenv("PHASEMAP_TARGET_PHASE");
     const std::string target_phase = phase_env && *phase_env ? phase_env : "vision_encoder";
     if (tr->phase != target_phase) return false;
+    const char * prefixes_env = std::getenv("PHASEMAP_TARGET_OP_PREFIXES");
+    if (prefixes_env && *prefixes_env) {
+        if (t->op != GGML_OP_MUL_MAT) return false;
+        const std::string prefixes(prefixes_env);
+        for (int src = 0; src < GGML_MAX_SRC; ++src) {
+            if (!t->src[src]) continue;
+            const std::string src_name = t->src[src]->name;
+            std::size_t begin = 0;
+            while (begin <= prefixes.size()) {
+                const std::size_t end = prefixes.find(',', begin);
+                const std::string prefix = prefixes.substr(begin, end == std::string::npos ? end : end - begin);
+                if (!prefix.empty() && (src_name.rfind(prefix, 0) == 0 ||
+                                        src_name.find(prefix) != std::string::npos)) return true;
+                if (end == std::string::npos) break;
+                begin = end + 1;
+            }
+        }
+        return false;
+    }
     const char * target_env = std::getenv("PHASEMAP_TARGET_OP_NAME");
     const char * predecessor_env = std::getenv("PHASEMAP_TARGET_PREDECESSOR_NAME");
     const std::string target = target_env && *target_env ? target_env : "ffn_up-0";
@@ -144,11 +163,27 @@ static bool pm_eval(ggml_tensor * t, bool ask, void * p) {
         const std::string predecessor = predecessor_env && *predecessor_env ? predecessor_env : "ffn_inp_normed-0";
         const char * phase_env = std::getenv("PHASEMAP_TARGET_PHASE");
         const std::string target_phase = phase_env && *phase_env ? phase_env : "vision_encoder";
-        if (tr->phase == target_phase && std::string(t->name) == target) timed << ",\"kind\":\"isolated_target_node\"";
+        const char * prefixes_env = std::getenv("PHASEMAP_TARGET_OP_PREFIXES");
+        if (tr->phase == target_phase && prefixes_env && *prefixes_env && pm_target_boundary(tr, t)) timed << ",\"kind\":\"isolated_family_node\"";
+        else if (tr->phase == target_phase && std::string(t->name) == target) timed << ",\"kind\":\"isolated_target_node\"";
         else if (tr->phase == target_phase && std::string(t->name) == predecessor) timed << ",\"kind\":\"target_prelude_boundary\"";
         else timed << ",\"kind\":\"layer_boundary\"";
         timed << ",\"elapsed_ns\":" << ns << ",\"output_name\":"; pm_quote(timed, t->name);
-        timed << ",\"op\":"; pm_quote(timed, ggml_op_name(t->op)); timed << '}';
+        timed << ",\"op\":"; pm_quote(timed, ggml_op_name(t->op));
+        if (t->op == GGML_OP_MUL_MAT && t->src[0] && t->src[1]) {
+            timed << ",\"src0_name\":"; pm_quote(timed, t->src[0]->name);
+            timed << ",\"src1_name\":"; pm_quote(timed, t->src[1]->name);
+            timed << ",\"src0_dtype\":"; pm_quote(timed, ggml_type_name(t->src[0]->type));
+            timed << ",\"src1_dtype\":"; pm_quote(timed, ggml_type_name(t->src[1]->type));
+            timed << ",\"output_dtype\":"; pm_quote(timed, ggml_type_name(t->type));
+            timed << ",\"src0_ne\":[" << t->src[0]->ne[0] << ',' << t->src[0]->ne[1]
+                  << ',' << t->src[0]->ne[2] << ',' << t->src[0]->ne[3] << ']'
+                  << ",\"src1_ne\":[" << t->src[1]->ne[0] << ',' << t->src[1]->ne[1]
+                  << ',' << t->src[1]->ne[2] << ',' << t->src[1]->ne[3] << ']'
+                  << ",\"output_ne\":[" << t->ne[0] << ',' << t->ne[1]
+                  << ',' << t->ne[2] << ',' << t->ne[3] << ']';
+        }
+        timed << '}';
         tr->rows.push_back(timed.str()); tr->starts.erase(it); return true;
     }
     std::ostringstream o; o << "{\"record\":\"node\",\"phase\":"; pm_quote(o, tr->phase);
