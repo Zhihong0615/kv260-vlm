@@ -1,5 +1,11 @@
 # Decision Log
 
+## 2026-09-24 — Integrate E13/R19 and close process-scan P2-1 at source level
+
+- **E13/R19 exact-target gate:** E13 commit `9b34056ec27a54c2e7c1265d78b002715a4cca6d` directly parents `dced7666bcb3c5f79efd2d983045bac35932d89b`; R19 commit `3475cb9b288b679827fd327b6ef41127f1261f4c` directly parents E13. R19 verdict **PASS**, P0=0/P1=0/P2=0; report SHA-256 `6997035c279aed292e3ca6476d182072e1e078cc6d39a48fbb1e3b8050c2022c`; handoff SHA-256 `a044954348455913ebae60d489728b159b1d40843bd6e1899bc74ebd39ffb49d`. Coordinator merges: E13 `eec7608a5cac97db1ae9a8902b3eab1fa12a62fe`; R19 `0f572975dc0e8514b1dec28106676ffd1f90e88a`.
+- **Review and test evidence:** R19's one independent invocation of `python3 -m unittest discover -s tests -p test_p2_remote_process_scan_errors.py` passed five tests. The E13 builder's first allowed run failed on fixture setup; after correction its second run passed five tests. Both outputs and hashes are preserved in E13/R19 handoffs. Exact runner SHA is `418c72316a055d0260ba88ccf85e31dba98cc0e0256d499fefa96063aa82e694`; parser context SHA is `48c834d6b803eb6a06f4be39f287913c461701ec606956c66493fe7f10d7e209`.
+- **Disposition:** R19 confirms `FileNotFoundError` process-exit handling and generic `OSError` unknown state in both scans, with unknown scans blocking cleanup verification and remote `COMPLETE`; production defaults remain `/proc` and `/home/ubuntu/kv260-vlm-p2-cpu`. This closes R16 P2-1 only at exact-source/synthetic-test level. R16 P2-2 (one fresh CLI across repeated owner-window references) and P2-3 (durable later non-start conflicts) remain open. R16 and R14 archives are unchanged. No board/live `/proc` action occurred; board readiness is not established; P3 remains `NO_GO_NOW`.
+
 ## 2026-09-24 — Deliver E13 and activate exact-target R19
 
 - **E13 delivery:** commit `9b34056ec27a54c2e7c1265d78b002715a4cca6d` directly parents frozen base `dced7666bcb3c5f79efd2d983045bac35932d89b`; its clean worktree changes exactly the runner, focused test, and handoff. Runner SHA-256 `418c72316a055d0260ba88ccf85e31dba98cc0e0256d499fefa96063aa82e694`; test SHA-256 `55b87f3afae7eab92f811209ecea5a5794699a615d048ed77238aa3f74a330c1`; handoff SHA-256 `ae885642a989a3da32b1f87947ca0233f0ca09166704b3cc9a57b69ef35bb839`.
