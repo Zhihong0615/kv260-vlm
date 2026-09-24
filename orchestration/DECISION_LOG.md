@@ -1,5 +1,10 @@
 # Decision Log
 
+## 2026-09-24 — Preserve R16 findings before runner follow-up work
+
+- **Audit copy:** copied the exact R16 `PASS_WITH_P2_FINDINGS` report to `reviews/audit/R16_runner_PASS_WITH_P2_FINDINGS_20260924.md`. Original and archive both hash to `725afd51970d77fc9430584d374f2ccb28600400da1833e50baab5d11ac1ae64`.
+- **Disposition:** preserves the P2 findings on process-scan errors, one CLI per owner window across invocations, and later non-start conflicts before future runner review replaces the fixed path. No runner, parser, test, raw evidence, or board action changed.
+
 ## 2026-09-24 — Integrate R16 and activate E12/R17 parser contract work
 
 - **R16 result:** reviewer commit `bef9822d77b78132548b5554bbc00f7b38666e59` directly parents exact E11 target `74dc08eb3114d6221eea5eadcc2fee2630cccc26`; its worktree is clean and its only changes are the fixed runner review and R16 handoff. Verdict **PASS_WITH_P2_FINDINGS**, P0=0/P1=0/P2=3. Report SHA-256 `725afd51970d77fc9430584d374f2ccb28600400da1833e50baab5d11ac1ae64`; handoff SHA-256 `7b3c621a6e46a8e075bec7786402950bfd9b6c9d5c1c518a49a9daa348eb76e0`; integration merge `cdf1c7e7e4e5b26d662bcae1878aede6a11f8014`.
