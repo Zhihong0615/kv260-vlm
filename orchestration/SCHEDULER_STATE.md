@@ -3,7 +3,7 @@
 Updated: 2026-09-24
 Coordinator branch: `orchestration/dispatch-20260924`
 Coordinator worktree: `/home/zhiro/research/kv260-vlm-orchestration`
-Coordinator head before this state refresh: `7a37b763063d0613a0ed87fba8417fe23ed4b87f`
+Coordinator head before this state refresh: `527fc8c49871a1772c7f825414e5c27dcf18b5af`
 Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, baseline `094edc130489dc59dd9333e4ae6b0aa4c8013149`.
 
 ## Stage and decision
@@ -65,7 +65,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06/E04/R07/E
 
 1. Keep the B05/R05 negative result closed; do not reactivate a group-aware selector claim on these four traces.
 2. Keep P3 at `NO_GO_NOW`; do not run board inference until current-SHA review artifacts, synthetic ALPHA evidence, live resource checks, and an inference-specific owner window are satisfied and authorized.
-3. E11/R16 are integrated. E12 is delivered; finish exact-target R17 before integrating its two parser fixes. Retain the R14 and R15 failure records in audit paths and preserve R16's three residual P2 findings. Do not claim runtime or board readiness.
+3. E11/R16 are integrated. E12 is delivered; finish exact-target R17 before integrating its two parser fixes. Then activate E13/R19 for the separate process-scan error finding. Retain the R14, R15, and R16 reports in audit paths and keep all remaining P2 findings visible. Do not claim runtime or board readiness.
 4. Keep the manifest/build-attestation path gap, runtime parser success, synthetic ALPHA, live resources, and owner-window proof explicitly open; no board action is authorized by these software tasks.
 5. Refresh `ACTIVE_TASKS.md`, this state page, and `DECISION_LOG.md` after each reviewed integration. Do not edit the primary checkout or the frozen global no-go file.
 6. Continue to label host metadata as host evidence and keep P3 `NO_GO_NOW`.

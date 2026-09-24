@@ -12,6 +12,11 @@
 - **R17 activation:** exact target and required direct parent are E12 commit `6b4a3d5af46f7b44069a1a7d36e5bad88167b960`. R17 may run the same focused synthetic module once and must write an exact parser-SHA report and handoff. Its manifest includes the preserved R14 finding and R16 runner-review context.
 - **Disposition:** R14 findings remain open at the fixed path until R17 returns a P0/P1-free exact-target verdict. This is source/synthetic evidence only; no real manifest, raw run, board, inference, benchmark, or owner window was exercised. Board execution remains blocked by separate gates and P3 stays `NO_GO_NOW`.
 
+## 2026-09-24 — Queue the first R16 residual for isolated follow-up
+
+- **Queued scope:** E13/R19 will address only R16 P2-1: non-permission `OSError` while scanning remote CLI process command lines must not be treated as no matching process during cleanup or remote status. TASK_E13/TASK_R19 define the production-helper fake-procfs evidence and exact review gate; activation waits until E12/R17 integration so the runner/parser context is current.
+- **Preserved findings:** E13 will not address R16 P2-2 (owner-window reuse across invocations) or P2-3 (later non-start conflict durability). The R16 exact report remains preserved at `reviews/audit/R16_runner_PASS_WITH_P2_FINDINGS_20260924.md`.
+
 ## 2026-09-24 — Integrate R16 and activate E12/R17 parser contract work
 
 - **R16 result:** reviewer commit `bef9822d77b78132548b5554bbc00f7b38666e59` directly parents exact E11 target `74dc08eb3114d6221eea5eadcc2fee2630cccc26`; its worktree is clean and its only changes are the fixed runner review and R16 handoff. Verdict **PASS_WITH_P2_FINDINGS**, P0=0/P1=0/P2=3. Report SHA-256 `725afd51970d77fc9430584d374f2ccb28600400da1833e50baab5d11ac1ae64`; handoff SHA-256 `7b3c621a6e46a8e075bec7786402950bfd9b6c9d5c1c518a49a9daa348eb76e0`; integration merge `cdf1c7e7e4e5b26d662bcae1878aede6a11f8014`.
