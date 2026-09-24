@@ -788,14 +788,14 @@ def on_signal(sig,_frame):
 for sig in (signal.SIGTERM,signal.SIGHUP,signal.SIGINT): signal.signal(sig,on_signal)
 def argv_sha(a): return hashlib.sha256(json.dumps(a,ensure_ascii=False,separators=(",",":")).encode()).hexdigest()
 def write_result(case_dir, state): save(case_dir/"result.json",state)
-def owned_cli_processes():
+def owned_cli_processes(proc_root=Path("/proc")):
     needle=str(BASE/"build-cpu/bin/llama-mtmd-cli").encode(); found=[]; unreadable=[]
-    for entry in Path("/proc").iterdir():
+    for entry in proc_root.iterdir():
         if not entry.name.isdigit() or int(entry.name)==os.getpid(): continue
         try:
             if needle in (entry/"cmdline").read_bytes(): found.append(int(entry.name))
-        except PermissionError: unreadable.append(int(entry.name))
-        except OSError: continue
+        except FileNotFoundError: pass
+        except OSError: unreadable.append(int(entry.name))
     return sorted(found),sorted(unreadable)
 
 def main():
@@ -1064,11 +1064,13 @@ def ssh_python(source: str, timeout: int) -> subprocess.CompletedProcess[bytes]:
                           stderr=subprocess.PIPE, timeout=timeout, check=False)
 
 
-def remote_status_source(run_id: str) -> str:
-    return "RUN_ID=" + repr(run_id) + r'''
+def remote_status_source(run_id: str, *, proc_root: Path = Path("/proc"),
+                         base_dir: Path = Path("/home/ubuntu/kv260-vlm-p2-cpu")) -> str:
+    return ("RUN_ID=" + repr(run_id) + "\nPROC_ROOT=" + repr(str(proc_root)) +
+            "\nBASE_DIR=" + repr(str(base_dir)) + r'''
 import fcntl,hashlib,json,os
 from pathlib import Path
-base=Path("/home/ubuntu/kv260-vlm-p2-cpu"); run=base/"runs"/RUN_ID
+base=Path(BASE_DIR); run=base/"runs"/RUN_ID
 out={"state":"REMOTE_STATE_UNKNOWN","run_id":RUN_ID,"run_dir_exists":run.exists()}
 lock_path=base/"runs/.cpu_p2_runner.lock"
 try:
@@ -1077,12 +1079,12 @@ try:
         fcntl.flock(f.fileno(),fcntl.LOCK_UN)
 except (BlockingIOError,OSError): out["runner_lock_free"]=False
 needle=str(base/"build-cpu/bin/llama-mtmd-cli").encode(); found=[]; unreadable=[]
-for e in Path("/proc").iterdir():
+for e in Path(PROC_ROOT).iterdir():
     if not e.name.isdigit() or int(e.name)==os.getpid(): continue
     try:
         if needle in (e/"cmdline").read_bytes(): found.append(int(e.name))
-    except PermissionError: unreadable.append(int(e.name))
-    except OSError: pass
+    except FileNotFoundError: pass
+    except OSError: unreadable.append(int(e.name))
 out["board_cli_processes"]=sorted(found); out["unreadable_processes"]=sorted(unreadable)
 complete=run/"completion.json"; result=run/"result.json"
 if complete.is_file() and result.is_file():
@@ -1107,7 +1109,7 @@ else: out["completion_marker_valid"]=False
 if out.get("runner_lock_free") and out.get("completion_marker_valid") and not found and not unreadable:
     out["state"]="COMPLETE"
 print(json.dumps(out,sort_keys=True))
-'''
+''')
 
 
 def load_adapter():
