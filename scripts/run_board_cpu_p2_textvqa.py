@@ -843,6 +843,7 @@ def owned_cli_processes(proc_root=Path("/proc")):
     return sorted(found),sorted(unreadable)
 
 def main():
+    global TERMINATION_UNPROVEN
     RUNS.mkdir(parents=True,exist_ok=True)
     lock=(RUNS/".cpu_p2_runner.lock").open("a+")
     try: fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
