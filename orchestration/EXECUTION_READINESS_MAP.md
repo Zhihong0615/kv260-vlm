@@ -18,7 +18,7 @@ The current coordinator tree has these source hashes:
 - Adapter: `reviews/kv260_cpu_p2_textvqa_output_contract_v2_independent_review.md`
 - Runner: `reviews/board_cpu_p2_textvqa_runner_independent_review.md`
 
-The primary evidence checkout contains older reviews binding parser SHA `06fa1518ed240d75d3c2ad90f9c41ca545f2b041182957130219c1293a44a752` and runner SHA `2b6e38daa0f1cc1b720072dd3872bdfb3f4fa1c4a7b0d36c0baab0c6567f389f`; they do not bind current coordinator subjects. R14 is integrated at the fixed adapter path and binds the current parser. The fixed runner path contains R15's BLOCKED review for prior runner SHA `8f07232ef2bcfe78e3f5cd331273796de6db87402a8e502ca4980dc89682c577`; its unchanged failure copy is preserved at `reviews/audit/R15_current_runner_BLOCKED_20260924.md`. E11 updates the runner to the SHA above and R16 is active to review that exact source.
+The primary evidence checkout contains older reviews binding parser SHA `06fa1518ed240d75d3c2ad90f9c41ca545f2b041182957130219c1293a44a752` and runner SHA `2b6e38daa0f1cc1b720072dd3872bdfb3f4fa1c4a7b0d36c0baab0c6567f389f`; they do not bind current coordinator subjects. R14 is integrated at the fixed adapter path and binds the current parser; its `PASS_WITH_P2_FINDINGS` report is preserved unchanged at `reviews/audit/R14_adapter_PASS_WITH_P2_FINDINGS_20260924.md` before the findings are addressed. The fixed runner path contains R15's BLOCKED review for prior runner SHA `8f07232ef2bcfe78e3f5cd331273796de6db87402a8e502ca4980dc89682c577`; its unchanged failure copy is preserved at `reviews/audit/R15_current_runner_BLOCKED_20260924.md`. E11 updates the runner to the SHA above and R16 is active to review that exact source.
 
 ## Gate inventory
 

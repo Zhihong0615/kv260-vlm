@@ -1,5 +1,10 @@
 # Decision Log
 
+## 2026-09-24 — Preserve the R14 P2 report before parser remediation
+
+- **Audit copy:** copied the exact R14 `PASS_WITH_P2_FINDINGS` report to `reviews/audit/R14_adapter_PASS_WITH_P2_FINDINGS_20260924.md`. Original and archive both hash to `50512e90346b2be84c871ac983412c05361d359032ccf7b9b4205539bc5a26e8`. This preserves the exact review findings before any future accepted parser review replaces the configured fixed path.
+- **Disposition:** no parser, runner, test, raw evidence, or board action changed. The two R14 P2 findings remain open pending a separately scoped remediation and exact-target review.
+
 ## 2026-09-24 — Integrate E11 and activate exact-target R16
 
 - **E11 delivery:** worker commit `74dc08eb3114d6221eea5eadcc2fee2630cccc26` directly parents frozen R15 integration base `9485eef4e975f7082d98d651bb156effd5221505`; it is clean and changes only the runner, focused synthetic process-gate test, and handoff. The one authorized builder invocation, `python3 -m unittest discover -s tests -p test_p2_remote_process_gate.py`, passed 6 tests. Final runner SHA-256 `0ff88fd1780fa52ae5a30a6a47fe89827887d4360e20a14e9dc3269e6fb6ba92`; test SHA-256 `7093a6680444f17aaf72b65977fa83d698a36582a5b7eb7c45276ddd892c3aea`; handoff SHA-256 `5e267c0ab40bfe71ffc8f7fb453ff461b20af1a2a684d681ace2a782fc37f14f`. Coordinator integration merge: `5436bc78da85ee0ee891c294a0ab2b876c25a758`.
