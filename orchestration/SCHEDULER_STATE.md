@@ -11,7 +11,7 @@ Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, ba
 - P0: the previously authorized normal reboot/reconnect and immediate CPU-runner CMA recovery gate passed. No new reboot is authorized.
 - P1: prior-art and novelty screening are integrated. R01 returned **FAIL**; no method candidate is selected.
 - P2: host CPU baseline, selected-request traces, and software gate preparation continue in isolated worktrees.
-- Current stage tasks: E11 is queued to remediate R15's P1 in an isolated host-only worktree; R16 is queued for exact-target independent review. R14/R15 are complete and integrated as review evidence.
+- Current stage tasks: E11 is active to remediate R15's P1 in an isolated host-only worktree; R16 is queued for exact-target independent review. R14/R15 are complete and integrated as review evidence.
 - P3: **NO_GO_NOW**. No research RTL, research bitstream, or board VLM inference.
 - P4–P8: not started.
 
