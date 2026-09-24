@@ -492,6 +492,8 @@ from pathlib import Path
 BASE = Path("/home/ubuntu/kv260-vlm-p2-cpu")
 RUNS = BASE / "runs"
 TIMEOUT_EXECUTABLE_PATH = "/usr/bin/timeout"
+PROC_ROOT = Path("/proc")
+PROCESS_CPU_SAMPLE_SECONDS = 2.0
 ACTIVE = None
 TERMINATION_UNPROVEN = False
 
@@ -567,26 +569,85 @@ def timeout_provenance_fields(expected, observed, verified, checked_at):
 def save(path,obj):
     with Path(path).open("x",encoding="utf-8") as f:
         json.dump(obj,f,ensure_ascii=False,sort_keys=True,indent=2); f.write("\n"); f.flush(); os.fsync(f.fileno())
-def proc_rows():
-    rows={}
-    for e in Path("/proc").iterdir():
-        if not e.name.isdigit(): continue
+def process_cpu_snapshot(proc_root=PROC_ROOT, clock=time.monotonic):
+    """Read all proc entries and retain failures so an incomplete sample blocks launch."""
+    rows={}; errors=[]
+    try: entries=sorted(proc_root.iterdir(),key=lambda entry:entry.name)
+    except OSError as exc: return rows,["procfs:"+type(exc).__name__]
+    for entry in entries:
+        if not entry.name.isdigit(): continue
+        pid=int(entry.name)
         try:
-            raw=(e/"stat").read_text(); tail=raw[raw.rfind(")")+2:].split()
-            ticks=int(tail[11])+int(tail[12]); name=(e/"comm").read_text().strip()
-            status=(e/"status").read_text().splitlines()
-            uid=int(next(x for x in status if x.startswith("Uid:")).split()[1])
-            cmd=(e/"cmdline").read_bytes().replace(b"\0",b" ").decode(errors="replace").lower()
+            stat_read_started=clock(); raw=(entry/"stat").read_text(); stat_read_ended=clock()
+            close=raw.rfind(")")
+            if close<0 or "(" not in raw[:close]: raise ValueError("malformed stat command")
+            stat_pid=int(raw[:raw.find("(")].strip())
+            if stat_pid!=pid: raise ValueError("stat pid mismatch")
+            fields=raw[close+2:].split()
+            if len(fields)<20: raise ValueError("short stat record")
+            ticks=int(fields[11])+int(fields[12]); starttime=int(fields[19])
+            if ticks<0 or starttime<0: raise ValueError("negative stat counter")
+            name=(entry/"comm").read_text().strip()
+            if not name: raise ValueError("empty process name")
+            status=(entry/"status").read_text().splitlines()
+            uid=int(next(line for line in status if line.startswith("Uid:")).split()[1])
+            if uid<0: raise ValueError("negative uid")
+            argv=[arg.decode(errors="replace") for arg in (entry/"cmdline").read_bytes().split(b"\0") if arg]
             role="process"
             if name=="unattended-upgr":
-                argv=[arg.decode(errors="replace") for arg in (e/"cmdline").read_bytes().split(b"\0") if arg]
                 role=("shutdown_waiter" if len(argv)>=2 and argv[-2:]==[
                     "/usr/share/unattended-upgrades/unattended-upgrade-shutdown","--wait-for-signal"]
                     else "unattended_upgrade")
-            rows[int(e.name)]={"ticks":ticks,"comm":name,"uid":uid,"cmd":cmd,"role":role}
-        except (OSError,ValueError,IndexError,StopIteration): continue
-    return rows
-def snapshot():
+            rows[pid]={"pid":pid,"ticks":ticks,"starttime_ticks":starttime,"comm":name,
+                       "uid":uid,"role":role,"stat_read_started":stat_read_started,
+                       "stat_read_ended":stat_read_ended}
+        except (OSError,ValueError,IndexError,StopIteration,TypeError) as exc:
+            errors.append("pid:"+str(pid)+":"+type(exc).__name__)
+    return rows,errors
+def sample_process_cpu(proc_root=PROC_ROOT, sleep_fn=time.sleep, clock=time.monotonic,
+                       sysconf=os.sysconf):
+    """Take two fixed-interval samples and report every incomplete identity or counter."""
+    started=clock(); before,before_errors=process_cpu_snapshot(proc_root,clock)
+    sleep_fn(PROCESS_CPU_SAMPLE_SECONDS)
+    after,after_errors=process_cpu_snapshot(proc_root,clock); elapsed=clock()-started
+    errors=before_errors+after_errors; rows=[]; selected=[]; state="OK"
+    if (errors or set(before)!=set(after) or not math.isfinite(elapsed) or
+            not PROCESS_CPU_SAMPLE_SECONDS<=elapsed<=5.0):
+        state="PROCESS_STATE_UNKNOWN"
+        if set(before)!=set(after): errors.append("sample_pid_set_changed")
+        if not math.isfinite(elapsed) or not PROCESS_CPU_SAMPLE_SECONDS<=elapsed<=5.0:
+            errors.append("sample_interval_invalid")
+    try:
+        ticks_per_second=int(sysconf("SC_CLK_TCK"))
+        if ticks_per_second<=0: raise ValueError("invalid clock tick rate")
+    except (OSError,ValueError,TypeError,OverflowError) as exc:
+        ticks_per_second=0; state="PROCESS_STATE_UNKNOWN"
+        errors.append("clock_tick_rate:"+type(exc).__name__)
+    for pid in sorted(set(before)&set(after)):
+        old,new=before[pid],after[pid]
+        if ((old["comm"],old["uid"],old["starttime_ticks"])!=
+                (new["comm"],new["uid"],new["starttime_ticks"])):
+            state="PROCESS_STATE_UNKNOWN"; errors.append("pid:"+str(pid)+":identity_changed")
+            continue
+        delta_ticks=new["ticks"]-old["ticks"]
+        process_interval=new["stat_read_started"]-old["stat_read_ended"]
+        if (delta_ticks<0 or ticks_per_second<=0 or not math.isfinite(process_interval) or
+                process_interval<=0):
+            state="PROCESS_STATE_UNKNOWN"; errors.append("pid:"+str(pid)+":invalid_cpu_delta")
+            continue
+        cpu_cores=delta_ticks/ticks_per_second/process_interval
+        if not math.isfinite(cpu_cores) or cpu_cores<0:
+            state="PROCESS_STATE_UNKNOWN"; errors.append("pid:"+str(pid)+":invalid_cpu_rate")
+            continue
+        row={"pid":pid,"comm":new["comm"],"cpu_ticks_delta":delta_ticks,
+             "cpu_sample_interval_seconds":process_interval,"cpu_cores":cpu_cores}
+        rows.append(row)
+        if new["comm"] in {"unattended-upgr","apt","apt-get","dpkg","dpkg-deb","packagekitd",
+                            "llama-mtmd-cli","llama-server","vivado","vitis_hls","xbutil","cmake",
+                            "ninja","cc1","cc1plus","gcc","g++","make","rsync"}:
+            selected.append({**row,"uid":new["uid"],"role":new["role"]})
+    return rows,selected,elapsed,state,errors,len(after)
+def snapshot(selected_processes, process_count):
     mem={}
     for line in Path("/proc/meminfo").read_text().splitlines():
         k,v=line.split(":",1)
@@ -599,11 +660,6 @@ def snapshot():
     packagekit=packagekit_transaction_state(services)
     j=services["jupyter.service"]
     sv=os.statvfs(str(Path.home()))
-    rows=proc_rows()
-    interesting={"unattended-upgr","apt","apt-get","dpkg","dpkg-deb","packagekitd",
-                 "llama-mtmd-cli","llama-server","vivado","vitis_hls","xbutil","cmake",
-                 "ninja","cc1","cc1plus","gcc","g++","make","rsync"}
-    procs=[{"pid":p,"uid":r["uid"],"comm":r["comm"],"role":r["role"]} for p,r in rows.items() if r["comm"] in interesting]
     return {"schema":"kv260_cpu_p2_textvqa_runtime_preflight_v3",
             "captured_at_utc":utc(),"scope":"read-only bounded CPU-only TextVQA preflight",
             "arch":__import__("platform").machine(),"cpu_count":os.cpu_count(),"memory_kib":mem,
@@ -612,10 +668,10 @@ def snapshot():
             "jupyter_active":j["active_state"],"jupyter_returncode":j["returncode"],
             "packagekit_transaction_state":packagekit,
             "timeout_executable":timeout_executable_identity(),
-            "selected_processes":procs,"process_count":len(rows),
+            "selected_processes":selected_processes,"process_count":process_count,
             "cpu_frequency_khz":{p.name:int((p/"cpufreq/scaling_cur_freq").read_text()) for p in sorted(Path("/sys/devices/system/cpu").glob("cpu[0-9]*")) if (p/"cpufreq/scaling_cur_freq").is_file()},
             "thermal_c":{z.name:round(int((z/"temp").read_text())/1000,3) for z in sorted(Path("/sys/class/thermal").glob("thermal_zone*")) if (z/"temp").is_file()}}
-def gate(s, pre, before=None):
+def gate(s, pre=True, before=None):
     reasons=[]; m=s["memory_kib"]
     if s["arch"].lower()!="aarch64" or s["cpu_count"]!=4: reasons.append("BOARD_IDENTITY")
     if m.get("MemAvailable",0)<CONFIG["min_mem_available_kib"]: reasons.append("MEMAVAILABLE")
@@ -638,26 +694,82 @@ def gate(s, pre, before=None):
             not re.fullmatch(r"[0-9a-f]{64}",timeout_identity["sha256"])):
         reasons.append("TIMEOUT_EXECUTABLE_MISMATCH")
     forbidden_names={"apt","apt-get","dpkg","dpkg-deb","llama-mtmd-cli","llama-server","vivado","vitis_hls","xbutil","cmake","ninja","cc1","cc1plus","gcc","g++","make","rsync"}
-    forbidden=[p for p in s["selected_processes"]
-               if (p["comm"] in forbidden_names or
-                   (p["comm"]=="unattended-upgr" and p.get("role")!="shutdown_waiter"))]
+    selected=s.get("selected_processes")
+    forbidden=[p for p in selected if isinstance(p,dict) and
+               (p.get("comm") in forbidden_names or
+                (p.get("comm")=="unattended-upgr" and p.get("role")!="shutdown_waiter"))] \
+               if isinstance(selected,list) else []
     if forbidden: reasons.append("BUSY_PROCESS")
+    process_unknown=not isinstance(selected,list)
+    cpu_rows=s.get("process_cpu_rows")
+    if not isinstance(cpu_rows,list): process_unknown=True
+    else:
+        for row in cpu_rows:
+            if (not isinstance(row,dict) or not isinstance(row.get("pid"),int) or
+                    isinstance(row.get("pid"),bool) or row.get("pid",0)<=0 or
+                    not isinstance(row.get("comm"),str) or
+                    not isinstance(row.get("cpu_ticks_delta"),int) or
+                    isinstance(row.get("cpu_ticks_delta"),bool) or row.get("cpu_ticks_delta",-1)<0 or
+                    not isinstance(row.get("cpu_sample_interval_seconds"),(int,float)) or
+                    isinstance(row.get("cpu_sample_interval_seconds"),bool) or
+                    not math.isfinite(row.get("cpu_sample_interval_seconds",float("nan"))) or
+                    not 0<row.get("cpu_sample_interval_seconds",0)<=5.0 or
+                    not isinstance(row.get("cpu_cores"),(int,float)) or
+                    isinstance(row.get("cpu_cores"),bool) or not math.isfinite(row.get("cpu_cores",float("nan"))) or
+                    row.get("cpu_cores",-1)<0): process_unknown=True
+        valid_pids={row.get("pid") for row in cpu_rows if isinstance(row,dict) and
+                    isinstance(row.get("pid"),int) and not isinstance(row.get("pid"),bool)}
+        if len(valid_pids)!=len(cpu_rows):
+            process_unknown=True
+    if isinstance(selected,list):
+        for row in selected:
+            if (not isinstance(row,dict) or not isinstance(row.get("comm"),str) or
+                    not isinstance(row.get("pid"),int) or isinstance(row.get("pid"),bool) or
+                    row.get("pid",0)<=0 or not isinstance(row.get("uid"),int) or
+                    isinstance(row.get("uid"),bool) or row.get("uid",-1)<0 or
+                    not isinstance(row.get("role"),str) or
+                    not isinstance(row.get("cpu_ticks_delta"),int) or
+                    isinstance(row.get("cpu_ticks_delta"),bool) or row.get("cpu_ticks_delta",-1)<0 or
+                    not isinstance(row.get("cpu_sample_interval_seconds"),(int,float)) or
+                    isinstance(row.get("cpu_sample_interval_seconds"),bool) or
+                    not math.isfinite(row.get("cpu_sample_interval_seconds",float("nan"))) or
+                    not 0<row.get("cpu_sample_interval_seconds",0)<=5.0 or
+                    not isinstance(row.get("cpu_cores"),(int,float)) or
+                    isinstance(row.get("cpu_cores"),bool) or not math.isfinite(row.get("cpu_cores",float("nan"))) or
+                    row.get("cpu_cores",-1)<0): process_unknown=True
+    sample_interval=s.get("process_cpu_sample_interval_seconds")
+    if (s.get("process_cpu_sample_state")!="OK" or
+            s.get("process_cpu_sample_wait_seconds")!=PROCESS_CPU_SAMPLE_SECONDS or
+            not isinstance(sample_interval,(int,float)) or isinstance(sample_interval,bool) or
+            not math.isfinite(sample_interval) or
+            not PROCESS_CPU_SAMPLE_SECONDS<=sample_interval<=5.0 or
+            not isinstance(s.get("process_cpu_sample_errors"),list) or
+            s.get("process_cpu_sample_errors")):
+        process_unknown=True
+    preflight_pid=s.get("preflight_pid")
+    if (not isinstance(preflight_pid,int) or isinstance(preflight_pid,bool) or
+            not isinstance(cpu_rows,list) or preflight_pid not in {
+                row.get("pid") for row in cpu_rows if isinstance(row,dict)}):
+        process_unknown=True
+    if process_unknown: reasons.append("PROCESS_STATE_UNKNOWN")
+    elif any(row["pid"]!=preflight_pid and
+             row["cpu_cores"]>=CONFIG["max_busy_cores_per_process"] for row in cpu_rows):
+        reasons.append("BUSY_CPU")
     pkg=s.get("packagekit_transaction_state",{})
     if (not isinstance(pkg,dict) or
             pkg.get("state") not in ("SERVICE_INACTIVE","NO_ACTIVE_TRANSACTIONS") or
             pkg.get("timed_out") is not False): reasons.append("PACKAGEKIT_STATE")
-    if before is not None:
-        hz=os.sysconf("SC_CLK_TCK"); elapsed=2.0
-        for pid,row in s["_rows_after"].items():
-            if pid==os.getpid(): continue
-            old=before.get(pid)
-            if old and (row["ticks"]-old["ticks"])/hz/elapsed>=CONFIG["max_busy_cores_per_process"]:
-                reasons.append("BUSY_CPU"); break
     return reasons
-def rich_snapshot():
-    before=proc_rows(); time.sleep(2); after=proc_rows(); s=snapshot(); s["_rows_after"]=after
-    reasons=gate(s,True,before)
-    s.pop("_rows_after",None); s["gate_reasons"]=reasons
+def rich_snapshot(proc_root=PROC_ROOT, sleep_fn=time.sleep, clock=time.monotonic,
+                  sysconf=os.sysconf, snapshot_fn=snapshot, preflight_pid=None):
+    rows,selected,elapsed,state,errors,process_count=sample_process_cpu(proc_root,sleep_fn,clock,sysconf)
+    s=snapshot_fn(selected,process_count)
+    s.update({"process_cpu_rows":rows,"preflight_pid":os.getpid() if preflight_pid is None else preflight_pid,
+              "process_cpu_sample_wait_seconds":PROCESS_CPU_SAMPLE_SECONDS,
+              "process_cpu_sample_interval_seconds":elapsed,"process_cpu_sample_state":state,
+              "process_cpu_sample_errors":errors})
+    reasons=gate(s,True)
+    s["gate_reasons"]=reasons
     return s
 def stop_group(p):
     global TERMINATION_UNPROVEN
