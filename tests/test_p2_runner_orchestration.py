@@ -42,7 +42,10 @@ class FakeOrchestrationOps:
 
     def assess_previous(self, qid):
         self.calls.append(("assess_previous", qid))
-        return self.previous.get(qid, True)
+        result = self.previous.get(qid, True)
+        if isinstance(result, Exception):
+            raise result
+        return result
 
     def begin(self):
         self.calls.append(("begin", self.qid))
@@ -241,6 +244,27 @@ class RunnerOrchestrationTests(unittest.TestCase):
         for qid in ORDER[1:]:
             self.assert_parser_valid_nonstart(fake.nonstart_records[qid], qid,
                                               "PRIOR_CASE_FAILED", RUN_IDS[ORDER[0]])
+
+    def test_unreadable_prior_assessment_records_unresolved_nonstarts_and_stops(self):
+        fake, decision = self.run_fake(qid=ORDER[1], previous={
+            ORDER[0]: OSError("synthetic prior result is unreadable"),
+        })
+        self.assertEqual(decision["status"], "PRIOR_CASE_UNRESOLVED")
+        self.assertEqual(decision["unresolved_qid"], ORDER[0])
+        self.assertEqual(decision["new_qid_not_started"], ORDER[1])
+        self.assertIn("OSError", decision["assessment_error"])
+        self.assertIn("unreadable", decision["assessment_error"])
+        self.assertEqual(fake.calls, [
+            ("assess_previous", ORDER[0]),
+            ("record_nonstart", ORDER[1], "PRIOR_CASE_UNRESOLVED", RUN_IDS[ORDER[0]]),
+            ("record_nonstart", ORDER[2], "PRIOR_CASE_UNRESOLVED", RUN_IDS[ORDER[0]]),
+        ])
+        forbidden = {"begin", "preflight", "stage", "launch_worker", "query_status",
+                     "copy_and_verify", "score"}
+        self.assertFalse(forbidden & {name for name, *_ in fake.calls})
+        for qid in ORDER[1:]:
+            self.assert_parser_valid_nonstart(fake.nonstart_records[qid], qid,
+                                              "PRIOR_CASE_UNRESOLVED", RUN_IDS[ORDER[0]])
 
 
 if __name__ == "__main__":

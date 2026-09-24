@@ -84,7 +84,14 @@ def run_host_orchestration(qid: int, order: tuple[int, ...], run_ids: dict[int, 
             ops.record_nonstart(nonstart_qid, reason, prior_run_id)
 
     for previous_qid in order[:index]:
-        if ops.assess_previous(previous_qid) is not True:
+        try:
+            previous_passed = ops.assess_previous(previous_qid)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            record_nonstarts(order[index:], "PRIOR_CASE_UNRESOLVED", run_ids[previous_qid])
+            return {"status": "PRIOR_CASE_UNRESOLVED", "unresolved_qid": previous_qid,
+                    "new_qid_not_started": qid,
+                    "assessment_error": f"{type(exc).__name__}: {exc}", "returncode": 1}
+        if previous_passed is not True:
             record_nonstarts(order[index:], "PRIOR_CASE_FAILED", run_ids[previous_qid])
             return {"status": "PRIOR_CASE_FAILED", "failed_qid": previous_qid,
                     "new_qid_not_started": qid, "returncode": 1}
@@ -1451,7 +1458,7 @@ def main() -> int:
         record_state=record_state,
     )
     decision = run_host_orchestration(qid, ORDER, RUN_IDS, ops)
-    if decision.get("status") == "PRIOR_CASE_FAILED":
+    if decision.get("status") in ("PRIOR_CASE_FAILED", "PRIOR_CASE_UNRESOLVED"):
         print(json.dumps(decision, sort_keys=True))
     else:
         print(json.dumps(outcome, ensure_ascii=False, sort_keys=True))
