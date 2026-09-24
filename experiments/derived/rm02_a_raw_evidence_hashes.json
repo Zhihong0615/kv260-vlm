@@ -1,0 +1,224 @@
+{
+  "host_reference_artifacts": {
+    "q35419": {
+      "command.json": {
+        "bytes": 1186,
+        "path": "orchestration/evidence_snapshots/B02_workload_pattern_audit/experiments/raw/textvqa_val_dev50_host_q4_cpu_round01/028_q35419/command.json",
+        "sha256": "45cf83b86411a6d26368bed1f36d79c880aa9181506f7721556bd8ce6e2cc39d"
+      },
+      "inference.log": {
+        "bytes": 18772,
+        "path": "orchestration/evidence_snapshots/B02_workload_pattern_audit/experiments/raw/textvqa_val_dev50_host_q4_cpu_round01/028_q35419/inference.log",
+        "sha256": "ce65e3910347cb00c63fea560d79f243a8484ca7e04a62ccccb27f65310511b4"
+      },
+      "time.txt": {
+        "bytes": 1330,
+        "path": "orchestration/evidence_snapshots/B02_workload_pattern_audit/experiments/raw/textvqa_val_dev50_host_q4_cpu_round01/028_q35419/time.txt",
+        "sha256": "84f62583c765dc1ac245c02d6da53098e2a3c645d1fc746a77b1a8a079e45189"
+      }
+    },
+    "q37804": {
+      "host_trace_note": {
+        "bytes": 4140,
+        "path": "orchestration/evidence_snapshots/B02_workload_pattern_audit/experiments/derived/textvqa_phase_timeline_three_request_comparison_and_raw_audit.md",
+        "sha256": "f696c6774e86ce89ff9904101fb5b61cfea2e623e5bec64be3b78821bb469c75"
+      }
+    },
+    "q38299": {
+      "status": "Host output and wall-time confirmed by coordinator from existing host raw; exact host artifact is outside this A worktree inventory."
+    }
+  },
+  "runs": [
+    {
+      "files": {
+        "command.json": {
+          "bytes": 2632,
+          "sha256": "252811a5e7765630353a14e98d635c24c96c91ba4a2375bf57334904c1b468fe"
+        },
+        "preflight_after.json": {
+          "bytes": 38418,
+          "sha256": "a1db1c09f41b59775cf270c913c47859befa1eacb27072e803bc7727294b6cd8"
+        },
+        "preflight_before.json": {
+          "bytes": 38552,
+          "sha256": "9354d7272a480ea95ee3838c17a5e79503bf165f5e9c8a05297d818fbe4e02cc"
+        },
+        "recovery_evidence.json": {
+          "bytes": 6349,
+          "sha256": "9d2678f340ef6685ad7e4cfe40a52fdba4f0927814fea335f4a4eca17aebc325"
+        },
+        "resource.txt": {
+          "bytes": 1298,
+          "sha256": "faa1330e87e2d6f2d44c0f23d401fff6cf9dc371f5911cd71bc061a234061842"
+        },
+        "stderr.log": {
+          "bytes": 17606,
+          "sha256": "b1705abefa2b7282f9a48c85f7c5d5b02c741697d483d4e53f3d77d088698cef"
+        },
+        "stdout.log": {
+          "bytes": 5,
+          "sha256": "861e6a0cf8b5ce65911d9118968cc97dbfdedd9e5bb1150f7ee7b7823b5b1152"
+        }
+      },
+      "question_id": 38299,
+      "raw_dir": "experiments/raw/kv260_cpu_p2_tvqa_q38299_r01",
+      "run_id": "kv260_cpu_p2_tvqa_q38299_r01",
+      "status": "RECOVERED_CLI_SUCCESS_WORKER_FINALIZATION_FAILED"
+    },
+    {
+      "files": {
+        "command.json": {
+          "bytes": 2633,
+          "sha256": "ff415023784d35249fb6d22dbc430c1a3ca4b87b5983634b680ea16fa1f02550"
+        },
+        "completion.json": {
+          "bytes": 1585,
+          "sha256": "dd3209296c974bc2ca3e404698131277d2afd0ce7ec008d2c90b07dafa1e04ca"
+        },
+        "direct_request_assessment.json": {
+          "bytes": 824,
+          "sha256": "f033f19487653a8f666ba3f95f16c4528a924494654b12c199d937515e1f1b44"
+        },
+        "host_copy_verification.json": {
+          "bytes": 625,
+          "sha256": "7875c8d17b9d9e3b3f149c4476a0f7a46be393e2b4d5e3aeced7192871a61670"
+        },
+        "preflight_after.json": {
+          "bytes": 38587,
+          "sha256": "aff37ba2d082e6ad54411d136b58d9af1ae77517102f8cd5e994583041bea976"
+        },
+        "preflight_before.json": {
+          "bytes": 39265,
+          "sha256": "7610ce47ae5fd9c7ce52771fd6921246cac6648881488e87ee416440bf027880"
+        },
+        "resource.txt": {
+          "bytes": 1299,
+          "sha256": "6958d4a6d150d23456315bf280f6552a8491c93a6eefc90432f10d14d86f70b7"
+        },
+        "result.json": {
+          "bytes": 2268,
+          "sha256": "a5fdc80559726cb6fd21dbba395c2e61bbc107ab8034f3c8648da524f97a8341"
+        },
+        "stderr.log": {
+          "bytes": 17606,
+          "sha256": "c5a0aad230eb84f37e587bc40a2b4e31cb9e6dc468c4b21e3d7565a56e76421d"
+        },
+        "stdout.log": {
+          "bytes": 5,
+          "sha256": "861e6a0cf8b5ce65911d9118968cc97dbfdedd9e5bb1150f7ee7b7823b5b1152"
+        }
+      },
+      "question_id": 38299,
+      "raw_dir": "experiments/raw/kv260_cpu_p2_tvqa_q38299_r02",
+      "run_id": "kv260_cpu_p2_tvqa_q38299_r02",
+      "status": "DIRECT_CPU_MEASURED"
+    },
+    {
+      "files": {
+        "command.json": {
+          "bytes": 2654,
+          "sha256": "5ae3545e108d28cad30d1c6eaae1ce94df8af441a070e45c83d92ed041a80eea"
+        },
+        "completion.json": {
+          "bytes": 1585,
+          "sha256": "55845a27392dd1a5e3729bb8c218ce644d6226840757f312ecef6d5004a3d3fb"
+        },
+        "direct_request_assessment.json": {
+          "bytes": 824,
+          "sha256": "4a1cbe6f56784b14ac0f5b71819a9d85a7c4af21b8db1dfd1bd5b7617721f3ef"
+        },
+        "host_copy_verification.json": {
+          "bytes": 625,
+          "sha256": "15d5702045144a95962203c9888a4cfedcb7b1e4223420ef7a9bdbe01381f9ed"
+        },
+        "preflight_after.json": {
+          "bytes": 38239,
+          "sha256": "f113856007dc26001070fa643839b7a1ffabb270a17c695c6b7165abf84d8e69"
+        },
+        "preflight_before.json": {
+          "bytes": 39419,
+          "sha256": "35ce274f4624b59118797c6925f4af8ba79ae7e44d29417b39e76ade8df3568b"
+        },
+        "resource.txt": {
+          "bytes": 1322,
+          "sha256": "8255db5e9c508e5d793f43feff2e132fe827c8f69ba5cd5405ca5ed6489cfb8b"
+        },
+        "result.json": {
+          "bytes": 2269,
+          "sha256": "0d072ab03abd484e11543219c82b5bd3194d7fac8c8f60773585964bbccd839a"
+        },
+        "stderr.log": {
+          "bytes": 18095,
+          "sha256": "809e82b2f03ff3b8f969ce968ea4278ddaf0cf64940e5649c774f2dc434652d3"
+        },
+        "stdout.log": {
+          "bytes": 5,
+          "sha256": "39139388fbe9c5c94b3e8c412785fcac0b6f6610479916c1dc3296c8e10be2ea"
+        }
+      },
+      "question_id": 37804,
+      "raw_dir": "experiments/raw/kv260_cpu_p2_tvqa_q37804_r03",
+      "run_id": "kv260_cpu_p2_tvqa_q37804_r03",
+      "status": "DIRECT_CPU_MEASURED"
+    },
+    {
+      "files": {
+        "command.json": {
+          "bytes": 2615,
+          "sha256": "bcd11d026e11199674dc038a8e182a4869fcba932e8cfa139e0869a2998dba91"
+        },
+        "completion.json": {
+          "bytes": 1586,
+          "sha256": "e07bda25c1b1162100b7873085413ad8959a0ce3d002f360e4cc2603c0d6114d"
+        },
+        "direct_request_assessment.json": {
+          "bytes": 840,
+          "sha256": "966330f7b50d2a4d1fa2a473c115835bd76e50d3b95ce73108e206eaaf7203da"
+        },
+        "host_copy_verification.json": {
+          "bytes": 625,
+          "sha256": "e9322b2b4ccc3b9dc900b39145a871b9ac9405cdb56f1c6b52ffa2f0b410b465"
+        },
+        "preflight_after.json": {
+          "bytes": 38558,
+          "sha256": "ce23933275d81ec6886a9f461de3b7250f282ff09f5d94c04dd18e5870d9474d"
+        },
+        "preflight_before.json": {
+          "bytes": 39625,
+          "sha256": "2441ef788fe4db87f2ac380d597f870541fa2fb4297b189ea46480c4df5eb039"
+        },
+        "resource.txt": {
+          "bytes": 1281,
+          "sha256": "621935d8cb5f2a85ee868240527df4a8b7dc051c1fd3712592baaa4e9f503839"
+        },
+        "result.json": {
+          "bytes": 2269,
+          "sha256": "a76fab714edeffec158b8d6c2968dbf4361cbfa278d818f35f5df2757aaed40a"
+        },
+        "stderr.log": {
+          "bytes": 18583,
+          "sha256": "5e269e0b3055ea92a37a1f632fb8fbd6b2d104dc54cf1e4e4118eaf828b48188"
+        },
+        "stdout.log": {
+          "bytes": 21,
+          "sha256": "6cbcfbdda4622f0332d1890243a176c19182b20d02d515a53f76dad660a88947"
+        }
+      },
+      "question_id": 35419,
+      "raw_dir": "experiments/raw/kv260_cpu_p2_tvqa_q35419_r03",
+      "run_id": "kv260_cpu_p2_tvqa_q35419_r03",
+      "status": "DIRECT_CPU_MEASURED"
+    }
+  ],
+  "schema": "rm02_a_board_evidence_hash_inventory_v1",
+  "synthetic_alpha": {
+    "files": {
+      "run.json": {
+        "bytes": 2604,
+        "sha256": "a4827ad305f3df0dffed2a7ee8d227b3b32a43f372adb55699e9b2090bf9292f"
+      }
+    },
+    "raw_dir": "experiments/raw/kv260_cpu_p2_alpha_20260924_rm02_02",
+    "run_id": "kv260_cpu_p2_alpha_20260924_rm02_02"
+  }
+}
