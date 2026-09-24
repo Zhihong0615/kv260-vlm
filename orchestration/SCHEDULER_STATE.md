@@ -3,7 +3,7 @@
 Updated: 2026-09-24
 Coordinator branch: `orchestration/dispatch-20260924`
 Coordinator worktree: `/home/zhiro/research/kv260-vlm-orchestration`
-Coordinator head before this state refresh: `cdf1c7e7e4e5b26d662bcae1878aede6a11f8014`
+Coordinator head before this state refresh: `7a37b763063d0613a0ed87fba8417fe23ed4b87f`
 Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, baseline `094edc130489dc59dd9333e4ae6b0aa4c8013149`.
 
 ## Stage and decision
@@ -11,7 +11,7 @@ Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, ba
 - P0: the previously authorized normal reboot/reconnect and immediate CPU-runner CMA recovery gate passed. No new reboot is authorized.
 - P1: prior-art and novelty screening are integrated. R01 returned **FAIL**; no method candidate is selected.
 - P2: host CPU baseline, selected-request traces, and software gate preparation continue in isolated worktrees.
-- Current stage tasks: E11/R16 are integrated; the exact E11 runner review has zero P0/P1 findings and three carried-forward P2 limitations. E12 is active in a separate parser-only worktree to close both R14 P2 findings; R17 will independently review the exact parser target.
+- Current stage tasks: E11/R16 are integrated; the exact E11 runner review has zero P0/P1 findings and three carried-forward P2 limitations. E12 delivered the two R14 parser fixes and its synthetic tests pass; R17 is active to review the exact parser target before integration.
 - P3: **NO_GO_NOW**. No research RTL, research bitstream, or board VLM inference.
 - P4–P8: not started.
 
@@ -65,7 +65,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06/E04/R07/E
 
 1. Keep the B05/R05 negative result closed; do not reactivate a group-aware selector claim on these four traces.
 2. Keep P3 at `NO_GO_NOW`; do not run board inference until current-SHA review artifacts, synthetic ALPHA evidence, live resource checks, and an inference-specific owner window are satisfied and authorized.
-3. E11/R16 are integrated. Continue with E12's two bounded parser fixes and exact-target R17 review; retain the R14 and R15 failure records in audit paths and preserve R16's three residual P2 findings. Do not claim runtime or board readiness.
+3. E11/R16 are integrated. E12 is delivered; finish exact-target R17 before integrating its two parser fixes. Retain the R14 and R15 failure records in audit paths and preserve R16's three residual P2 findings. Do not claim runtime or board readiness.
 4. Keep the manifest/build-attestation path gap, runtime parser success, synthetic ALPHA, live resources, and owner-window proof explicitly open; no board action is authorized by these software tasks.
 5. Refresh `ACTIVE_TASKS.md`, this state page, and `DECISION_LOG.md` after each reviewed integration. Do not edit the primary checkout or the frozen global no-go file.
 6. Continue to label host metadata as host evidence and keep P3 `NO_GO_NOW`.

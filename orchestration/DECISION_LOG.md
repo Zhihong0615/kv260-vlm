@@ -5,6 +5,13 @@
 - **Audit copy:** copied the exact R16 `PASS_WITH_P2_FINDINGS` report to `reviews/audit/R16_runner_PASS_WITH_P2_FINDINGS_20260924.md`. Original and archive both hash to `725afd51970d77fc9430584d374f2ccb28600400da1833e50baab5d11ac1ae64`.
 - **Disposition:** preserves the P2 findings on process-scan errors, one CLI per owner window across invocations, and later non-start conflicts before future runner review replaces the fixed path. No runner, parser, test, raw evidence, or board action changed.
 
+## 2026-09-24 — Deliver E12 and activate exact-target R17
+
+- **E12 delivery:** worker commit `6b4a3d5af46f7b44069a1a7d36e5bad88167b960` directly parents frozen base `ada49814f53f3c16b3e36383dcee65cb93473118`; its worktree is clean and changes only parser, focused synthetic regression test, and handoff. The one authorized invocation `python3 -m unittest discover -s tests -p test_p2_parser_label_qid_contract.py` passed 6 tests. Parser SHA-256 `48c834d6b803eb6a06f4be39f287913c461701ec606956c66493fe7f10d7e209`; test SHA-256 `a7ef837fc5a16129ce3fbe6d377ad5360b0a0d38423879c489ba275c014b9a23`; handoff SHA-256 `fcfc7f64fe2711c689a7ae2e4fd8119986b82a5551e423dcae5cd20b975c1a2f`.
+- **Source changes:** non-boolean `answer_parse_ok` metadata values are now rejected, and every JSON `question_id` comparison plus manifest pilot-QID selection uses a strict integer helper that rejects booleans and float-equal values. No answer data or runtime parser invocation was used. Integrate E12 only after exact-target R17 review.
+- **R17 activation:** exact target and required direct parent are E12 commit `6b4a3d5af46f7b44069a1a7d36e5bad88167b960`. R17 may run the same focused synthetic module once and must write an exact parser-SHA report and handoff. Its manifest includes the preserved R14 finding and R16 runner-review context.
+- **Disposition:** R14 findings remain open at the fixed path until R17 returns a P0/P1-free exact-target verdict. This is source/synthetic evidence only; no real manifest, raw run, board, inference, benchmark, or owner window was exercised. Board execution remains blocked by separate gates and P3 stays `NO_GO_NOW`.
+
 ## 2026-09-24 — Integrate R16 and activate E12/R17 parser contract work
 
 - **R16 result:** reviewer commit `bef9822d77b78132548b5554bbc00f7b38666e59` directly parents exact E11 target `74dc08eb3114d6221eea5eadcc2fee2630cccc26`; its worktree is clean and its only changes are the fixed runner review and R16 handoff. Verdict **PASS_WITH_P2_FINDINGS**, P0=0/P1=0/P2=3. Report SHA-256 `725afd51970d77fc9430584d374f2ccb28600400da1833e50baab5d11ac1ae64`; handoff SHA-256 `7b3c621a6e46a8e075bec7786402950bfd9b6c9d5c1c518a49a9daa348eb76e0`; integration merge `cdf1c7e7e4e5b26d662bcae1878aede6a11f8014`.
