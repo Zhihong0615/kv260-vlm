@@ -92,6 +92,8 @@ The worst routed setup path starts at the weight-tile URAM clock and ends at a p
 
 Artifact SHA-256: bitstream `31ece1c9eee225931a860000b0a615778aa32085eeb69eb1976e0f083449abfc`; validated XSA `adcebed105372259967d1befab38ba4794d2dbbf1351728ba769d03c4ceb6e82`. Local build paths (both ignored by Git): `experiments/rm06/build/k16_down_system/kv260_rm06_k16_down.runs/impl_1/kv260_rm06_k16_down_wrapper.bit` and `experiments/rm06/build/k16_down_system/kv260_rm06_k16_down.xsa`.
 
+The reproducible source/scripts checkpoint is commit `43a0a0ea7863feb14e4c4e4bfb6a64b099538d29` on `codex/rm06-ffn-down-pl-validation`. The final Tcl edit in that checkpoint reopens the completed implementation only to emit reports/XSA; it does not change the synthesized hardware sources.
+
 ## Board boundary/load state
 
 A fresh read-only KV260 snapshot at `2026-09-24T12:51:37Z` recorded boot ID `2a931c48-99ad-4a3f-b3e1-f42634597098`, KV260 revB, kernel `5.15.0-1027-xilinx-zynqmp`, four A53s, XRT 2.13 Device Ready, `k26-starter-kits` / `XRT_FLAT` active in slot 0, FPGA Manager `operating`, `CmaTotal=1,024,000 KiB`, `CmaFree=557,112 KiB`, `MemAvailable=3,323,040 KiB`, swap 0, apt and apt-upgrade inactive, and no matching VLM/XRT/Vivado/apt process. PackageKit's service was active; this check did not query a PackageKit transaction. Raw output is `experiments/rm06/results/board_readonly_2026-09-24.txt`.
