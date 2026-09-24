@@ -455,7 +455,7 @@ def has_label_keys(value: Any) -> bool:
         for key, child in value.items():
             normalized = re.sub(r"[^a-z0-9]", "", str(key).lower())
             if normalized in SAFE_NON_LABEL_METADATA_KEYS:
-                if has_label_keys(child):
+                if not isinstance(child, bool):
                     return True
                 continue
             if any(word in normalized for word in
@@ -467,6 +467,11 @@ def has_label_keys(value: Any) -> bool:
     if isinstance(value, list):
         return any(has_label_keys(child) for child in value)
     return False
+
+
+def qid_matches(value: Any, expected_qid: int) -> bool:
+    """Match JSON QIDs only when the value is an actual integer, not bool/float."""
+    return isinstance(value, int) and not isinstance(value, bool) and value == expected_qid
 
 
 def verify_board_completion_manifest(raw_dir: Path, qid: int) -> str:
@@ -519,7 +524,7 @@ def verify_host_copy_receipt(raw_dir: Path, qid: int, completion_sha256: str) ->
     exact_keys(receipt, HOST_COPY_RECEIPT_KEYS, "host copy-verification receipt")
     expected_names = sorted(PILOT_BOARD_FILE_NAMES | {"completion.json"})
     fail_if(receipt.get("schema") != "kv260_cpu_p2_textvqa_host_copy_verification_v1" or
-            receipt.get("question_id") != qid or
+            not qid_matches(receipt.get("question_id"), qid) or
             receipt.get("run_id") != f"kv260_cpu_p2_tvqa_q{qid}_r01" or
             receipt.get("completion_json_sha256") != completion_sha256 or
             receipt.get("board_files_verified") is not True or
@@ -729,7 +734,7 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
     try:
         state = read_json(state_path)
         result["result_json_sha256"] = sha256(state_path)
-        fail_if(state.get("question_id") != qid, "execution qid mismatch")
+        fail_if(not qid_matches(state.get("question_id"), qid), "execution qid mismatch")
         fail_if(not isinstance(state.get("cli_started"), bool), "cli_started must be boolean")
         result["attempted"] = state["cli_started"]
         fail_if(state.get("schema") != "kv260_cpu_p2_textvqa_execution_v1", "execution schema mismatch")
@@ -763,7 +768,8 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                 if path.is_file():
                     record = read_json(path)
                     exact_keys(record, allowed, name)
-                    fail_if(record.get("question_id") != qid, f"non-start {name} qid mismatch")
+                    fail_if(not qid_matches(record.get("question_id"), qid),
+                            f"non-start {name} qid mismatch")
             fail_if(bool(raw_json_errors), f"raw JSON label/format issue: {raw_json_errors}")
             result["attempted"] = False
             result["prediction"] = None
@@ -842,7 +848,8 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                 "command timeout identity was not rechecked consistently before launch")
         timeout_rechecked_at = utc_timestamp(command.get("timeout_executable_rechecked_at_utc"))
         fail_if(command.get("working_directory") != execution_paths["cwd"], "working directory differs")
-        fail_if(command.get("question_id") != qid or command.get("image_id") != sample["image_id"],
+        fail_if(not qid_matches(command.get("question_id"), qid) or
+                command.get("image_id") != sample["image_id"],
                 "command qid/image mismatch")
         fail_if(command.get("runtime_commit") != RUNTIME_COMMIT, "runtime commit mismatch")
         fail_if(command.get("manifest_sha256") != manifest_sha, "command manifest SHA mismatch")
@@ -852,7 +859,8 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
         image_record = manifest["images"][sample["image_id"]]
         expected_sha = sample["image_sha256"]
         fail_if(image_record["sha256"] != expected_sha, "manifest image SHA inconsistent")
-        fail_if(any(record.get("question_id") != qid or record.get("image_id") != sample["image_id"]
+        fail_if(any(not qid_matches(record.get("question_id"), qid) or
+                    record.get("image_id") != sample["image_id"]
                     for record in (command, inputs)), "raw case ID mismatch")
         for record in (command, inputs):
             fail_if(record.get("image_path") != execution_paths["image"] or
@@ -875,7 +883,7 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
             artifact = read_json(paths["artifact_verification.json"])
             exact_keys(artifact, ARTIFACT_KEYS, "artifact verification")
             fail_if(artifact.get("schema") != "kv260_cpu_p2_textvqa_artifact_verification_v1" or
-                    artifact.get("question_id") != qid or
+                    not qid_matches(artifact.get("question_id"), qid) or
                     artifact.get("runtime_commit") != RUNTIME_COMMIT or
                     artifact.get("verification_returncode") != 0 or
                     artifact.get("verified_before_cli") is not True or
@@ -987,7 +995,7 @@ def inspect_case(qid: int, raw_dir: Path, sample: dict[str, Any], manifest: dict
                 resource_evidence["post_run_resource_gate_status"] == "PASS"
             )
             fail_if(image_after.get("schema") != "kv260_cpu_p2_textvqa_image_post_verification_v1" or
-                    image_after.get("question_id") != qid or
+                    not qid_matches(image_after.get("question_id"), qid) or
                     image_after.get("image_id") != sample["image_id"] or
                     image_after.get("image_path") != execution_paths["image"] or
                     image_after.get("image_sha256") != sample["image_sha256"] or
@@ -1087,12 +1095,14 @@ def main() -> int:
         raise SystemExit("wrong dataset kind")
     mapping: dict[int, dict[str, Any]] = {}
     for sample in manifest["samples"]:
-        if sample["question_id"] in PILOT_QIDS:
-            if sample["question_id"] in mapping:
+        matched_qid = next((pilot_qid for pilot_qid in PILOT_QIDS
+                            if qid_matches(sample.get("question_id"), pilot_qid)), None)
+        if matched_qid is not None:
+            if matched_qid in mapping:
                 raise SystemExit("duplicate pilot qid in manifest")
             if not isinstance(sample.get("answers"), list) or len(sample["answers"]) != 10:
                 raise SystemExit("TextVQA pilot needs ten host-only reference answers")
-            mapping[sample["question_id"]] = sample
+            mapping[matched_qid] = sample
     if set(mapping) != set(PILOT_QIDS):
         raise SystemExit("pilot qid missing from manifest")
 
