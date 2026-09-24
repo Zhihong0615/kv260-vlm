@@ -1,5 +1,12 @@
 # Decision Log
 
+## 2026-09-24 — Integrate E11 and activate exact-target R16
+
+- **E11 delivery:** worker commit `74dc08eb3114d6221eea5eadcc2fee2630cccc26` directly parents frozen R15 integration base `9485eef4e975f7082d98d651bb156effd5221505`; it is clean and changes only the runner, focused synthetic process-gate test, and handoff. The one authorized builder invocation, `python3 -m unittest discover -s tests -p test_p2_remote_process_gate.py`, passed 6 tests. Final runner SHA-256 `0ff88fd1780fa52ae5a30a6a47fe89827887d4360e20a14e9dc3269e6fb6ba92`; test SHA-256 `7093a6680444f17aaf72b65977fa83d698a36582a5b7eb7c45276ddd892c3aea`; handoff SHA-256 `5e267c0ab40bfe71ffc8f7fb453ff461b20af1a2a684d681ace2a782fc37f14f`. Coordinator integration merge: `5436bc78da85ee0ee891c294a0ab2b876c25a758`.
+- **Scoped behavior:** embedded remote sampling now retains procfs errors, checks PID-set and process-identity stability, validates CPU counters and elapsed intervals, and blocks unknown samples before CLI launch. The test executes extracted production worker definitions against synthetic temporary procfs trees only. This is local source/fake-test evidence, not live board/process behavior.
+- **R16 activation:** exact target and direct parent are E11 commit `74dc08eb3114d6221eea5eadcc2fee2630cccc26`. R16 may run only the same focused test module once, after source-manifest verification, and must write an exact-SHA report plus handoff. R15's blocked report remains preserved unchanged at `reviews/audit/R15_current_runner_BLOCKED_20260924.md`.
+- **Disposition:** R15's three P2 findings remain out of scope; the current runner review gate remains open until exact-target R16 completes. No board, SSH, runtime, inference, benchmark, bitstream, answer-data, primary-checkout write, or GitHub action occurred. P2 remains not ready for board execution and P3 stays `NO_GO_NOW`.
+
 ## 2026-09-24 — Move to scheduled, branch-isolated P1/P2 work
 
 - **Decision:** Scheduler role is Research Orchestrator / Scheduler / PI Agent. Prepare four bounded Builder tasks (A01/B01/C01/D01) and one queued independent Reviewer (R01); do not continue heavy literature, trace, architecture, RTL, or board work in the Scheduler window.
