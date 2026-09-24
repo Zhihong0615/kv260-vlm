@@ -1,5 +1,12 @@
 # Decision Log
 
+## 2026-09-24 — Deliver E13 and activate exact-target R19
+
+- **E13 delivery:** commit `9b34056ec27a54c2e7c1265d78b002715a4cca6d` directly parents frozen base `dced7666bcb3c5f79efd2d983045bac35932d89b`; its clean worktree changes exactly the runner, focused test, and handoff. Runner SHA-256 `418c72316a055d0260ba88ccf85e31dba98cc0e0256d499fefa96063aa82e694`; test SHA-256 `55b87f3afae7eab92f811209ecea5a5794699a615d048ed77238aa3f74a330c1`; handoff SHA-256 `ae885642a989a3da32b1f87947ca0233f0ca09166704b3cc9a57b69ef35bb839`.
+- **Builder test record:** only `python3 -m unittest discover -s tests -p test_p2_remote_process_scan_errors.py` ran, twice under the task's correction allowance. Run 1 failed on synthetic fixture setup and one fixture using the production base; those errors and the exact output are in the handoff. The corrected second run passed 5 tests. The worker change treats `FileNotFoundError` as a process-exit race, records other per-entry `OSError` values as unreadable in both scans, and allows synthetic procfs/base paths for tests while preserving production defaults. Top-level generated status-scan failure propagates instead of reporting `COMPLETE`.
+- **R19 activation:** exact target `9b34056ec27a54c2e7c1265d78b002715a4cca6d`, direct parent `dced7666bcb3c5f79efd2d983045bac35932d89b`. Source manifest SHA-256 `a5d70126b315afe441f50c3b37b82a59bcc34c107e4e31e97cf6d1d673c5e0f3`; activation SHA-256 `dd3222319af445b7d91ad647e0bac79bfa6563885710344c447325303e321977`. R19 may run the one named module once and must review only this exact source. Keep E13 out of the coordinator until R19 returns P0=0/P1=0. Preserve the R16 archive; R16 P2-2/P2-3 remain open.
+- **Disposition:** no host `/proc`, board, SSH, network, runtime, inference, benchmark, reboot, bitstream, user data, primary-checkout write, or GitHub activity occurred. E13 supplies synthetic source evidence only, not live process visibility, cleanup success, or board readiness. P3 remains `NO_GO_NOW`.
+
 ## 2026-09-24 — Integrate E12/R17 and activate E13
 
 - **E12 integration:** exact builder target `6b4a3d5af46f7b44069a1a7d36e5bad88167b960` directly parents `ada49814f53f3c16b3e36383dcee65cb93473118`; coordinator merge `03ec40ddaba8b071d7befa3b68aa45484449562f`. Its parser `48c834d6b803eb6a06f4be39f287913c461701ec606956c66493fe7f10d7e209` rejects non-boolean `answer_parse_ok` values and uses strict integer QID matching at all current JSON QID comparisons and pilot selection. The authorized focused synthetic module passed six tests once.
