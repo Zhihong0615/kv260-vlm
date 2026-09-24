@@ -1,13 +1,13 @@
 # Research go/no-go
 
-> **Latest stage decision (RM05, 2026-09-24): `GO_K16_OR_HIGHER_STATIC` for the exact FFN-down shape `K/M/N=4304/1152/1120`.** On KV260, the five `ffn_down-0` calls take 20.628 s; existing exact-shape K16 HLS/OOC data projects 3.920 s of compute at ≈209.4 MHz (5.26× compute-only margin). Corrected K16 `ffn_up-0` is 1.60× compute-only versus its 7.156 s CPU baseline and has little 1.5× end-to-end boundary budget (0.294 s total). QID 37804 board profiling timed 845 operations in seven vision families, covering 99.25% of traced matmul MAC and 91.3% of encode+decode wall time. Proceed to real-tensor numeric validation and then minimal PL boundary feasibility for the strong exact-shape down candidate; no bitstream was loaded and no novelty claim is made. The RM04 corrected-shape Dynamic8 `ffn_up-0` path remains stopped. Full evidence: [`RM05_RESULTS.md`](../experiments/rm05/RM05_RESULTS.md).
+> **Latest stage decision (RM07, 2026-09-24): `GO_BOARD_FFN_FAMILY` for a gated board measurement.** A single routed K16 image supports `N=1120` and `N=280`; real-tensor C-simulation passed sampled output regions; a calculated single staging pool is 1.594 MiB page-rounded; full-system Vivado route/bitgen passed at 187.512 MHz with WNS +0.425 ns and CLB-site occupancy 88.36%. The conservative serialized 0.5 GB/s model estimates 173.802 s for the 135-call family versus 250.124 s CPU, before PS packing and submit/sync. No bitstream has been loaded, and no PS-side runtime, board PL latency, DDR bandwidth, or full-tensor quality has been measured. The recovery route is unverified, so board loading remains gated. No novelty claim is made. Full evidence: [`RM07_RESULTS.md`](../experiments/rm07/RM07_RESULTS.md).
 
-Updated: 2026-09-24 12:02 UTC
-Decision: **GO_K16_OR_HIGHER_STATIC (RM05 feasibility); P3 method novelty remains unproven**
+Updated: 2026-09-24
+Decision: **GO_BOARD_FFN_FAMILY (RM07 measured-load candidate only); P3 method novelty remains unproven**
 
-Sections below the previous 2026-09-23 update retain RM01 and earlier decision context. Read them as historical rather than as a summary of RM05's current hardware feasibility result.
+The sections below retain prior-stage context. In particular, the earlier RM05 instruction not to start accelerator/bitstream work is superseded by RM07's completed local HLS, system route, and bitgen feasibility work. RM07 does not authorize programming the board; that remains gated on a verified recovery path.
 
-This is a stage decision, not a stop decision for the research project. Continue the authorized host-side baseline, trace, prior-art, and feasibility work. Do not start custom accelerator or research-bitstream implementation yet.
+The older reasons, evidence rows, and P3 reconsideration conditions below are historical context. Use the RM07 decision and result page above for current accelerator status.
 
 ## Reasons
 
