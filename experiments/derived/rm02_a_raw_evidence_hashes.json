@@ -22,6 +22,24 @@
         "bytes": 4140,
         "path": "orchestration/evidence_snapshots/B02_workload_pattern_audit/experiments/derived/textvqa_phase_timeline_three_request_comparison_and_raw_audit.md",
         "sha256": "f696c6774e86ce89ff9904101fb5b61cfea2e623e5bec64be3b78821bb469c75"
+      },
+      "primary_host_q4_cpu": {
+        "exact_board_match": true,
+        "files": {
+          "inference.log": {
+            "path": "/home/zhiro/research/kv260-vlm/experiments/raw/textvqa_val_dev50_host_q4_cpu_round01/001_q37804/inference.log",
+            "sha256": "32de419d979f301fefddbaa549bb5e535360b4820d26ebf14083a653da1750c4"
+          },
+          "time.txt": {
+            "path": "/home/zhiro/research/kv260-vlm/experiments/raw/textvqa_val_dev50_host_q4_cpu_round01/001_q37804/time.txt",
+            "sha256": "d48c80f37a8196faf7c244c040caec465418682ad0e03c46297579b6df57e02e"
+          }
+        },
+        "host_outer_wall_seconds": 8.17,
+        "host_output": "G",
+        "run_dir": "experiments/raw/textvqa_val_dev50_host_q4_cpu_round01/001_q37804",
+        "source_checkout": "/home/zhiro/research/kv260-vlm",
+        "threads": 8
       }
     },
     "q38299": {
