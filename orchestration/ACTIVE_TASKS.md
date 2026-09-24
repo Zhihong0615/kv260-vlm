@@ -39,7 +39,7 @@ Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02
 
 ## Worker dispatch and task brief paths
 
-A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03/E02/R04/B05/R05/E03/R06/E04/E05 and the R11-passing E06/E07/E08 source chain are integrated. R09/R10/R12 FAILs remain in the audit tree. E09 is not integrated; E10 is active to address the sole R12 finding, with R13 queued. Completed branches remain preserved as individual source-of-record outputs. Do not reopen completed worker branches as writers. Activation records are under `orchestration/activations/`.
+A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03/E02/R04/B05/R05/E03/R06/E04/R07/E05/R08 and the R11-passing E06/E07/E08 source chain are integrated. R09/R10/R12 FAILs remain in the audit tree. E09 is not integrated; E10 is active to address the sole R12 finding, with R13 queued. Completed branches remain preserved as individual source-of-record outputs. Do not reopen completed worker branches as writers. Activation records are under `orchestration/activations/`.
 
 The frozen task brief paths for completed, active and queued tasks are:
 
