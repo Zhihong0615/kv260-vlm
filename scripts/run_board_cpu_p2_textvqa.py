@@ -46,9 +46,11 @@ RUN_IDS = {qid: f"kv260_cpu_p2_tvqa_q{qid}_r01" for qid in (38299, 37804, 35419)
 ORDER = (38299, 37804, 35419)
 SYSTEMD_UNITS = ("jupyter.service", "apt-daily.service", "apt-daily-upgrade.service")
 MIN_MEM_AVAILABLE_KIB = 2_750_000
-MIN_CMA_FREE_KIB = 700_000
+# CPU-only inference records CmaFree but does not allocate CMA-backed buffers.
+MIN_CMA_FREE_KIB = 0
 MIN_HOME_FREE_BYTES = 1 << 30
-MAX_LOAD1 = 1.5
+# Keep below half of four cores; per-process CPU and forbidden-process gates remain.
+MAX_LOAD1 = 2.0
 MAX_BUSY_CORES_PER_PROCESS = 0.25
 PROCESS_CPU_SAMPLE_WAIT_SECONDS = 2.0
 CLI_TIMEOUT_SECONDS = 300
