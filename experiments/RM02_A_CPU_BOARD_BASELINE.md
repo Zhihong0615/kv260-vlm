@@ -2,7 +2,7 @@
 
 Date: 2026-09-24  
 Status: **BLOCKED before inference; BOARD_MEASURED = no.**  
-Scope: exact source/review gate check, latest read-only board snapshot relayed by the RM02 coordinator, and a frozen minimal request proposal. No VLM request or runner/dry-plan command was launched.
+Scope: exact source/review gate check, local hash-preserving staging, one authorized synthetic-ALPHA runner attempt, and a frozen minimal TextVQA request set. No TextVQA request started; the ALPHA runner failed its fresh preflight before CLI launch.
 
 ## Latest board snapshot
 
@@ -41,14 +41,15 @@ The coordinator source still matches the fixed readiness-map hashes:
 
 The residual review findings are P2 and are not the cause of this block. No source change is proposed in this checkpoint.
 
-## Current run gate
+## Current run gate and first attempt
 
-1. **Synthetic ALPHA:** no qualifying board ALPHA proof exists yet. Existing `host_smoke_alpha_*` results are host-only. The current single-request runner SHA `1f055bedc1468af2309535cc6c1e4d88deec474c5afe82634b03b66dae36b4ed` does not match fixed review SHA `c96247f1183f6d826bf80805b9157b72bc862264b1e66675ed8c6dec480bb979`, which binds older source SHA `a21925e6…`; its appendix cites intermediate SHA `43271870…`. The coordinator is performing the minimal current-SHA safety inspection. Run ALPHA only after it passes.
-2. **Latest live preflight:** at `05:13:01Z`, the exact helper returned `PROCESS_STATE_UNKNOWN` due to transient PID identity/interval mismatches for short-lived kernel workers. Do not patch based on this single sample. Run the same exact helper immediately before ALPHA; proceed only if the full preflight passes.
-3. **Operation authorization:** the user replied **“完全授权”** to the coordinator's explicit owner-window question. The recorded scope is this bounded CPU-only baseline: synthetic ALPHA plus the selected TextVQA QIDs below, without bitstream load or reboot. This is operation authorization; it is not evidence of a separate external board-wide reservation or other users' inactivity. No reservation was fabricated.
-4. **Controlled local staging:** the pinned manifest, build attestation, Q4_K_M GGUF, F16 mmproj, processor `config.json` / `preprocessor_config.json`, pinned llama.cpp source archive, and six selected JPEGs have been hash-preserving copied into this isolated worktree. `experiments/staged/rm02_a/staged_inputs.sha256` records the source-matched hashes. Payloads remain untracked and will not be committed; the answer-bearing manifest was copied as opaque bytes and never read. No target transfer was attempted.
+1. **Authorization:** the user replied **“完全授权”** to the coordinator's explicit owner-window question. The recorded scope is this bounded CPU-only baseline: synthetic ALPHA plus the selected TextVQA QIDs below, without bitstream load or reboot. This is explicit operation authorization; it is not a separate external board-wide reservation or evidence that other users are inactive.
+2. **Runner safety inspection:** the coordinator checked the current single-runner SHA `1f055bedc1468af2309535cc6c1e4d88deec474c5afe82634b03b66dae36b4ed` and found no P0/P1 obstruction for one isolated `--device none -ngl 0` CPU request. The runner's fresh resource/process preflight still controls every start.
+3. **Synthetic ALPHA attempt:** run ID `kv260_cpu_p2_alpha_20260924_rm02_01` ended `PRECHECK_FAILED` at `2026-09-24T05:32:18.110367Z`, exact failure `ValueError('CmaFree below fixed floor')`. The runner record says `board_inference_attempted=false`; the CLI never started. `preflight_before.json` records `CmaFree=471,804 KiB` / `CmaTotal=1,024,000 KiB` against the unchanged 700,000 KiB floor; `MemAvailable=3,304,380 KiB`, swap 0, load1 1.24, `/home` free 44,890,525,696 bytes, `NO_ACTIVE_TRANSACTIONS`, apt services inactive, Jupyter active, AArch64/4 CPUs and 1,333,333 kHz. No thermal zones were readable (`UNKNOWN`). The sampler also reported `PROCESS_STATE_UNKNOWN` from two short-lived PID identity changes; selected processes included `packagekitd`, the idle `unattended-upgr` shutdown waiter, and two `python3` processes (one was this preflight worker).
+4. **Raw evidence:** local append-only directory `experiments/raw/kv260_cpu_p2_alpha_20260924_rm02_01/`; `run.json` SHA-256 `4e3e3cb700524432e4862996b010535a037d2b00b1f48a9ec799d508a3c86b8d`; `preflight_before.json` SHA-256 `2e9a0803dcf3368f7d9eaae08510da351e15b36a84f5f519ccf75f9cdfc3ab59`; `preflight_before.stdout` SHA-256 `147fce7cc76ab9106a40b856b2fafc8e3a56425ae00fd0996fd1652d64317dfa`; transport SHA-256 `4141c777569c180d26595ca932aa841770149436e85d33e610371a61fe760516`. The raw records remain untracked and local; no model output or answer text exists in this run.
+5. **Next safe retry condition:** do not lower the CMA floor, kill unidentified processes, or alter services. Let board state settle naturally, then use the same frozen runner for a new preflight; retry ALPHA only when `CmaFree >= 700,000 KiB` and the full resource/process gate passes. If it passes, proceed to QID 38299.
 
-The only current stop conditions are the missing ALPHA proof/current-SHA inspection and a fresh preflight that passes. User authorization is recorded; a separate board-wide reservation is not claimed.
+The present hard stop is the measured CMA resource deficit. `PROCESS_STATE_UNKNOWN` is separately recorded but does not justify bypassing the independent CMA gate. No TextVQA request has started.
 
 ## Pinned inputs and proposed minimum coverage
 
@@ -81,8 +82,8 @@ The existing draft's diagnostic CPU settings are `-t 2 -tb 2`, `-c 4096`, `-n 48
 
 ## RM02-A outcome
 
-- Real CPU-only KV260 VLM requests: **0 attempted**; no ALPHA run yet.
+- Real CPU-only KV260 VLM requests: **0 attempted**. One synthetic-ALPHA runner attempt was made; its CLI did not start.
 - Board requests meeting the user's coverage requirement: **none**.
-- Failure cases: **none; execution never started**.
-- Current state: **BLOCKED** pending current-SHA ALPHA safety inspection and a fresh passing preflight. User explicitly authorized the bounded operation; no external reservation is claimed. Model/input assets are staged locally with verified hashes; no target transfer occurred.
-- No board files, applications, services, images, or model files were changed. No request or dry plan was run.
+- Inference failures: **none; the synthetic ALPHA process did not start**. One fresh preflight failed before inference because `CmaFree` was below the fixed floor.
+- Current state: **BLOCKED** by the real `CmaFree=471,804 KiB` deficit against the fixed 700,000 KiB floor. User explicitly authorized the bounded operation; no external reservation is claimed. Model/input assets are staged locally with verified hashes; no target transfer occurred.
+- No board files, applications, services, images, or model files were changed. No TextVQA request or dry plan was run.
