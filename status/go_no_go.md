@@ -1,5 +1,7 @@
 # Initial research go/no-go
 
+> **Latest stage decision (RM04, 2026-09-24): `STOP_CURRENT_PL_PATH` for corrected-shape Dynamic8 `ffn_up-0`.** The exact five calls take 7.158 s on the KV260 CPU; corrected Dynamic8 takes 417,605,286 scheduled cycles each, or an optimistic 11.135 s for five at the integrated routed 187.512 MHz clock, before PL boundary cost. The full PS–PL design routes and meets its specified setup timing, but the bitstream was not loaded because the first-load runbook's recovery/rollback gates remain unverified. Actual board DMA and call-boundary numbers remain unknown. Coverage at the exact frozen shape is 16.136% of the traced vision MACs; another 71.887% uses the same arithmetic with compile-time shape changes. Full evidence: [`RM04_RESULTS.md`](../experiments/rm04_system/RM04_RESULTS.md). The RM01/P3 status below is retained as historical context and is not the current Dynamic8 path decision.
+
 Updated: 2026-09-23 16:04 UTC  
 Decision: **NO_GO_P3_NOW; CONTINUE P1/P2**
 

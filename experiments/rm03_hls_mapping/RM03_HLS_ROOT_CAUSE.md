@@ -1,5 +1,7 @@
 # RM03-B: HLS mapping root cause
 
+> **RM04 correction:** This report's original frozen operation was mislabeled `ffn_up-0`. Its constants (`K=4304, M=1152, N=1120`) match `ffn_down`, not the real `ffn_up-0` contract captured on KV260 (`K=1152, M=4304, N=1120`). The schedule diagnosis below applies to the old compiled shape. RM04 corrected Dynamic8 for the true `ffn_up-0` shape and validated a real tensor tile; see [`RM04_RESULTS.md`](../rm04_system/RM04_RESULTS.md).
+
 ## Frozen workload and hot loop
 
 The operation is `X[1120,4304] * W[1152,4304]^T`: binary16 weights expand exactly to binary32; products, partial sums and output are binary32. The RM02 source fully unrolls a nominal 4×4 output microtile while requesting `PIPELINE II=1` on K. The frozen v3 report gives the flattened compute loop 137,728 iterations, 86-cycle iteration latency and achieved II=5 (target 1).

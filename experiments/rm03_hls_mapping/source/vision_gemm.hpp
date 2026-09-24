@@ -4,10 +4,12 @@
 #include <cstdint>
 
 // Frozen MiniCPM-V vision-encoder ffn_up-0 operation, expressed in row-major
-// GEMM convention: Y[N, OUT] = X[N, K] * W[OUT, K]^T.
-static constexpr int VLM_K = 4304;   // reduction / input channels
+// GEMM convention: Y[N, OUT] = X[N, K] * W[OUT, K]^T. GGML stores W as
+// [K, M], X as [K, N], and Y as [M, N]; their contiguous layouts are the
+// K-major inputs and N-major output consumed here.
+static constexpr int VLM_K = 1152;   // reduction / input channels
 static constexpr int VLM_N = 1120;   // image-token rows
-static constexpr int VLM_OUT = 1152; // output channels
+static constexpr int VLM_OUT = 4304; // output channels
 #ifndef HLS_PE_M
 #define HLS_PE_M 4
 #endif

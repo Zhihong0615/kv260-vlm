@@ -205,9 +205,9 @@ void vision_macro_tile(const ap_uint<128> *weights_f16_packed,
 extern "C" void vision_gemm(const ap_uint<128> *weights_f16_packed,
                             const ap_uint<256> *activations_f32_packed,
                             ap_uint<256> *output_f32_packed) {
-#pragma HLS INTERFACE m_axi port=weights_f16_packed offset=slave bundle=gmem_w depth=619776 max_read_burst_length=64 num_read_outstanding=16
-#pragma HLS INTERFACE m_axi port=activations_f32_packed offset=slave bundle=gmem_x depth=602560 max_read_burst_length=64 num_read_outstanding=16
-#pragma HLS INTERFACE m_axi port=output_f32_packed offset=slave bundle=gmem_y depth=161280 max_write_burst_length=64 num_write_outstanding=16
+#pragma HLS INTERFACE m_axi port=weights_f16_packed offset=slave bundle=gmem_w depth=W_WORDS max_read_burst_length=64 num_read_outstanding=16
+#pragma HLS INTERFACE m_axi port=activations_f32_packed offset=slave bundle=gmem_x depth=X_WORDS max_read_burst_length=64 num_read_outstanding=16
+#pragma HLS INTERFACE m_axi port=output_f32_packed offset=slave bundle=gmem_y depth=Y_WORDS max_write_burst_length=64 num_write_outstanding=16
 #pragma HLS INTERFACE s_axilite port=weights_f16_packed bundle=control
 #pragma HLS INTERFACE s_axilite port=activations_f32_packed bundle=control
 #pragma HLS INTERFACE s_axilite port=output_f32_packed bundle=control

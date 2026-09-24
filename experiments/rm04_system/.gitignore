@@ -1,0 +1,5 @@
+local_tensors/
+local_capture_logs/
+build/
+artifacts/*.bit
+artifacts/*.xsa

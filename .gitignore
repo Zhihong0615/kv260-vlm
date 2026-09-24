@@ -9,6 +9,8 @@ models/gguf/
 *.bit
 *.xclbin
 *.xo
+/vendor/
+experiments/rm03_hls_mapping/reports/
 env/hls_smoke_test/build/
 env/vivado_smoke_test/build/
 fpga/vivado/*/runs/

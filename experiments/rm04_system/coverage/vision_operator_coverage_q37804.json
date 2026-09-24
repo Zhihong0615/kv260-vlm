@@ -1,0 +1,37 @@
+{
+  "qid": 37804,
+  "source_inventory": "/home/zhiro/research/kv260-vlm/experiments/derived/textvqa_matmul_shapes_four_request_host_audited1.json",
+  "source_sha256": "d7ff1e08955e4b8d3b0598f957ecbbdbf970da01055190ad5c79270712ef4082",
+  "trace_matmul_observations": 855,
+  "dtype_pair_node_observations": {
+    "f16 x f16 -> f32": 5,
+    "f16 x f32 -> f32": 850
+  },
+  "vision_nominal_MAC": 1204542259200,
+  "board_vision_seconds": 590.348,
+  "board_vision_timer_is_request_level_not_family_isolated": true,
+  "coverage_by_class": {
+    "not worth offloading": {
+      "nominal_MAC": 1651507200,
+      "share": 0.0013710662182137578,
+      "CPU_time_MAC_proxy_seconds": 0.8094061997900555
+    },
+    "requires different datapath": {
+      "nominal_MAC": 142623129600,
+      "share": 0.11840442168855374,
+      "CPU_time_MAC_proxy_seconds": 69.89981353499432
+    },
+    "supported with parameter change": {
+      "nominal_MAC": 865905868800,
+      "share": 0.7188671565372009,
+      "CPU_time_MAC_proxy_seconds": 424.3817881274234
+    },
+    "directly supported": {
+      "nominal_MAC": 194361753600,
+      "share": 0.16135735555603162,
+      "CPU_time_MAC_proxy_seconds": 95.25699213779215
+    }
+  },
+  "shape_rows": 11,
+  "csv": "vision_operator_coverage_q37804.csv"
+}

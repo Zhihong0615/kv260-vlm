@@ -1,5 +1,7 @@
 # RM03 CPU scaling and PL break-even
 
+> **RM04 correction / superseding measurement:** The RM03 text below used the transposed HLS shape (`K=4304, M=1152`) while labeling it `ffn_up-0`; real KV260 tensor capture establishes `ffn_up-0` as `K=1152, M=4304, N=1120`. Also, the 13.61 s family CPU time below is a MAC-proportional proxy, not a direct timing of the five target nodes. RM04 measured those exact five CPU nodes at 7.158 s and re-synthesized corrected-shape Dynamic8 at 417,605,286 cycles/op. The full-system routed clock is 187.512 MHz, giving an optimistic schedule-derived 11.135 s for five PL calls before DDR stalls or boundary costs. Thus the current Dynamic8 mapping is slower than directly measured CPU even before PS–PL overhead; see [`RM04_RESULTS.md`](../rm04_system/RM04_RESULTS.md). The remaining historical analysis below is preserved as the original RM03 checkpoint, not the current go/no-go basis.
+
 ## Measured KV260 CPU baseline
 
 QID 37804 was run CPU-only with the same MiniCPM-V 4.6 model, mmproj, image, prompt, and runtime at 1, 2, and 4 Cortex-A53 threads. The 2-thread run is the RM02 measurement; it was not repeated. All three returned `G`, matching the host output. The image SHA-256 is `3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f`.

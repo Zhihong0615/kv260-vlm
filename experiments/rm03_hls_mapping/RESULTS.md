@@ -1,5 +1,7 @@
 # RM03-B: HLS mapping sweep and OOC implementation evidence
 
+> **RM04 dimension-label correction:** The dimensions below were originally labeled as vision `ffn_up-0`, but the frozen HLS constants at the time were `K=4304, M=1152, N=1120`. The captured real `ffn_up-0` tensors are `K=1152, M=4304, N=1120`; the old sweep instead matches the transposed `ffn_down` family. The schedule/resource results remain valid for that old compiled shape, but must not be cited as `ffn_up-0` evidence. The corrected `ffn_up-0` Dynamic8 result and real-tensor check are in [`RM04_RESULTS.md`](../rm04_system/RM04_RESULTS.md); only Dynamic8 was re-synthesized for the corrected shape.
+
 ## Scope and frozen operation
 
 The frozen native MiniCPM-V vision-encoder operation is `Y[1120,1152] = X[1120,4304] × W[1152,4304]^T` (`ffn_up-0`). Dimensions are row/token, output-channel, reduction-channel. The HLS top is run across the complete operation and uses a fixed macro tile of 16 output channels × 32 tokens. The device is `xck26-sfvc784-2LV-c` (KV260/K26), toolchain Vitis/Vivado HLS 2024.2, with a 5.0 ns / 200 MHz target clock.
