@@ -1,0 +1,8 @@
+INFO: [SIM 2] *************** CSIM start ***************
+INFO: [SIM 4] CSIM will launch CLANG as the compiler.
+   Compiling ../../../../../../source/tb.cpp in debug mode
+   Compiling ../../../../../../source/vision_gemm.cpp in debug mode
+   Generating csim.exe
+C-SIM_TILE_PASS reduction=4304 tokens=1120 outputs=1152 tile=16x32 pe=2x8 outputs=512 k_lanes=4 max_abs_error=0 max_rel_error=0 max_delta_vs_serial_f32=0
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************
