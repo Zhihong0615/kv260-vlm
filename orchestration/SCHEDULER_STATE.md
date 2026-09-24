@@ -3,7 +3,7 @@
 Updated: 2026-09-24
 Coordinator branch: `orchestration/dispatch-20260924`
 Coordinator worktree: `/home/zhiro/research/kv260-vlm-orchestration`
-Coordinator head before this state refresh: `6ead697ce75ce4c638ea556483ff2382f552c976`
+Coordinator head before this state refresh: `7d399794cc0e444b2c51f3cfb869ca1d76929732`
 Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, baseline `094edc130489dc59dd9333e4ae6b0aa4c8013149`.
 
 ## Stage and decision
@@ -21,7 +21,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06/E04/R07/E
 - After the user-authorized reboot, the KV260 returned over Wi-Fi SSH with a new boot ID; the reboot marker was absent, APT idle, Jupyter and the starter-kit app active, and XRT reported the board ready.
 - Three post-reboot snapshots recorded `CmaFree=1,014,300 KiB`, above the existing 700,000 KiB CPU-runner floor. The earlier low-CMA allocation owner remains unknown. This does not authorize another reboot or inference run.
 - A validated AArch64 CPU CLI build and input-hash checks exist, but **no board VLM inference has run**.
-- Board inference remains gated on current-SHA parser/runner review at the runner's configured paths, synthetic ALPHA evidence, live resources, and an inference-specific owner window. Physical recovery and image-specific rollback are not verified.
+- Board inference remains gated on current-SHA parser/runner review at the runner's configured paths, synthetic ALPHA evidence, live resources, and an inference-specific owner window. The old reviews in the immutable primary checkout bind parser `06fa1518…` and runner `2b6e38da…`; they do not bind current coordinator hashes `0e28f81c…` and `8f07232e…`. The review paths are absent in this coordinator tree. Physical recovery and image-specific rollback are not verified.
 - Host TextVQA dev50 CPU baseline: 0.644 MMF soft accuracy, 0.68 exact normalized match, median fresh-process wall time 8.558 s and P95 12.548 s. These are development host results, not KV260 results.
 - Existing host evidence includes four selected-request graph traces, four allocator-metadata requests, three selected timelines, and a 50-request visual-token log. None gives board traffic, PL time, physical occupancy, or measured DDR bytes.
 - B03 traces contain 24 media groups and 21,936 vision-node records across four selected requests. B04 found 267 unique full per-op keys and five key-set equivalence classes. The callback runs after backend splitting, so these traces do not establish backend eligibility, selected K26 placement, or cost.
@@ -32,6 +32,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06/E04/R07/E
 - B03 and R02 are integrated. R02 **PASS** (P0=0/P1=0/P2=1) validated the four trace identities, group counts, hashes, and claim limits. Its one P2 is a stale duplicate activation copy in the worker tree, not a trace-integrity failure.
 - B04 and R03 are integrated. R03 **PASS** (P0=0/P1=0/P2=0). B04 shows that media-group ordinal adds no observed per-op signature-set membership beyond the full op/type/dimensions/strides key for these four requests. This rejects that narrow information-coverage claim only; allocation state, timing, placement, resource pressure, and K26 effects remain unmeasured.
 - E01 reviewed the then-current parser/runner/preflight source snapshot: P0=0, P1=0, P2=7. The configured fixed review paths are still unsatisfied in the primary checkout. Its review does not imply execution readiness.
+- The current source-only readiness map is `orchestration/EXECUTION_READINESS_MAP.md`. In the coordinator tree, the pinned TextVQA manifest and CPU build attestation are absent; both exist in the immutable primary checkout. No answer content was inspected. The available `host_smoke_alpha_*` folders are not the required board completion proof. The historical post-reboot resource snapshots do not satisfy a fresh gate.
 - B05/R05 **PASS**: independent recomputation confirms the same five equivalence classes under full-key sets, multiplicity-preserving multisets, ordered sequences, and adjacent-transition profiles across 24 selected media groups. No same-set/different-sequence or same-multiset/different-sequence pairs occur. Stop treating group ordinal/sequence as a novelty lead on these traces; any future cost question requires a separately gated comparison against the static full-key plus ordered-sequence/replay control. No cost or hardware behavior was measured.
 - E02 and R04 are integrated at coordinator merges `0779431550886d982c7244e424d246e9a648a1b0` and `9064a56056cdcf29b1e8ed2a1a15201c05c9f6ea`. R04 **PASS** applies to the four scoped remediations (P0=0/P1=0/P2=2 conditional). It found two conditional residuals: non-finite load token input could bypass the threshold if corrupted/substituted; malformed CPU-row data could throw before the structured blocked record, though still before image staging. Neither was fixed by E02.
 - Frozen global source `status/go_no_go.md` is unchanged. Keep P3 at `NO_GO_NOW` unless new evidence passes the project gates and independent review.
@@ -61,6 +62,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06/E04/R07/E
 
 1. Keep the B05/R05 negative result closed; do not reactivate a group-aware selector claim on these four traces.
 2. Keep P3 at `NO_GO_NOW`; do not run board inference until current-SHA review artifacts, synthetic ALPHA evidence, live resource checks, and an inference-specific owner window are satisfied and authorized.
-3. Continue with an offline readiness pass that maps those remaining gates to exact evidence paths and owners; keep runtime parser success, ALPHA, live resources, and owner-window proof explicitly open.
-4. Refresh `ACTIVE_TASKS.md`, this state page, and `DECISION_LOG.md` after each reviewed integration. Do not edit the primary checkout or the frozen global no-go file.
-5. Continue to label host metadata as host evidence and keep P3 `NO_GO_NOW`.
+3. Run R14 and R15 as independent source-only reviews bound to the exact current parser and runner hashes; integrate only exact-target reviews placed at the runner's fixed output paths. No tests or dry plans are in these tasks.
+4. Keep the manifest/build-attestation path gap, runtime parser success, synthetic ALPHA, live resources, and owner-window proof explicitly open; no board action is authorized by the review tasks.
+5. Refresh `ACTIVE_TASKS.md`, this state page, and `DECISION_LOG.md` after each reviewed integration. Do not edit the primary checkout or the frozen global no-go file.
+6. Continue to label host metadata as host evidence and keep P3 `NO_GO_NOW`.
