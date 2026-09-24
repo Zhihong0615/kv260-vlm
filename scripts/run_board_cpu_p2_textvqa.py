@@ -53,9 +53,9 @@ MIN_HOME_FREE_BYTES = 1 << 30
 MAX_LOAD1 = 2.0
 MAX_BUSY_CORES_PER_PROCESS = 0.25
 PROCESS_CPU_SAMPLE_WAIT_SECONDS = 2.0
-CLI_TIMEOUT_SECONDS = 900
-REMOTE_WATCHDOG_SECONDS = 960
-HOST_WAIT_SECONDS = 1020
+CLI_TIMEOUT_SECONDS = 3600
+REMOTE_WATCHDOG_SECONDS = 3660
+HOST_WAIT_SECONDS = 3720
 RUN_ID_RE = re.compile(r"[a-z][a-z0-9_-]{7,79}\Z")
 
 
@@ -487,7 +487,7 @@ def static_prerequisites(alpha_path: Path) -> dict[str, Any]:
                 "CPU-only CmaFree remains recorded, but its fixed minimum is 0 because this path does not allocate CMA-backed buffers.",
                 "CPU-only load1 maximum changed from 1.5 to 2.0; existing busy-process and forbidden-process checks remain active.",
                 "Transient sampler state/errors/PID identity races are warnings when process rows are valid; malformed/duplicate rows, missing preflight PID, forbidden processes, and stable BUSY_CPU remain blocking.",
-                "CLI, remote watchdog, host wait, and remote child wait limits extended to 900/960/1020/930 seconds after ALPHA wall time was measured at 249.5 seconds.",
+                "CLI, remote watchdog, host wait, and remote child wait limits extended to 3600/3660/3720/3630 seconds after a three-group request took 671 seconds.",
             ],
         }
     return {
@@ -955,7 +955,7 @@ def main():
         with (run_dir/"stdout.log").open("xb") as out,(run_dir/"stderr.log").open("xb") as err:
             child=subprocess.Popen(a,cwd=BASE,env=env,stdout=out,stderr=err,start_new_session=True)
             globals()["ACTIVE"]=child
-            rc=child.wait(timeout=930)
+            rc=child.wait(timeout=3630)
         globals()["ACTIVE"]=None
         elapsed=round(time.monotonic()-start_mono,6); ended=utc()
         post=rich_snapshot(); save(run_dir/"preflight_after.json",post)
