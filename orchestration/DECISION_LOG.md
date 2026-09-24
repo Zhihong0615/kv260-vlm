@@ -1,5 +1,12 @@
 # Decision Log
 
+## 2026-09-24 — Integrate E12/R17 and activate E13
+
+- **E12 integration:** exact builder target `6b4a3d5af46f7b44069a1a7d36e5bad88167b960` directly parents `ada49814f53f3c16b3e36383dcee65cb93473118`; coordinator merge `03ec40ddaba8b071d7befa3b68aa45484449562f`. Its parser `48c834d6b803eb6a06f4be39f287913c461701ec606956c66493fe7f10d7e209` rejects non-boolean `answer_parse_ok` values and uses strict integer QID matching at all current JSON QID comparisons and pilot selection. The authorized focused synthetic module passed six tests once.
+- **R17 exact-target review:** reviewer `e90c12f910d77d52747f54af8bcf00926f11ee76` directly parents E12 and is integrated at `dced7666bcb3c5f79efd2d983045bac35932d89b`. Verdict **PASS_WITH_P2_FINDINGS**, P0=0/P1=0/P2=1; report SHA-256 `e9c1465941a0f4ec9ee489fd5a3d193a7bddb621dadb171bd392c56f05b89587`; handoff SHA-256 `d2d7b666a7a76f938ce28c01abc92e4fab5bca726d84bb2d3f3e6c2a4b213ee5`. The independent focused run passed six tests. R17 confirms both R14 production findings are fixed. Its P2 is a test-guard limitation: AST subtree containment is weaker than checking the exact `qid_matches` value argument; static review traced all current direct QID reads to the helper. R14's archived report remains unchanged at SHA-256 `50512e90346b2be84c871ac983412c05361d359032ccf7b9b4205539bc5a26e8`.
+- **E13 activation:** exact base/direct parent `dced7666bcb3c5f79efd2d983045bac35932d89b`; current runner SHA `0ff88fd1…`, parser context SHA `48c834d6…`. Source manifest SHA-256 `3c84286ee7fcc3607c349363d9e708350b26208bccae5d203d7489d35a7901f9`; activation SHA-256 `c9d5dc3f6214b44f8316d5e8edeaca6665d362fabc361ebe8432ed4c2f0e3c21`. E13 addresses only R16 P2-1, using synthetic procfs tests and the single named unittest module (at most two builder runs). R19 remains queued until E13's exact target is delivered. Preserve R16 P2-2/P2-3.
+- **Disposition:** no parser/runner execution, real artifact validation, board, SSH, network, inference, benchmark, reboot, bitstream, or GitHub action occurred. This closes only source/synthetic review gates. Board readiness is not established; P3 remains `NO_GO_NOW`.
+
 ## 2026-09-24 — Preserve R16 findings before runner follow-up work
 
 - **Audit copy:** copied the exact R16 `PASS_WITH_P2_FINDINGS` report to `reviews/audit/R16_runner_PASS_WITH_P2_FINDINGS_20260924.md`. Original and archive both hash to `725afd51970d77fc9430584d374f2ccb28600400da1833e50baab5d11ac1ae64`.
