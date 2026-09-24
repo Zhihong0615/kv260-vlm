@@ -9,6 +9,7 @@ and fresh board resource gates. One invocation starts at most one real image.
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
 import getpass
 import hashlib
 import importlib.util
@@ -20,7 +21,7 @@ import sys
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,6 +55,144 @@ CLI_TIMEOUT_SECONDS = 300
 REMOTE_WATCHDOG_SECONDS = 540
 HOST_WAIT_SECONDS = 600
 RUN_ID_RE = re.compile(r"[a-z][a-z0-9_-]{7,79}\Z")
+
+
+@dataclass(frozen=True)
+class HostOrchestrationOps:
+    """Injectable boundaries for the production host request state machine."""
+
+    assess_previous: Callable[[int], bool]
+    begin: Callable[[], None]
+    preflight: Callable[[], dict[str, Any] | None]
+    stage: Callable[[], dict[str, Any] | None]
+    launch_worker: Callable[[], dict[str, Any]]
+    query_status: Callable[[], dict[str, Any]]
+    copy_and_verify: Callable[[], dict[str, Any]]
+    score: Callable[[], dict[str, Any]]
+    record_nonstart: Callable[[int, str, str | None], None]
+    record_state: Callable[[str, dict[str, Any]], None]
+
+
+def run_host_orchestration(qid: int, order: tuple[int, ...], run_ids: dict[int, str],
+                           ops: HostOrchestrationOps) -> dict[str, Any]:
+    """Run one qid through the production orchestration decisions and injected I/O."""
+    index = order.index(qid)
+
+    def record_nonstarts(qids: tuple[int, ...] | list[int], reason: str,
+                         prior_run_id: str | None) -> None:
+        for nonstart_qid in qids:
+            ops.record_nonstart(nonstart_qid, reason, prior_run_id)
+
+    for previous_qid in order[:index]:
+        try:
+            previous_passed = ops.assess_previous(previous_qid)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            record_nonstarts(order[index:], "PRIOR_CASE_UNRESOLVED", run_ids[previous_qid])
+            return {"status": "PRIOR_CASE_UNRESOLVED", "unresolved_qid": previous_qid,
+                    "new_qid_not_started": qid,
+                    "assessment_error": f"{type(exc).__name__}: {exc}", "returncode": 1}
+        if previous_passed is not True:
+            record_nonstarts(order[index:], "PRIOR_CASE_FAILED", run_ids[previous_qid])
+            return {"status": "PRIOR_CASE_FAILED", "failed_qid": previous_qid,
+                    "new_qid_not_started": qid, "returncode": 1}
+
+    ops.begin()
+    failure = ops.preflight()
+    if failure is not None:
+        fields = failure.get("fields", {})
+        phase = failure.get("phase", "preflight")
+        reason = failure.get("non_start_reason", "PREFLIGHT_BLOCKED")
+        ops.record_state(phase, fields)
+        record_nonstarts(order[index:], reason, None)
+        return {"status": fields.get("status", "PRECHECK_BLOCKED"),
+                "phase": phase, "returncode": 1}
+    failure = ops.stage()
+    if failure is not None:
+        fields = failure.get("fields", {})
+        phase = failure.get("phase", "stage")
+        reason = failure.get("non_start_reason", "INPUT_UNAVAILABLE")
+        ops.record_state(phase, fields)
+        record_nonstarts(order[index:], reason, None)
+        return {"status": fields.get("status", "INPUT_UNAVAILABLE"),
+                "phase": phase, "returncode": 1}
+
+    worker_attempt = ops.launch_worker()
+    if not isinstance(worker_attempt, dict):
+        worker_attempt = {"timed_out": False, "remote_result": None}
+    worker_timed_out = worker_attempt.get("timed_out") is True
+    remote_result = worker_attempt.get("remote_result")
+    if not worker_timed_out:
+        if remote_result == {"status": "REMOTE_LOCK_BUSY", "cli_started": False}:
+            fields = {"status": "REMOTE_LOCK_BUSY", "board_inference_attempted": False}
+            ops.record_state("remote_runner_lock_busy", fields)
+            ops.record_nonstart(qid, "RUNNER_LOCK_BUSY", None)
+            record_nonstarts(order[index + 1:], "PRIOR_CASE_UNRESOLVED", run_ids[qid])
+            return {"status": "REMOTE_LOCK_BUSY", "returncode": 1}
+        if isinstance(remote_result, dict) and remote_result.get("status") == "PRECHECK_BLOCKED":
+            fields = {"status": "PRECHECK_BLOCKED", "board_inference_attempted": False}
+            ops.record_state("remote_precheck_blocked", fields)
+            record_nonstarts(order[index:], "PREFLIGHT_BLOCKED", None)
+            return {"status": "PRECHECK_BLOCKED", "returncode": 1}
+        if not isinstance(remote_result, dict) or remote_result.get("status") != "REQUEST_FINISHED":
+            ops.record_state("remote_unresolved", {"status": "REMOTE_STATE_UNKNOWN"})
+            record_nonstarts(order[index + 1:], "PRIOR_CASE_UNRESOLVED", run_ids[qid])
+            return {"status": "REMOTE_STATE_UNKNOWN", "returncode": 1}
+
+    try:
+        status_reply = ops.query_status()
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        status_reply = {"returncode": None, "remote_status": None,
+                        "transport_error": repr(exc)}
+    remote_status = status_reply.get("remote_status") if isinstance(status_reply, dict) else None
+    status_complete = (
+        isinstance(status_reply, dict) and status_reply.get("returncode") == 0 and
+        isinstance(remote_status, dict) and
+        remote_status.get("state") == "COMPLETE" and
+        remote_status.get("run_id") == run_ids[qid] and
+        remote_status.get("run_dir_exists") is True and
+        remote_status.get("runner_lock_free") is True and
+        remote_status.get("completion_marker_valid") is True and
+        remote_status.get("board_cli_processes") == [] and
+        remote_status.get("unreadable_processes") == []
+    )
+    if not status_complete:
+        fields = {"status": "REMOTE_STATE_UNKNOWN",
+                  "remote_state": (remote_status.get("state")
+                                   if isinstance(remote_status, dict) else "REMOTE_STATE_UNKNOWN"),
+                  "remote_status_check_attempted_after_worker_timeout": worker_timed_out}
+        if isinstance(status_reply, dict) and status_reply.get("returncode") is not None:
+            fields["remote_status_returncode"] = status_reply["returncode"]
+        if isinstance(status_reply, dict) and status_reply.get("transport_error"):
+            fields["remote_status_transport_error"] = status_reply["transport_error"]
+        ops.record_state("remote_state_unknown", fields)
+        record_nonstarts(order[index + 1:], "PRIOR_CASE_UNRESOLVED", run_ids[qid])
+        return {"status": "REMOTE_STATE_UNKNOWN", "returncode": 1}
+
+    copied = ops.copy_and_verify()
+    if not isinstance(copied, dict) or copied.get("verified") is not True:
+        fields = {"status": ("REMOTE_STATE_UNKNOWN" if worker_timed_out
+                             else "EVIDENCE_COPY_INCOMPLETE")}
+        if worker_timed_out:
+            fields["timeout_recovery_failed_at"] = (
+                copied.get("failure_at", "raw_copy") if isinstance(copied, dict) else "raw_copy"
+            )
+        phase = copied.get("phase", "copy_incomplete") if isinstance(copied, dict) else "copy_incomplete"
+        ops.record_state(phase, fields)
+        record_nonstarts(order[index + 1:], "PRIOR_CASE_UNRESOLVED", run_ids[qid])
+        return {"status": fields["status"], "returncode": 1}
+
+    assessment = ops.score()
+    passed = (isinstance(assessment, dict) and assessment.get("answer_parse_ok") is True and
+              assessment.get("image_processing_verified") is True)
+    stop_after = isinstance(assessment, dict) and assessment.get("stop_after_this_request") is True
+    ops.record_state("final", {"stop_after_this_request": not passed or stop_after})
+    if not passed:
+        record_nonstarts(order[index + 1:], "PRIOR_CASE_FAILED", run_ids[qid])
+        return {"status": "CASE_FAILED", "returncode": 1}
+    if stop_after:
+        record_nonstarts(order[index + 1:], "PRIOR_CASE_STOP_RULE", run_ids[qid])
+        return {"status": "STOP_RULE", "returncode": 1}
+    return {"status": "COMPLETE", "returncode": 0}
 
 
 def sha256_file(path: Path) -> str:
@@ -1015,25 +1154,11 @@ def main() -> int:
     assert qid is not None
     index = ORDER.index(qid)
     adapter, evaluator = load_adapter()
-    def stop_later(reason: str) -> None:
-        for later_qid in ORDER[index+1:]:
-            try:
-                make_nonstart(later_qid,reason,RUN_IDS[qid])
-            except ValueError as exc:
-                outcome.setdefault("later_nonstart_record_conflicts",[]).append(
-                    {"question_id":later_qid,"error":str(exc)})
-    for previous_qid in ORDER[:index]:
-        prior = assess_previous(previous_qid, samples, manifest, adapter, evaluator)
-        if prior["attempted"] is not True or not prior["answer_parse_ok"] or not prior["image_processing_verified"]:
-            for later in ORDER[index:]:
-                make_nonstart(later, "PRIOR_CASE_FAILED", RUN_IDS[previous_qid])
-            print(json.dumps({"status":"PRIOR_CASE_FAILED","failed_qid":previous_qid,
-                              "new_qid_not_started":qid},sort_keys=True))
-            return 1
-    raw_dir = checked_raw_path(RAW_ROOT / RUN_IDS[qid])
     sample = samples[qid]
     image = (MANIFEST_PATH.parent / sample["image_relative_path"]).resolve()
     board_run_dir = f"{BOARD_BASE}/runs/{RUN_IDS[qid]}"
+    raw_dir_path = RAW_ROOT / RUN_IDS[qid]
+    raw_dir_holder: dict[str, Path] = {}
     cfg = {"run_id":RUN_IDS[qid],"question_id":qid,"image_id":sample["image_id"],
            "image_sha256":sample["image_sha256"],"image_bytes":sample["image_bytes"],
            "manifest_sha256":MANIFEST_SHA256,"runtime_commit":PINNED_RUNTIME_COMMIT,
@@ -1052,247 +1177,292 @@ def main() -> int:
                "question_id":qid,"owner_window":cfg["owner_window"],"proofs":proof,
                "runner_sha256":proof["runner_sha256"],"parser_sha256":proof["parser_sha256"],
                "host_started_at_utc":datetime.now(timezone.utc).isoformat(),"status":"PRECHECK_IN_PROGRESS"}
-    raw_dir.mkdir(mode=0o775)
-    write_record(raw_dir, "start", outcome)
-    worker_path=raw_dir / "remote_worker.py"
-    worker_path.write_text("CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER,encoding="utf-8")
+    worker_path = raw_dir_path / "remote_worker.py"
 
-    def abort_before_cli(reason: str, phase: str, detail: str) -> int:
-        outcome.update({"status":phase.upper(),"board_inference_attempted":False,
-                        "error":detail,"ended_at_utc":datetime.now(timezone.utc).isoformat()})
-        write_record(raw_dir, phase, outcome)
-        record_nonstart_in_existing(raw_dir,qid,reason,None)
-        for later_qid in ORDER[index+1:]:
-            make_nonstart(later_qid,reason,None)
-        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True))
-        return 1
+    def current_raw_dir() -> Path:
+        return raw_dir_holder.get("path", raw_dir_path)
 
-    # Read-only preflight; do not stage an image while the board is busy.
-    try:
-        preflight = ssh_python(PREFLIGHT_SOURCE.read_text(encoding="utf-8"), 35)
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        out = getattr(exc,"output",None) or b""
-        err = getattr(exc,"stderr",None) or b""
-        (raw_dir / "preflight_before.transport.stdout").write_bytes(out)
-        (raw_dir / "preflight_before.transport.stderr").write_bytes(err)
-        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_transport_failed",repr(exc))
-    (raw_dir / "preflight_before.transport.stdout").write_bytes(preflight.stdout)
-    (raw_dir / "preflight_before.transport.stderr").write_bytes(preflight.stderr)
-    if preflight.returncode != 0:
-        outcome["preflight_returncode"]=preflight.returncode
-        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_transport_failed",
-                                f"read-only SSH preflight exited {preflight.returncode}")
-    try:
-        snapshot=json.loads(preflight.stdout)
-    except (ValueError,UnicodeDecodeError) as exc:
-        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_invalid",
-                                "read-only SSH preflight returned invalid JSON: "+repr(exc))
-    if (not isinstance(snapshot,dict) or not isinstance(snapshot.get("memory_kib"),dict) or
-            not isinstance(snapshot.get("selected_process_counts"),dict) or
-            not isinstance(snapshot.get("selected_processes"),list) or
-            not isinstance(snapshot.get("packagekit_transaction_state"),dict) or
-            not isinstance(snapshot.get("loadavg"),str) or "arch" not in snapshot or
-            "cpu_count" not in snapshot or "home_free_bytes" not in snapshot or
-            "jupyter_active" not in snapshot or "jupyter_returncode" not in snapshot or
-            snapshot.get("schema")!="kv260_cpu_p2_textvqa_runtime_preflight_v3" or
-            not isinstance(snapshot.get("systemd_service_states"),dict)):
-        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_invalid",
-                                "read-only SSH preflight omitted required resource fields")
-    process_rows=snapshot.get("selected_processes",[])
-    if any(not isinstance(p,dict) or not isinstance(p.get("comm"),str) for p in process_rows):
-        return abort_before_cli("PREFLIGHT_BLOCKED","preflight_invalid",
-                                "read-only SSH preflight returned malformed process details")
-    reasons=preflight_resource_gate_reasons(snapshot)
-    snapshot["gate_reasons"]=reasons
-    write_json(raw_dir / "preflight_before.json", snapshot)
-    if reasons:
-        outcome.update({"status":"PREFLIGHT_BLOCKED","gate_reasons":reasons,
-                        "board_inference_attempted":False,"ended_at_utc":datetime.now(timezone.utc).isoformat()})
-        write_record(raw_dir, "preflight_blocked",outcome)
-        record_nonstart_in_existing(raw_dir,qid,"PREFLIGHT_BLOCKED",None)
-        for later in ORDER[index+1:]: make_nonstart(later,"PREFLIGHT_BLOCKED",None)
-        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+    def record_state(phase: str, fields: dict[str, Any]) -> None:
+        outcome.update(fields)
+        write_record(current_raw_dir(), phase, outcome)
 
-    timeout_identity=snapshot["timeout_executable"]
-    cfg["timeout_executable"]=timeout_identity
-    outcome["timeout_executable"]=timeout_identity
-    worker="CONFIG="+repr(cfg)+"\n"+REMOTE_WORKER
-    worker_path.write_text(worker,encoding="utf-8")
+    def record_nonstart(qid_to_record: int, reason: str, prior_run_id: str | None) -> None:
+        directory = RAW_ROOT / RUN_IDS[qid_to_record]
+        try:
+            if directory.exists():
+                record_nonstart_in_existing(directory, qid_to_record, reason, prior_run_id)
+            else:
+                make_nonstart(qid_to_record, reason, prior_run_id)
+        except ValueError as exc:
+            if qid_to_record == qid:
+                raise
+            outcome.setdefault("later_nonstart_record_conflicts", []).append(
+                {"question_id": qid_to_record, "error": str(exc)})
 
-    # Copy only the three frozen original JPEGs; never send annotations or labels.
-    remote_input=f"{BOARD_BASE}/input/textvqa-dev50/"
-    mkdir_source=f"from pathlib import Path; Path({(BOARD_BASE+'/input/textvqa-dev50')!r}).mkdir(parents=True,exist_ok=True); print('INPUT_DIR_READY')"
-    try:
-        staged=ssh_python(mkdir_source,30)
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        return abort_before_cli("INPUT_UNAVAILABLE","input_directory_failed",repr(exc))
-    (raw_dir/"input_directory.stdout").write_bytes(staged.stdout)
-    (raw_dir/"input_directory.stderr").write_bytes(staged.stderr)
-    if staged.returncode!=0:
-        return abort_before_cli("INPUT_UNAVAILABLE","input_directory_failed",
-                                f"board user input directory setup exited {staged.returncode}")
-    # rsync's -e option must precede source/destination.
-    rsync_argv=["rsync","-a","--ignore-existing","-e","ssh -T -o BatchMode=yes -o ConnectTimeout=10","--",
-                str(image),f"kria:{remote_input}{sample['image_id']}.jpg"]
-    try:
-        transfer=subprocess.run(rsync_argv,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=60,check=False)
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        (raw_dir/"image_transfer.stdout").write_bytes(getattr(exc,"output",None) or b"")
-        (raw_dir/"image_transfer.stderr").write_bytes(getattr(exc,"stderr",None) or b"")
-        return abort_before_cli("INPUT_UNAVAILABLE","image_transfer_failed",repr(exc))
-    (raw_dir/"image_transfer.stdout").write_bytes(transfer.stdout)
-    (raw_dir/"image_transfer.stderr").write_bytes(transfer.stderr)
-    if transfer.returncode!=0:
-        return abort_before_cli("INPUT_UNAVAILABLE","image_transfer_failed",
-                                f"board image staging exited {transfer.returncode}")
+    def assess_previous_case(previous_qid: int) -> bool:
+        prior = assess_previous(previous_qid, samples, manifest, adapter, evaluator)
+        return (prior["attempted"] is True and prior["answer_parse_ok"] is True and
+                prior["image_processing_verified"] is True)
 
-    remote_cmd=f"{TIMEOUT_EXECUTABLE_PATH} --verbose --signal=TERM --kill-after=15s {REMOTE_WATCHDOG_SECONDS}s python3 -"
-    remote_argv=["ssh","-T","-o","BatchMode=yes","-o","ConnectTimeout=10","-o","ServerAliveInterval=15",
-                 "-o","ServerAliveCountMax=3","kria",remote_cmd]
-    started=datetime.now(timezone.utc).isoformat()
-    try:
-        result=subprocess.run(remote_argv,input=worker.encode(),stdout=subprocess.PIPE,stderr=subprocess.PIPE,
-                              timeout=HOST_WAIT_SECONDS,check=False)
-        transport={"argv":remote_argv,"started_at_utc":started,"ended_at_utc":datetime.now(timezone.utc).isoformat(),
-                   "returncode":result.returncode,"timed_out":False,
-                   "timeout_executable":timeout_identity,
-                   "worker_sha256":sha256_file(worker_path),"stdout_sha256":hashlib.sha256(result.stdout).hexdigest(),
-                   "stderr_sha256":hashlib.sha256(result.stderr).hexdigest()}
-    except subprocess.TimeoutExpired as exc:
-        result=None
-        timeout_stdout=captured_output_bytes(getattr(exc,"output",None))
-        timeout_stderr=captured_output_bytes(getattr(exc,"stderr",None))
-        outcome.update(persist_transport_failure(raw_dir,"worker",exc))
-        transport={"argv":remote_argv,"started_at_utc":started,"ended_at_utc":datetime.now(timezone.utc).isoformat(),
-                   "returncode":None,"timed_out":True,"worker_sha256":sha256_file(worker_path),
-                   "timeout_executable":timeout_identity,
-                   "stdout_sha256":hashlib.sha256(timeout_stdout).hexdigest(),
-                   "stderr_sha256":hashlib.sha256(timeout_stderr).hexdigest(),
-                   "partial_output_preserved":True}
-    write_json(raw_dir/"worker.transport.json",transport)
-    outcome["remote_transport"]=transport
-    outcome["status"]="REMOTE_COMPLETED" if result is not None else "REMOTE_STATE_UNKNOWN"
-    if result is not None:
-        (raw_dir/"worker.stdout").write_bytes(result.stdout); (raw_dir/"worker.stderr").write_bytes(result.stderr)
-        try: outcome["remote_result"]=json.loads(result.stdout.decode().splitlines()[-1])
-        except (ValueError,IndexError,UnicodeDecodeError): outcome["remote_result_parse_failed"]=True
-    outcome["ended_at_utc"]=datetime.now(timezone.utc).isoformat()
-    write_record(raw_dir, "remote_outcome", outcome)
-    remote_result=outcome.get("remote_result")
-    if result is not None and (not isinstance(remote_result,dict) or
-                               remote_result.get("status") not in ("REQUEST_FINISHED","PRECHECK_BLOCKED")):
-        stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir,"remote_unresolved",outcome)
-        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+    def begin_request() -> None:
+        raw_dir_holder["path"] = checked_raw_path(raw_dir_path)
+        current_raw_dir().mkdir(mode=0o775)
+        write_record(current_raw_dir(), "start", outcome)
+        worker_path.write_text("CONFIG=" + repr(cfg) + "\n" + REMOTE_WORKER, encoding="utf-8")
 
-    if result is not None and remote_result["status"]=="PRECHECK_BLOCKED":
-        # The remote worker did not create its case directory or launch a CLI.
-        record_nonstart_in_existing(raw_dir,qid,"PREFLIGHT_BLOCKED",None)
-        for later in ORDER[index+1:]: make_nonstart(later,"PREFLIGHT_BLOCKED",None)
-        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
+    def before_cli_failure(reason: str, phase: str, detail: str,
+                          extra_fields: dict[str, Any] | None = None) -> dict[str, Any]:
+        fields = {"status": phase.upper(), "board_inference_attempted": False,
+                  "error": detail, "ended_at_utc": datetime.now(timezone.utc).isoformat()}
+        if extra_fields:
+            fields.update(extra_fields)
+        return {"phase": phase, "non_start_reason": reason, "fields": fields}
 
-    outcome["remote_status_check_attempted_after_worker_timeout"] = result is None
-    try:
-        status_reply=ssh_python(remote_status_source(RUN_IDS[qid]),45)
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        outcome.update(persist_transport_failure(raw_dir,"remote_status",exc))
-        outcome["status"]="REMOTE_STATE_UNKNOWN"
-        stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir,"remote_state_unknown",outcome)
-        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
-    (raw_dir/"remote_status.stdout").write_bytes(status_reply.stdout)
-    (raw_dir/"remote_status.stderr").write_bytes(status_reply.stderr)
-    if status_reply.returncode!=0:
-        outcome["status"]="REMOTE_STATE_UNKNOWN"; outcome["remote_status_returncode"]=status_reply.returncode
-        stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir, "remote_state_unknown",outcome); print(json.dumps(outcome,ensure_ascii=False)); return 1
-    try: remote_status=json.loads(status_reply.stdout)
-    except (ValueError,UnicodeDecodeError): remote_status={"state":"REMOTE_STATE_UNKNOWN","parse_failed":True}
-    write_json(raw_dir/"remote_status.json",remote_status)
-    remote_status_complete=(isinstance(remote_status,dict) and
-                            remote_status.get("state")=="COMPLETE" and
-                            remote_status.get("run_id")==RUN_IDS[qid] and
-                            remote_status.get("run_dir_exists") is True and
-                            remote_status.get("runner_lock_free") is True and
-                            remote_status.get("completion_marker_valid") is True and
-                            remote_status.get("board_cli_processes")==[] and
-                            remote_status.get("unreadable_processes")==[])
-    outcome["remote_state"]=remote_status.get("state") if isinstance(remote_status,dict) else "REMOTE_STATE_UNKNOWN"
-    if not remote_status_complete:
-        outcome["status"]="REMOTE_STATE_UNKNOWN"; stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir, "remote_state_unknown",outcome)
-        print(json.dumps(outcome,ensure_ascii=False)); return 1
-    if result is None:
-        outcome["status"]="REMOTE_COMPLETED_AFTER_HOST_TIMEOUT"
+    def preflight_request() -> dict[str, Any] | None:
+        try:
+            preflight = ssh_python(PREFLIGHT_SOURCE.read_text(encoding="utf-8"), 35)
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            (current_raw_dir() / "preflight_before.transport.stdout").write_bytes(
+                captured_output_bytes(getattr(exc, "output", None)))
+            (current_raw_dir() / "preflight_before.transport.stderr").write_bytes(
+                captured_output_bytes(getattr(exc, "stderr", None)))
+            return before_cli_failure("PREFLIGHT_BLOCKED", "preflight_transport_failed", repr(exc))
+        (current_raw_dir() / "preflight_before.transport.stdout").write_bytes(preflight.stdout)
+        (current_raw_dir() / "preflight_before.transport.stderr").write_bytes(preflight.stderr)
+        if preflight.returncode != 0:
+            return before_cli_failure("PREFLIGHT_BLOCKED", "preflight_transport_failed",
+                f"read-only SSH preflight exited {preflight.returncode}",
+                {"preflight_returncode": preflight.returncode})
+        try:
+            snapshot = json.loads(preflight.stdout)
+        except (ValueError, UnicodeDecodeError) as exc:
+            return before_cli_failure("PREFLIGHT_BLOCKED", "preflight_invalid",
+                "read-only SSH preflight returned invalid JSON: " + repr(exc))
+        if (not isinstance(snapshot, dict) or not isinstance(snapshot.get("memory_kib"), dict) or
+                not isinstance(snapshot.get("selected_process_counts"), dict) or
+                not isinstance(snapshot.get("selected_processes"), list) or
+                not isinstance(snapshot.get("packagekit_transaction_state"), dict) or
+                not isinstance(snapshot.get("loadavg"), str) or "arch" not in snapshot or
+                "cpu_count" not in snapshot or "home_free_bytes" not in snapshot or
+                "jupyter_active" not in snapshot or "jupyter_returncode" not in snapshot or
+                snapshot.get("schema") != "kv260_cpu_p2_textvqa_runtime_preflight_v3" or
+                not isinstance(snapshot.get("systemd_service_states"), dict)):
+            return before_cli_failure("PREFLIGHT_BLOCKED", "preflight_invalid",
+                "read-only SSH preflight omitted required resource fields")
+        process_rows = snapshot.get("selected_processes", [])
+        if any(not isinstance(row, dict) or not isinstance(row.get("comm"), str)
+               for row in process_rows):
+            return before_cli_failure("PREFLIGHT_BLOCKED", "preflight_invalid",
+                "read-only SSH preflight returned malformed process details")
+        reasons = preflight_resource_gate_reasons(snapshot)
+        snapshot["gate_reasons"] = reasons
+        write_json(current_raw_dir() / "preflight_before.json", snapshot)
+        if reasons:
+            return {"phase": "preflight_blocked", "non_start_reason": "PREFLIGHT_BLOCKED",
+                    "fields": {"status": "PREFLIGHT_BLOCKED", "gate_reasons": reasons,
+                               "board_inference_attempted": False,
+                               "ended_at_utc": datetime.now(timezone.utc).isoformat()}}
+        timeout_identity = snapshot["timeout_executable"]
+        cfg["timeout_executable"] = timeout_identity
+        outcome["timeout_executable"] = timeout_identity
+        return None
 
-    remote_dir=f"{BOARD_BASE}/runs/{RUN_IDS[qid]}/"
-    try:
-        copied=subprocess.run(["rsync","-a","-e","ssh -T -o BatchMode=yes -o ConnectTimeout=10","--",
-                               f"kria:{remote_dir}",str(raw_dir)+"/"],stdout=subprocess.PIPE,stderr=subprocess.PIPE,
-                              timeout=90,check=False)
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        outcome.update(persist_transport_failure(raw_dir,"raw_copy",exc))
-        outcome["status"]="REMOTE_STATE_UNKNOWN" if result is None else "EVIDENCE_COPY_INCOMPLETE"
-        if result is None: outcome["timeout_recovery_failed_at"]="raw_copy"
-        stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir,"copy_incomplete",outcome)
-        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
-    (raw_dir/"raw_copy.stdout").write_bytes(copied.stdout); (raw_dir/"raw_copy.stderr").write_bytes(copied.stderr)
-    if copied.returncode!=0:
-        outcome["status"]="REMOTE_STATE_UNKNOWN" if result is None else "EVIDENCE_COPY_INCOMPLETE"
-        if result is None: outcome["timeout_recovery_failed_at"]="raw_copy_returncode"
-        outcome["raw_copy_returncode"]=copied.returncode
-        stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir, "copy_incomplete",outcome); print(json.dumps(outcome,ensure_ascii=False)); return 1
-    try:
-        completion_sha=adapter.verify_board_completion_manifest(raw_dir,qid)
-        completion=json.loads((raw_dir/"completion.json").read_text(encoding="utf-8"))
-    except (OSError,ValueError,KeyError,TypeError) as exc:
-        outcome["status"]="REMOTE_STATE_UNKNOWN" if result is None else "EVIDENCE_COPY_INCOMPLETE"
-        if result is None: outcome["timeout_recovery_failed_at"]="completion_manifest"
-        outcome["completion_manifest_error"]=repr(exc)
-        stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir,"copy_manifest_invalid",outcome)
-        print(json.dumps(outcome,ensure_ascii=False,sort_keys=True)); return 1
-    mismatches=[]
-    for name,row in completion["manifest"].items():
-        p=raw_dir/name
-        if not p.is_file() or p.stat().st_size!=row["bytes"] or sha256_file(p)!=row["sha256"]:
-            mismatches.append(name)
-    if mismatches:
-        outcome["status"]="REMOTE_STATE_UNKNOWN" if result is None else "EVIDENCE_COPY_INCOMPLETE"
-        if result is None: outcome["timeout_recovery_failed_at"]="copy_hash_mismatch"
-        outcome["copy_mismatches"]=mismatches
-        stop_later("PRIOR_CASE_UNRESOLVED")
-        write_record(raw_dir, "copy_mismatch",outcome); print(json.dumps(outcome,ensure_ascii=False)); return 1
-    outcome["raw_copy_returncode"]=0; outcome["copied_manifest_matches_board"]=True
-    receipt={"schema":"kv260_cpu_p2_textvqa_host_copy_verification_v1",
-             "question_id":qid,"run_id":RUN_IDS[qid],"completion_json_sha256":completion_sha,
-             "board_files_verified":True,
-             "verified_file_names":sorted(set(completion["manifest"])|{"completion.json"}),
-             "verified_at_utc":datetime.now(timezone.utc).isoformat()}
-    write_json(raw_dir/"host_copy_verification.json",receipt)
-    outcome["host_copy_verification_sha256"]=sha256_file(raw_dir/"host_copy_verification.json")
-    outcome["completion_json_sha256"]=completion_sha
-    parsed=adapter.inspect_case(qid,raw_dir,samples[qid],manifest,MANIFEST_SHA256,MANIFEST_PATH,evaluator,"pilot")
-    outcome["host_adapter_case_status"]=parsed["status"]
-    outcome["answer_parse_ok"]=parsed["answer_parse_ok"]
-    outcome["image_processing_verified"]=parsed["image_processing_verified"]
-    outcome["host_adapter_completion_json_sha256"]=parsed.get("completion_json_sha256")
-    outcome["host_adapter_board_completion_manifest_verified"]=parsed.get("board_completion_manifest_verified")
-    if not parsed["answer_parse_ok"] or not parsed["image_processing_verified"]:
-        outcome["stop_after_this_request"]=True
-        write_json(raw_dir/"runner_host_assessment.json",{k:parsed[k] for k in ("question_id","attempted","status","answer_parse_ok","image_processing_verified","errors")})
-        write_record(raw_dir, "final", outcome)
-        for later in ORDER[index+1:]: make_nonstart(later,"PRIOR_CASE_FAILED",RUN_IDS[qid])
+    def stage_input() -> dict[str, Any] | None:
+        worker = "CONFIG=" + repr(cfg) + "\n" + REMOTE_WORKER
+        worker_path.write_text(worker, encoding="utf-8")
+        remote_input = f"{BOARD_BASE}/input/textvqa-dev50/"
+        mkdir_source = f"from pathlib import Path; Path({(BOARD_BASE + '/input/textvqa-dev50')!r}).mkdir(parents=True,exist_ok=True); print('INPUT_DIR_READY')"
+        try:
+            staged = ssh_python(mkdir_source, 30)
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            return before_cli_failure("INPUT_UNAVAILABLE", "input_directory_failed", repr(exc))
+        (current_raw_dir() / "input_directory.stdout").write_bytes(staged.stdout)
+        (current_raw_dir() / "input_directory.stderr").write_bytes(staged.stderr)
+        if staged.returncode != 0:
+            return before_cli_failure("INPUT_UNAVAILABLE", "input_directory_failed",
+                f"board user input directory setup exited {staged.returncode}")
+        rsync_argv = ["rsync", "-a", "--ignore-existing", "-e",
+                      "ssh -T -o BatchMode=yes -o ConnectTimeout=10", "--", str(image),
+                      f"kria:{remote_input}{sample['image_id']}.jpg"]
+        try:
+            transfer = subprocess.run(rsync_argv, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                      timeout=60, check=False)
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            (current_raw_dir() / "image_transfer.stdout").write_bytes(
+                captured_output_bytes(getattr(exc, "output", None)))
+            (current_raw_dir() / "image_transfer.stderr").write_bytes(
+                captured_output_bytes(getattr(exc, "stderr", None)))
+            return before_cli_failure("INPUT_UNAVAILABLE", "image_transfer_failed", repr(exc))
+        (current_raw_dir() / "image_transfer.stdout").write_bytes(transfer.stdout)
+        (current_raw_dir() / "image_transfer.stderr").write_bytes(transfer.stderr)
+        if transfer.returncode != 0:
+            return before_cli_failure("INPUT_UNAVAILABLE", "image_transfer_failed",
+                f"board image staging exited {transfer.returncode}")
+        return None
+
+    worker_timed_out_holder = {"value": False}
+
+    def launch_worker() -> dict[str, Any]:
+        remote_cmd = f"{TIMEOUT_EXECUTABLE_PATH} --verbose --signal=TERM --kill-after=15s {REMOTE_WATCHDOG_SECONDS}s python3 -"
+        remote_argv = ["ssh", "-T", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10",
+                       "-o", "ServerAliveInterval=15", "-o", "ServerAliveCountMax=3",
+                       "kria", remote_cmd]
+        started = datetime.now(timezone.utc).isoformat()
+        try:
+            result = subprocess.run(remote_argv, input=worker_path.read_bytes(),
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=HOST_WAIT_SECONDS, check=False)
+            transport = {"argv": remote_argv, "started_at_utc": started,
+                "ended_at_utc": datetime.now(timezone.utc).isoformat(), "returncode": result.returncode,
+                "timed_out": False, "timeout_executable": cfg["timeout_executable"],
+                "worker_sha256": sha256_file(worker_path),
+                "stdout_sha256": hashlib.sha256(result.stdout).hexdigest(),
+                "stderr_sha256": hashlib.sha256(result.stderr).hexdigest()}
+        except subprocess.TimeoutExpired as exc:
+            result = None
+            worker_timed_out_holder["value"] = True
+            timeout_stdout = captured_output_bytes(getattr(exc, "output", None))
+            timeout_stderr = captured_output_bytes(getattr(exc, "stderr", None))
+            outcome.update(persist_transport_failure(current_raw_dir(), "worker", exc))
+            transport = {"argv": remote_argv, "started_at_utc": started,
+                "ended_at_utc": datetime.now(timezone.utc).isoformat(), "returncode": None,
+                "timed_out": True, "worker_sha256": sha256_file(worker_path),
+                "timeout_executable": cfg["timeout_executable"],
+                "stdout_sha256": hashlib.sha256(timeout_stdout).hexdigest(),
+                "stderr_sha256": hashlib.sha256(timeout_stderr).hexdigest(),
+                "partial_output_preserved": True}
+        write_json(current_raw_dir() / "worker.transport.json", transport)
+        outcome["remote_transport"] = transport
+        outcome["status"] = "REMOTE_COMPLETED" if result is not None else "REMOTE_STATE_UNKNOWN"
+        remote_result = None
+        if result is not None:
+            (current_raw_dir() / "worker.stdout").write_bytes(result.stdout)
+            (current_raw_dir() / "worker.stderr").write_bytes(result.stderr)
+            try:
+                remote_result = json.loads(result.stdout.decode().splitlines()[-1])
+                outcome["remote_result"] = remote_result
+            except (ValueError, IndexError, UnicodeDecodeError):
+                outcome["remote_result_parse_failed"] = True
+        outcome["ended_at_utc"] = datetime.now(timezone.utc).isoformat()
+        write_record(current_raw_dir(), "remote_outcome", outcome)
+        return {"timed_out": result is None, "remote_result": remote_result,
+                "returncode": None if result is None else result.returncode}
+
+    def query_remote_status() -> dict[str, Any]:
+        outcome["remote_status_check_attempted_after_worker_timeout"] = worker_timed_out_holder["value"]
+        try:
+            reply = ssh_python(remote_status_source(RUN_IDS[qid]), 45)
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            outcome.update(persist_transport_failure(current_raw_dir(), "remote_status", exc))
+            return {"returncode": None, "remote_status": None, "transport_error": repr(exc)}
+        (current_raw_dir() / "remote_status.stdout").write_bytes(reply.stdout)
+        (current_raw_dir() / "remote_status.stderr").write_bytes(reply.stderr)
+        if reply.returncode != 0:
+            return {"returncode": reply.returncode, "remote_status": None}
+        try:
+            remote_status = json.loads(reply.stdout)
+        except (ValueError, UnicodeDecodeError):
+            remote_status = {"state": "REMOTE_STATE_UNKNOWN", "parse_failed": True}
+        write_json(current_raw_dir() / "remote_status.json", remote_status)
+        outcome["remote_state"] = (remote_status.get("state")
+                                   if isinstance(remote_status, dict) else "REMOTE_STATE_UNKNOWN")
+        if worker_timed_out_holder["value"] and isinstance(remote_status, dict) and \
+                remote_status.get("state") == "COMPLETE":
+            outcome["status"] = "REMOTE_COMPLETED_AFTER_HOST_TIMEOUT"
+        return {"returncode": reply.returncode, "remote_status": remote_status}
+
+    def copy_and_verify() -> dict[str, Any]:
+        remote_dir = f"{BOARD_BASE}/runs/{RUN_IDS[qid]}/"
+        copy_status = "REMOTE_STATE_UNKNOWN" if worker_timed_out_holder["value"] else "EVIDENCE_COPY_INCOMPLETE"
+        try:
+            copied = subprocess.run(["rsync", "-a", "-e",
+                "ssh -T -o BatchMode=yes -o ConnectTimeout=10", "--",
+                f"kria:{remote_dir}", str(current_raw_dir()) + "/"], stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE, timeout=90, check=False)
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            outcome.update(persist_transport_failure(current_raw_dir(), "raw_copy", exc))
+            outcome["status"] = copy_status
+            if worker_timed_out_holder["value"]:
+                outcome["timeout_recovery_failed_at"] = "raw_copy"
+            return {"verified": False, "phase": "copy_incomplete", "failure_at": "raw_copy"}
+        (current_raw_dir() / "raw_copy.stdout").write_bytes(copied.stdout)
+        (current_raw_dir() / "raw_copy.stderr").write_bytes(copied.stderr)
+        if copied.returncode != 0:
+            outcome["status"] = copy_status
+            outcome["raw_copy_returncode"] = copied.returncode
+            if worker_timed_out_holder["value"]:
+                outcome["timeout_recovery_failed_at"] = "raw_copy_returncode"
+            return {"verified": False, "phase": "copy_incomplete", "failure_at": "raw_copy_returncode"}
+        try:
+            completion_sha = adapter.verify_board_completion_manifest(current_raw_dir(), qid)
+            completion = json.loads((current_raw_dir() / "completion.json").read_text(encoding="utf-8"))
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            outcome["status"] = copy_status
+            outcome["completion_manifest_error"] = repr(exc)
+            if worker_timed_out_holder["value"]:
+                outcome["timeout_recovery_failed_at"] = "completion_manifest"
+            return {"verified": False, "phase": "copy_manifest_invalid", "failure_at": "completion_manifest"}
+        mismatches = []
+        for name, row in completion["manifest"].items():
+            copied_path = current_raw_dir() / name
+            if (not copied_path.is_file() or copied_path.stat().st_size != row["bytes"] or
+                    sha256_file(copied_path) != row["sha256"]):
+                mismatches.append(name)
+        if mismatches:
+            outcome["status"] = copy_status
+            outcome["copy_mismatches"] = mismatches
+            if worker_timed_out_holder["value"]:
+                outcome["timeout_recovery_failed_at"] = "copy_hash_mismatch"
+            return {"verified": False, "phase": "copy_mismatch", "failure_at": "copy_hash_mismatch"}
+        outcome["raw_copy_returncode"] = 0
+        outcome["copied_manifest_matches_board"] = True
+        receipt = {"schema": "kv260_cpu_p2_textvqa_host_copy_verification_v1",
+            "question_id": qid, "run_id": RUN_IDS[qid], "completion_json_sha256": completion_sha,
+            "board_files_verified": True,
+            "verified_file_names": sorted(set(completion["manifest"]) | {"completion.json"}),
+            "verified_at_utc": datetime.now(timezone.utc).isoformat()}
+        write_json(current_raw_dir() / "host_copy_verification.json", receipt)
+        outcome["host_copy_verification_sha256"] = sha256_file(
+            current_raw_dir() / "host_copy_verification.json")
+        outcome["completion_json_sha256"] = completion_sha
+        return {"verified": True}
+
+    def score_copied_case() -> dict[str, Any]:
+        parsed = adapter.inspect_case(qid, current_raw_dir(), sample, manifest, MANIFEST_SHA256,
+                                      MANIFEST_PATH, evaluator, "pilot")
+        outcome["host_adapter_case_status"] = parsed["status"]
+        outcome["answer_parse_ok"] = parsed["answer_parse_ok"]
+        outcome["image_processing_verified"] = parsed["image_processing_verified"]
+        outcome["host_adapter_completion_json_sha256"] = parsed.get("completion_json_sha256")
+        outcome["host_adapter_board_completion_manifest_verified"] = parsed.get(
+            "board_completion_manifest_verified")
+        passed = parsed["answer_parse_ok"] is True and parsed["image_processing_verified"] is True
+        outcome["stop_after_this_request"] = (False if not passed else
+            outcome.get("remote_result", {}).get("stop_after_this_request", False))
+        write_json(current_raw_dir() / "runner_host_assessment.json", {
+            key: parsed[key] for key in ("question_id", "attempted", "status", "answer_parse_ok",
+                                          "image_processing_verified", "errors")})
+        return {"answer_parse_ok": parsed["answer_parse_ok"],
+                "image_processing_verified": parsed["image_processing_verified"],
+                "stop_after_this_request": outcome["stop_after_this_request"]}
+
+    ops = HostOrchestrationOps(
+        assess_previous=assess_previous_case,
+        begin=begin_request,
+        preflight=preflight_request,
+        stage=stage_input,
+        launch_worker=launch_worker,
+        query_status=query_remote_status,
+        copy_and_verify=copy_and_verify,
+        score=score_copied_case,
+        record_nonstart=record_nonstart,
+        record_state=record_state,
+    )
+    decision = run_host_orchestration(qid, ORDER, RUN_IDS, ops)
+    if decision.get("status") in ("PRIOR_CASE_FAILED", "PRIOR_CASE_UNRESOLVED"):
+        print(json.dumps(decision, sort_keys=True))
     else:
-        outcome["stop_after_this_request"]=outcome.get("remote_result",{}).get("stop_after_this_request",False)
-        write_json(raw_dir/"runner_host_assessment.json",{k:parsed[k] for k in ("question_id","attempted","status","answer_parse_ok","image_processing_verified","errors")})
-        write_record(raw_dir, "final", outcome)
-        if outcome["stop_after_this_request"]:
-            for later in ORDER[index+1:]: make_nonstart(later,"PRIOR_CASE_STOP_RULE",RUN_IDS[qid])
-    print(json.dumps(outcome,ensure_ascii=False,sort_keys=True))
-    return 0 if not outcome.get("stop_after_this_request") else 1
+        print(json.dumps(outcome, ensure_ascii=False, sort_keys=True))
+    return int(decision["returncode"])
 
 
 if __name__ == "__main__":

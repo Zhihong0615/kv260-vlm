@@ -109,7 +109,7 @@ PILOT_BOARD_FILE_NAMES = {
 NON_START_REASONS = {
     "PREFLIGHT_BLOCKED", "OWNER_WINDOW_UNAVAILABLE", "PRIOR_CASE_FAILED", "INPUT_UNAVAILABLE",
     "PRIOR_CASE_STOP_RULE", "PRIOR_CASE_UNRESOLVED", "REVIEW_GATE_MISSING",
-    "RUNNER_ABORTED_BEFORE_SPAWN",
+    "RUNNER_ABORTED_BEFORE_SPAWN", "RUNNER_LOCK_BUSY",
 }
 # Every execution-only field is contradictory in a cli_started=false record.
 # Keep the schema/identity and explicit non-start metadata as the only exceptions.
