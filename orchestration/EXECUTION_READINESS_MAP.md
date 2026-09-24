@@ -36,8 +36,11 @@ The primary evidence checkout contains older reviews binding parser SHA `06fa151
 
 ## Sequence and decision rule
 
-1. R14/R15, E11/R16, E12/R17, and E13/R19 are integrated. The parser and runner fixed review gates bind exact SHAs with zero P0/P1 findings. E13/R19 closes only R16 P2-1 at source/synthetic level. Preserve R17's AST test-guard P2 and R16 P2-2/P2-3; owner-window enforcement is the next bounded software gate.
+Research interpretation and the decision-changing follow-up are in [RM01](research_milestones/RM01_20260924_idea_synthesis.md). This file remains the CPU P2 execution gate inventory; it does not itself authorize the full-VLM measurement or establish current board readiness.
+
+1. R14/R15, E11/R16, E12/R17, and E13/R19 are integrated. The parser and runner fixed review gates bind exact SHAs with zero P0/P1 findings. E13/R19 closes only R16 P2-1 at source/synthetic level. Preserve R17's AST test-guard P2 and R16 P2-2/P2-3 in the deferred backlog; do not schedule them unless they become experiment-critical or evidence-invalidating. Reassess owner-window enforcement only before a concrete authorized board run.
 2. Before using this coordinator tree as an execution root, resolve the manifest and build-attestation path gap through an approved evidence-staging method that preserves the immutable primary checkout and answer-data handling limits.
+   - The coordinator's `models/manifests/model_manifest.json` is a stale mirror of the prior regular Q4_K_M artifact. Existing host run manifests bind the primary checkout's corrected `no-nextn` manifest and model hashes, so this does not invalidate those records. Any new run must stage and verify the current manifest/artifacts before launch.
 3. Keep synthetic ALPHA, live resource checks, and the inference-specific owner window as external board gates. Do not run a dry plan as a substitute for any of them.
 4. Even if all P2 gates pass, execute no board request until the user has explicitly authorized the bounded CPU-only inference and the board owner window is recorded. Keep P3 `NO_GO_NOW`.
 

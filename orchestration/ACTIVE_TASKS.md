@@ -1,7 +1,18 @@
 # Active Tasks
 
 Updated: 2026-09-24  
-Capacity: up to 4 Builders + 1 independent Reviewer. A01/B01/C01/D01/R01/E01/B02/B03/R02/B04/R03/E02/R04/B05/R05/E03/R06/E04/R07/E05/R08, the E06/E07/E08 source chain, and reviewed E09/E10/E11/R16/E12/R17/E13/R19 are integrated. R09/R10/R12/R14/R15/R16 findings remain in the audit trail; scoped production issues were remediated and later exact-target reviews passed with stated residual P2s. R16 P2-2/P2-3 and the R17 AST-guard P2 remain open.
+Current allocation follows `orchestration/RESEARCH_PRIORITY_POLICY.md`: at least 70% of active agent effort is reserved for research, workload understanding, falsification, baselines, and decision-relevant profiling. Small noncritical P2/P3 hardening tasks are deferred. E11/R16, E12/R17, and E13/R19 are integrated; R16 P2-2/P2-3 and the R17 AST-guard P2 remain in the backlog.
+
+## Current research milestone (read-only; supersedes earlier software-hardening queue)
+
+| Dispatch | Research focus | Result that can change a decision | Owner | State |
+|---|---|---|---|---|
+| L01 | Closest FPGA/VLM/LLM primary-paper mechanism chains | Six-step chains identify established mechanisms, evidence limits, and failure boundaries. | `/root/fpga_vlm_literature` | DELIVERED / integrated in RM01 |
+| W01 | MiniCPM-V host-trace and model-workload synthesis | Host evidence ranked decision-relevant workloads and recorded what cannot be inferred about the board. | `/root/minicpm_trace_synthesis` | DELIVERED / integrated in RM01 |
+| M01 | Minimal gated KV260 measurement plan | Defined the first safe CPU-only board measurement and its architecture decision gates. | `/root/kv260_decisive_measurements` | DELIVERED / integrated in RM01 |
+| G01 | GDN state capacity and prior-art audit | Reject generic state residency; retain only the falsifiable stage-boundary handoff question. | `/root/gdn_state_gap` | DELIVERED / integrated in RM01 |
+
+RM01 is integrated at `orchestration/research_milestones/RM01_20260924_idea_synthesis.md`. No board/SSH/inference/bitstream action or source edit occurred. The next board-side action remains gated and separately unauthorized until readiness prerequisites are met.
 
 | Task ID | Role | Problem | Dependencies | Expected deliverable | Priority | State | Branch / Worktree / Base |
 |---|---|---|---|---|---|---|---|

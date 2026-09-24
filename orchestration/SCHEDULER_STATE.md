@@ -10,8 +10,8 @@ Primary evidence checkout: `/home/zhiro/research/kv260-vlm`, branch `master`, ba
 
 - P0: the previously authorized normal reboot/reconnect and immediate CPU-runner CMA recovery gate passed. No new reboot is authorized.
 - P1: prior-art and novelty screening are integrated. R01 returned **FAIL**; no method candidate is selected.
-- P2: host CPU baseline, selected-request traces, and software gate preparation continue in isolated worktrees.
-- Current stage tasks: E11/R16, E12/R17, and E13/R19 are integrated. Current runner SHA `418c7231…` has exact-target R19 **PASS** (P0=0/P1=0/P2=0). E13 closes only R16 P2-1 at source/synthetic-test level; R16 P2-2/P2-3 remain open. R17 has one carried P2 in the AST test guard.
+- Research stage: prioritize primary-paper mechanism analysis, MiniCPM-V workload interpretation, falsifiable hypotheses, strong static controls, and decision-relevant profiling. See `orchestration/RESEARCH_PRIORITY_POLICY.md`.
+- Current source reviews: E11/R16, E12/R17, and E13/R19 are integrated. Current runner SHA `418c7231…` has exact-target R19 **PASS** (P0=0/P1=0/P2=0). E13 closes only R16 P2-1 at source/synthetic-test level; R16 P2-2/P2-3 remain open. R17 has one carried P2 in the AST test guard. Under the research-first policy, these residual P2s are backlog items unless they become experiment-critical or evidence-invalidating.
 - P3: **NO_GO_NOW**. No research RTL, research bitstream, or board VLM inference.
 - P4–P8: not started.
 
@@ -22,6 +22,7 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06/E04/R07/E
 - After the user-authorized reboot, the KV260 returned over Wi-Fi SSH with a new boot ID; the reboot marker was absent, APT idle, Jupyter and the starter-kit app active, and XRT reported the board ready.
 - Three post-reboot snapshots recorded `CmaFree=1,014,300 KiB`, above the existing 700,000 KiB CPU-runner floor. The earlier low-CMA allocation owner remains unknown. This does not authorize another reboot or inference run.
 - A validated AArch64 CPU CLI build and input-hash checks exist, but **no board VLM inference has run**.
+- Provenance audit: the coordinator copy of `models/manifests/model_manifest.json` is stale (regular Q4_K_M GGUF, hash `24cb90…`) while B02 run manifests bind the primary checkout manifest hash `7983dc…` and corrected `no-nextn` GGUF hash `879574…`. Existing host-run identity is supported by its run manifest and primary manifest. Before any new coordinator-root run, resolve this through an approved hash-preserving staging path; do not use the stale mirror as model identity.
 - Board inference remains gated on current-SHA software reviews, synthetic ALPHA evidence, live resources, and an inference-specific owner window. The coordinator fixed runner review binds E13 runner `418c7231…`; R19 returned **PASS** (P0=0/P1=0/P2=0), closing R16 P2-1 only at source/synthetic-test level. R16 P2-2 and P2-3 remain open. R15's P1 failure and original R16 P2 report remain preserved as audit history. The parser fixed path binds E12 parser `48c834d6…`; R17 returned **PASS_WITH_P2_FINDINGS** (P0=0/P1=0/P2=1). Both R14 production findings are fixed; the carried parser P2 concerns AST test-guard strength. Physical recovery and image-specific rollback are not verified.
 - Host TextVQA dev50 CPU baseline: 0.644 MMF soft accuracy, 0.68 exact normalized match, median fresh-process wall time 8.558 s and P95 12.548 s. These are development host results, not KV260 results.
 - Existing host evidence includes four selected-request graph traces, four allocator-metadata requests, three selected timelines, and a 50-request visual-token log. None gives board traffic, PL time, physical occupancy, or measured DDR bytes.
@@ -63,9 +64,9 @@ This is an active end-to-end research project. E02/R04/B05/R05/E03/R06/E04/R07/E
 
 ## Next scheduling decisions
 
-1. Keep the B05/R05 negative result closed; do not reactivate a group-aware selector claim on these four traces.
-2. Keep P3 at `NO_GO_NOW`; do not run board inference until current-SHA review artifacts, synthetic ALPHA evidence, live resource checks, and an inference-specific owner window are satisfied and authorized.
-3. E11/R16, E12/R17, and E13/R19 are integrated. R16 P2-1 is closed only at source/synthetic-test level; prioritize a bounded fix for owner-window reuse (R16 P2-2), then durable later non-start conflict recording (P2-3). Keep R17's AST test-guard P2 visible. Retain R14/R15/R16 reports in audit paths. Do not claim runtime or board readiness.
-4. Keep the manifest/build-attestation path gap, runtime parser success, synthetic ALPHA, live resources, and owner-window proof explicitly open; no board action is authorized by these software tasks.
-5. Refresh `ACTIVE_TASKS.md`, this state page, and `DECISION_LOG.md` after each reviewed integration. Do not edit the primary checkout or the frozen global no-go file.
-6. Continue to label host metadata as host evidence and keep P3 `NO_GO_NOW`.
+1. RM01 integrated the closest-paper chains, MiniCPM-V workload synthesis, gated measurement plan, and GDN capacity audit. No method claim survived; H1–H3 in the milestone report are falsification targets only.
+2. First decision-relevant experiment: after all recorded execution gates are met and that bounded operation is explicitly authorized, measure CPU-only full MiniCPM-V on KV260 for representative 3-group, 5-group, and mixed 7-group requests. Capture full-request/TTFT and disjoint phase, backend/op/shape, and CPU/resource metrics. Stop architecture work on phases that are not critical.
+3. Only after CPU profiling confirms an acceleration target should a fixed PL prototype be considered. Compare against the strongest static controls in RM01 before implementing adaptive buffering, state-boundary handling, or attention changes.
+4. Keep P3 at `NO_GO_NOW`; the board is **NOT READY FOR BOARD EXECUTION**. Model/attestation staging, synthetic ALPHA, fresh live resources and an inference-specific owner window remain open. No board/SSH/inference/bitstream action occurred in RM01.
+5. Keep R16 P2-2/P2-3 and the R17 AST-guard P2 in the policy backlog. Reassess an item only when it blocks or distorts a concrete authorized experiment; do not restart per-patch Builder/Reviewer chains.
+6. Do not edit the primary evidence checkout or frozen global no-go file. Preserve the distinction between host metadata and target-board performance.
