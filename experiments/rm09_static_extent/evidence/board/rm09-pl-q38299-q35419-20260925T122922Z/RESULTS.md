@@ -17,13 +17,14 @@ The checksum manifest SHA-256 is
 ## Requests and process measurements
 
 Process wall and peak RSS come from `/usr/bin/time -v`; both CLI exit statuses
-were zero. CPU baseline walls are the frozen CPU-only request results supplied
-for this comparison.
+were zero. Same-runtime CPU-only controls are recorded with raw logs in the
+[RM09 CPU control report](../rm09-cpu-same-runtime-20260925T130058Z/RESULTS.md).
+The earlier CPU walls used a previous CPU-library build.
 
-| QID | PL process wall | CPU baseline wall | Wall reduction | Peak RSS | Output |
-|---:|---:|---:|---:|---:|---|
-| 38299 | 299.14 s | 368.19 s | 18.8% | 1,856,120 KiB | `3` |
-| 35419 | 652.32 s | 850.48 s | 23.3% | 1,862,368 KiB | `SHERIFF'S` |
+| QID | PL process wall | Same-runtime CPU wall | Reduction vs same-runtime CPU | Earlier CPU wall (older CPU lib) | PL peak RSS | Output |
+|---:|---:|---:|---:|---:|---:|---|
+| 38299 | 299.14 s | 368.51 s | 18.8% | 368.19 s | 1,856,120 KiB | `3` |
+| 35419 | 652.32 s | 822.35 s | 20.7% | 850.48 s | 1,862,368 KiB | `SHERIFF'S` |
 
 The outputs matched the expected answers. Process wall is end-to-end CLI time.
 `Dispatch wall sum` is accumulated `wall_ms` over FFN-down calls, including the
