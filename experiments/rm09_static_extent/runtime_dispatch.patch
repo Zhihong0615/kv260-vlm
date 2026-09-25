@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000006 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Fri, 25 Sep 2026 15:00:00 +0800
+Subject: [PATCH] ggml: admit bounded observed FFN-down extents
+
+---
+ ggml/src/ggml-cpu/kv260_ffn_down.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/ggml/src/ggml-cpu/kv260_ffn_down.c b/ggml/src/ggml-cpu/kv260_ffn_down.c
+--- a/ggml/src/ggml-cpu/kv260_ffn_down.c
++++ b/ggml/src/ggml-cpu/kv260_ffn_down.c
+@@ -386,7 +386,8 @@ static const char *kv260_validate(const struct ggml_tensor *dst, int *layer, unsigned *active_n) {
+     *active_n = (unsigned) x->ne[1];
+     if (dst->ne[1] != x->ne[1]) return "output_shape_mismatch";
+-    if ((*layer <= 6 && *active_n != 1120u) || (*layer >= 7 && *active_n != 280u))
++    if ((*layer <= 6 && *active_n != 960u && *active_n != 1008u && *active_n != 1024u && *active_n != 1056u && *active_n != 1120u) ||
++        (*layer >= 7 && *active_n != 240u && *active_n != 252u && *active_n != 256u && *active_n != 264u && *active_n != 280u))
+         return "layer_extent_mismatch";
+     if (w->nb[0] != sizeof(uint16_t) || w->nb[1] != KV_K * sizeof(uint16_t) ||
+         w->nb[2] != KV_K * KV_M * sizeof(uint16_t) ||
+-- 
+2.43.0
