@@ -1,0 +1,973 @@
+From 1a90d486414815187f6f5418b9ea60ad10874ed2 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Fri, 25 Sep 2026 13:22:48 +0800
+Subject: [PATCH 1/5] ggml: add opt-in KV260 FFN-down PL hook
+
+Assisted-by: Codex
+---
+ experiments/rm08/ffn_down_helper_smoke.c | 111 +++++
+ ggml/CMakeLists.txt                      |   1 +
+ ggml/src/ggml-cpu/CMakeLists.txt         |  12 +
+ ggml/src/ggml-cpu/ggml-cpu.c             |  25 ++
+ ggml/src/ggml-cpu/kv260_ffn_down.c       | 542 +++++++++++++++++++++++
+ 5 files changed, 691 insertions(+)
+ create mode 100644 experiments/rm08/ffn_down_helper_smoke.c
+ create mode 100644 ggml/src/ggml-cpu/kv260_ffn_down.c
+
+diff --git a/experiments/rm08/ffn_down_helper_smoke.c b/experiments/rm08/ffn_down_helper_smoke.c
+new file mode 100644
+index 0000000..55893a0
+--- /dev/null
++++ b/experiments/rm08/ffn_down_helper_smoke.c
+@@ -0,0 +1,111 @@
++#include "ggml.h"
++
++#include <inttypes.h>
++#include <math.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++
++int ggml_kv260_ffn_down_execute(struct ggml_tensor * dst);
++
++static int read_exact(const char * path, void * data, size_t size) {
++    FILE * f = fopen(path, "rb");
++    if (!f) return -1;
++    const size_t got = fread(data, 1, size, f);
++    const int extra = fgetc(f);
++    const int failed = ferror(f);
++    fclose(f);
++    return got == size && extra == EOF && !failed ? 0 : -1;
++}
++
++static void metrics(const float * actual, const float * reference, size_t n,
++                    double * max_abs, double * rmse, double * cosine) {
++    double sum_sq = 0.0, dot = 0.0, aa = 0.0, bb = 0.0;
++    *max_abs = 0.0;
++    for (size_t i = 0; i < n; ++i) {
++        const double a = actual[i], b = reference[i];
++        const double e = fabs(a - b);
++        if (e > *max_abs) *max_abs = e;
++        sum_sq += e * e;
++        dot += a * b;
++        aa += a * a;
++        bb += b * b;
++    }
++    *rmse = sqrt(sum_sq / (double) n);
++    *cosine = dot / sqrt(aa * bb);
++}
++
++static int run_case(const char * directory, int layer, int64_t active_n) {
++    const int64_t k = 4304, m = 1152;
++    const size_t w_bytes = (size_t) k * (size_t) m * sizeof(uint16_t);
++    const size_t x_bytes = (size_t) k * (size_t) active_n * sizeof(float);
++    const size_t y_bytes = (size_t) m * (size_t) active_n * sizeof(float);
++    char path[1024];
++    struct ggml_init_params init = { .mem_size = 64u * 1024u * 1024u, .mem_buffer = NULL, .no_alloc = false };
++    struct ggml_context * ctx = ggml_init(init);
++    if (!ctx) {
++        fprintf(stderr, "SMOKE_FAIL layer=%d reason=ggml_init\n", layer);
++        return 1;
++    }
++    struct ggml_tensor * w = ggml_new_tensor_2d(ctx, GGML_TYPE_F16, k, m);
++    struct ggml_tensor * x = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, k, active_n);
++    if (!w || !x) {
++        fprintf(stderr, "SMOKE_FAIL layer=%d reason=tensor_allocation\n", layer);
++        ggml_free(ctx);
++        return 1;
++    }
++    snprintf(path, sizeof(path), "%s/ffn_down-%d.weight.f16", directory, layer);
++    if (read_exact(path, w->data, w_bytes) != 0) goto read_fail;
++    snprintf(path, sizeof(path), "%s/ffn_down-%d.activation.f32", directory, layer);
++    if (read_exact(path, x->data, x_bytes) != 0) goto read_fail;
++
++    struct ggml_tensor * y = ggml_mul_mat(ctx, w, x);
++    if (!y || y->type != GGML_TYPE_F32 || y->ne[0] != m || y->ne[1] != active_n) {
++        fprintf(stderr, "SMOKE_FAIL layer=%d reason=matmul_shape\n", layer);
++        ggml_free(ctx);
++        return 1;
++    }
++    snprintf(path, sizeof(path), "ffn_down-%d", layer);
++    ggml_set_name(y, path);
++    char name[GGML_MAX_NAME];
++    memcpy(name, y->name, sizeof(name));
++
++    snprintf(path, sizeof(path), "%s/ffn_down-%d.output.f32", directory, layer);
++    float * reference = (float *) malloc(y_bytes);
++    if (!reference || read_exact(path, reference, y_bytes) != 0) {
++        fprintf(stderr, "SMOKE_FAIL layer=%d reason=reference_read\n", layer);
++        free(reference);
++        ggml_free(ctx);
++        return 1;
++    }
++    const int handled = ggml_kv260_ffn_down_execute(y);
++    double max_abs, rmse, cosine;
++    metrics((const float *) y->data, reference, (size_t) m * (size_t) active_n,
++            &max_abs, &rmse, &cosine);
++    const int pass = handled && max_abs <= 1.0e-3 && rmse <= 1.0e-4 && cosine >= 0.999;
++    printf("SMOKE_RESULT layer=%s status=%s K=%" PRId64 " M=%" PRId64 " N=%" PRId64
++           " max_abs=%.9g rmse=%.9g cosine=%.15g\n",
++           name, pass ? "PASS" : (handled ? "NUMERIC_FAIL" : "CPU_FALLBACK"),
++           k, m, active_n, max_abs, rmse, cosine);
++    free(reference);
++    ggml_free(ctx);
++    return pass ? 0 : 1;
++
++read_fail:
++    fprintf(stderr, "SMOKE_FAIL layer=%d reason=tensor_read path=%s\n", layer, path);
++    ggml_free(ctx);
++    return 1;
++}
++
++int main(int argc, char ** argv) {
++    if (argc != 2) {
++        fprintf(stderr, "usage: %s TENSOR_DIRECTORY\n", argv[0]);
++        return 2;
++    }
++    int status = 0;
++    status |= run_case(argv[1], 0, 1120);
++    status |= run_case(argv[1], 13, 280);
++    status |= run_case(argv[1], 26, 280);
++    return status ? 1 : 0;
++}
+diff --git a/ggml/CMakeLists.txt b/ggml/CMakeLists.txt
+index 7f8a1f7..29c2aa8 100644
+--- a/ggml/CMakeLists.txt
++++ b/ggml/CMakeLists.txt
+@@ -187,6 +187,7 @@ set(GGML_CPU_POWERPC_CPUTYPE "" CACHE STRING "ggml: CPU type for PowerPC")
+ # ggml core
+ set(GGML_SCHED_MAX_COPIES  "4" CACHE STRING "ggml: max input copies for pipeline parallelism")
+ option(GGML_CPU                             "ggml: enable CPU backend"                        ON)
++option(GGML_KV260_XRT                       "ggml: enable opt-in KV260 RM08 XRT FFN-down hook" OFF)
+ option(GGML_SCHED_NO_REALLOC                "ggml: disallow reallocations in ggml-alloc (for debugging)" OFF)
+ 
+ # 3rd party libs / backends
+diff --git a/ggml/src/ggml-cpu/CMakeLists.txt b/ggml/src/ggml-cpu/CMakeLists.txt
+index 1c7338e..2903e29 100644
+--- a/ggml/src/ggml-cpu/CMakeLists.txt
++++ b/ggml/src/ggml-cpu/CMakeLists.txt
+@@ -56,9 +56,21 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+         ggml-cpu/ops.cpp
+         )
+ 
++    if (GGML_KV260_XRT)
++        find_path(KV260_XRT_INCLUDE_DIR xrt.h PATH_SUFFIXES xrt REQUIRED)
++        find_library(KV260_XRT_COREUTIL_LIBRARY NAMES xrt_coreutil REQUIRED)
++        list(APPEND GGML_CPU_SOURCES ggml-cpu/kv260_ffn_down.c)
++    endif()
++
+     target_compile_features(${GGML_CPU_NAME} PRIVATE c_std_11 cxx_std_17)
+     target_include_directories(${GGML_CPU_NAME} PRIVATE . ggml-cpu)
+ 
++    if (GGML_KV260_XRT)
++        target_compile_definitions(${GGML_CPU_NAME} PRIVATE GGML_KV260_XRT)
++        target_include_directories(${GGML_CPU_NAME} PRIVATE ${KV260_XRT_INCLUDE_DIR})
++        target_link_libraries(${GGML_CPU_NAME} PRIVATE ${KV260_XRT_COREUTIL_LIBRARY})
++    endif()
++
+     if (APPLE AND GGML_ACCELERATE)
+         find_library(ACCELERATE_FRAMEWORK Accelerate)
+         if (ACCELERATE_FRAMEWORK)
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 8bb0ff7..2041f4e 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -6,6 +6,11 @@
+ #include "traits.h"
+ #include "iqp.h"
+ #include "ggml-cpu-impl.h"
++
++#ifdef GGML_KV260_XRT
++int ggml_kv260_ffn_down_is_target(const struct ggml_tensor * dst);
++int ggml_kv260_ffn_down_execute(struct ggml_tensor * dst);
++#endif
+ #include "ggml-impl.h"
+ #include "quants.h"
+ #include "ggml-threading.h"
+@@ -1748,10 +1753,30 @@ static void ggml_compute_forward(struct ggml_compute_params * params, struct ggm
+         return;
+     }
+ 
++#ifdef GGML_KV260_XRT
++    // Resolve the opt-in RM08 hook before extra-buffer dispatch so an ARM
++    // backend cannot silently claim this operation before the PL hook sees it.
++    // Thread 0 executes the whole call; every worker observes the result after
++    // the barrier. On failure all workers skip extra-buffer dispatch and use
++    // the ordinary CPU MUL_MAT implementation below.
++    if (!params->use_ref && ggml_kv260_ffn_down_is_target(tensor)) {
++        if (params->ith == 0) {
++            const int handled = ggml_kv260_ffn_down_execute(tensor);
++            atomic_store_explicit(&params->threadpool->current_chunk, handled, memory_order_relaxed);
++        }
++        ggml_barrier(params->threadpool);
++        if (atomic_load_explicit(&params->threadpool->current_chunk, memory_order_relaxed) != 0) {
++            return;
++        }
++    } else if (ggml_cpu_extra_compute_forward(params, tensor)) {
++        return;
++    }
++#else
+     // extra_buffer op?
+     if (ggml_cpu_extra_compute_forward(params, tensor)) {
+         return;
+     }
++#endif
+ 
+     switch (tensor->op) {
+         case GGML_OP_DUP:
+diff --git a/ggml/src/ggml-cpu/kv260_ffn_down.c b/ggml/src/ggml-cpu/kv260_ffn_down.c
+new file mode 100644
+index 0000000..acf88d6
+--- /dev/null
++++ b/ggml/src/ggml-cpu/kv260_ffn_down.c
+@@ -0,0 +1,542 @@
++#define _GNU_SOURCE
++#include "ggml-cpu-impl.h"
++
++#include <errno.h>
++#include <fcntl.h>
++#include <inttypes.h>
++#include <pthread.h>
++#include <stdarg.h>
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <sys/mman.h>
++#include <time.h>
++#include <unistd.h>
++#include <xrt.h>
++
++#define KV_K 4304u
++#define KV_M 1152u
++#define KV_TILE_N 32u
++#define KV_TILE_M 16u
++#define KV_M_BATCH 128u
++#define KV_K_WORDS (KV_K / 8u)
++#define KV_WEIGHT_BATCH_BYTES ((size_t) KV_M_BATCH * KV_K * 2u)
++#define KV_X_TILE_BYTES ((size_t) KV_TILE_N * KV_K * 4u)
++#define KV_Y_BATCH_BYTES ((size_t) KV_TILE_N * KV_M_BATCH * 4u)
++#define KV_HLS_MAP_BYTES 0x10000u
++#define KV_HLS_BASE 0xA0010000u
++
++#define KV_REG_AP_CTRL 0x00u
++#define KV_REG_AP_RETURN 0x10u
++#define KV_REG_W_LO 0x18u
++#define KV_REG_X_LO 0x24u
++#define KV_REG_Y_LO 0x30u
++#define KV_REG_TASK 0x3cu
++#define KV_REG_ACTIVE_N 0x44u
++#define KV_REG_N_BASE 0x4cu
++#define KV_REG_M_BASE 0x54u
++#define KV_REG_TILE_ROWS 0x5cu
++
++enum { KV_TASK_STAGE_X = 0, KV_TASK_COMPUTE_W = 1 };
++
++typedef struct {
++    xclDeviceHandle device;
++    xclBufferHandle w_bo, x_bo, y_bo;
++    struct xclBOProperties w_prop, x_prop, y_prop;
++    void *w_map, *x_map, *y_map;
++    volatile uint32_t *regs;
++    bool initialized;
++    bool failed;
++    bool quarantined;
++    char failure[160];
++} kv260_context;
++
++typedef struct {
++    uint64_t wall_ns, pack_ns, sync_to_ns, sync_from_ns;
++    uint64_t submit_ns, kernel_ns, unpack_ns;
++    uint64_t input_bytes, output_bytes, compute_commands, stage_commands;
++} kv260_call_stats;
++
++static kv260_context g_ctx;
++static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
++static uint64_t g_total_calls;
++static uint64_t g_pl_calls;
++static uint64_t g_cpu_fallbacks;
++static uint64_t g_n1120_calls;
++static uint64_t g_n280_calls;
++static uint64_t g_merger_calls;
++static uint64_t g_layer_calls[27];
++static uint64_t g_layer_pl_calls[27];
++static uint64_t g_layer_cpu_calls[27];
++static uint64_t g_fallback_reason[10];
++static kv260_call_stats g_total_stats;
++static pthread_once_t g_exit_once = PTHREAD_ONCE_INIT;
++
++enum {
++    KV_FB_MERGER = 0,
++    KV_FB_NAME,
++    KV_FB_DTYPE,
++    KV_FB_SHAPE,
++    KV_FB_OUTPUT_SHAPE,
++    KV_FB_EXTENT,
++    KV_FB_LAYOUT,
++    KV_FB_INIT,
++    KV_FB_EXEC,
++    KV_FB_OTHER,
++};
++
++static uint64_t kv260_now_ns(void) {
++    struct timespec t;
++    clock_gettime(CLOCK_MONOTONIC_RAW, &t);
++    return (uint64_t) t.tv_sec * UINT64_C(1000000000) + (uint64_t) t.tv_nsec;
++}
++
++static size_t kv260_page_round(size_t n) {
++    return (n + 4095u) & ~(size_t) 4095u;
++}
++
++static void kv260_log(const char *fmt, ...) {
++    const char *path = getenv("RM08_PL_TRACE");
++    FILE *f = path && path[0] ? fopen(path, "a") : NULL;
++    if (!f) f = stderr;
++    va_list ap;
++    va_start(ap, fmt);
++    vfprintf(f, fmt, ap);
++    va_end(ap);
++    fflush(f);
++    if (f != stderr) fclose(f);
++}
++
++static void kv260_report_exit(void);
++
++static void kv260_register_exit_once(void) {
++    atexit(kv260_report_exit);
++}
++
++static uint64_t kv260_expected_media_groups(void) {
++    const char *value = getenv("RM08_PL_EXPECTED_MEDIA_GROUPS");
++    if (!value || !value[0]) return 5u;
++    char *end = NULL;
++    unsigned long long parsed = strtoull(value, &end, 10);
++    if (end == value || *end != '\0' || parsed > UINT64_MAX / 27u) return 5u;
++    return (uint64_t) parsed;
++}
++
++static unsigned kv260_reason_id(const char *reason) {
++    if (!reason) return KV_FB_OTHER;
++    if (strcmp(reason, "unmatched_merger") == 0) return KV_FB_MERGER;
++    if (strcmp(reason, "unmatched_name") == 0) return KV_FB_NAME;
++    if (strcmp(reason, "dtype_mismatch") == 0) return KV_FB_DTYPE;
++    if (strcmp(reason, "shape_mismatch") == 0) return KV_FB_SHAPE;
++    if (strcmp(reason, "output_shape_mismatch") == 0) return KV_FB_OUTPUT_SHAPE;
++    if (strcmp(reason, "layer_extent_mismatch") == 0) return KV_FB_EXTENT;
++    if (strcmp(reason, "layout_mismatch") == 0) return KV_FB_LAYOUT;
++    if (strcmp(reason, "xrt_or_hls_failure") == 0) return KV_FB_EXEC;
++    if (strncmp(reason, "XRT ", 4) == 0 || strncmp(reason, "HLS ", 4) == 0 ||
++        strncmp(reason, "mmap ", 5) == 0 || strcmp(reason, "xclOpen failed") == 0 ||
++        strcmp(reason, "bounded XRT BO allocation/map failed") == 0)
++        return KV_FB_INIT;
++    return KV_FB_OTHER;
++}
++
++static void kv260_context_destroy(void) {
++    if (g_ctx.regs) {
++        munmap((void *) g_ctx.regs, KV_HLS_MAP_BYTES);
++        g_ctx.regs = NULL;
++    }
++    if (g_ctx.device) {
++        if (g_ctx.w_map) xclUnmapBO(g_ctx.device, g_ctx.w_bo, g_ctx.w_map);
++        if (g_ctx.x_map) xclUnmapBO(g_ctx.device, g_ctx.x_bo, g_ctx.x_map);
++        if (g_ctx.y_map) xclUnmapBO(g_ctx.device, g_ctx.y_bo, g_ctx.y_map);
++        if (g_ctx.w_bo) xclFreeBO(g_ctx.device, g_ctx.w_bo);
++        if (g_ctx.x_bo) xclFreeBO(g_ctx.device, g_ctx.x_bo);
++        if (g_ctx.y_bo) xclFreeBO(g_ctx.device, g_ctx.y_bo);
++        xclClose(g_ctx.device);
++        g_ctx.device = NULL;
++    }
++    g_ctx.initialized = false;
++}
++
++static void kv260_report_exit(void) {
++    const uint64_t groups = kv260_expected_media_groups();
++    const uint64_t expected_n1120 = groups * 7u;
++    const uint64_t expected_n280 = groups * 20u;
++    const uint64_t expected_calls = expected_n1120 + expected_n280;
++    const uint64_t expected_merger = groups;
++    const uint64_t expected_total_calls = expected_calls + expected_merger;
++    int matched = -1;
++    if (groups != 0u) {
++        matched = g_pl_calls == expected_calls && g_cpu_fallbacks == g_merger_calls &&
++                  g_merger_calls == expected_merger && g_total_calls == expected_total_calls;
++        for (unsigned layer = 0; layer < 27u; ++layer) {
++            if (g_layer_calls[layer] != groups || g_layer_pl_calls[layer] != groups ||
++                g_layer_cpu_calls[layer] != 0u) matched = 0;
++        }
++    }
++    kv260_log("RM08_PL_SUMMARY expected_calls=%" PRIu64 " expected_total_calls=%" PRIu64
++              " actual_calls=%" PRIu64
++              " expected_PL=%" PRIu64 " actual_PL=%" PRIu64 " cpu_fallbacks=%" PRIu64
++              " expected_N1120=%" PRIu64 " actual_N1120=%" PRIu64
++              " expected_N280=%" PRIu64 " actual_N280=%" PRIu64
++              " expected_merger_cpu=%" PRIu64 " merger_cpu=%" PRIu64
++              " expectation_enabled=%d matches_expected=%d media_groups=%" PRIu64
++              " wall_ms=%.3f pack_ms=%.3f sync_to_ms=%.3f sync_from_ms=%.3f"
++              " submit_ms=%.3f kernel_ms=%.3f unpack_ms=%.3f input_bytes=%" PRIu64
++              " output_bytes=%" PRIu64 " stage_commands=%" PRIu64 " compute_commands=%" PRIu64
++              " pool_bytes=%zu\n",
++              expected_calls, expected_total_calls, g_total_calls, expected_calls, g_pl_calls,
++              g_cpu_fallbacks, expected_n1120, g_n1120_calls, expected_n280, g_n280_calls,
++              expected_merger, g_merger_calls, groups != 0u, matched, groups,
++              g_total_stats.wall_ns / 1.0e6, g_total_stats.pack_ns / 1.0e6,
++              g_total_stats.sync_to_ns / 1.0e6, g_total_stats.sync_from_ns / 1.0e6,
++              g_total_stats.submit_ns / 1.0e6, g_total_stats.kernel_ns / 1.0e6,
++              g_total_stats.unpack_ns / 1.0e6, g_total_stats.input_bytes, g_total_stats.output_bytes,
++              g_total_stats.stage_commands, g_total_stats.compute_commands,
++              kv260_page_round(KV_WEIGHT_BATCH_BYTES) + kv260_page_round(KV_X_TILE_BYTES) +
++              kv260_page_round(KV_Y_BATCH_BYTES));
++    for (unsigned layer = 0; layer < 27u; ++layer) {
++        kv260_log("RM08_PL_LAYER layer=%u expected=%" PRIu64 " calls=%" PRIu64
++                  " pl=%" PRIu64 " cpu_fallback=%" PRIu64 "\n",
++                  layer, groups, g_layer_calls[layer], g_layer_pl_calls[layer], g_layer_cpu_calls[layer]);
++    }
++    kv260_log("RM08_PL_FALLBACK_REASONS merger=%" PRIu64 " name=%" PRIu64 " dtype=%" PRIu64
++              " shape=%" PRIu64 " output_shape=%" PRIu64 " extent=%" PRIu64 " layout=%" PRIu64
++              " init=%" PRIu64 " exec=%" PRIu64 " other=%" PRIu64 "\n",
++              g_fallback_reason[KV_FB_MERGER], g_fallback_reason[KV_FB_NAME],
++              g_fallback_reason[KV_FB_DTYPE], g_fallback_reason[KV_FB_SHAPE],
++              g_fallback_reason[KV_FB_OUTPUT_SHAPE], g_fallback_reason[KV_FB_EXTENT],
++              g_fallback_reason[KV_FB_LAYOUT], g_fallback_reason[KV_FB_INIT],
++              g_fallback_reason[KV_FB_EXEC], g_fallback_reason[KV_FB_OTHER]);
++    if (g_ctx.quarantined) {
++        kv260_log("RM08_PL_CONTEXT_QUARANTINED action=retained_until_process_exit reason=%s\n",
++                  g_ctx.failure[0] ? g_ctx.failure : "HLS/XRT operation failed");
++    } else {
++        kv260_context_destroy();
++    }
++}
++
++static int kv260_find_uio(const char *wanted, char *dev, size_t dev_cap) {
++    for (int i = 0; i < 64; ++i) {
++        char path[128], name[128];
++        snprintf(path, sizeof(path), "/sys/class/uio/uio%d/name", i);
++        FILE *f = fopen(path, "r");
++        if (!f) continue;
++        if (!fgets(name, sizeof(name), f)) {
++            fclose(f);
++            continue;
++        }
++        fclose(f);
++        name[strcspn(name, "\r\n")] = '\0';
++        if (strcmp(name, wanted) == 0) {
++            snprintf(dev, dev_cap, "/dev/uio%d", i);
++            return i;
++        }
++    }
++    return -1;
++}
++
++static int kv260_map_hls(const char *dev) {
++    int fd = open(dev, O_RDWR | O_SYNC);
++    if (fd < 0) return -1;
++    void *p = mmap(NULL, KV_HLS_MAP_BYTES, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++    int saved_errno = errno;
++    close(fd);
++    errno = saved_errno;
++    if (p == MAP_FAILED) return -1;
++    g_ctx.regs = (volatile uint32_t *) p;
++    return 0;
++}
++
++static int kv260_alloc_bo(size_t bytes, xclBufferHandle *bo,
++                          struct xclBOProperties *prop, void **mapping) {
++    size_t rounded = kv260_page_round(bytes);
++    *bo = xclAllocBO(g_ctx.device, rounded, 0, 0);
++    if (*bo == 0) return -1;
++    memset(prop, 0, sizeof(*prop));
++    if (xclGetBOProperties(g_ctx.device, *bo, prop) != 0) return -1;
++    *mapping = xclMapBO(g_ctx.device, *bo, true);
++    if (!*mapping) return -1;
++    memset(*mapping, 0, rounded);
++    return 0;
++}
++
++static int kv260_init(void) {
++    if (g_ctx.initialized) return 0;
++    if (g_ctx.failed) return -1;
++    char hls_dev[64];
++    if (kv260_find_uio("vision_ffn_down_tile_0", hls_dev, sizeof(hls_dev)) < 0) {
++        snprintf(g_ctx.failure, sizeof(g_ctx.failure), "HLS UIO not found");
++        goto fail;
++    }
++    if (kv260_map_hls(hls_dev) != 0) {
++        snprintf(g_ctx.failure, sizeof(g_ctx.failure), "mmap %s: %s", hls_dev, strerror(errno));
++        goto fail;
++    }
++    if (xclProbe() == 0u) {
++        snprintf(g_ctx.failure, sizeof(g_ctx.failure), "XRT found no device");
++        goto fail;
++    }
++    g_ctx.device = xclOpen(0, NULL, XCL_INFO);
++    if (!g_ctx.device) {
++        snprintf(g_ctx.failure, sizeof(g_ctx.failure), "xclOpen failed");
++        goto fail;
++    }
++    if (kv260_alloc_bo(KV_WEIGHT_BATCH_BYTES, &g_ctx.w_bo, &g_ctx.w_prop, &g_ctx.w_map) != 0 ||
++        kv260_alloc_bo(KV_X_TILE_BYTES, &g_ctx.x_bo, &g_ctx.x_prop, &g_ctx.x_map) != 0 ||
++        kv260_alloc_bo(KV_Y_BATCH_BYTES, &g_ctx.y_bo, &g_ctx.y_prop, &g_ctx.y_map) != 0) {
++        snprintf(g_ctx.failure, sizeof(g_ctx.failure), "bounded XRT BO allocation/map failed");
++        goto fail;
++    }
++    g_ctx.initialized = true;
++    if (!g_exit_registered) {
++        atexit(kv260_report_exit);
++        g_exit_registered = true;
++    }
++    kv260_log("RM08_PL_INIT HLS=%s W_BO=%" PRIu64 " X_BO=%" PRIu64 " Y_BO=%" PRIu64
++              " pool_bytes=%zu\n", hls_dev,
++              (uint64_t) g_ctx.w_prop.size, (uint64_t) g_ctx.x_prop.size,
++              (uint64_t) g_ctx.y_prop.size,
++              kv260_page_round(KV_WEIGHT_BATCH_BYTES) + kv260_page_round(KV_X_TILE_BYTES) +
++              kv260_page_round(KV_Y_BATCH_BYTES));
++    return 0;
++
++fail:
++    g_ctx.failed = true;
++    kv260_log("RM08_PL_INIT_FAIL reason=%s\n", g_ctx.failure);
++    kv260_context_destroy();
++    g_ctx.failed = true;
++    return -1;
++}
++
++static void kv260_reg64(volatile uint32_t *regs, unsigned lo, uint64_t value) {
++    regs[lo / 4u] = (uint32_t) value;
++    regs[(lo + 4u) / 4u] = (uint32_t) (value >> 32);
++}
++
++static int kv260_run_task(uint64_t waddr, uint64_t xaddr, uint64_t yaddr,
++                          unsigned task, unsigned active_n, unsigned n_base,
++                          unsigned m_base, unsigned tile_rows, kv260_call_stats *s) {
++    volatile uint32_t *regs = g_ctx.regs;
++    uint64_t t0 = kv260_now_ns();
++    kv260_reg64(regs, KV_REG_W_LO, waddr);
++    kv260_reg64(regs, KV_REG_X_LO, xaddr);
++    kv260_reg64(regs, KV_REG_Y_LO, yaddr);
++    regs[KV_REG_TASK / 4u] = task;
++    regs[KV_REG_ACTIVE_N / 4u] = active_n;
++    regs[KV_REG_N_BASE / 4u] = n_base;
++    regs[KV_REG_M_BASE / 4u] = m_base;
++    regs[KV_REG_TILE_ROWS / 4u] = tile_rows;
++    __sync_synchronize();
++    regs[KV_REG_AP_CTRL / 4u] = 1u;
++    __sync_synchronize();
++    uint64_t t1 = kv260_now_ns();
++    s->submit_ns += t1 - t0;
++    uint64_t p0 = kv260_now_ns();
++    uint64_t deadline = p0 + UINT64_C(30000000000);
++    while ((regs[KV_REG_AP_CTRL / 4u] & 2u) == 0u) {
++        if (kv260_now_ns() > deadline) return -1;
++    }
++    s->kernel_ns += kv260_now_ns() - p0;
++    int32_t status = (int32_t) regs[KV_REG_AP_RETURN / 4u];
++    return status == 0 ? 0 : -1;
++}
++
++static int kv260_sync(xclBufferHandle bo, int direction, size_t bytes, uint64_t *time_ns) {
++    uint64_t t0 = kv260_now_ns();
++    int rc = xclSyncBO(g_ctx.device, bo, direction, bytes, 0);
++    *time_ns += kv260_now_ns() - t0;
++    return rc;
++}
++
++static int kv260_parse_layer(const char *name, int *layer) {
++    if (strcmp(name, "ffn_down") == 0) {
++        *layer = -1;
++        return 0;
++    }
++    if (strncmp(name, "ffn_down-", 9) != 0) return -1;
++    char *end = NULL;
++    long value = strtol(name + 9, &end, 10);
++    if (end == name + 9 || *end != '\0' || value < 0 || value > 26) return -1;
++    char canonical[24];
++    snprintf(canonical, sizeof(canonical), "ffn_down-%ld", value);
++    if (strcmp(canonical, name) != 0) return -1;
++    *layer = (int) value;
++    return 0;
++}
++
++int ggml_kv260_ffn_down_is_target(const struct ggml_tensor *dst) {
++    const char *enable = getenv("RM08_FFN_DOWN_PL");
++    if (!enable || strcmp(enable, "1") != 0 || !dst || dst->op != GGML_OP_MUL_MAT) return 0;
++    pthread_once(&g_exit_once, kv260_register_exit_once);
++    return strcmp(dst->name, "ffn_down") == 0 || strncmp(dst->name, "ffn_down-", 9) == 0;
++}
++
++static const char *kv260_validate(const struct ggml_tensor *dst, int *layer, unsigned *active_n) {
++    if (kv260_parse_layer(dst->name, layer) != 0) return "unmatched_name";
++    if (*layer < 0) return "unmatched_merger";
++    const struct ggml_tensor *w = dst->src[0];
++    const struct ggml_tensor *x = dst->src[1];
++    if (!w || !x) return "missing_source";
++    if (w->type != GGML_TYPE_F16 || x->type != GGML_TYPE_F32 || dst->type != GGML_TYPE_F32)
++        return "dtype_mismatch";
++    if (w->ne[0] != KV_K || w->ne[1] != KV_M || w->ne[2] != 1 || w->ne[3] != 1 ||
++        x->ne[0] != KV_K || x->ne[2] != 1 || x->ne[3] != 1 ||
++        dst->ne[0] != KV_M || dst->ne[2] != 1 || dst->ne[3] != 1)
++        return "shape_mismatch";
++    *active_n = (unsigned) x->ne[1];
++    if (dst->ne[1] != x->ne[1]) return "output_shape_mismatch";
++    if ((*layer <= 6 && *active_n != 1120u) || (*layer >= 7 && *active_n != 280u))
++        return "layer_extent_mismatch";
++    if (w->nb[0] != sizeof(uint16_t) || w->nb[1] != KV_K * sizeof(uint16_t) ||
++        w->nb[2] != KV_K * KV_M * sizeof(uint16_t) ||
++        w->nb[3] != KV_K * KV_M * sizeof(uint16_t) ||
++        x->nb[0] != sizeof(float) || x->nb[1] != KV_K * sizeof(float) ||
++        x->nb[2] != KV_K * *active_n * sizeof(float) ||
++        x->nb[3] != KV_K * *active_n * sizeof(float) ||
++        dst->nb[0] != sizeof(float) || dst->nb[1] != KV_M * sizeof(float) ||
++        dst->nb[2] != KV_M * *active_n * sizeof(float) ||
++        dst->nb[3] != KV_M * *active_n * sizeof(float))
++        return "layout_mismatch";
++    if (!ggml_is_contiguous(w) || !ggml_is_contiguous(x) || !ggml_is_contiguous(dst))
++        return "layout_mismatch";
++    return NULL;
++}
++
++static int kv260_execute_valid(const struct ggml_tensor *dst, unsigned active_n,
++                               kv260_call_stats *s) {
++    const uint16_t *raw_w = (const uint16_t *) dst->src[0]->data;
++    const float *raw_x = (const float *) dst->src[1]->data;
++    float *result = (float *) dst->data;
++    const unsigned nt = (active_n + KV_TILE_N - 1u) / KV_TILE_N;
++
++    for (unsigned n_base = 0; n_base < active_n; n_base += KV_TILE_N) {
++        unsigned rows = active_n - n_base < KV_TILE_N ? active_n - n_base : KV_TILE_N;
++        uint64_t t0 = kv260_now_ns();
++        for (unsigned n = 0; n < rows; ++n) {
++            for (unsigned kw = 0; kw < KV_K_WORDS; ++kw) {
++                size_t src = ((size_t) (n_base + n) * KV_K + (size_t) kw * 8u) * sizeof(float);
++                size_t dst_off = ((size_t) n * KV_K_WORDS + kw) * 32u;
++                memcpy((uint8_t *) g_ctx.x_map + dst_off, (const uint8_t *) raw_x + src, 32u);
++            }
++        }
++        s->pack_ns += kv260_now_ns() - t0;
++        size_t x_used = (size_t) rows * KV_K * sizeof(float);
++        s->input_bytes += x_used;
++        if (kv260_sync(g_ctx.x_bo, XCL_BO_SYNC_BO_TO_DEVICE, x_used, &s->sync_to_ns) != 0 ||
++            kv260_run_task(g_ctx.w_prop.paddr, g_ctx.x_prop.paddr, g_ctx.y_prop.paddr,
++                           KV_TASK_STAGE_X, active_n, n_base, 0, rows, s) != 0)
++            return -1;
++        ++s->stage_commands;
++
++        for (unsigned m_base = 0; m_base < KV_M; m_base += KV_M_BATCH) {
++            t0 = kv260_now_ns();
++            for (unsigned bank = 0; bank < KV_M_BATCH / KV_TILE_M; ++bank) {
++                for (unsigned mi = 0; mi < KV_TILE_M; ++mi) {
++                    unsigned m = m_base + bank * KV_TILE_M + mi;
++                    for (unsigned kw = 0; kw < KV_K_WORDS; ++kw) {
++                        size_t src = ((size_t) m * KV_K + (size_t) kw * 8u) * sizeof(uint16_t);
++                        size_t dst_off = ((size_t) bank * KV_TILE_M * KV_K_WORDS +
++                                          (size_t) mi * KV_K_WORDS + kw) * 16u;
++                        memcpy((uint8_t *) g_ctx.w_map + dst_off, (const uint8_t *) raw_w + src, 16u);
++                    }
++                }
++            }
++            s->pack_ns += kv260_now_ns() - t0;
++            s->input_bytes += KV_WEIGHT_BATCH_BYTES;
++            if (kv260_sync(g_ctx.w_bo, XCL_BO_SYNC_BO_TO_DEVICE, KV_WEIGHT_BATCH_BYTES,
++                           &s->sync_to_ns) != 0 ||
++                kv260_run_task(g_ctx.w_prop.paddr, g_ctx.x_prop.paddr, g_ctx.y_prop.paddr,
++                               KV_TASK_COMPUTE_W, active_n, n_base, m_base, rows, s) != 0)
++                return -1;
++            ++s->compute_commands;
++            if (kv260_sync(g_ctx.y_bo, XCL_BO_SYNC_BO_FROM_DEVICE, KV_Y_BATCH_BYTES,
++                           &s->sync_from_ns) != 0)
++                return -1;
++            s->output_bytes += (size_t) rows * KV_M_BATCH * sizeof(float);
++
++            t0 = kv260_now_ns();
++            const float *y = (const float *) g_ctx.y_map;
++            for (unsigned bank = 0; bank < KV_M_BATCH / KV_TILE_M; ++bank) {
++                for (unsigned n = 0; n < rows; ++n) {
++                    for (unsigned mw = 0; mw < KV_TILE_M / 8u; ++mw) {
++                        size_t src = (size_t) bank * KV_TILE_N * KV_TILE_M +
++                                     (size_t) n * KV_TILE_M + (size_t) mw * 8u;
++                        size_t dst_off = (size_t) (n_base + n) * KV_M + m_base +
++                                         (size_t) bank * KV_TILE_M + (size_t) mw * 8u;
++                        memcpy(result + dst_off, y + src, 8u * sizeof(float));
++                    }
++                }
++            }
++            s->unpack_ns += kv260_now_ns() - t0;
++        }
++    }
++    (void) nt;
++    return 0;
++}
++
++int ggml_kv260_ffn_down_execute(struct ggml_tensor *dst) {
++    pthread_once(&g_exit_once, kv260_register_exit_once);
++    int layer = -2;
++    unsigned active_n = 0;
++    const char *reason = kv260_validate(dst, &layer, &active_n);
++    kv260_call_stats s = {0};
++    uint64_t wall0 = kv260_now_ns();
++    pthread_mutex_lock(&g_lock);
++    ++g_total_calls;
++    if (layer >= 0 && layer < 27) ++g_layer_calls[layer];
++    if (layer == -1) ++g_merger_calls;
++    int rc = -1;
++    if (reason) {
++        // Shape/name validation is repeated here so no unsupported graph can reach the PL.
++    } else if (kv260_init() == 0) {
++        rc = kv260_execute_valid(dst, active_n, &s);
++        if (rc != 0) {
++            reason = "xrt_or_hls_failure";
++            g_ctx.failed = true;
++            g_ctx.quarantined = true;
++            snprintf(g_ctx.failure, sizeof(g_ctx.failure), "context quarantined after HLS/XRT failure");
++        }
++    } else {
++        reason = g_ctx.failure[0] ? g_ctx.failure : "xrt_initialization_failed";
++    }
++    s.wall_ns = kv260_now_ns() - wall0;
++    g_total_stats.wall_ns += s.wall_ns;
++    g_total_stats.pack_ns += s.pack_ns;
++    g_total_stats.sync_to_ns += s.sync_to_ns;
++    g_total_stats.sync_from_ns += s.sync_from_ns;
++    g_total_stats.submit_ns += s.submit_ns;
++    g_total_stats.kernel_ns += s.kernel_ns;
++    g_total_stats.unpack_ns += s.unpack_ns;
++    g_total_stats.input_bytes += s.input_bytes;
++    g_total_stats.output_bytes += s.output_bytes;
++    g_total_stats.compute_commands += s.compute_commands;
++    g_total_stats.stage_commands += s.stage_commands;
++    if (rc == 0) {
++        ++g_pl_calls;
++        if (layer >= 0 && layer < 27) ++g_layer_pl_calls[layer];
++        if (active_n == 1120u) ++g_n1120_calls;
++        if (active_n == 280u) ++g_n280_calls;
++        kv260_log("RM08_PL_CALL layer=%s status=PL K=%u M=%u N=%u wall_ms=%.3f pack_ms=%.3f"
++                  " sync_to_ms=%.3f sync_from_ms=%.3f submit_ms=%.3f kernel_ms=%.3f"
++                  " unpack_ms=%.3f input_bytes=%" PRIu64 " output_bytes=%" PRIu64
++                  " stage_commands=%" PRIu64 " compute_commands=%" PRIu64 "\n",
++                  dst->name, KV_K, KV_M, active_n, s.wall_ns / 1.0e6, s.pack_ns / 1.0e6,
++                  s.sync_to_ns / 1.0e6, s.sync_from_ns / 1.0e6, s.submit_ns / 1.0e6,
++                  s.kernel_ns / 1.0e6, s.unpack_ns / 1.0e6, s.input_bytes, s.output_bytes,
++                  s.stage_commands, s.compute_commands);
++    } else {
++        ++g_cpu_fallbacks;
++        if (layer >= 0 && layer < 27) ++g_layer_cpu_calls[layer];
++        ++g_fallback_reason[kv260_reason_id(reason)];
++        const struct ggml_tensor *w = dst->src[0];
++        const struct ggml_tensor *x = dst->src[1];
++        kv260_log("RM08_PL_CALL layer=%s status=CPU_FALLBACK reason=%s K=%" PRId64
++                  " M=%" PRId64 " N=%" PRId64 " dtype=%s/%s/%s wall_ms=%.3f\n",
++                  dst->name, reason ? reason : "unknown", w ? w->ne[0] : -1,
++                  w ? w->ne[1] : -1, x ? x->ne[1] : -1,
++                  w ? ggml_type_name(w->type) : "none", x ? ggml_type_name(x->type) : "none",
++                  ggml_type_name(dst->type), s.wall_ns / 1.0e6);
++    }
++    pthread_mutex_unlock(&g_lock);
++    return rc == 0;
++}
+-- 
+2.43.0
+
+
+From c5b0f09fe007c693468c0c68f724582d29cd6fd9 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Fri, 25 Sep 2026 13:26:35 +0800
+Subject: [PATCH 2/5] ggml: fix RM08 XRT exit registration
+
+Assisted-by: Codex
+---
+ ggml/src/ggml-cpu/kv260_ffn_down.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/ggml/src/ggml-cpu/kv260_ffn_down.c b/ggml/src/ggml-cpu/kv260_ffn_down.c
+index acf88d6..799dba2 100644
+--- a/ggml/src/ggml-cpu/kv260_ffn_down.c
++++ b/ggml/src/ggml-cpu/kv260_ffn_down.c
+@@ -14,6 +14,9 @@
+ #include <unistd.h>
+ #include <xrt.h>
+ 
++int ggml_kv260_ffn_down_is_target(const struct ggml_tensor * dst);
++int ggml_kv260_ffn_down_execute(struct ggml_tensor * dst);
++
+ #define KV_K 4304u
+ #define KV_M 1152u
+ #define KV_TILE_N 32u
+@@ -288,10 +291,6 @@ static int kv260_init(void) {
+         goto fail;
+     }
+     g_ctx.initialized = true;
+-    if (!g_exit_registered) {
+-        atexit(kv260_report_exit);
+-        g_exit_registered = true;
+-    }
+     kv260_log("RM08_PL_INIT HLS=%s W_BO=%" PRIu64 " X_BO=%" PRIu64 " Y_BO=%" PRIu64
+               " pool_bytes=%zu\n", hls_dev,
+               (uint64_t) g_ctx.w_prop.size, (uint64_t) g_ctx.x_prop.size,
+-- 
+2.43.0
+
+
+From c302d8e04be975cff747fedeef07a5877cf4b2c1 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Fri, 25 Sep 2026 13:34:43 +0800
+Subject: [PATCH 3/5] ggml: link KV260 XRT C API library
+
+Assisted-by: Codex
+---
+ ggml/src/ggml-cpu/CMakeLists.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ggml/src/ggml-cpu/CMakeLists.txt b/ggml/src/ggml-cpu/CMakeLists.txt
+index 2903e29..0aca890 100644
+--- a/ggml/src/ggml-cpu/CMakeLists.txt
++++ b/ggml/src/ggml-cpu/CMakeLists.txt
+@@ -58,7 +58,7 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+ 
+     if (GGML_KV260_XRT)
+         find_path(KV260_XRT_INCLUDE_DIR xrt.h PATH_SUFFIXES xrt REQUIRED)
+-        find_library(KV260_XRT_COREUTIL_LIBRARY NAMES xrt_coreutil REQUIRED)
++        find_library(KV260_XRT_LIBRARY NAMES xrt_core REQUIRED)
+         list(APPEND GGML_CPU_SOURCES ggml-cpu/kv260_ffn_down.c)
+     endif()
+ 
+@@ -68,7 +68,7 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+     if (GGML_KV260_XRT)
+         target_compile_definitions(${GGML_CPU_NAME} PRIVATE GGML_KV260_XRT)
+         target_include_directories(${GGML_CPU_NAME} PRIVATE ${KV260_XRT_INCLUDE_DIR})
+-        target_link_libraries(${GGML_CPU_NAME} PRIVATE ${KV260_XRT_COREUTIL_LIBRARY})
++        target_link_libraries(${GGML_CPU_NAME} PRIVATE ${KV260_XRT_LIBRARY})
+     endif()
+ 
+     if (APPLE AND GGML_ACCELERATE)
+-- 
+2.43.0
+
+
+From 8ec4e6181f632399444fdba18c5faf421736f646 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Fri, 25 Sep 2026 14:09:14 +0800
+Subject: [PATCH 4/5] ggml: fix RM08 fallback barrier race
+
+Assisted-by: Codex
+---
+ ggml/src/ggml-cpu/ggml-cpu.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 2041f4e..aeff05f 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -1756,16 +1756,18 @@ static void ggml_compute_forward(struct ggml_compute_params * params, struct ggm
+ #ifdef GGML_KV260_XRT
+     // Resolve the opt-in RM08 hook before extra-buffer dispatch so an ARM
+     // backend cannot silently claim this operation before the PL hook sees it.
+-    // Thread 0 executes the whole call; every worker observes the result after
+-    // the barrier. On failure all workers skip extra-buffer dispatch and use
+-    // the ordinary CPU MUL_MAT implementation below.
++    // Thread 0 executes the whole call. Snapshot the result before the next
++    // barrier because CPU MUL_MAT reuses current_chunk as scratch state.
++    // On failure all workers use the ordinary CPU MUL_MAT implementation.
+     if (!params->use_ref && ggml_kv260_ffn_down_is_target(tensor)) {
+         if (params->ith == 0) {
+             const int handled = ggml_kv260_ffn_down_execute(tensor);
+             atomic_store_explicit(&params->threadpool->current_chunk, handled, memory_order_relaxed);
+         }
+         ggml_barrier(params->threadpool);
+-        if (atomic_load_explicit(&params->threadpool->current_chunk, memory_order_relaxed) != 0) {
++        const int handled = atomic_load_explicit(&params->threadpool->current_chunk, memory_order_relaxed);
++        ggml_barrier(params->threadpool);
++        if (handled != 0) {
+             return;
+         }
+     } else if (ggml_cpu_extra_compute_forward(params, tensor)) {
+-- 
+2.43.0
+
+
+From 7c9c15992ff6df6d6fa10636b430e170a3dd2934 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Fri, 25 Sep 2026 14:10:42 +0800
+Subject: [PATCH 5/5] ggml: verify RM08 merger fallback counts
+
+Assisted-by: Codex
+---
+ ggml/src/ggml-cpu/kv260_ffn_down.c | 32 +++++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
+
+diff --git a/ggml/src/ggml-cpu/kv260_ffn_down.c b/ggml/src/ggml-cpu/kv260_ffn_down.c
+index 799dba2..622203b 100644
+--- a/ggml/src/ggml-cpu/kv260_ffn_down.c
++++ b/ggml/src/ggml-cpu/kv260_ffn_down.c
+@@ -68,6 +68,8 @@ static uint64_t g_cpu_fallbacks;
+ static uint64_t g_n1120_calls;
+ static uint64_t g_n280_calls;
+ static uint64_t g_merger_calls;
++static uint64_t g_vit_merger_calls;
++static uint64_t g_mm_down_calls;
+ static uint64_t g_layer_calls[27];
+ static uint64_t g_layer_pl_calls[27];
+ static uint64_t g_layer_cpu_calls[27];
+@@ -165,12 +167,16 @@ static void kv260_report_exit(void) {
+     const uint64_t expected_n1120 = groups * 7u;
+     const uint64_t expected_n280 = groups * 20u;
+     const uint64_t expected_calls = expected_n1120 + expected_n280;
+-    const uint64_t expected_merger = groups;
++    const uint64_t expected_fallbacks = groups * 2u;
++    const uint64_t expected_vit_merger = groups;
++    const uint64_t expected_mm_down = groups;
++    const uint64_t expected_merger = expected_fallbacks;
+     const uint64_t expected_total_calls = expected_calls + expected_merger;
+     int matched = -1;
+     if (groups != 0u) {
+-        matched = g_pl_calls == expected_calls && g_cpu_fallbacks == g_merger_calls &&
+-                  g_merger_calls == expected_merger && g_total_calls == expected_total_calls;
++        matched = g_pl_calls == expected_calls && g_cpu_fallbacks == expected_fallbacks &&
++                  g_merger_calls == expected_merger && g_vit_merger_calls == expected_vit_merger &&
++                  g_mm_down_calls == expected_mm_down && g_total_calls == expected_total_calls;
+         for (unsigned layer = 0; layer < 27u; ++layer) {
+             if (g_layer_calls[layer] != groups || g_layer_pl_calls[layer] != groups ||
+                 g_layer_cpu_calls[layer] != 0u) matched = 0;
+@@ -182,6 +188,8 @@ static void kv260_report_exit(void) {
+               " expected_N1120=%" PRIu64 " actual_N1120=%" PRIu64
+               " expected_N280=%" PRIu64 " actual_N280=%" PRIu64
+               " expected_merger_cpu=%" PRIu64 " merger_cpu=%" PRIu64
++              " expected_vit_merger_cpu=%" PRIu64 " vit_merger_cpu=%" PRIu64
++              " expected_mm_down_cpu=%" PRIu64 " mm_down_cpu=%" PRIu64
+               " expectation_enabled=%d matches_expected=%d media_groups=%" PRIu64
+               " wall_ms=%.3f pack_ms=%.3f sync_to_ms=%.3f sync_from_ms=%.3f"
+               " submit_ms=%.3f kernel_ms=%.3f unpack_ms=%.3f input_bytes=%" PRIu64
+@@ -189,7 +197,8 @@ static void kv260_report_exit(void) {
+               " pool_bytes=%zu\n",
+               expected_calls, expected_total_calls, g_total_calls, expected_calls, g_pl_calls,
+               g_cpu_fallbacks, expected_n1120, g_n1120_calls, expected_n280, g_n280_calls,
+-              expected_merger, g_merger_calls, groups != 0u, matched, groups,
++              expected_merger, g_merger_calls, expected_vit_merger, g_vit_merger_calls,
++              expected_mm_down, g_mm_down_calls, groups != 0u, matched, groups,
+               g_total_stats.wall_ns / 1.0e6, g_total_stats.pack_ns / 1.0e6,
+               g_total_stats.sync_to_ns / 1.0e6, g_total_stats.sync_from_ns / 1.0e6,
+               g_total_stats.submit_ns / 1.0e6, g_total_stats.kernel_ns / 1.0e6,
+@@ -483,7 +492,20 @@ int ggml_kv260_ffn_down_execute(struct ggml_tensor *dst) {
+     pthread_mutex_lock(&g_lock);
+     ++g_total_calls;
+     if (layer >= 0 && layer < 27) ++g_layer_calls[layer];
+-    if (layer == -1) ++g_merger_calls;
++    if (layer == -1) {
++        ++g_merger_calls;
++        const struct ggml_tensor *w = dst->src[0];
++        const struct ggml_tensor *x = dst->src[1];
++        if (w && x && w->type == GGML_TYPE_F16 && x->type == GGML_TYPE_F32 &&
++            dst->type == GGML_TYPE_F32 && w->ne[0] == 17216 && w->ne[1] == 1152 &&
++            x->ne[0] == 17216 && x->ne[1] == 280 && dst->ne[0] == 1152 && dst->ne[1] == 280) {
++            ++g_vit_merger_calls;
++        } else if (w && x && w->type == GGML_TYPE_F16 && x->type == GGML_TYPE_F32 &&
++                   dst->type == GGML_TYPE_F32 && w->ne[0] == 4608 && w->ne[1] == 1024 &&
++                   x->ne[0] == 4608 && x->ne[1] == 70 && dst->ne[0] == 1024 && dst->ne[1] == 70) {
++            ++g_mm_down_calls;
++        }
++    }
+     int rc = -1;
+     if (reason) {
+         // Shape/name validation is repeated here so no unsupported graph can reach the PL.
+-- 
+2.43.0
+
