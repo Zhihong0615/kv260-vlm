@@ -179,6 +179,13 @@ are preserved under `evidence/rm08-vlm-q37804-20260925T063228Z/`.
 | Peak RSS | 1,866,380 KiB |
 | Final answer / process exit / starter-kit restore | `G` / 0 / PASS |
 
+Grouped directly from the 135 live-call trace (means per call):
+
+| Extent | Calls | Kernel wait | Total call | Kernel / call GMAC/s | Effective payload rate during kernel wait |
+|---|---:|---:|---:|---:|---:|
+| N=1120 | 35 | 1,439.82 ms | 1,652.45 ms | 3.857 / 3.361 | 0.258 GB/s |
+| N=280 | 100 | 361.52 ms | 418.31 ms | 3.840 / 3.319 | 0.264 GB/s |
+
 All 27 numbered layers ran five times each on PL with zero numbered-layer CPU
 fallback. The two unnumbered operations per media group were explicitly left
 on CPU. The three captured real-tensor checks passed through the same runtime
