@@ -6,15 +6,17 @@ board kernel remains on the starter-kit image.
 
 ## Latest board state via direct SSH
 
-Captured at `2026-09-25T02:22:05Z` UTC:
+Captured at `2026-09-25T02:28:21Z` UTC:
 
 - Host `kria`, boot ID `2a931c48-99ad-4a3f-b3e1-f42634597098`.
 - Ubuntu 22.04.4, kernel `5.15.0-1027-xilinx-zynqmp`, root `/dev/mmcblk1p2`.
-- `xmutil listapps`: `k26-starter-kits`, XRT_FLAT, active slot 0, zero DFX
-  slots; FPGA manager `operating`.
+- The prior elevated `xmutil listapps` check at 02:27:04Z showed
+  `k26-starter-kits`, XRT_FLAT, active slot 0, zero DFX slots. The latest
+  non-root query was denied access to the DFX manager socket; FPGA manager
+  state remains readable as `operating`.
 - XRT `2.13.479-0ubuntu2`, device reports KV260 and 4 GiB DDR.
-- Latest readiness snapshot: `MemAvailable=3,300,264 kB`,
-  `CmaTotal=1,024,000 kB`, `CmaFree=546,572 kB`.
+- Latest readiness snapshot: `MemAvailable=3,303,964 kB`,
+  `CmaTotal=1,024,000 kB`, `CmaFree=547,248 kB`.
 - `k26-starter-kits` is still the active app, FPGA manager is `operating`, and
   the RM08 firmware directory is not installed yet. Root/QSPI/SD firmware
   files were not modified.
@@ -23,7 +25,8 @@ Captured at `2026-09-25T02:22:05Z` UTC:
 - `sudo` is password-required except `xmutil listapps`; the first-load script
   needs to be launched interactively as root. USB-UART is not connected.
 
-Full captured snapshot: `evidence/board_readiness_20260925.txt`.
+Full captured snapshots: `evidence/board_readiness_20260925.txt` and
+`evidence/board_readiness_latest_20260925.txt`.
 
 ## Package and access path
 
@@ -81,12 +84,18 @@ Probe output: `evidence/xrt_bo_probe_20260925.log`.
   35×N=1120 plus 100×N=280 representative-tensor schedule replay. The latter
   is explicitly not all 27 distinct layer payloads.
 - Direct SSH reached the board, but `sudo` requires interactive authentication.
-  The elevated entrypoint has not run; no RM08 image has been loaded and no
-  system firmware directory has been changed. The user must launch
-  `ssh -tt kria 'sudo bash /tmp/rm08-deploy/ssh_entrypoint.sh'` in their own
-  terminal and enter the board password there. No password is needed in chat.
+  The first elevated entrypoint invocation stopped at the DTBO checksum check;
+  it stopped before copying anything into `/lib/firmware` or changing PL state.
+  A follow-up checked the three hard-coded hashes and `SHA256SUMS` successfully.
+  The board still reports FPGA manager `operating` and no RM08 firmware
+  directory installed. The cause of the one-time mismatch is unresolved.
+  `sudo -n` is not available from a separate SSH session, so retry
+  the entrypoint from the user's own terminal with
+  `ssh -tt kria 'sudo bash /tmp/rm08-deploy/ssh_entrypoint.sh'` and enter the
+  board password there. No password is needed in chat.
 
-Source and staging evidence: `evidence/target_compile_and_stage_20260925.log`.
+Source and staging evidence: `evidence/target_compile_and_stage_20260925.log`,
+`evidence/hash_retry_and_board_state_20260925.log`.
 
 ## Not yet measured
 

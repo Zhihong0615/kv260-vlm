@@ -1,10 +1,12 @@
-2026-09-25T02:22:05Z
+2026-09-25T02:28:21Z
 boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
-                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
-
-                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
 fpga_manager=operating
-MemAvailable:    3300264 kB
+MemAvailable:    3303964 kB
 CmaTotal:        1024000 kB
-CmaFree:          546572 kB
-candidate_firmware_installed=NO
+CmaFree:          547248 kB
+firmware_installed=NO
+
+Previous elevated snapshot at 2026-09-25T02:27:04Z confirmed
+k26-starter-kits active, XRT_FLAT slot 0, and all package SHA256SUMS OK.
+Current non-root xmutil query is unavailable (DFX manager socket permission
+denied); FPGA manager state and memory counters remain readable over SSH.
