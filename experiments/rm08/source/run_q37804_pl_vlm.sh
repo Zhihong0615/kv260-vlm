@@ -40,10 +40,11 @@ for layer in 0 13 26; do
   done
 done
 
+umask 022
 mkdir -p /home/ubuntu/kv260-vlm-p2-cpu/runs
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 run_dir="/home/ubuntu/kv260-vlm-p2-cpu/runs/rm08-vlm-q37804-$stamp"
-mkdir -m 0750 -- "$run_dir"
+mkdir -m 0755 -- "$run_dir"
 exec > >(tee -a "$run_dir/driver.log") 2>&1
 
 die() { echo "ERROR: $*" >&2; exit 1; }
