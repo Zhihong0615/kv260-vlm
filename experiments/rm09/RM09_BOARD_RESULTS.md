@@ -77,12 +77,14 @@ path and SHA.
 
 - `evidence/clock-sweep-20260925T071812Z/board.log` records the 100 MHz
   standalone and replay metrics, rejected 150 MHz readback, and clock
-  persistence checks.
-- `evidence/clock-sweep-20260925T071812Z/restore.log` records successful
-  starter-kit restoration.
-- `evidence/cpu-q38299-20260925T073450Z/` and
-  `evidence/cpu-q35419-20260925T074749Z/` preserve the complete CPU request
-  logs, time reports, and stdout/stderr.
+  persistence checks; `restore.log` records successful starter-kit
+  restoration. The complete clock logs remain on the board under
+  `/tmp/rm09-clock-sweep-20260925T071812Z/` and in the board-owner acquisition
+  workspace. The compact tracked excerpts include their hashes.
+- The complete CPU `driver.log`, `stdout.log`, and `stderr.log` files remain on
+  the board under the two run directories listed above and in the board-owner
+  acquisition workspace. `time-v.txt` is tracked for each run; compact tracked
+  raw answer/phase excerpts include hashes for all four source files per run.
 - `evidence/runtime_library_resolution_20260925.txt` records the shared CPU
   library resolution and SHA used by the frozen runtime.
 - `evidence/SHA256SUMS.txt` records hashes for these captured files.

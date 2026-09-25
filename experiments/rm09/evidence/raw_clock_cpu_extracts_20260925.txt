@@ -1,0 +1,64 @@
+RM09 raw board excerpts (2026-09-25)
+===================================
+
+These excerpts preserve the raw answer, request phase, clock, and direct tensor
+measurement lines. SHA-256 hashes below identify the complete source logs. The
+complete `.log` files remain on board under the listed run directories and in
+the board-owner acquisition workspace; repository `.gitignore` excludes `*.log`.
+
+Clock sweep source: `/tmp/rm09-clock-sweep-20260925T071812Z/board.log`
+
+BEGIN_CLOCK requested_hz=100000000 utc=2026-09-25T07:18:14Z
+fclk0_requested_hz=100000000 fclk0_readback_hz=99999999
+clock_readback=PASS rounded_rate_within_1MHz_target_tolerance_and_safe_limits
+clock_persistence_after_load=PASS
+APM_CLOCK_CAL cycles=20007483 wall_ms=200.077 measured_MHz=99.999
+TOTAL calls=1 N=1120 pack_ms=180.190 xrt_sync_to_ms=1.677 xrt_sync_from_ms=1.161 control_submit_ms=0.682 hls_wait_ms=1439.642 cycles=143978975 compute_cycles=142771022 stage_cycles=1207953 unpack_ms=26.849 wall_ms=1650.881 input_bytes=366356480 output_bytes=5160960 APM_W_read=347074560 APM_X_read=19281920 APM_Y_write=5160960 kernel_GMACps=3.857 system_GMACps=3.364 max_abs=1.14440918e-05 RMSE=1.80431792e-07 cosine=0.999999999999816
+APM_CLOCK_CAL cycles=20006960 wall_ms=200.072 measured_MHz=99.999
+TOTAL calls=35 N=1120 pack_ms=6470.271 xrt_sync_to_ms=58.937 xrt_sync_from_ms=52.851 control_submit_ms=23.523 hls_wait_ms=50389.384 cycles=5039465988 compute_cycles=4997153888 stage_cycles=42312100 unpack_ms=702.286 wall_ms=57722.715 input_bytes=12822476800 output_bytes=180633600 APM_W_read=12147609600 APM_X_read=674867200 APM_Y_write=180633600 kernel_GMACps=3.857 system_GMACps=3.367 max_abs=1.14440918e-05 RMSE=1.80431792e-07 cosine=0.999999999999816
+APM_CLOCK_CAL cycles=20007488 wall_ms=200.077 measured_MHz=99.999
+TOTAL calls=100 N=280 pack_ms=4844.405 xrt_sync_to_ms=39.360 xrt_sync_from_ms=33.695 control_submit_ms=17.260 hls_wait_ms=36148.131 cycles=3615192468 compute_cycles=3584984004 stage_cycles=30208464 unpack_ms=496.442 wall_ms=41596.902 input_bytes=9406822400 output_bytes=129024000 APM_W_read=8924774400 APM_X_read=482048000 APM_Y_write=129024000 kernel_GMACps=3.841 system_GMACps=3.338 max_abs=1.98930502e-06 RMSE=1.08140651e-07 cosine=0.999999999999797
+apm_measured_mhz_values=99.999,99.999,99.999
+apm_clock_calibration=PASS samples=3 target_mhz=100.000000
+fclk0_after_rm07_unload_hz=99999999
+clock_persistence_after_unload=PASS
+BEGIN_CLOCK requested_hz=150000000 utc=2026-09-25T07:19:58Z
+fclk0_requested_hz=150000000 fclk0_readback_hz=99999999
+clock_readback=REJECT rounded_rate_outside_target_tolerance_or_safe_limit
+restore_starter_kit=PASS
+run_exit_status=1
+
+QID38299 CPU source: `/home/ubuntu/kv260-vlm-p2-cpu/runs/rm09-cpu-q38299-20260925T073450Z/`
+
+run_id=rm09-cpu-q38299-20260925T073450Z qid=38299 image_id=61715b8521ae5d6a media_groups=3 threads=4 batch_threads=4
+request_begin_utc=2026-09-25T07:34:50Z
+request_end_utc=2026-09-25T07:40:58Z request_exit_code=0
+last_nonempty_stdout_line=3
+request_wall_seconds=6:08.19
+peak_rss_kib=1855764
+answer_matches_frozen=PASS
+stdout.log raw content: `3`
+
+QID35419 CPU source: `/home/ubuntu/kv260-vlm-p2-cpu/runs/rm09-cpu-q35419-20260925T074749Z/`
+
+run_id=rm09-cpu-q35419-20260925T074749Z qid=35419 image_id=004b75d1299e653c media_groups=7 threads=4 batch_threads=4
+request_begin_utc=2026-09-25T07:47:49Z
+request_end_utc=2026-09-25T08:01:59Z request_exit_code=0
+last_nonempty_stdout_line=SHERIFF\'S
+request_wall_seconds=14:10.48
+peak_rss_kib=1861692
+answer_matches_frozen=PASS
+stdout.log raw content: `SHERIFF'S`
+
+Complete source log SHA-256:
+
+- Clock `board.log`: `896bb9e2a1be5c0f6e602aec6abc6057bde905cf93c1a7b66fafc3e05267d56a`
+- Clock `restore.log`: `ae8b6f448cf1c4131da21988a756e54bc409fa781f66aec7a74e57dc951b398e`
+- QID38299 `driver.log`: `f30e52994ff93a48ed7ebf42b6ee6d61566dfbc5f52daa5cdcb5e721521e3888`
+- QID38299 `stdout.log`: `861e6a0cf8b5ce65911d9118968cc97dbfdedd9e5bb1150f7ee7b7823b5b1152`
+- QID38299 `stderr.log`: `98fdf45395e32e6254e4d249a8cab892cd799ffd17076eb3ca65b7eb1e9c0369`
+- QID38299 `time-v.txt`: `ec5870c601879db5e4e586848ca806cfadc69caed5a1d0c3b2ee58df9bd2268f`
+- QID35419 `driver.log`: `5d394e71aab9d2a06b0bda8120b3e576e3d4bb311e4226ab58f14be1dea3a65c`
+- QID35419 `stdout.log`: `9be8df01307d09dc524e673ead8583cded2ca45544d1613da5e52a78ed92067b`
+- QID35419 `stderr.log`: `a264fee0b6607a9bb3d23fdecbab15af574555bcb2ed547a9161a220b3dec1ba`
+- QID35419 `time-v.txt`: `39c9d7410dd0794321cb8624643fc15de8e94b5ad59307be3fb66c97f2156a27`
