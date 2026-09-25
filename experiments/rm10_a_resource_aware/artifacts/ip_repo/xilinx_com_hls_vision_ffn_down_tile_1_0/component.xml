@@ -2107,7 +2107,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>13d3eee7</spirit:value>
+            <spirit:value>fc3ed2f7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2126,7 +2126,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>c1541692</spirit:value>
+            <spirit:value>0d454358</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2145,7 +2145,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>d0b5e2a3</spirit:value>
+            <spirit:value>b61fb3a6</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -2164,7 +2164,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>3b9f7a3b</spirit:value>
+            <spirit:value>aee10c67</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -5272,15 +5272,15 @@
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_75_2_VITIS_LOOP_76.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_80_2_VITIS_LOOP_81.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_359_15_VITIS_LOOP_s.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_366_15_VITIS_LOOP_s.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -5296,7 +5296,7 @@
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_58_1_VITIS_LOOP_59_2.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_63_1_VITIS_LOOP_64_2.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -5320,7 +5320,7 @@
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_sparsemux_11_3_32_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_sparsemux_21_4_32_1_1.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -5416,17 +5416,17 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_75_2_VITIS_LOOP_76.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_80_2_VITIS_LOOP_81.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_359_15_VITIS_LOOP_s.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_366_15_VITIS_LOOP_s.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -5446,7 +5446,7 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_58_1_VITIS_LOOP_59_2.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_63_1_VITIS_LOOP_64_2.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -5475,7 +5475,7 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/verilog/vision_ffn_down_tile_sparsemux_11_3_32_1_1.v</spirit:name>
+        <spirit:name>hdl/verilog/vision_ffn_down_tile_sparsemux_21_4_32_1_1.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -5563,15 +5563,15 @@
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_75_2_VITIS_LOOP_76.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_80_2_VITIS_LOOP_81.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_359_15_VITIS_LOOP_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_366_15_VITIS_LOOP_s.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -5587,7 +5587,7 @@
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_58_1_VITIS_LOOP_59_2.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_63_1_VITIS_LOOP_64_2.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
@@ -5607,13 +5607,13 @@
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_sparsemux_11_3_32_1_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_sparsemux_21_4_32_1_1.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>hdl/vhdl/vision_ffn_down_tile.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_ca8a2bab</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_5e1168bb</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -5704,17 +5704,17 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_75_2_VITIS_LOOP_76.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_80_2_VITIS_LOOP_81.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_359_15_VITIS_LOOP_s.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_366_15_VITIS_LOOP_s.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -5734,7 +5734,7 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_58_1_VITIS_LOOP_59_2.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_63_1_VITIS_LOOP_64_2.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -5759,7 +5759,7 @@
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>hdl/vhdl/vision_ffn_down_tile_sparsemux_11_3_32_1_1.vhd</spirit:name>
+        <spirit:name>hdl/vhdl/vision_ffn_down_tile_sparsemux_21_4_32_1_1.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
         <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
       </spirit:file>
@@ -6218,8 +6218,8 @@
       </xilinx:taxonomies>
       <xilinx:displayName>Vision_ffn_down_tile</xilinx:displayName>
       <xilinx:definitionSource>HLS</xilinx:definitionSource>
-      <xilinx:coreRevision>2114802205</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2026-09-25T17:26:00Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>2114802237</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2026-09-25T17:57:14Z</xilinx:coreCreationDateTime>
       <xilinx:sdxKernelAttributes>
         <xilinx:sdx_kernel>true</xilinx:sdx_kernel>
         <xilinx:sdx_kernel_type>hls</xilinx:sdx_kernel_type>
@@ -6230,7 +6230,7 @@
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="3490f510"/>
       <xilinx:checksum xilinx:scope="addressSpaces" xilinx:value="333ed62c"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="27b0bf8b"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="28905dc5"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="6b56d921"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="e6448b87"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="2f4d2f4a"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="066d546d"/>

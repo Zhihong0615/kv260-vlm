@@ -13,4 +13,5 @@ create_clock -period 5.0 -name default
 config_interface -m_axi_max_widen_bitwidth 512
 csim_design
 csynth_design
+cosim_design -rtl verilog
 exit

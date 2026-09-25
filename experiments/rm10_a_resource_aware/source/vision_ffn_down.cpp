@@ -10,6 +10,11 @@ static constexpr int K_LANES = 16;
 #define RM10_ARCH 0
 #endif
 static constexpr int RM10_INTERLEAVE_BANKS = 5;
+// The A issue-4 accumulation reads at ST_26 and writes at ST_35 in the
+// generated K-loop schedule. A bank must therefore not be revisited at a
+// distance <= 9; use ten temporal banks to make each read strictly follow
+// the previous write.
+static constexpr int RM10_A_TEMPORAL_BANKS = 10;
 static constexpr int RM10_A_ISSUE = 4;
 static constexpr int RM10_A_GROUPS = FFN_K / RM10_A_ISSUE;
 
@@ -142,18 +147,17 @@ void compute_weight_batch(const ap_uint<128> *weight_batch,
                 // Resource-aware A revision: each cycle issues four K products
                 // for each of the sixteen outputs in this 4x4 output group.
                 // The four products are reduced as a balanced pairwise tree,
-                // then accumulated into one of five temporal FP32 banks.
-                // Since bank = group % 5, each bank is revisited exactly five
-                // loop iterations later. The fadd recurrence latency is five
-                // cycles in this tool flow, so the truthful dependence distance
-                // is 5 and an II=1 schedule is legal.
-                float accum[PE_M][PE_N][RM10_INTERLEAVE_BANKS];
+                // then accumulated into ten temporal FP32 banks. The original
+                // five-bank version was unsafe: generated HLS schedule reads
+                // accum at ST_26 and writes it at ST_35, a nine-stage RAW gap.
+                // Ten banks revisit only after that write has completed.
+                float accum[PE_M][PE_N][RM10_A_TEMPORAL_BANKS];
 #pragma HLS ARRAY_PARTITION variable=accum complete dim=0
                 for (int i = 0; i < PE_M; ++i) {
 #pragma HLS UNROLL
                     for (int j = 0; j < PE_N; ++j) {
 #pragma HLS UNROLL
-                        for (int b = 0; b < RM10_INTERLEAVE_BANKS; ++b) {
+                        for (int b = 0; b < RM10_A_TEMPORAL_BANKS; ++b) {
 #pragma HLS UNROLL
                             accum[i][j][b] = 0.0f;
                         }
@@ -163,9 +167,9 @@ void compute_weight_batch(const ap_uint<128> *weight_batch,
 #pragma HLS LOOP_FLATTEN off
                 for (int group = 0; group < RM10_A_GROUPS; ++group) {
 #pragma HLS PIPELINE II=1
-#pragma HLS DEPENDENCE variable=accum inter distance=5
+#pragma HLS DEPENDENCE variable=accum inter true distance=10
                     const int kbase = group * RM10_A_ISSUE;
-                    const int bank = group % RM10_INTERLEAVE_BANKS;
+                    const int bank = group % RM10_A_TEMPORAL_BANKS;
                     for (int i = 0; i < PE_M; ++i) {
 #pragma HLS UNROLL
                         for (int j = 0; j < PE_N; ++j) {
@@ -201,7 +205,10 @@ void compute_weight_batch(const ap_uint<128> *weight_batch,
 #pragma HLS UNROLL
                         const float t0 = accum[i][j][0] + accum[i][j][1];
                         const float t1 = accum[i][j][2] + accum[i][j][3];
-                        result_tile[n + j][m + i] = (t0 + t1) + accum[i][j][4];
+                        const float t2 = accum[i][j][4] + accum[i][j][5];
+                        const float t3 = accum[i][j][6] + accum[i][j][7];
+                        const float t4 = accum[i][j][8] + accum[i][j][9];
+                        result_tile[n + j][m + i] = ((t0 + t1) + (t2 + t3)) + t4;
                     }
                 }
 #elif RM10_ARCH == 1 || RM10_ARCH == 3

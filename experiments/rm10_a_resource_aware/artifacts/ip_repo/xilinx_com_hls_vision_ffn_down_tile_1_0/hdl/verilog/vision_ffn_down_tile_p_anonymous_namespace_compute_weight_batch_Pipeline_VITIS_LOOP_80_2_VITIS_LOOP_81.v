@@ -6,7 +6,7 @@
 
 `timescale 1 ns / 1 ps 
 
-module vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_75_2_VITIS_LOOP_76 (
+module vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_80_2_VITIS_LOOP_81 (
         ap_clk,
         ap_rst,
         ap_start,
@@ -59,7 +59,7 @@ module vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_
         m_axi_gmem_w_0_BRESP,
         m_axi_gmem_w_0_BID,
         m_axi_gmem_w_0_BUSER,
-        sext_ln74,
+        sext_ln79,
         weight_cache_address1,
         weight_cache_ce1,
         weight_cache_we1,
@@ -132,7 +132,7 @@ output   m_axi_gmem_w_0_BREADY;
 input  [1:0] m_axi_gmem_w_0_BRESP;
 input  [0:0] m_axi_gmem_w_0_BID;
 input  [0:0] m_axi_gmem_w_0_BUSER;
-input  [59:0] sext_ln74;
+input  [59:0] sext_ln79;
 output  [11:0] weight_cache_address1;
 output   weight_cache_ce1;
 output   weight_cache_we1;
@@ -162,31 +162,31 @@ reg    ap_enable_reg_pp0_iter3;
 reg    ap_idle_pp0;
 reg    ap_block_state3_pp0_stage0_iter2;
 reg    ap_block_pp0_stage0_subdone;
-wire   [0:0] icmp_ln75_fu_203_p2;
+wire   [0:0] icmp_ln80_fu_203_p2;
 reg    ap_condition_exit_pp0_iter0_stage0;
 wire    ap_loop_exit_ready;
 reg    ap_ready_int;
 reg    gmem_w_blk_n_R;
 wire    ap_block_pp0_stage0;
 reg    ap_block_pp0_stage0_11001;
-wire   [9:0] select_ln75_fu_233_p3;
-reg   [9:0] select_ln75_reg_343;
-reg   [9:0] select_ln75_reg_343_pp0_iter1_reg;
-wire   [1:0] trunc_ln75_fu_249_p1;
-reg   [1:0] trunc_ln75_reg_348;
-reg   [1:0] trunc_ln75_reg_348_pp0_iter1_reg;
-reg   [1:0] trunc_ln75_reg_348_pp0_iter2_reg;
+wire   [9:0] select_ln80_fu_233_p3;
+reg   [9:0] select_ln80_reg_343;
+reg   [9:0] select_ln80_reg_343_pp0_iter1_reg;
+wire   [1:0] trunc_ln80_fu_249_p1;
+reg   [1:0] trunc_ln80_reg_348;
+reg   [1:0] trunc_ln80_reg_348_pp0_iter1_reg;
+reg   [1:0] trunc_ln80_reg_348_pp0_iter2_reg;
 reg   [127:0] gmem_w_addr_read_reg_362;
-wire   [63:0] zext_ln79_2_fu_297_p1;
+wire   [63:0] zext_ln84_2_fu_297_p1;
 reg   [9:0] kw_fu_90;
-wire   [9:0] add_ln76_fu_267_p2;
+wire   [9:0] add_ln81_fu_267_p2;
 wire    ap_loop_init;
 reg   [9:0] ap_sig_allocacmp_kw_load;
 reg   [4:0] m_fu_94;
-wire   [4:0] select_ln75_1_fu_241_p3;
+wire   [4:0] select_ln80_1_fu_241_p3;
 reg   [4:0] ap_sig_allocacmp_m_load;
 reg   [13:0] indvar_flatten_fu_98;
-wire   [13:0] add_ln75_1_fu_209_p2;
+wire   [13:0] add_ln80_1_fu_209_p2;
 reg   [13:0] ap_sig_allocacmp_indvar_flatten_load;
 reg    weight_cache_2_we1_local;
 reg    weight_cache_2_ce1_local;
@@ -196,8 +196,8 @@ reg    weight_cache_we1_local;
 reg    weight_cache_ce1_local;
 reg    weight_cache_3_we1_local;
 reg    weight_cache_3_ce1_local;
-wire   [0:0] icmp_ln76_fu_227_p2;
-wire   [4:0] add_ln75_fu_221_p2;
+wire   [0:0] icmp_ln81_fu_227_p2;
+wire   [4:0] add_ln80_fu_221_p2;
 wire   [1:0] lshr_ln_fu_253_p4;
 wire   [11:0] grp_fu_304_p3;
 wire   [9:0] grp_fu_304_p0;
@@ -316,8 +316,8 @@ end
 
 always @ (posedge ap_clk) begin
     if (((1'b0 == ap_block_pp0_stage0_11001) & (1'b1 == ap_CS_fsm_pp0_stage0))) begin
-        if (((icmp_ln75_fu_203_p2 == 1'd0) & (ap_enable_reg_pp0_iter0 == 1'b1))) begin
-            indvar_flatten_fu_98 <= add_ln75_1_fu_209_p2;
+        if (((icmp_ln80_fu_203_p2 == 1'd0) & (ap_enable_reg_pp0_iter0 == 1'b1))) begin
+            indvar_flatten_fu_98 <= add_ln80_1_fu_209_p2;
         end else if ((ap_loop_init == 1'b1)) begin
             indvar_flatten_fu_98 <= 14'd0;
         end
@@ -326,8 +326,8 @@ end
 
 always @ (posedge ap_clk) begin
     if (((1'b0 == ap_block_pp0_stage0_11001) & (1'b1 == ap_CS_fsm_pp0_stage0))) begin
-        if (((icmp_ln75_fu_203_p2 == 1'd0) & (ap_enable_reg_pp0_iter0 == 1'b1))) begin
-            kw_fu_90 <= add_ln76_fu_267_p2;
+        if (((icmp_ln80_fu_203_p2 == 1'd0) & (ap_enable_reg_pp0_iter0 == 1'b1))) begin
+            kw_fu_90 <= add_ln81_fu_267_p2;
         end else if ((ap_loop_init == 1'b1)) begin
             kw_fu_90 <= 10'd0;
         end
@@ -336,8 +336,8 @@ end
 
 always @ (posedge ap_clk) begin
     if (((1'b0 == ap_block_pp0_stage0_11001) & (1'b1 == ap_CS_fsm_pp0_stage0))) begin
-        if (((icmp_ln75_fu_203_p2 == 1'd0) & (ap_enable_reg_pp0_iter0 == 1'b1))) begin
-            m_fu_94 <= select_ln75_1_fu_241_p3;
+        if (((icmp_ln80_fu_203_p2 == 1'd0) & (ap_enable_reg_pp0_iter0 == 1'b1))) begin
+            m_fu_94 <= select_ln80_1_fu_241_p3;
         end else if ((ap_loop_init == 1'b1)) begin
             m_fu_94 <= 5'd0;
         end
@@ -348,22 +348,22 @@ always @ (posedge ap_clk) begin
     if (((1'b0 == ap_block_pp0_stage0_11001) & (1'b1 == ap_CS_fsm_pp0_stage0))) begin
         ap_loop_exit_ready_pp0_iter1_reg <= ap_loop_exit_ready;
         ap_loop_exit_ready_pp0_iter2_reg <= ap_loop_exit_ready_pp0_iter1_reg;
-        select_ln75_reg_343 <= select_ln75_fu_233_p3;
-        select_ln75_reg_343_pp0_iter1_reg <= select_ln75_reg_343;
-        trunc_ln75_reg_348 <= trunc_ln75_fu_249_p1;
-        trunc_ln75_reg_348_pp0_iter1_reg <= trunc_ln75_reg_348;
+        select_ln80_reg_343 <= select_ln80_fu_233_p3;
+        select_ln80_reg_343_pp0_iter1_reg <= select_ln80_reg_343;
+        trunc_ln80_reg_348 <= trunc_ln80_fu_249_p1;
+        trunc_ln80_reg_348_pp0_iter1_reg <= trunc_ln80_reg_348;
     end
 end
 
 always @ (posedge ap_clk) begin
     if ((1'b0 == ap_block_pp0_stage0_11001)) begin
         gmem_w_addr_read_reg_362 <= m_axi_gmem_w_0_RDATA;
-        trunc_ln75_reg_348_pp0_iter2_reg <= trunc_ln75_reg_348_pp0_iter1_reg;
+        trunc_ln80_reg_348_pp0_iter2_reg <= trunc_ln80_reg_348_pp0_iter1_reg;
     end
 end
 
 always @ (*) begin
-    if (((icmp_ln75_fu_203_p2 == 1'd1) & (1'b0 == ap_block_pp0_stage0_subdone) & (ap_enable_reg_pp0_iter0 == 1'b1) & (1'b1 == ap_CS_fsm_pp0_stage0))) begin
+    if (((icmp_ln80_fu_203_p2 == 1'd1) & (1'b0 == ap_block_pp0_stage0_subdone) & (ap_enable_reg_pp0_iter0 == 1'b1) & (1'b1 == ap_CS_fsm_pp0_stage0))) begin
         ap_condition_exit_pp0_iter0_stage0 = 1'b1;
     end else begin
         ap_condition_exit_pp0_iter0_stage0 = 1'b0;
@@ -459,7 +459,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln75_reg_348_pp0_iter2_reg == 2'd1))) begin
+    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln80_reg_348_pp0_iter2_reg == 2'd1))) begin
         weight_cache_1_we1_local = 1'b1;
     end else begin
         weight_cache_1_we1_local = 1'b0;
@@ -475,7 +475,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln75_reg_348_pp0_iter2_reg == 2'd2))) begin
+    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln80_reg_348_pp0_iter2_reg == 2'd2))) begin
         weight_cache_2_we1_local = 1'b1;
     end else begin
         weight_cache_2_we1_local = 1'b0;
@@ -491,7 +491,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln75_reg_348_pp0_iter2_reg == 2'd3))) begin
+    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln80_reg_348_pp0_iter2_reg == 2'd3))) begin
         weight_cache_3_we1_local = 1'b1;
     end else begin
         weight_cache_3_we1_local = 1'b0;
@@ -507,7 +507,7 @@ always @ (*) begin
 end
 
 always @ (*) begin
-    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln75_reg_348_pp0_iter2_reg == 2'd0))) begin
+    if (((1'b0 == ap_block_pp0_stage0_11001) & (ap_enable_reg_pp0_iter3 == 1'b1) & (trunc_ln80_reg_348_pp0_iter2_reg == 2'd0))) begin
         weight_cache_we1_local = 1'b1;
     end else begin
         weight_cache_we1_local = 1'b0;
@@ -525,11 +525,11 @@ always @ (*) begin
     endcase
 end
 
-assign add_ln75_1_fu_209_p2 = (ap_sig_allocacmp_indvar_flatten_load + 14'd1);
+assign add_ln80_1_fu_209_p2 = (ap_sig_allocacmp_indvar_flatten_load + 14'd1);
 
-assign add_ln75_fu_221_p2 = (ap_sig_allocacmp_m_load + 5'd1);
+assign add_ln80_fu_221_p2 = (ap_sig_allocacmp_m_load + 5'd1);
 
-assign add_ln76_fu_267_p2 = (select_ln75_fu_233_p3 + 10'd1);
+assign add_ln81_fu_267_p2 = (select_ln80_fu_233_p3 + 10'd1);
 
 assign ap_CS_fsm_pp0_stage0 = ap_CS_fsm[32'd0];
 
@@ -565,13 +565,13 @@ assign grp_fu_304_p10 = lshr_ln_fu_253_p4;
 
 assign grp_fu_304_p2 = grp_fu_304_p20;
 
-assign grp_fu_304_p20 = select_ln75_reg_343_pp0_iter1_reg;
+assign grp_fu_304_p20 = select_ln80_reg_343_pp0_iter1_reg;
 
-assign icmp_ln75_fu_203_p2 = ((ap_sig_allocacmp_indvar_flatten_load == 14'd8608) ? 1'b1 : 1'b0);
+assign icmp_ln80_fu_203_p2 = ((ap_sig_allocacmp_indvar_flatten_load == 14'd8608) ? 1'b1 : 1'b0);
 
-assign icmp_ln76_fu_227_p2 = ((ap_sig_allocacmp_kw_load == 10'd538) ? 1'b1 : 1'b0);
+assign icmp_ln81_fu_227_p2 = ((ap_sig_allocacmp_kw_load == 10'd538) ? 1'b1 : 1'b0);
 
-assign lshr_ln_fu_253_p4 = {{select_ln75_1_fu_241_p3[3:2]}};
+assign lshr_ln_fu_253_p4 = {{select_ln80_1_fu_241_p3[3:2]}};
 
 assign m_axi_gmem_w_0_ARADDR = 64'd0;
 
@@ -635,13 +635,13 @@ assign m_axi_gmem_w_0_WUSER = 1'd0;
 
 assign m_axi_gmem_w_0_WVALID = 1'b0;
 
-assign select_ln75_1_fu_241_p3 = ((icmp_ln76_fu_227_p2[0:0] == 1'b1) ? add_ln75_fu_221_p2 : ap_sig_allocacmp_m_load);
+assign select_ln80_1_fu_241_p3 = ((icmp_ln81_fu_227_p2[0:0] == 1'b1) ? add_ln80_fu_221_p2 : ap_sig_allocacmp_m_load);
 
-assign select_ln75_fu_233_p3 = ((icmp_ln76_fu_227_p2[0:0] == 1'b1) ? 10'd0 : ap_sig_allocacmp_kw_load);
+assign select_ln80_fu_233_p3 = ((icmp_ln81_fu_227_p2[0:0] == 1'b1) ? 10'd0 : ap_sig_allocacmp_kw_load);
 
-assign trunc_ln75_fu_249_p1 = select_ln75_1_fu_241_p3[1:0];
+assign trunc_ln80_fu_249_p1 = select_ln80_1_fu_241_p3[1:0];
 
-assign weight_cache_1_address1 = zext_ln79_2_fu_297_p1;
+assign weight_cache_1_address1 = zext_ln84_2_fu_297_p1;
 
 assign weight_cache_1_ce1 = weight_cache_1_ce1_local;
 
@@ -649,7 +649,7 @@ assign weight_cache_1_d1 = gmem_w_addr_read_reg_362;
 
 assign weight_cache_1_we1 = weight_cache_1_we1_local;
 
-assign weight_cache_2_address1 = zext_ln79_2_fu_297_p1;
+assign weight_cache_2_address1 = zext_ln84_2_fu_297_p1;
 
 assign weight_cache_2_ce1 = weight_cache_2_ce1_local;
 
@@ -657,7 +657,7 @@ assign weight_cache_2_d1 = gmem_w_addr_read_reg_362;
 
 assign weight_cache_2_we1 = weight_cache_2_we1_local;
 
-assign weight_cache_3_address1 = zext_ln79_2_fu_297_p1;
+assign weight_cache_3_address1 = zext_ln84_2_fu_297_p1;
 
 assign weight_cache_3_ce1 = weight_cache_3_ce1_local;
 
@@ -665,7 +665,7 @@ assign weight_cache_3_d1 = gmem_w_addr_read_reg_362;
 
 assign weight_cache_3_we1 = weight_cache_3_we1_local;
 
-assign weight_cache_address1 = zext_ln79_2_fu_297_p1;
+assign weight_cache_address1 = zext_ln84_2_fu_297_p1;
 
 assign weight_cache_ce1 = weight_cache_ce1_local;
 
@@ -673,6 +673,6 @@ assign weight_cache_d1 = gmem_w_addr_read_reg_362;
 
 assign weight_cache_we1 = weight_cache_we1_local;
 
-assign zext_ln79_2_fu_297_p1 = grp_fu_304_p3;
+assign zext_ln84_2_fu_297_p1 = grp_fu_304_p3;
 
-endmodule //vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_75_2_VITIS_LOOP_76
+endmodule //vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_80_2_VITIS_LOOP_81
