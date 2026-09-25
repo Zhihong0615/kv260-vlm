@@ -31,6 +31,14 @@ image="$(realpath -e -- "$4")"
 [[ -x /usr/bin/time ]]
 timeout_bin="$(command -v timeout)"
 [[ -x "$timeout_bin" ]]
+helper="/home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/rm08-ffn-down-helper-smoke"
+tensor_dir="/tmp/rm08-deploy/tensors"
+[[ -x "$helper" ]]
+for layer in 0 13 26; do
+  for suffix in weight.f16 activation.f32 output.f32; do
+    [[ -s "$tensor_dir/ffn_down-$layer.$suffix" ]]
+  done
+done
 
 mkdir -p /home/ubuntu/kv260-vlm-p2-cpu/runs
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
@@ -73,6 +81,8 @@ is_starter_active || die "k26-starter-kits is not the active base app"
 snapshot before_load
 
 trace="$run_dir/rm08_pl_trace.txt"
+helper_trace="$run_dir/helper-smoke-trace.txt"
+helper_log="$run_dir/helper-smoke.log"
 time_log="$run_dir/time-v.txt"
 stdout_log="$run_dir/stdout.log"
 stderr_log="$run_dir/stderr.log"
@@ -154,6 +164,30 @@ uio_name_file="$(grep -l '^vision_ffn_down_tile_0$' /sys/class/uio/uio*/name | h
 echo "hls_uio_name_file=$uio_name_file hls_uio_device=/dev/$(basename "$(dirname "$uio_name_file")")"
 echo "hls_uio_device_name=$(cat "$uio_name_file")"
 [[ "$(cat /sys/class/fpga_manager/fpga0/state)" == operating ]] || die "FPGA manager left operating state"
+echo "helper_begin_utc=$(date -u +%FT%TZ) helper=$helper tensors=$tensor_dir"
+: >"$helper_trace"
+set +e
+env RM08_FFN_DOWN_PL=1 RM08_PL_EXPECTED_MEDIA_GROUPS=0 RM08_PL_TRACE="$helper_trace" \
+  "$helper" "$tensor_dir" >"$helper_log" 2>&1
+helper_rc=$?
+set -e
+cat "$helper_log"
+[[ "$helper_rc" -eq 0 ]] || die "real-tensor runtime helper failed with status $helper_rc"
+for expected in \
+  'SMOKE_RESULT layer=ffn_down-0 status=PASS K=4304 M=1152 N=1120 ' \
+  'SMOKE_RESULT layer=ffn_down-13 status=PASS K=4304 M=1152 N=280 ' \
+  'SMOKE_RESULT layer=ffn_down-26 status=PASS K=4304 M=1152 N=280 '; do
+  grep -Fq "$expected" "$helper_log" || die "missing passing real-tensor check: $expected"
+done
+[[ "$(grep -c '^RM08_PL_CALL .*status=PL ' "$helper_trace" || true)" -eq 3 ]] || die "helper trace did not confirm three PL calls"
+[[ "$(grep -c '^RM08_PL_CALL .*status=CPU_FALLBACK ' "$helper_trace" || true)" -eq 0 ]] || die "helper trace contains a CPU fallback"
+for layer in 0 13 26; do
+  active_n=280
+  [[ "$layer" == 0 ]] && active_n=1120
+  grep -Fq "RM08_PL_CALL layer=ffn_down-$layer status=PL K=4304 M=1152 N=$active_n " "$helper_trace" ||
+    die "helper trace missing successful PL call for ffn_down-$layer"
+done
+echo "real_tensor_helper_checks=PASS rc=$helper_rc trace=$helper_trace log=$helper_log"
 snapshot before_request
 
 prompt=$'Answer the following question based only on the image. Give a short, direct answer.\nQuestion: what letter does these athlete\x27s school likely begin with?\nAnswer:'
