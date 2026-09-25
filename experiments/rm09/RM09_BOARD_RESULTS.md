@@ -83,6 +83,8 @@ path and SHA.
 - `evidence/cpu-q38299-20260925T073450Z/` and
   `evidence/cpu-q35419-20260925T074749Z/` preserve the complete CPU request
   logs, time reports, and stdout/stderr.
+- `evidence/runtime_library_resolution_20260925.txt` records the shared CPU
+  library resolution and SHA used by the frozen runtime.
 - `evidence/SHA256SUMS.txt` records hashes for these captured files.
 
 Board run scripts are under `source/`; each root script checks its staged
