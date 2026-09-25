@@ -29,6 +29,8 @@ image="$(realpath -e -- "$4")"
 [[ "$(basename -- "$mmproj")" == "mmproj-MiniCPM-V-4.6-f16.gguf" ]]
 [[ "$(basename -- "$image")" == "58d543df7eab2bfc.jpg" ]]
 [[ -x /usr/bin/time ]]
+timeout_bin="$(command -v timeout)"
+[[ -x "$timeout_bin" ]]
 
 mkdir -p /home/ubuntu/kv260-vlm-p2-cpu/runs
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
@@ -156,6 +158,7 @@ snapshot before_request
 
 prompt=$'Answer the following question based only on the image. Give a short, direct answer.\nQuestion: what letter does these athlete\x27s school likely begin with?\nAnswer:'
 printf '%s\n' "frozen_prompt=$(printf '%q' "$prompt")"
+echo "cli_timeout_seconds=1200 timeout_kill_after_seconds=10"
 printf '%s\n' "cli_args=-m $model --mmproj $mmproj --image $image -p <frozen-prompt> -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4"
 : >"$trace"
 export RM08_FFN_DOWN_PL=1
@@ -165,6 +168,7 @@ request_start="$(date -u +%FT%TZ)"
 echo "request_begin_utc=$request_start"
 set +e
 /usr/bin/time -v -o "$time_log" \
+  "$timeout_bin" --signal=TERM --kill-after=10s 1200s \
   "$cli" -m "$model" --mmproj "$mmproj" --image "$image" -p "$prompt" \
   -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 \
   --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4 \
