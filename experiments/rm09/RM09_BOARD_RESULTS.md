@@ -39,15 +39,19 @@ Pre-load `clk_summary` showed `pl0_ref_mux=1,499,999,985Hz` and
 `pl0_ref_div1=99,999,999Hz`. The overlay assignment was ignored by the
 observed FCLK0 rate.
 
-One guarded exact sysfs request of 187,498,123Hz is staged against the frozen
-original RM07 app. The script changes FCLK0 only after unloading the active
-app, arms and verifies a 30-minute restore timer first, gates on FCLK readback
-within 1MHz and below the routed 187.512MHz ceiling, then requires post-load
-readback, APM, and real N1120 numeric PASS before the 135-call replay. Any
-failed gate restores 100MHz and starter-kit. Board script:
-`/tmp/rm09-sysfs-fclk-exact-probe.sh`, SHA-256
-`90d7a21421bf23f6b05c78ab9293b439957fa3f95cfb2ac0dac05946155717fe`.
-It follows the official Xilinx
+One guarded exact sysfs request of 187,498,123Hz was issued against the frozen
+original RM07 setup on 2026-09-25. With all apps unloaded, the write returned
+success but readback remained 99,999,999Hz. The guard stopped before loading
+RM07, APM, tensor execution, or replay. The 30-minute watchdog was armed
+before unload; the exit trap restored the starter-kit and 99,999,999Hz.
+Restore PASS, frozen package hashes PASS, and watchdog timer inactive were
+verified from the complete logs and a read-only board check. The clock study
+is frozen at the safe 100MHz setting; no further rate was attempted. Full
+evidence is under
+[`evidence/rm09-sysfs-fclk-20260925T111725Z`](evidence/rm09-sysfs-fclk-20260925T111725Z).
+The script used was `/tmp/rm09-sysfs-fclk-exact-probe.sh`, SHA-256
+`90d7a21421bf23f6b05c78ab9293b439957fa3f95cfb2ac0dac05946155717fe`. It
+follows the official Xilinx
 [`xilinx_fclk.c`](https://github.com/Xilinx/linux-xlnx/blob/master/drivers/staging/fclk/xilinx_fclk.c)
 sysfs path (`clk_round_rate()`, `clk_set_rate()`, and `clk_get_rate()` readback).
 
@@ -92,6 +96,10 @@ path and SHA.
   restoration. The complete clock logs remain on the board under
   `/tmp/rm09-clock-sweep-20260925T071812Z/` and in the board-owner acquisition
   workspace. The compact tracked excerpts include their hashes.
+- `evidence/rm09-sysfs-fclk-20260925T111725Z/driver.log` preserves the full
+  exact-rate probe, its 99,999,999Hz readback, pre-benchmark rejection,
+  rollback, and inactive watchdog; `restore.log` and pre-change clock
+  diagnostics are included with hashes in `evidence/SHA256SUMS.txt`.
 - The complete CPU `driver.log`, `stdout.log`, and `stderr.log` files remain on
   the board under the two run directories listed above and in the board-owner
   acquisition workspace. `time-v.txt` is tracked for each run; compact tracked
