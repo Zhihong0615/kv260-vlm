@@ -1,0 +1,35 @@
+#include "ggml.h"
+#include "ggml-cpu.h"
+#include <stdio.h>
+#include <stdint.h>
+
+static void fill(struct ggml_tensor * w, struct ggml_tensor * x, unsigned seed) {
+    ggml_fp16_t * wd = (ggml_fp16_t *) w->data;
+    float * xd = (float *) x->data;
+    for (int64_t i = 0; i < ggml_nelements(w); ++i) wd[i] = ggml_fp32_to_fp16((float)((int)(i % 17) - 8) * 0.01f);
+    for (int64_t i = 0; i < ggml_nelements(x); ++i) xd[i] = (float)((int)((i + seed) % 13) - 6) * 0.03f;
+}
+
+int main(void) {
+    struct ggml_init_params ip = { .mem_size = 8 * 1024 * 1024, .mem_buffer = NULL, .no_alloc = false };
+    struct ggml_context * ctx = ggml_init(ip);
+    if (!ctx) return 2;
+    struct ggml_tensor * w0 = ggml_new_tensor_2d(ctx, GGML_TYPE_F16, 32, 64);
+    struct ggml_tensor * x0 = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, 32, 64);
+    struct ggml_tensor * w1 = ggml_new_tensor_2d(ctx, GGML_TYPE_F16, 32, 64);
+    struct ggml_tensor * x1 = ggml_new_tensor_2d(ctx, GGML_TYPE_F32, 32, 64);
+    fill(w0, x0, 1);
+    fill(w1, x1, 7);
+    struct ggml_tensor * first = ggml_mul_mat(ctx, w0, x0);
+    struct ggml_tensor * next = ggml_mul_mat(ctx, w1, x1);
+    ggml_set_name(first, "ffn_down");
+    ggml_set_name(next, "after_fallback_matmul");
+    struct ggml_tensor * out = ggml_add(ctx, first, next);
+    struct ggml_cgraph * graph = ggml_new_graph(ctx);
+    ggml_build_forward_expand(graph, out);
+    enum ggml_status status = GGML_STATUS_SUCCESS; for (int iter = 0; iter < 20; ++iter) status = ggml_graph_compute_with_ctx(ctx, graph, 4);
+    float value = ggml_get_f32_1d(out, 0);
+    printf("status=%d finite=%d value=%g\n", status, value == value, value);
+    ggml_free(ctx);
+    return status == GGML_STATUS_SUCCESS && value == value ? 0 : 1;
+}

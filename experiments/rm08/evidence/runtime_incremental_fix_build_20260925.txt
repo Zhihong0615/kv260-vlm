@@ -1,0 +1,54 @@
+[1/13] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/kv260_ffn_down.c.o
+/home/ubuntu/kv260-vlm-p2-cpu/rm08-runtime-src-1a90d48/ggml/src/ggml-cpu/kv260_ffn_down.c:1: warning: "_GNU_SOURCE" redefined
+    1 | #define _GNU_SOURCE
+      |
+<command-line>: note: this is the location of the previous definition
+In file included from /home/ubuntu/kv260-vlm-p2-cpu/rm08-runtime-src-1a90d48/ggml/src/ggml-cpu/kv260_ffn_down.c:15:
+/usr/include/xrt/xrt.h:274:1: warning: function declaration isn’t a prototype [-Wstrict-prototypes]
+  274 | xclProbe();
+      | ^~~~~~~~
+/usr/include/xrt/xrt.h:421:1: warning: function declaration isn’t a prototype [-Wstrict-prototypes]
+  421 | xclVersion();
+      | ^~~~~~~~~~
+In file included from /usr/include/xrt/xrt.h:795,
+                 from /home/ubuntu/kv260-vlm-p2-cpu/rm08-runtime-src-1a90d48/ggml/src/ggml-cpu/kv260_ffn_down.c:15:
+/usr/include/xrt/deprecated/xrt.h:80:1: warning: function declaration isn’t a prototype [-Wstrict-prototypes]
+   80 | xclRemoveAndScanFPGA();
+      | ^~~~~~~~~~~~~~~~~~~~
+/home/ubuntu/kv260-vlm-p2-cpu/rm08-runtime-src-1a90d48/ggml/src/ggml-cpu/kv260_ffn_down.c: In function ‘kv260_context_destroy’:
+/home/ubuntu/kv260-vlm-p2-cpu/rm08-runtime-src-1a90d48/ggml/src/ggml-cpu/kv260_ffn_down.c:149:16: warning: cast discards ‘volatile’ qualifier from pointer target type [-Wcast-qual]
+  149 |         munmap((void *) g_ctx.regs, KV_HLS_MAP_BYTES);
+      |                ^
+[2/13] Building C object ggml/src/CMakeFiles/ggml-cpu.dir/ggml-cpu/ggml-cpu.c.o
+[3/13] Linking CXX shared library bin/libggml-cpu.so.0.24.0
+[4/13] Creating library symlink bin/libggml-cpu.so.0 bin/libggml-cpu.so
+[5/13] Linking CXX shared library bin/libggml.so.0.24.0
+[6/13] Creating library symlink bin/libggml.so.0 bin/libggml.so
+[7/13] Linking CXX shared library bin/libllama.so.0.4.1
+[8/13] Creating library symlink bin/libllama.so.0 bin/libllama.so
+[9/13] Linking CXX shared library bin/libmtmd.so.0.4.1
+[10/13] Creating library symlink bin/libmtmd.so.0 bin/libmtmd.so
+[11/13] Linking CXX shared library bin/libllama-common.so.0.4.1
+[12/13] Creating library symlink bin/libllama-common.so.0 bin/libllama-common.so
+[13/13] Linking CXX executable bin/llama-mtmd-cli
+73e4c8826a159e1bcf420b57cce20201353c611d57af15cdb6200f60ec5f00d0  /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/llama-mtmd-cli
+7351973a8d004b7380f27dd0849aa4d2965e4c91b9f473d99696efb8cbf2a265  /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0.24.0
+	linux-vdso.so.1 (0x0000ffff96984000)
+	libllama-common.so.0 => /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libllama-common.so.0 (0x0000ffff964b0000)
+	libmtmd.so.0 => /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libmtmd.so.0 (0x0000ffff96320000)
+	libllama.so.0 => /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libllama.so.0 (0x0000ffff95fa0000)
+	libggml.so.0 => /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml.so.0 (0x0000ffff95f80000)
+	libggml-base.so.0 => /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-base.so.0 (0x0000ffff95eb0000)
+	libstdc++.so.6 => /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000ffff95c60000)
+	libgcc_s.so.1 => /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000ffff95c30000)
+	libc.so.6 => /lib/aarch64-linux-gnu/libc.so.6 (0x0000ffff95a80000)
+	/lib/ld-linux-aarch64.so.1 (0x0000ffff9694b000)
+	libssl.so.3 => /lib/aarch64-linux-gnu/libssl.so.3 (0x0000ffff959d0000)
+	libcrypto.so.3 => /lib/aarch64-linux-gnu/libcrypto.so.3 (0x0000ffff955c0000)
+	libm.so.6 => /lib/aarch64-linux-gnu/libm.so.6 (0x0000ffff95520000)
+	libggml-cpu.so.0 => /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0 (0x0000ffff953a0000)
+	libgomp.so.1 => /lib/aarch64-linux-gnu/libgomp.so.1 (0x0000ffff95340000)
+	libxrt_core.so.2 => /lib/libxrt_core.so.2 (0x0000ffff95290000)
+	libxrt_coreutil.so.2 => /lib/libxrt_coreutil.so.2 (0x0000ffff95170000)
+	libuuid.so.1 => /lib/aarch64-linux-gnu/libuuid.so.1 (0x0000ffff95150000)
+	libboost_filesystem.so.1.74.0 => /lib/aarch64-linux-gnu/libboost_filesystem.so.1.74.0 (0x0000ffff95120000)
