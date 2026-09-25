@@ -1,0 +1,78 @@
+
+****** Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2024.2 (64-bit)
+  **** SW Build 5238294 on Nov  8 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 26 01:25:49 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source /home/zhiro/research/kv260-vlm/tools/Xilinx/Vitis/2024.2/scripts/vitis_hls/hls.tcl -notrace
+INFO: [HLS 200-10] For user 'zhiro' on host 'zhiro-ThinkBook-16p-G5-IRX' (Linux_x86_64 version 7.0.0-31-generic) on Sat Sep 26 01:25:49 CST 2026
+INFO: [HLS 200-10] On os Ubuntu 24.04.5 LTS
+INFO: [HLS 200-10] In directory '/home/zhiro/research/kv260-vlm-workers/RM10-A-resource-aware'
+WARNING: [HLS 200-2053] The vitis_hls executable is deprecated. Consider using vitis-run --mode hls --tcl
+Sourcing Tcl script '/home/zhiro/research/kv260-vlm-workers/RM10-A-resource-aware/scripts/export_rm10_a_ra_ip.tcl'
+INFO: [HLS 200-1510] Running: open_project /tmp/rm10-a-ra-fixed4-20260926T000000Z/project 
+INFO: [HLS 200-10] Opening project '/tmp/rm10-a-ra-fixed4-20260926T000000Z/project'.
+INFO: [HLS 200-1510] Running: open_solution solution1 
+INFO: [HLS 200-10] Opening solution '/tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1'.
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 5ns.
+INFO: [HLS 200-1611] Setting target device to 'xck26-sfvc784-2LV-c'
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-435] Setting 'open_solution -flow_target vivado' configuration: config_interface -m_axi_max_widen_bitwidth=0
+INFO: [HLS 200-1464] Running solution command: config_interface -m_axi_max_widen_bitwidth=512
+INFO: [HLS 200-1510] Running: export_design -format ip_catalog -output /home/zhiro/research/kv260-vlm-workers/RM10-A-resource-aware/experiments/rm10_hls/artifacts/ip 
+INFO: [IMPL 213-8] Exporting RTL as a Vivado IP.
+WARNING: /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/tps/lnx64/jre11.0.16_1 does not exist.
+
+****** Vivado v2024.2 (64-bit)
+  **** SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 26 01:25:53 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source run_ippack.tcl -notrace
+INFO: calling package_hls_ip ip_types=vitis sysgen json_file=/tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/solution1_data.json outdir=/tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip srcdir=/tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1 sort_interfaces_ports=false
+INFO: Copied 1 ipmisc file(s) to /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/misc
+INFO: Copied 27 verilog file(s) to /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/hdl/verilog
+INFO: Copied 26 vhdl file(s) to /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/hdl/vhdl
+INFO: Copied 10 swdriver file(s) to /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/drivers
+Generating 2 subcores in /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/hdl/ip.tmp:
+impl/misc/vision_ffn_down_tile_fadd_32ns_32ns_32_8_full_dsp_1_ip.tcl
+impl/misc/vision_ffn_down_tile_fmul_32ns_32ns_32_5_max_dsp_1_ip.tcl
+INFO: Using COE_DIR=/tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/hdl/verilog
+INFO: Generating vision_ffn_down_tile_fadd_32ns_32ns_32_8_full_dsp_1_ip via file impl/misc/vision_ffn_down_tile_fadd_32ns_32ns_32_8_full_dsp_1_ip.tcl
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/ip'.
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'vision_ffn_down_tile_fadd_32ns_32ns_32_8_full_dsp_1_ip'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'vision_ffn_down_tile_fadd_32ns_32ns_32_8_full_dsp_1_ip'...
+INFO: Done generating vision_ffn_down_tile_fadd_32ns_32ns_32_8_full_dsp_1_ip via file impl/misc/vision_ffn_down_tile_fadd_32ns_32ns_32_8_full_dsp_1_ip.tcl
+INFO: Generating vision_ffn_down_tile_fmul_32ns_32ns_32_5_max_dsp_1_ip via file impl/misc/vision_ffn_down_tile_fmul_32ns_32ns_32_5_max_dsp_1_ip.tcl
+INFO: [IP_Flow 19-1686] Generating 'Synthesis' target for IP 'vision_ffn_down_tile_fmul_32ns_32ns_32_5_max_dsp_1_ip'...
+INFO: [IP_Flow 19-1686] Generating 'Simulation' target for IP 'vision_ffn_down_tile_fmul_32ns_32ns_32_5_max_dsp_1_ip'...
+INFO: Done generating vision_ffn_down_tile_fmul_32ns_32ns_32_5_max_dsp_1_ip via file impl/misc/vision_ffn_down_tile_fmul_32ns_32ns_32_5_max_dsp_1_ip.tcl
+INFO: Import ports from HDL: /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/hdl/vhdl/vision_ffn_down_tile.vhd (vision_ffn_down_tile)
+INFO: Add axi4lite interface s_axi_control
+INFO: Add clock interface ap_clk
+INFO: Add reset interface ap_rst_n
+INFO: Add interrupt interface interrupt
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/ip'.
+INFO: Add axi4full interface m_axi_gmem_w
+INFO: Add axi4full interface m_axi_gmem_x
+INFO: Add axi4full interface m_axi_gmem_y
+INFO: Calling post_process_vitis to specialize IP
+INFO: Calling post_process_sysgen to specialize IP
+Generating sysgen info xml from json file
+INFO: Created IP /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/component.xml
+INFO: Created IP archive /tmp/rm10-a-ra-fixed4-20260926T000000Z/project/solution1/impl/ip/xilinx_com_hls_vision_ffn_down_tile_1_0.zip
+INFO: [Common 17-206] Exiting Vivado at Sat Sep 26 01:26:00 2026...
+INFO: [HLS 200-802] Generated output file experiments/rm10_hls/artifacts/ip/export.zip
+INFO: [HLS 200-2161] Finished Command export_design Elapsed time: 00:00:19; Allocated memory: 10.930 MB.
+INFO: [HLS 200-112] Total CPU user time: 11.39 seconds. Total CPU system time: 0.57 seconds. Total elapsed time: 21.21 seconds; peak allocated memory: 320.410 MB.

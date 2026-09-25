@@ -1,0 +1,8 @@
+INFO: [SIM 2] *************** CSIM start ***************
+INFO: [SIM 4] CSIM will launch CLANG as the compiler.
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM10-A-resource-aware/experiments/rm10_hls/source/tb_rm10.cpp in debug mode
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM10-A-resource-aware/experiments/rm10_hls/source/vision_ffn_down.cpp in debug mode
+   Generating csim.exe
+RM10 C-sim PASS: all 4096 outputs are 4304
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************
