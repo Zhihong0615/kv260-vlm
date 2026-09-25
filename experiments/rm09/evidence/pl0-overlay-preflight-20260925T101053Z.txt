@@ -1,0 +1,9 @@
+# RM09 PL0 overlay probe failed preflight: output tensor pin typo
+
+At 2026-09-25T10:10:53Z the user-started probe exited before any timer, app, or FCLK mutation with `ERROR: missing or changed real tensor /tmp/rm08-deploy/tensors/ffn_down-0.output.f32`.
+
+The frozen capture manifest (`experiments/rm08/evidence/real_tensor_hashes_20260925.txt`) and local source tensor both report 5,160,960 bytes and SHA-256 `cabb0c46016184dc66a44177fdc9c209816c864db975fce9b1f064ca5da6c9fe`. The board tensor has the same size and SHA. The probe script had a malformed expected SHA missing one `6`: `cabb0c46016184dc6a44177fdc9c209816c864db975fce9b1f064ca5da6c9fe`.
+
+Only the `output_sha` constant was corrected. The updated script passes `bash -n`, was restaged at `/tmp/rm09-pl0-overlay-probe.sh`, and has SHA-256 `74e88ae33efaab6ed91ddc2695ef248edc3eeaae3822c37f0240f61c33c69a44`.
+
+Read-only board state after failure: starter-kit active; FPGA manager `operating`; FCLK0 `99,999,999 Hz`; starter-kit UIO only; no RM09 rollback timer. No tensor was recopied and no sudo, app, FPGA, or clock operation was performed during diagnosis.

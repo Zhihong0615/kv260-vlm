@@ -32,13 +32,24 @@ clocking node. It retains the frozen RM07 `.bit.bin` and XRT_FLAT `shell.json`.
 The DTBO SHA is
 `9cbb79e53f5610dfc5bffe431fbb1ea1b8fe572190d6d907059a38112c994010`; it is
 staged in a separate xmutil app package named
-`kv260-rm07-bounded-k16-pl0-187m5`. The probe script verifies the original
-RM07 package hashes, adds symlinks to the exact original bitstream under both
-the firmware-name and app-name filenames, arms a 30-minute restore timer,
-checks actual FCLK and APM rates against the 187.512 MHz routed ceiling, and
-requires a passing real N1120 tensor before its 135-call replay. At this
-snapshot, the variant has been staged in `/tmp` on the board, but has not been
-loaded.
+`kv260-rm07-bounded-k16-pl0-187m5`. The corrected overlay probe loaded this
+variant at 10:12Z, but FCLK0 still read 99,999,999Hz. Its guard stopped before
+APM, tensor, or replay; the trap restored the starter-kit and 100MHz state.
+Pre-load `clk_summary` showed `pl0_ref_mux=1,499,999,985Hz` and
+`pl0_ref_div1=99,999,999Hz`. The overlay assignment was ignored by the
+observed FCLK0 rate.
+
+One guarded exact sysfs request of 187,498,123Hz is staged against the frozen
+original RM07 app. The script changes FCLK0 only after unloading the active
+app, arms and verifies a 30-minute restore timer first, gates on FCLK readback
+within 1MHz and below the routed 187.512MHz ceiling, then requires post-load
+readback, APM, and real N1120 numeric PASS before the 135-call replay. Any
+failed gate restores 100MHz and starter-kit. Board script:
+`/tmp/rm09-sysfs-fclk-exact-probe.sh`, SHA-256
+`90d7a21421bf23f6b05c78ab9293b439957fa3f95cfb2ac0dac05946155717fe`.
+It follows the official Xilinx
+[`xilinx_fclk.c`](https://github.com/Xilinx/linux-xlnx/blob/master/drivers/staging/fclk/xilinx_fclk.c)
+sysfs path (`clk_round_rate()`, `clk_set_rate()`, and `clk_get_rate()` readback).
 
 ## 100 MHz tensor and replay measurements
 
