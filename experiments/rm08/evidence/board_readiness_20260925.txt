@@ -1,0 +1,56 @@
+# RM08 board readiness snapshot
+Captured locally: 2026-09-24T16:38:19Z
+
+2026-09-24T16:38:05Z
+kria
+2a931c48-99ad-4a3f-b3e1-f42634597098
+Linux kria 5.15.0-1027-xilinx-zynqmp #31-Ubuntu SMP Wed Feb 21 04:33:09 UTC 2024 aarch64 aarch64 aarch64 GNU/Linux
+MemAvailable:    3314756 kB
+CmaTotal:        1024000 kB
+CmaFree:          557112 kB
+                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+total 1836
+-rw-r--r-- 1 root root 1871196 Jun 15  2022 k26_starter_kits.bit.bin
+-rw-r--r-- 1 root root     526 Jun 15  2022 k26_starter_kits.dtbo
+-rw-r--r-- 1 root root      56 Jun 15  2022 shell.json
+crw------- 1 root root 508,   0 Sep 23 16:00 /dev/dmaproxy
+crw-rw---- 1 root kvm   10, 125 Sep 23 16:00 /dev/udmabuf
+crw------- 1 root root 237,   0 Sep 23 16:00 /dev/uio0
+crw------- 1 root root 237,   1 Sep 23 16:00 /dev/uio1
+crw------- 1 root root 237,   2 Sep 23 16:00 /dev/uio2
+crw------- 1 root root 237,   3 Sep 23 16:00 /dev/uio3
+crw------- 1 root root 237,   4 Sep 23 16:00 /dev/uio4
+
+/dev/dma_heap:
+total 0
+crw------- 1 root root 248, 1 Sep 23 16:00 reserved
+crw------- 1 root root 248, 0 Sep 23 16:00 system
+ root=LABEL=writable rootwait earlycon console=ttyPS1,115200 console=tty1 clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio xilinx_tsn_ep.st_pcp=4 cma=1000M 
+xrt	2.13.479-0ubuntu2
+xrt-embedded	
+
+---------------------------
+1/1 [0000:00:00.0] : KV260
+---------------------------
+Platform
+  XSA Name               : KV260 
+  Platform UUID          : 0x0 
+  FPGA Name              : N/A 
+  JTAG ID Code           : N/A 
+  DDR Size               : 4294967296 Bytes
+  DDR Count              : 1 
+  Mig Calibrated         : N/A 
+  P2P Status             : not supported 
+
+Xclbin UUID
+  00000000-0000-0000-0000-000000000000
+
+Compute Units
+  PL Compute Units
+    Index   Name                                              Base_Address    Usage   Status  
+
+  PS Compute Units
+    Index   Name                                              Base_Address    Usage   Status  
+
