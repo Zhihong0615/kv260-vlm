@@ -1,0 +1,747 @@
+
+****** Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2024.2 (64-bit)
+  **** SW Build 5238294 on Nov  8 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 26 01:07:49 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source /home/zhiro/research/kv260-vlm/tools/Xilinx/Vitis/2024.2/scripts/vitis_hls/hls.tcl -notrace
+INFO: [HLS 200-10] For user 'zhiro' on host 'zhiro-ThinkBook-16p-G5-IRX' (Linux_x86_64 version 7.0.0-31-generic) on Sat Sep 26 01:07:50 CST 2026
+INFO: [HLS 200-10] On os Ubuntu 24.04.5 LTS
+INFO: [HLS 200-10] In directory '/home/zhiro/research/kv260-vlm-workers/RM10-hls'
+WARNING: [HLS 200-2053] The vitis_hls executable is deprecated. Consider using vitis-run --mode hls --tcl
+Sourcing Tcl script '/home/zhiro/research/kv260-vlm-workers/RM10-hls/scripts/run_rm10_hls.tcl'
+INFO: [HLS 200-1510] Running: open_project -reset /tmp/rm10-B-20260925T170748Z-21856/project 
+INFO: [HLS 200-10] Creating and opening project '/tmp/rm10-B-20260925T170748Z-21856/project'.
+INFO: [HLS 200-1510] Running: set_top vision_ffn_down_tile 
+INFO: [HLS 200-1510] Running: add_files /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp -cflags -I/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source -DRM10_ARCH=2 -ffp-contract=off 
+INFO: [HLS 200-10] Adding design file '/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/tb_rm10.cpp -cflags -I/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source -DRM10_ARCH=2 -ffp-contract=off 
+INFO: [HLS 200-10] Adding test bench file '/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/tb_rm10.cpp' to the project
+INFO: [HLS 200-1510] Running: open_solution -reset solution1 
+INFO: [HLS 200-10] Creating and opening solution '/tmp/rm10-B-20260925T170748Z-21856/project/solution1'.
+INFO: [HLS 200-10] Cleaning up the solution database.
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1510] Running: set_part xck26-sfvc784-2LV-c 
+INFO: [HLS 200-1611] Setting target device to 'xck26-sfvc784-2LV-c'
+INFO: [HLS 200-1510] Running: create_clock -period 5.0 -name default 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 5ns.
+INFO: [HLS 200-1510] Running: config_interface -m_axi_max_widen_bitwidth 512 
+INFO: [HLS 200-1510] Running: csim_design 
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [SIM 211-4] CSIM will launch CLANG as the compiler.
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/tb_rm10.cpp in debug mode
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp in debug mode
+   Generating csim.exe
+RM10 C-sim PASS: all 4096 outputs are 4304
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-2161] Finished Command csim_design Elapsed time: 00:00:02; Allocated memory: 0.234 MB.
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 310.492 MB.
+INFO: [HLS 200-10] Analyzing design file '/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 1.34 seconds. CPU system time: 0.26 seconds. Elapsed time: 1.59 seconds; current allocated memory: 313.551 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 200-1995] There were 679 instructions in the design after the 'Compile/Link' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+WARNING: [HLS 200-1995] There were 141,245 instructions in the design after the 'Unroll/Inline' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 90,576 instructions in the design after the 'Unroll/Inline (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 90,135 instructions in the design after the 'Unroll/Inline (step 3)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 90,119 instructions in the design after the 'Unroll/Inline (step 4)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 93,311 instructions in the design after the 'Array/Struct' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 86,000 instructions in the design after the 'Array/Struct (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 86,000 instructions in the design after the 'Array/Struct (step 3)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 86,000 instructions in the design after the 'Array/Struct (step 4)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 87,038 instructions in the design after the 'Array/Struct (step 5)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 87,037 instructions in the design after the 'Performance' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 86,012 instructions in the design after the 'Performance (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 87,344 instructions in the design after the 'Performance (step 3)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 87,049 instructions in the design after the 'Performance (step 4)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 87,067 instructions in the design after the 'HW Transforms' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 87,040 instructions in the design after the 'HW Transforms (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm10-B-20260925T170748Z-21856/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 214-131] Inlining function '(anonymous namespace)::half_to_float(unsigned short)' into '(anonymous namespace)::compute_weight_batch(ap_uint<128> const*, ap_uint<256>*, int)' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:252:62)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_234_11' is marked as complete unroll implied by the pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:234:21)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_240_12' is marked as complete unroll implied by the pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:240:48)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_242_13' is marked as complete unroll implied by the pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:242:21)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_244_14' is marked as complete unroll implied by the pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:244:21)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_30_1' is marked as complete unroll implied by the pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:30:30)
+INFO: [HLS 214-291] Loop 'VITIS_LOOP_295_21' is marked as complete unroll implied by the pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:295:36)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_217_6' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:217:20) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_219_7' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:219:20) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_221_8' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:221:20) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_223_9' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:223:20) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 16 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_234_11' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:234:21) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_240_12' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:240:48) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_242_13' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:242:21) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_244_14' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:244:21) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 16 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_30_1' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:30:30) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 10 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_265_15' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:265:36) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_267_16' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:267:21) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_271_17' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:271:21) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 4 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_274_18' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:274:48) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 16 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_295_21' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:295:36) in function '(anonymous namespace)::compute_weight_batch' completely with a factor of 8 (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:66:0)
+INFO: [HLS 214-248] Applying array_partition to '_ZN12_GLOBAL__N_116activation_cacheE': Cyclic partitioning with factor 4 on dimension 1. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:16:0)
+INFO: [HLS 214-248] Applying array_partition to 'weight_cache': Cyclic partitioning with factor 4 on dimension 1. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:68:15)
+INFO: [HLS 214-248] Applying array_partition to 'result_tile': Complete partitioning on dimension 2. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:81:15)
+INFO: [HLS 214-248] Applying array_partition to 'accum': Complete partitioning on dimension 1. Complete partitioning on dimension 2. Complete partitioning on dimension 3. Complete partitioning on dimension 4. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:215:23)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array '_ZN12_GLOBAL__N_116activation_cacheE_0' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array '_ZN12_GLOBAL__N_116activation_cacheE_1' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array '_ZN12_GLOBAL__N_116activation_cacheE_2' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array '_ZN12_GLOBAL__N_116activation_cacheE_3' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array 'weight_cache_0' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array 'weight_cache_1' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array 'weight_cache_2' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-270] Inferring pragma 'array_partition type=cyclic factor=5 dim=2' for array 'weight_cache_3' due to pipeline pragma (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:233:9)
+INFO: [HLS 214-248] Applying array_partition to '_ZN12_GLOBAL__N_116activation_cacheE_3': Cyclic partitioning with factor 5 on dimension 2.
+INFO: [HLS 214-248] Applying array_partition to '_ZN12_GLOBAL__N_116activation_cacheE_2': Cyclic partitioning with factor 5 on dimension 2.
+INFO: [HLS 214-248] Applying array_partition to '_ZN12_GLOBAL__N_116activation_cacheE_1': Cyclic partitioning with factor 5 on dimension 2.
+INFO: [HLS 214-248] Applying array_partition to '_ZN12_GLOBAL__N_116activation_cacheE_0': Cyclic partitioning with factor 5 on dimension 2.
+INFO: [HLS 214-248] Applying array_partition to 'weight_cache_0': Cyclic partitioning with factor 5 on dimension 2. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:68:15)
+INFO: [HLS 214-248] Applying array_partition to 'weight_cache_1': Cyclic partitioning with factor 5 on dimension 2. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:68:15)
+INFO: [HLS 214-248] Applying array_partition to 'weight_cache_2': Cyclic partitioning with factor 5 on dimension 2. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:68:15)
+INFO: [HLS 214-248] Applying array_partition to 'weight_cache_3': Cyclic partitioning with factor 5 on dimension 2. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:68:15)
+INFO: [HLS 214-115] Multiple burst reads of variable length and bit width 256 has been inferred on bundle 'gmem_x'. These burst requests might be further partitioned into multiple requests during RTL generation, based on max_read_burst_length or max_write_burst_length settings. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:56:19)
+INFO: [HLS 214-115] Multiple burst reads of length 68864 and bit width 128 in loop 'VITIS_LOOP_72_1'(/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:72:19) has been inferred on bundle 'gmem_w'. These burst requests might be further partitioned into multiple requests during RTL generation, based on max_read_burst_length or max_write_burst_length settings. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:72:19)
+INFO: [HLS 214-115] Multiple burst writes of variable length and bit width 256 has been inferred on bundle 'gmem_y'. These burst requests might be further partitioned into multiple requests during RTL generation, based on max_read_burst_length or max_write_burst_length settings. (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:291:28)
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 131.87 seconds. CPU system time: 0.64 seconds. Elapsed time: 135.07 seconds; current allocated memory: 342.820 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 342.820 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 3.34 seconds. CPU system time: 0.03 seconds. Elapsed time: 3.36 seconds; current allocated memory: 437.953 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 4.15 seconds. CPU system time: 0.03 seconds. Elapsed time: 4.18 seconds; current allocated memory: 539.848 MB.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock from (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:23:19) to (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:232:21) in function '(anonymous namespace)::compute_weight_batch'... converting 5118 basic blocks.
+INFO: [XFORM 203-11] Balancing expressions in function 'vision_ffn_down_tile' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:310:5)...3 expression(s) balanced.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 20.91 seconds. CPU system time: 0.06 seconds. Elapsed time: 20.97 seconds; current allocated memory: 790.766 MB.
+INFO: [HLS 200-2061] Successfully converted nested loops 'VITIS_LOOP_56_1'(/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:56:19) and 'VITIS_LOOP_57_2'(/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:57:26) in function '(anonymous namespace)::stage_activation' into perfectly nested loops.
+INFO: [HLS 200-2061] Successfully converted nested loops 'VITIS_LOOP_73_2'(/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:73:26) and 'VITIS_LOOP_74_3'(/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:74:30) in function '(anonymous namespace)::compute_weight_batch' into perfectly nested loops.
+INFO: [HLS 200-2061] Successfully converted nested loops 'VITIS_LOOP_291_19'(/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:291:28) and 'VITIS_LOOP_292_20'(/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:292:32) in function '(anonymous namespace)::compute_weight_batch' into perfectly nested loops.
+INFO: [XFORM 203-541] Flattening a loop nest 'VITIS_LOOP_56_1' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:56:19) in function '(anonymous namespace)::stage_activation'.
+INFO: [XFORM 203-541] Flattening a loop nest 'VITIS_LOOP_73_2' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:73:26) in function '(anonymous namespace)::compute_weight_batch'.
+INFO: [XFORM 203-541] Flattening a loop nest 'VITIS_LOOP_291_19' (/home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:291:28) in function '(anonymous namespace)::compute_weight_batch'.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 88.69 seconds. CPU system time: 0 seconds. Elapsed time: 88.71 seconds; current allocated memory: 790.766 MB.
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'vision_ffn_down_tile' ...
+WARNING: [SYN 201-103] Legalizing function name '(anonymous namespace)compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74' to 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74'.
+WARNING: [SYN 201-103] Legalizing function name '(anonymous namespace)compute_weight_batch_Pipeline_VITIS_LOOP_232_10' to 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10'.
+WARNING: [SYN 201-103] Legalizing function name '(anonymous namespace)compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_' to 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s'.
+WARNING: [SYN 201-103] Legalizing function name '(anonymous namespace)compute_weight_batch' to 'p_anonymous_namespace_compute_weight_batch'.
+WARNING: [SYN 201-103] Legalizing function name '(anonymous namespace)stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2' to 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2'.
+WARNING: [SYN 201-103] Legalizing function name '(anonymous namespace)stage_activation' to 'p_anonymous_namespace_stage_activation'.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln77) to 3 in order to utilize available DSP registers.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_73_2_VITIS_LOOP_74_3'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 14, loop 'VITIS_LOOP_73_2_VITIS_LOOP_74_3'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 7.36 seconds. CPU system time: 0.03 seconds. Elapsed time: 7.38 seconds; current allocated memory: 790.766 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.02 seconds; current allocated memory: 790.766 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_232_10'.
+WARNING: [HLS 200-880] The II Violation in module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' (loop 'VITIS_LOOP_232_10'): Unable to enforce a carried dependence constraint (II = 1, distance = 1, offset = 0) between 'store' operation 0 bit ('add12311490_write_ln257', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) of variable 'accum', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257 on local variable 'add12311490' and 'load' operation 32 bit ('add12311490_load', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) on local variable 'add12311490'.
+Resolution: For help on HLS 200-880 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-880.html
+WARNING: [HLS 200-880] The II Violation in module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' (loop 'VITIS_LOOP_232_10'): Unable to enforce a carried dependence constraint (II = 2, distance = 1, offset = 0) between 'store' operation 0 bit ('add12311490_write_ln257', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) of variable 'accum', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257 on local variable 'add12311490' and 'load' operation 32 bit ('add12311490_load', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) on local variable 'add12311490'.
+Resolution: For help on HLS 200-880 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-880.html
+WARNING: [HLS 200-880] The II Violation in module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' (loop 'VITIS_LOOP_232_10'): Unable to enforce a carried dependence constraint (II = 3, distance = 1, offset = 0) between 'store' operation 0 bit ('add12311490_write_ln257', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) of variable 'accum', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257 on local variable 'add12311490' and 'load' operation 32 bit ('add12311490_load', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) on local variable 'add12311490'.
+Resolution: For help on HLS 200-880 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-880.html
+WARNING: [HLS 200-880] The II Violation in module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' (loop 'VITIS_LOOP_232_10'): Unable to enforce a carried dependence constraint (II = 4, distance = 1, offset = 0) between 'store' operation 0 bit ('add12311490_write_ln257', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) of variable 'accum', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257 on local variable 'add12311490' and 'load' operation 32 bit ('add12311490_load', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) on local variable 'add12311490'.
+Resolution: For help on HLS 200-880 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-880.html
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 5, Depth = 31, loop 'VITIS_LOOP_232_10'
+WARNING: [HLS 200-871] Estimated clock period (3.824 ns) exceeds the target (target clock period: 5.000 ns, clock uncertainty: 1.350 ns, effective delay budget: 3.650 ns).
+Resolution: For help on HLS 200-871 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-871.html
+WARNING: [HLS 200-1016] The critical path in module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' consists of the following:
+	'fadd' operation 32 bit ('add123_3_3_3_7', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:257) [27070]  (2.948 ns)
+	'select' operation 32 bit ('accum_1015', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:238) [27095]  (0.449 ns)
+	'store' operation 0 bit ('empty_1220_write_ln238', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:238) of variable 'accum_1015', /home/zhiro/research/kv260-vlm-workers/RM10-hls/experiments/rm10_hls/source/vision_ffn_down.cpp:238 on local variable 'empty_1220' [27352]  (0.427 ns)
+
+Resolution: For help on HLS 200-1016 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-1016.html
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 377.36 seconds. CPU system time: 0.11 seconds. Elapsed time: 377.54 seconds; current allocated memory: 1.022 GB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 27.5 seconds. CPU system time: 0.04 seconds. Elapsed time: 27.54 seconds; current allocated memory: 1.022 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_291_19_VITIS_LOOP_292_20'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 5, loop 'VITIS_LOOP_291_19_VITIS_LOOP_292_20'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 10.69 seconds. CPU system time: 0.04 seconds. Elapsed time: 10.74 seconds; current allocated memory: 1.022 GB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 1.022 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'p_anonymous_namespace_compute_weight_batch' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 1.03 seconds. CPU system time: 0 seconds. Elapsed time: 1.03 seconds; current allocated memory: 1.022 GB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_1' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_2' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_3' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_4' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_5' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_6' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_7' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_8' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_9' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_10' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_11' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_12' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_13' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_14' will be ignored if a simpler one can be used.
+WARNING: [BIND 205-102] The specified resource core for memory 'result_tile_15' will be ignored if a simpler one can be used.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 1.07 seconds. CPU system time: 0.01 seconds. Elapsed time: 1.08 seconds; current allocated memory: 1.022 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [HLS 200-486] Changing DSP latency (root=add_ln59) to 3 in order to utilize available DSP registers.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+WARNING: [HLS 200-2042] Usage of URAM can potentially cause worse II as Vitis HLS does not exploit read-first mode for URAMs. Consider using BRAMs instead.
+INFO: [SCHED 204-61] Pipelining loop 'VITIS_LOOP_56_1_VITIS_LOOP_57_2'.
+INFO: [HLS 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 15, loop 'VITIS_LOOP_56_1_VITIS_LOOP_57_2'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.43 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.44 seconds; current allocated memory: 1.022 GB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 1.022 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'p_anonymous_namespace_stage_activation' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 1.022 GB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 1.022 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'vision_ffn_down_tile' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.03 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 1.022 GB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.1 seconds. CPU system time: 0 seconds. Elapsed time: 0.1 seconds; current allocated memory: 1.022 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74' pipeline 'VITIS_LOOP_73_2_VITIS_LOOP_74_3' pipeline type 'loop pipeline'
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARVALID' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARADDR' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARID' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARLEN' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARSIZE' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARBURST' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARLOCK' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARCACHE' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARPROT' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARQOS' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARREGION' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74/m_axi_gmem_w_0_ARUSER' to 0.
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_7ns_2ns_8ns_9_4_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_10ns_12ns_21_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'urem_10ns_4ns_3_14_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_73_2_VITIS_LOOP_74'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.35 seconds. CPU system time: 0 seconds. Elapsed time: 0.36 seconds; current allocated memory: 1.022 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' pipeline 'VITIS_LOOP_232_10' pipeline type 'loop pipeline'
+INFO: [RTGEN 206-104] Estimated max fanout for 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10' is 32768 from HDL expression: ((icmp_ln232_reg_194592_pp0_iter4_reg == 1'd1) & (1'b0 == ap_block_pp0_stage0_01001) & (ap_loop_exit_ready_pp0_iter5_reg == 1'b1) & (1'b1 == ap_CS_fsm_pp0_stage0))
+INFO: [RTGEN 206-100] Generating core module 'fadd_32ns_32ns_32_6_no_dsp_1': 205 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'fmul_32ns_32ns_32_5_max_dsp_1': 205 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_10ns_12ns_21_1_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_8ns_10ns_17_1_1': 2 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_9ns_11ns_19_1_1': 4 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_11_3_128_1_1': 32 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_11_3_256_1_1': 32 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_9_3_32_1_1': 256 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'urem_10ns_4ns_3_14_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'urem_8ns_4ns_3_12_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'urem_9ns_4ns_3_13_1': 2 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_232_10'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 11.85 seconds. CPU system time: 0.08 seconds. Elapsed time: 11.92 seconds; current allocated memory: 1.255 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s' pipeline 'VITIS_LOOP_291_19_VITIS_LOOP_292_20' pipeline type 'loop pipeline'
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWVALID' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWADDR' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWID' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWLEN' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWSIZE' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWBURST' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWLOCK' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWCACHE' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWPROT' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWQOS' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWREGION' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_AWUSER' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s/m_axi_gmem_y_0_BREADY' to 0.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_291_19_VITIS_LOOP_s'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 21.08 seconds. CPU system time: 0.27 seconds. Elapsed time: 21.38 seconds; current allocated memory: 1.694 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'p_anonymous_namespace_compute_weight_batch' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-100] Generating core module 'fadd_32ns_32ns_32_8_full_dsp_1': 48 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_2ns_8ns_9_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_3ns_8ns_10_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'p_anonymous_namespace_compute_weight_batch'.
+INFO: [RTMG 210-278] Implementing memory 'vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_weight_cache_RAM_2P_URAM_1R1W' using ultra RAMs.
+INFO: [RTMG 210-278] Implementing memory 'vision_ffn_down_tile_p_anonymous_namespace_compute_weight_batch_result_tile_RAM_2P_BRAM_1R1W' using block RAMs.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.49 seconds. CPU system time: 0.03 seconds. Elapsed time: 0.53 seconds; current allocated memory: 1.739 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-1030] Apply Unified Pipeline Control on module 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2' pipeline 'VITIS_LOOP_56_1_VITIS_LOOP_57_2' pipeline type 'loop pipeline'
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARVALID' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARADDR' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARID' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARLEN' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARSIZE' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARBURST' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARLOCK' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARCACHE' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARPROT' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARQOS' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARREGION' to 0.
+WARNING: [RTGEN 206-101] Setting dangling out port 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2/m_axi_gmem_x_0_ARUSER' to 0.
+INFO: [RTGEN 206-100] Generating core module 'mac_muladd_7ns_3ns_8ns_10_4_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'mul_10ns_12ns_21_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'urem_10ns_4ns_3_14_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'p_anonymous_namespace_stage_activation_Pipeline_VITIS_LOOP_56_1_VITIS_LOOP_57_2'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.96 seconds. CPU system time: 0.04 seconds. Elapsed time: 0.99 seconds; current allocated memory: 1.802 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'p_anonymous_namespace_stage_activation' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-104] Estimated max fanout for 'p_anonymous_namespace_stage_activation' is 5360 from HDL expression: (1'b1 == ap_CS_fsm_state12)
+INFO: [RTGEN 206-100] Generating core module 'mul_15s_11ns_15_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'p_anonymous_namespace_stage_activation'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.18 seconds. CPU system time: 0.03 seconds. Elapsed time: 0.2 seconds; current allocated memory: 1.860 GB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'vision_ffn_down_tile' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+WARNING: [RTGEN 206-101] Design contains AXI ports. Reset is fixed to synchronous and active low.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/gmem_w' to 'm_axi'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/gmem_x' to 'm_axi'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/gmem_y' to 'm_axi'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/weight_batch_f16' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/activation_tile_f32' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/output_batch_f32' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/task_r' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/active_N' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/n_base' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/m_base' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'vision_ffn_down_tile/tile_rows' to 's_axilite & ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'vision_ffn_down_tile' to 's_axilite & ap_ctrl_hs'.
+WARNING: [RTGEN 206-101] Register 'cached_active_N' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'cached_n_base' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'cached_tile_rows' is power-on initialization.
+WARNING: [RTGEN 206-101] Register 'cache_valid' is power-on initialization.
+INFO: [RTGEN 206-100] Bundling port 'return', 'weight_batch_f16', 'activation_tile_f32', 'output_batch_f32', 'task_r', 'n_base', 'm_base' and 'tile_rows' to AXI-Lite port control.
+INFO: [RTGEN 206-100] Finished creating RTL model for 'vision_ffn_down_tile'.
+INFO: [RTMG 210-278] Implementing memory 'vision_ffn_down_tile_p_ZN12_GLOBAL_N_116activation_cacheE_0_0_RAM_2P_URAM_1R1W' using ultra RAMs.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.22 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.24 seconds; current allocated memory: 1.864 GB.
+INFO: [HLS 200-111] Finished Generating all RTL models: CPU user time: 1.23 seconds. CPU system time: 0.03 seconds. Elapsed time: 1.27 seconds; current allocated memory: 1.864 GB.
+INFO: [HLS 200-1603] Design has inferred MAXI bursts and missed bursts, see Vitis HLS GUI synthesis summary report for detailed information.
+INFO: [HLS 200-111] Finished Updating report files: CPU user time: 2.69 seconds. CPU system time: 0.06 seconds. Elapsed time: 2.76 seconds; current allocated memory: 2.024 GB.
+INFO: [VHDL 208-304] Generating VHDL RTL for vision_ffn_down_tile.
+INFO: [VLOG 209-307] Generating Verilog RTL for vision_ffn_down_tile.
+INFO: [HLS 200-790] **** Loop Constraint Status: All loop constraints were NOT satisfied.
+INFO: [HLS 200-789] **** Estimated Fmax: 244.86 MHz
+INFO: [HLS 200-2161] Finished Command csynth_design Elapsed time: 00:11:59; Allocated memory: 1.722 GB.
+INFO: [HLS 200-112] Total CPU user time: 719.37 seconds. Total CPU system time: 2.24 seconds. Total elapsed time: 724.15 seconds; peak allocated memory: 2.024 GB.
