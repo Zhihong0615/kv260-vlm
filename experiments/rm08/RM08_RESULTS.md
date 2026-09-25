@@ -1,11 +1,11 @@
 # RM08 — First real PL bring-up and FFN-down boundary
 
-Status: **first real PL load, AXI-Lite smoke, restore, and standalone real-tensor
-benchmarks passed. `GO_VLM_INTEGRATION`.** The 135-call shape-weighted replay
-took 99.013 s end to end versus the 250.124 s CPU family baseline (2.526×).
-Full MiniCPM-V runtime integration and a PS+PL VLM request remain the next
-uncompleted RM08 task; the 99.013 s replay used representative repeated layer
-payloads, not all 27 unique layer tensors.
+Status: **real MiniCPM-V PS+PL inference passed; `GO_VLM_INTEGRATION`.** QID
+37804 completed in 522.34 s versus the frozen 668.35 s four-thread CPU-only
+baseline (1.280× request speedup), with 135 actual PL transformer calls, answer
+`G`, and starter-kit restore. The earlier 99.013 s standalone replay used
+representative repeated payloads; the integrated request used all 27 live
+transformer layers across five media groups.
 
 ## Latest board state via direct SSH
 
@@ -145,12 +145,71 @@ full-tensor staging projection.
 
 Against the `250.124 s` CPU family baseline, this representative PL replay is
 `2.526×` faster including packing and output handling. RM08's standalone gate
-is met: **`GO_VLM_INTEGRATION`**. The Amdahl estimate for the full request is
-`668.35 - 250.124 + 99.013 = 517.239 s` (about `1.292×`), but this is only a
-prediction. No real VLM request has run through the PL backend yet; output
-answer preservation, 135 unique layer dispatches, fallback counts, and actual
-request latency remain unmeasured. Next is QID 37804 integration.
+was met: **`GO_VLM_INTEGRATION`**. Before the integrated run, the replay implied
+an Amdahl prediction of `668.35 - 250.124 + 99.013 = 517.239 s` (about
+`1.292×`). The actual QID 37804 request and its measured family time are
+reported below.
 
 Raw board logs captured locally:
 `evidence/rm08-first-load-smoke-20260925.log` and
 `evidence/rm08-board-bench-20260925T023936Z.log`.
+
+## Full MiniCPM-V integration: QID 37804
+
+The repaired opt-in llama.cpp CPU backend used the same RM07 bitstream and
+bounded 1,671,168-byte XRT BO pool. It intercepted only the numbered
+`ffn_down-{0..26}` transformer layers. The exact request, model/image hashes,
+binary hashes, command, raw stdout/stderr, PL trace, timing, and restore logs
+are preserved under `evidence/rm08-vlm-q37804-20260925T063228Z/`.
+
+| Measure | Board result |
+|---|---:|
+| Request wall, four A53 threads | **522.34 s** |
+| Frozen CPU-only request wall | 668.35 s |
+| Request speedup / wall reduction | **1.280× / 21.85%** |
+| PL FFN-down family total call wall | **99.667 s** |
+| Frozen CPU FFN-down family time | 250.124 s |
+| Family system-level speedup | **2.510×** |
+| PL calls | **135**: 35 at N=1120, 100 at N=280 |
+| CPU fallbacks | **10**: 5 ViT merger K=17216, 5 `mm.down` K=4608 |
+| PL kernel wait / host packing / unpack | 86.546 / 11.702 / 1.167 s |
+| XRT sync-to / sync-from / AXI submit | 0.094 / 0.084 / 0.041 s |
+| PL payload input + output | 22.229 + 0.310 GB |
+| Effective payload rate during kernel wait | 0.260 GB/s |
+| Peak RSS | 1,866,380 KiB |
+| Final answer / process exit / starter-kit restore | `G` / 0 / PASS |
+
+All 27 numbered layers ran five times each on PL with zero numbered-layer CPU
+fallback. The two unnumbered operations per media group were explicitly left
+on CPU. The three captured real-tensor checks passed through the same runtime
+helper before the request: max absolute errors were 1.14e-5 (layer 0),
+1.99e-6 (layer 13), and 3.05e-4 (layer 26), with RMSE below 1e-4 and cosine
+above 0.999. The generated answer matched the frozen CPU answer `G`.
+
+The five `mtmd batch encoding done` spans sum to **451.963 s**, versus about
+590.35 s in the frozen CPU-only request. The Amdahl estimate using the *actual*
+integrated family time is `668.35 - 250.124 + 99.666572 = 517.893 s`; measured
+request wall is 522.34 s, a **4.45 s residual**. This small residual does not
+support a claim that PS–PL submit or synchronization dominates this design.
+The 0.260 GB/s value divides modeled/recorded payload bytes by kernel wait;
+it is not an independent integrated-run APM bandwidth measurement. The earlier
+standalone APM measurement was also about 0.260 GB/s.
+
+During the request, sampled `CmaFree` fell to a few MiB while the bounded BO
+pool remained allocated and all 135 calls completed. The driver recorded
+`CmaFree=661,068 kB` before request, `674,272 kB` after request, and
+`684,484 kB` after restore. The exact instantaneous minimum is limited by
+sampling. No full W/X/Y contiguous allocation was requested.
+
+The first integration attempt exposed a CPU fallback synchronization race in
+the opt-in hook: a shared `current_chunk` flag was read after CPU GEMM could
+overwrite it. It was intentionally terminated after 54 PL calls for GDB
+diagnosis, then fixed with a thread-local snapshot and second barrier. A
+20-iteration four-thread fallback smoke passed before this successful run.
+That aborted trace remains in
+`evidence/rm08-vlm-q37804-20260925T055728Z/`; it is not counted as a complete
+VLM measurement.
+
+**RM08 decision: `GO_VLM_INTEGRATION` confirmed by a complete real request.**
+The result validates this FFN-down family engine as a useful strong static
+baseline. It does not by itself establish a novel architecture method.

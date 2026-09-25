@@ -1,6 +1,24 @@
 # RM08 checkpoint — 2026-09-25
 
-## Pause point
+## Latest completed state (06:42 UTC)
+
+The full QID 37804 MiniCPM-V request completed on KV260 with the RM07 K16
+bitstream: **522.34 s wall**, versus **668.35 s CPU-only** (1.280×). All 135
+numbered transformer FFN-down calls used PL; the 5 ViT merger and 5 `mm.down`
+calls used explicit CPU fallback. The final answer was `G`, every runtime trace
+assertion passed, and `k26-starter-kits` was restored. PL family time was
+99.667 s versus 250.124 s CPU (2.510×). See [`RM08_RESULTS.md`](RM08_RESULTS.md)
+and raw evidence under `evidence/rm08-vlm-q37804-20260925T063228Z/`.
+
+The opt-in runtime fix is committed in the separate llama.cpp worktree at
+`8ec4e61` (fallback barrier race) and `7c9c159` (two observed CPU fallback
+classes). Board `libggml-cpu.so.0.24.0` SHA-256 is
+`7351973a8d004b7380f27dd0849aa4d2965e4c91b9f473d99696efb8cbf2a265`.
+The run used a bounded 1,671,168-byte BO pool; sampled `CmaFree` was only a few
+MiB during inference, but all calls completed. The old abort/stack evidence is
+preserved separately and was not counted as a complete request.
+
+## Historical pause point
 
 The user asked to pause after the first real PL run because the terminal output
 was too large to copy. Logs were retrieved directly over SSH and saved locally;
@@ -46,7 +64,7 @@ on writable root. No boot firmware, QSPI, boot files, or SD image were changed.
 - Research repo worktree: `/home/zhiro/.codex/worktrees/rm04-dynamic8-integration/kv260-vlm`, branch `codex/rm08-first-pl-bringup`.
 - Runtime integration worktree: `/home/zhiro/.codex/worktrees/rm08-llama-ffn-down`, branch `codex/rm08-ffn-down-pl`, pinned at `7ab4ee7baad2d920464cbacfad4f4b07cf111fd2`; clean at checkpoint. No runtime code changes have been made.
 
-## Resume from here
+## Historical resume instructions (completed)
 
 1. Finish the RM08 runtime interception in the dedicated llama.cpp worktree.
    Only route exact transformer `ffn_down-{0..26}` F16×F32→F32 contiguous
