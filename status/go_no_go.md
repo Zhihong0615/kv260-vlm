@@ -1,6 +1,21 @@
 # Research go/no-go
 
-> **Latest stage decision (RM08, 2026-09-25): `GO_VLM_INTEGRATION` confirmed.** The real KV260 MiniCPM-V QID 37804 request completed in **522.34 s** with 135 actual transformer FFN-down PL calls, 10 explicit out-of-scope CPU fallbacks, unchanged answer `G`, and successful starter-kit restore. The frozen four-thread CPU-only request took 668.35 s: **1.280× end-to-end speedup**, 21.85% lower wall time. The 135 PL calls took 99.667 s versus 250.124 s CPU family time (2.510×). Amdahl predicted 517.893 s from the measured family time; actual residual was 4.45 s. This is a strong static accelerator result; a distinct architecture novelty remains unproven. See [`RM08_RESULTS.md`](../experiments/rm08/RM08_RESULTS.md).
+> **Latest stage decision (RM09, 2026-09-25): `NO_NOVELTY_YET`.** The strong
+> static K16 FFN-down engine now covers observed MiniCPM-V transformer extents
+> on one 100 MHz KV260 bitstream. Three complete requests have real PL calls
+> and matching answers. With the same runtime binary for each RM09 CPU/PL
+> pair, QID38299 improved from 368.51 to 299.14 s (1.232×) and QID35419
+> from 822.35 to 652.32 s (1.261×); the RM08 QID37804 result was 668.35 to
+> 522.34 s (1.280×). The broader extent contract did not change II=5 or the
+> K16 datapath, and no distinct architecture mechanism has passed a strong
+> static comparison. See [RM09 milestone results](../experiments/rm09/RM09_MILESTONE_RESULTS.md).
+
+Current decision: **keep the measured static accelerator as the comparison
+baseline; P3 paper-method development remains `NO_GO_NOW` until a mechanism
+shows a numerical and end-to-end gain over it.** The RM08 decision below is a
+historical stage result, not the current novelty decision.
+
+> **Historical stage decision (RM08, 2026-09-25): `GO_VLM_INTEGRATION` confirmed.** The real KV260 MiniCPM-V QID 37804 request completed in **522.34 s** with 135 actual transformer FFN-down PL calls, 10 explicit out-of-scope CPU fallbacks, unchanged answer `G`, and successful starter-kit restore. The frozen four-thread CPU-only request took 668.35 s: **1.280× end-to-end speedup**, 21.85% lower wall time. The 135 PL calls took 99.667 s versus 250.124 s CPU family time (2.510×). Amdahl predicted 517.893 s from the measured family time; actual residual was 4.45 s. This is a strong static accelerator result; a distinct architecture novelty remains unproven. See [`RM08_RESULTS.md`](../experiments/rm08/RM08_RESULTS.md).
 
 Updated: 2026-09-25
 Decision: **GO_VLM_INTEGRATION (real full request passed); P3 method novelty remains unproven**
