@@ -1,0 +1,20 @@
+run_dir=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm09-q37804-p0-p1-20260925T090016Z
+host=kria boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
+cli_sha256=9da96349e42cc9ee3d8ee25fe2d98795bf87905cbc538a1bc9710cdc284f4317
+model_sha256=8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773
+mmproj_sha256=ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293
+image_sha256=3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f
+snapshot=before_p0 utc=2026-09-25T09:01:16Z
+MemAvailable:    3294104 kB
+CmaTotal:        1024000 kB
+CmaFree:           42344 kB
+cpu0_scaling_cur_freq_kHz=1333333
+fpga_manager=operating
+run_begin mode=p0 utc=2026-09-25T09:01:16Z
+run_end mode=p0 exit=134 utc=2026-09-25T09:01:18Z log=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm09-q37804-p0-p1-20260925T090016Z/p0.log
+snapshot=after_p0 utc=2026-09-25T09:01:18Z
+MemAvailable:    3282572 kB
+CmaTotal:        1024000 kB
+CmaFree:           51348 kB
+cpu0_scaling_cur_freq_kHz=1333333
+fpga_manager=operating

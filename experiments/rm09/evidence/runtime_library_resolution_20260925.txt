@@ -1,0 +1,9 @@
+inspection_date=2026-09-25 (after both CPU baselines)
+board=kria
+cli=/home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/llama-mtmd-cli
+cli_sha256=73e4c8826a159e1bcf420b57cce20201353c611d57af15cdb6200f60ec5f00d0
+cli_runpath=/home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin:
+ldd_resolution=libggml-cpu.so.0 => /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0
+resolved_library=/home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0.24.0
+resolved_library_sha256=7351973a8d004b7380f27dd0849aa4d2965e4c91b9f473d99696efb8cbf2a265
+method=read-only ldd, readelf RUNPATH, realpath, and sha256sum after both CPU baselines

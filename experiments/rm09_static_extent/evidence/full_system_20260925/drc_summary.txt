@@ -1,0 +1,38 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
+| Date         : Fri Sep 25 19:41:18 2026
+| Host         : zhiro-ThinkBook-16p-G5-IRX running 64-bit Ubuntu 24.04.5 LTS
+| Command      : report_drc -file /tmp/rm09-static-board-system-20260925T112858Z-129110/rm09_drc_post_route.rpt
+| Design       : kv260_rm09_static_extent_wrapper
+| Device       : xck26-sfvc784-2LV-c
+| Speed File   : -2LV
+| Design State : Fully Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: impl_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max checks: <unlimited>
+             Checks found: 722
++-----------+----------+---------------------------------------------------------------------+--------+
+| Rule      | Severity | Description                                                         | Checks |
++-----------+----------+---------------------------------------------------------------------+--------+
+| DPIP-2    | Warning  | Input pipelining                                                    | 140    |
+| DPOP-3    | Warning  | PREG Output pipelining                                              | 192    |
+| DPOP-4    | Warning  | MREG Output pipelining                                              | 105    |
+| DPREG-7   | Warning  | DSP48E2_PregDynOpmodeZmuxP:                                         | 12     |
+| PDRC-132  | Warning  | SLICE_PairEqSame_A6A5_WARN                                          | 34     |
+| PDRC-140  | Warning  | SLICE_PairEqSame_A6A5_WARN                                          | 18     |
+| RTSTAT-10 | Warning  | No routable loads                                                   | 1      |
+| AVAL-155  | Advisory | enum_AMULTSEL_BMULTSEL_enum_DREG_ADREG_0_connects_CED_CEAD_RSTD_GND | 168    |

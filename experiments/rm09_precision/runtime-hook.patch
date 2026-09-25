@@ -1,0 +1,169 @@
+From eb09ee7bbcfdab1f8e31fa215c7e6c1965507135 Mon Sep 17 00:00:00 2001
+From: Codex <codex@localhost>
+Date: Fri, 25 Sep 2026 16:05:47 +0800
+Subject: [PATCH] Add RM09 FFN-down F16X experiment hook
+
+---
+ ggml/src/ggml-cpu/ggml-cpu.c | 97 +++++++++++++++++++++++++++++++++---
+ 1 file changed, 91 insertions(+), 6 deletions(-)
+
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index aeff05f..b449cda 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -44,6 +44,39 @@ int ggml_kv260_ffn_down_execute(struct ggml_tensor * dst);
+ #include <syscall.h>
+ #endif
+ 
++static int ggml_rm09_f16x_target_layer(const struct ggml_tensor * dst) {
++    const char * enable = getenv("RM09_F16X_SIM");
++    if (!enable || strcmp(enable, "1") != 0 || !dst || dst->op != GGML_OP_MUL_MAT ||
++        strncmp(dst->name, "ffn_down-", 9) != 0) {
++        return -1;
++    }
++
++    char * end = NULL;
++    const long layer = strtol(dst->name + 9, &end, 10);
++    if (end == dst->name + 9 || *end != '\0' || layer < 0 || layer > 26) {
++        return -1;
++    }
++
++    char canonical[24];
++    snprintf(canonical, sizeof(canonical), "ffn_down-%ld", layer);
++    if (strcmp(canonical, dst->name) != 0) {
++        return -1;
++    }
++
++    const struct ggml_tensor * w = dst->src[0];
++    const struct ggml_tensor * x = dst->src[1];
++    if (!w || !x || w->type != GGML_TYPE_F16 || x->type != GGML_TYPE_F32 ||
++        dst->type != GGML_TYPE_F32 || w->ne[0] != 4304 || w->ne[1] != 1152 ||
++        w->ne[2] != 1 || w->ne[3] != 1 || x->ne[0] != 4304 || x->ne[1] < 1 ||
++        x->ne[2] != 1 || x->ne[3] != 1 || dst->ne[0] != 1152 ||
++        dst->ne[1] != x->ne[1] || dst->ne[2] != 1 || dst->ne[3] != 1 ||
++        !ggml_is_contiguous(w) || !ggml_is_contiguous(x) || !ggml_is_contiguous(dst)) {
++        return -1;
++    }
++
++    return (int) layer;
++}
++
+ #ifdef GGML_USE_OPENMP
+ #include <omp.h>
+ #endif
+@@ -1263,6 +1296,7 @@ void ggml_compute_forward_mul_mat(
+ 
+     const struct ggml_tensor * src0 = dst->src[0];
+     const struct ggml_tensor * src1 = dst->src[1];
++    const int rm09_f16x_layer = ggml_rm09_f16x_target_layer(dst);
+ 
+     const int32_t hint = ggml_get_op_params_i32(dst, 1);
+     if (hint == GGML_HINT_SRC0_IS_HADAMARD && !params->use_ref) {
+@@ -1275,6 +1309,19 @@ void ggml_compute_forward_mul_mat(
+     const int ith = params->ith;
+     const int nth = params->nth;
+ 
++    float * rm09_x_roundtrip_f32 = NULL;
++#if GGML_USE_LLAMAFILE && defined(__ARM_NEON)
++    if (rm09_f16x_layer >= 0) {
++        const int64_t nx = ggml_nelements(src1);
++        const float * x_f32 = (const float *) src1->data;
++        rm09_x_roundtrip_f32 = (float *) malloc((size_t) nx * sizeof(float));
++        GGML_ASSERT(rm09_x_roundtrip_f32 != NULL);
++        for (int64_t i = 0; i < nx; ++i) {
++            rm09_x_roundtrip_f32[i] = ggml_fp16_to_fp32(ggml_fp32_to_fp16(x_f32[i]));
++        }
++    }
++#endif
++
+     enum ggml_type           const vec_dot_type         = type_traits_cpu[src0->type].vec_dot_type;
+     ggml_from_float_t        const from_float           = type_traits_cpu[vec_dot_type].from_float;
+     int64_t                  const vec_dot_num_rows     = type_traits_cpu[src0->type].nrows;
+@@ -1306,20 +1353,38 @@ void ggml_compute_forward_mul_mat(
+     const bool src1_cont = ggml_is_contiguous(src1);
+ 
+     if (src1_cont) {
+-        for (int64_t i13 = 0; i13 < ne13; i13++)
+-            for (int64_t i12 = 0; i12 < ne12; i12++)
++        for (int64_t i13 = 0; i13 < ne13; i13++) {
++            for (int64_t i12 = 0; i12 < ne12; i12++) {
++                const char * x_data = rm09_x_roundtrip_f32 != NULL ?
++                    (const char *) rm09_x_roundtrip_f32 : (const char *) src1->data;
+                 if (!llamafile_sgemm(params,
+                                      ne01, ne11, ne00/ggml_blck_size(src0->type),
+                                      (const char *)src0->data + i12/r2*nb02 + i13/r3*nb03,
+                                      nb01/ggml_type_size(src0->type),
+-                                     (const char *)src1->data + i12*nb12 + i13*nb13,
++                                     x_data + i12*nb12 + i13*nb13,
+                                      nb11/ggml_type_size(src1->type),
+                                      (char *)dst->data + i12*nb2 + i13*nb3,
+                                      nb1/ggml_type_size(dst->type),
+                                      src0->type,
+                                      src1->type,
+-                                     dst->type))
++                                     dst->type)) {
++                    if (rm09_f16x_layer >= 0 && rm09_x_roundtrip_f32 != NULL) {
++                        GGML_ABORT("RM09 F16X candidate could not use the F32 llama-file path for layer %d",
++                                   rm09_f16x_layer);
++                    }
++                    if (rm09_f16x_layer >= 0 && ith == 0) {
++                        fprintf(stderr, "RM09_F16X_PATH layer=%d path=llamafile_fallback\n",
++                                rm09_f16x_layer);
++                    }
+                     goto UseGgmlGemm1;
++                }
++            }
++        }
++        if (rm09_f16x_layer >= 0 && ith == 0) {
++            fprintf(stderr, "RM09_F16X_APPLIED layer=%d path=llamafile_f32_f16_f32 K=4304 M=1152 N=%" PRId64 "\n",
++                    rm09_f16x_layer, src1->ne[1]);
++        }
++        free(rm09_x_roundtrip_f32);
+         return;
+     }
+ UseGgmlGemm1:;
+@@ -1355,12 +1420,28 @@ UseGgmlGemm1:;
+                     size_t bs = ggml_blck_size(vec_dot_type);
+                     int64_t ne10_block_start = (ith * ne10/bs) / nth;
+                     int64_t ne10_block_end   = ((ith + 1) * ne10/bs) / nth;
+-                    const char * src1_block = (const char *) src1->data + i13*nb13 + i12*nb12 + i11*nb11 + ne10_block_start*bs*nb10;
++                    const char * src1_data = rm09_x_roundtrip_f32 != NULL ?
++                        (const char *) rm09_x_roundtrip_f32 : (const char *) src1->data;
++                    const char * src1_block = src1_data + i13*nb13 + i12*nb12 + i11*nb11 + ne10_block_start*bs*nb10;
+                     char * dst_block = wdata + i13*nbw3 + i12*nbw2 + i11*nbw1 + ne10_block_start*nbw0;
+                     const int64_t n_block = (ne10_block_end - ne10_block_start) * bs;
+ 
+                     if (src1->type == GGML_TYPE_F32) {
+-                        from_float((const float *) src1_block, dst_block, n_block);
++                        if (rm09_f16x_layer >= 0) {
++                            GGML_ASSERT(vec_dot_type == GGML_TYPE_F16 || vec_dot_type == GGML_TYPE_F32);
++                            if (vec_dot_type == GGML_TYPE_F16) {
++                                ggml_fp32_to_fp16_row((const float *) src1_block,
++                                                      (ggml_fp16_t *) dst_block, n_block);
++                            } else {
++                                from_float((const float *) src1_block, dst_block, n_block);
++                                float * x_f32 = (float *) dst_block;
++                                for (int64_t i = 0; i < n_block; ++i) {
++                                    x_f32[i] = ggml_fp16_to_fp32(ggml_fp32_to_fp16(x_f32[i]));
++                                }
++                            }
++                        } else {
++                            from_float((const float *) src1_block, dst_block, n_block);
++                        }
+                     } else {
+                         ggml_cpu_fp16_to_fp32((const ggml_fp16_t *) src1_block, (float *) dst_block, n_block);
+                     }
+@@ -1368,6 +1449,10 @@ UseGgmlGemm1:;
+             }
+         }
+     #endif
++        if (rm09_f16x_layer >= 0 && ith == 0) {
++            fprintf(stderr, "RM09_F16X_APPLIED layer=%d path=ggml_cpu_scratch dot=%d K=4304 M=1152 N=%" PRId64 "\n",
++                    rm09_f16x_layer, vec_dot_type, src1->ne[1]);
++        }
+     }
+ 
+     if (ith == 0) {
+-- 
+2.43.0
+

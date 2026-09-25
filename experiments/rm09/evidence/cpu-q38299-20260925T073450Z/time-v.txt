@@ -1,0 +1,25 @@
+	Command being timed: "/usr/bin/timeout --signal=TERM --kill-after=15s 1500s /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/llama-mtmd-cli -m /home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf --mmproj /home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf --image /home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/61715b8521ae5d6a.jpg -p Answer the following question based only on the image. Give a short, direct answer.
+Question: what is the last number to the right?
+Answer: -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4"
+	User time (seconds): 1414.33
+	System time (seconds): 6.48
+	Percent of CPU this job got: 385%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:08.19
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1855764
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 510
+	Minor (reclaiming a frame) page faults: 366314
+	Voluntary context switches: 1679
+	Involuntary context switches: 152629
+	Swaps: 0
+	File system inputs: 10936
+	File system outputs: 120
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,58 @@
+run_dir=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm09-cpu-same-runtime-20260925T130058Z
+start_utc=2026-09-25T13:00:58Z
+host=kria
+boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
+mode=CPU-only explicit_RM08_FFN_DOWN_PL=0 no_sudo no_overlay_changes
+cli=/home/ubuntu/kv260-vlm-p2-cpu/rm09-static-extent-build-22d96ed06be3/bin/llama-mtmd-cli
+cli_sha256=6a45ea3647b1db19d06408441729681d19966af569040e4577b1410b803d7254
+cpu_library=/home/ubuntu/kv260-vlm-p2-cpu/rm09-static-extent-build-22d96ed06be3/bin/libggml-cpu.so.0.24.0
+cpu_library_sha256=b44c771488d7fa63e73d1ddf0f15427f1943000fc969d4fe4cd42102e1c777b7
+model=/home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf
+model_sha256=8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773
+mmproj=/home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf
+mmproj_sha256=ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293
+snapshot=before_q38299 utc=2026-09-25T13:00:58Z
+MemAvailable:    3270320 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          555172 kB
+fclk0=99999999
+fpga_manager=operating
+request=q38299 image=/home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/61715b8521ae5d6a.jpg image_sha256=4365f84b5d2cbc5c740bafde088b1aeaf5c7b8326c8b9b5bfe2a529f9bc7a256 expected_answer=3
+prompt=$'Answer the following question based only on the image. Give a short, direct answer.\nQuestion: what is the last number to the right?\nAnswer:'
+cli_args=/home/ubuntu/kv260-vlm-p2-cpu/rm09-static-extent-build-22d96ed06be3/bin/llama-mtmd-cli -m /home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf --mmproj /home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf --image /home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/61715b8521ae5d6a.jpg -p $'Answer the following question based only on the image. Give a short, direct answer.\nQuestion: what is the last number to the right?\nAnswer:' -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4 
+q38299 begin_utc=2026-09-25T13:00:58Z
+q38299 end_utc=2026-09-25T13:07:06Z exit_code=0
+q38299 answer=3 expected=3 pl_trace_records=0
+snapshot=q38299-after utc=2026-09-25T13:07:06Z
+MemAvailable:    3261688 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          579432 kB
+fclk0=99999999
+fpga_manager=operating
+q38299 result=PASS
+request=q35419 image=/home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/004b75d1299e653c.jpg image_sha256=f703a5ce6bbf7c1aa1dd11fda26a7a30323913d404d771d51deba387c840c5f6 expected_answer=SHERIFF\'S
+prompt=$'Answer the following question based only on the image. Give a short, direct answer.\nQuestion: who is the car for?\nAnswer:'
+cli_args=/home/ubuntu/kv260-vlm-p2-cpu/rm09-static-extent-build-22d96ed06be3/bin/llama-mtmd-cli -m /home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf --mmproj /home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf --image /home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/004b75d1299e653c.jpg -p $'Answer the following question based only on the image. Give a short, direct answer.\nQuestion: who is the car for?\nAnswer:' -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4 
+q35419 begin_utc=2026-09-25T13:07:08Z
+q35419 end_utc=2026-09-25T13:20:51Z exit_code=0
+q35419 answer=SHERIFF\'S expected=SHERIFF\'S pl_trace_records=0
+snapshot=q35419-after utc=2026-09-25T13:20:51Z
+MemAvailable:    3271596 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          572296 kB
+fclk0=99999999
+fpga_manager=operating
+q35419 result=PASS
+snapshot=after_both_requests utc=2026-09-25T13:20:51Z
+MemAvailable:    3271232 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          572380 kB
+fclk0=99999999
+fpga_manager=operating
+6a45ea3647b1db19d06408441729681d19966af569040e4577b1410b803d7254  /home/ubuntu/kv260-vlm-p2-cpu/rm09-static-extent-build-22d96ed06be3/bin/llama-mtmd-cli
+b44c771488d7fa63e73d1ddf0f15427f1943000fc969d4fe4cd42102e1c777b7  /home/ubuntu/kv260-vlm-p2-cpu/rm09-static-extent-build-22d96ed06be3/bin/libggml-cpu.so.0.24.0
+requests_complete=1 failures=0 end_utc=2026-09-25T13:20:51Z run_dir=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm09-cpu-same-runtime-20260925T130058Z

@@ -1,0 +1,116 @@
+RM08_PL_CALL layer=ffn_down-0 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1056 dtype=f16/f32/f32 wall_ms=0.005
+RM08_PL_CALL layer=ffn_down-1 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1056 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-2 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1056 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-3 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1056 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-4 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1056 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-5 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1056 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-6 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1056 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=17216 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-7 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-8 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-9 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-10 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-11 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-12 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-13 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-14 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-15 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-16 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-17 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-18 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-19 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-20 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-21 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-22 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-23 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-24 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-25 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-26 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=264 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=4608 M=1024 N=66 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-0 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-1 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-2 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-3 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-4 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-5 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-6 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=17216 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-7 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-8 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-9 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-10 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-11 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-12 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-13 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-14 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-15 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-16 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-17 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-18 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-19 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-20 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-21 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-22 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-23 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-24 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-25 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-26 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=4608 M=1024 N=64 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-0 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-1 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-2 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-3 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-4 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-5 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-6 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=1024 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=17216 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.005
+RM08_PL_CALL layer=ffn_down-7 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-8 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-9 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-10 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-11 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-12 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-13 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-14 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-15 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-16 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-17 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-18 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-19 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-20 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-21 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-22 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-23 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_CALL layer=ffn_down-24 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-25 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down-26 status=CPU_FALLBACK reason=layer_extent_mismatch K=4304 M=1152 N=256 dtype=f16/f32/f32 wall_ms=0.002
+RM08_PL_CALL layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=4608 M=1024 N=64 dtype=f16/f32/f32 wall_ms=0.003
+RM08_PL_SUMMARY expected_calls=81 expected_total_calls=87 actual_calls=87 expected_PL=81 actual_PL=0 cpu_fallbacks=87 expected_N1120=21 actual_N1120=0 expected_N280=60 actual_N280=0 expected_merger_cpu=6 merger_cpu=6 expected_vit_merger_cpu=3 vit_merger_cpu=0 expected_mm_down_cpu=3 mm_down_cpu=0 expectation_enabled=1 matches_expected=0 media_groups=3 wall_ms=0.193 pack_ms=0.000 sync_to_ms=0.000 sync_from_ms=0.000 submit_ms=0.000 kernel_ms=0.000 unpack_ms=0.000 input_bytes=0 output_bytes=0 stage_commands=0 compute_commands=0 pool_bytes=1671168
+RM08_PL_LAYER layer=0 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=1 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=2 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=3 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=4 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=5 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=6 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=7 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=8 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=9 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=10 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=11 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=12 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=13 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=14 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=15 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=16 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=17 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=18 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=19 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=20 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=21 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=22 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=23 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=24 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=25 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_LAYER layer=26 expected=3 calls=3 pl=0 cpu_fallback=3
+RM08_PL_FALLBACK_REASONS merger=6 name=0 dtype=0 shape=0 output_shape=0 extent=81 layout=0 init=0 exec=0 other=0

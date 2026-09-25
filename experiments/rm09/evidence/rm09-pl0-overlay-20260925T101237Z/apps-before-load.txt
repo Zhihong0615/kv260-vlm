@@ -1,0 +1,5 @@
+                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1
+kv260-rm07-bounded-k16-pl0-187m5            XRT_FLATkv260-rm07-bounded-k16-pl0-187m5            XRT_FLAT               (0+0)                  -1
