@@ -14,6 +14,7 @@ readonly helper=$board_root/rm08-build-1a90d48/bin/rm08-ffn-down-helper-smoke
 readonly tensor_dir=/tmp/rm08-deploy/tensors
 readonly diagnostics_script=/tmp/rm09-clock-diagnostics.sh
 readonly restore_script=/tmp/rm09-restore-starter-kit.sh
+readonly cpu_pair_lock=/tmp/rm09-f16x/cpu-pair-active
 readonly diagnostics_sha_expected=3f77d1b8cc7ba0ecce195aacce5c6e9d125d38bb3e7d48eb937895ad74586058
 readonly restore_sha_expected=ef428ea3e9215897310cfeaa5d79a4be320005ac8bbd6655c8505f2a9abe7e23
 readonly app_bin_sha=b8ba3e533b96e84f8cbb23acc8808146286671ccced979c9381f9afe9ddfbc60
@@ -41,6 +42,10 @@ for script_and_sha in "$diagnostics_script:$diagnostics_sha_expected" "$restore_
   }
 done
 [[ -x "$cli" && -x "$helper" && -x /usr/bin/time && -x "$(command -v timeout)" ]]
+if [[ -e "$cpu_pair_lock" ]]; then
+  echo "ERROR: RM09 CPU-only P0/P1 pair is active; refusing an overlapping PL app load" >&2
+  exit 1
+fi
 [[ "$(sha256sum "$cli" | awk '{print $1}')" == "$cli_sha" ]]
 [[ "$(sha256sum "$model" | awk '{print $1}')" == "$model_sha" ]]
 [[ "$(sha256sum "$mmproj" | awk '{print $1}')" == "$mmproj_sha" ]]
