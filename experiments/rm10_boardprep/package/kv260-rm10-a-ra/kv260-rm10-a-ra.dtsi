@@ -1,0 +1,43 @@
+// SPDX-License-Identifier: GPL-2.0
+/* RM10 static-extent K16 full PL application for the KV260 starter-kit flat-app manager. */
+/dts-v1/;
+/plugin/;
+
+&fpga_full {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	firmware-name = "kv260-rm10-a-ra.bit.bin";
+	resets = <&zynqmp_reset 116>, <&zynqmp_reset 117>,
+		 <&zynqmp_reset 118>, <&zynqmp_reset 119>;
+};
+
+&amba {
+	#address-cells = <2>;
+	#size-cells = <2>;
+
+	/* Use the board's existing 100 MHz PL0; this overlay does not retune clocks. */
+	afi0: afi0 {
+		compatible = "xlnx,afi-fpga";
+		config-afi = <0 0>, <1 0>, <2 0>, <3 0>,
+			     <4 0>, <5 0>, <6 0>, <7 0>,
+			     <8 0>, <9 0>, <10 0>, <11 0>,
+			     <12 0>, <13 0>, <14 0>, <15 0>;
+	};
+
+	/* UIO uses the board's existing uio_pdrv_genirq.of_id=generic-uio. */
+	rm10_apm: axi_perf_mon@a0000000 {
+		compatible = "generic-uio";
+		linux,uio-name = "axi_perf_mon_0";
+		reg = <0x0 0xa0000000 0x0 0x10000>;
+		clocks = <&zynqmp_clk 71>;
+		clock-names = "s_axi_aclk";
+	};
+
+	rm10_ffn: vision_ffn_down_tile@a0010000 {
+		compatible = "xlnx,vision-ffn-down-tile-1.0", "generic-uio";
+		linux,uio-name = "vision_ffn_down_tile_0";
+		reg = <0x0 0xa0010000 0x0 0x10000>;
+		clocks = <&zynqmp_clk 71>;
+		clock-names = "ap_clk";
+	};
+};
