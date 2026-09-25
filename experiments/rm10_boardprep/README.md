@@ -1,6 +1,6 @@
 # RM10 board-preparation package
 
-This worktree contains a guarded board procedure for the corrected RM10 A route. The first route is explicitly invalid for board use: its dependence schedule showed the accumulator load at `ST_26` and store at `ST_35` despite a declared distance of five. No provisional RM10 bitstream is included or staged. The already-known-good RM09 static-control `.bit.bin` is staged for a possible paired control but ignored by Git's `*.bin` rule; its pinned SHA is `819b088199ac4346c1eb9b7bb65ade42afe8f95eaeec02cca4bc6bdd2bb0d87b`.
+This worktree contains a guarded board procedure for the corrected RM10 A route. The first route is explicitly invalid for board use: its dependence schedule showed the accumulator load at `ST_26` and store at `ST_35` despite a declared distance of five. The corrected candidate now passes numeric evaluation and RTL co-simulation; full implementation closed at 100 MHz with WNS `+3.563 ns`, WHS `+0.010 ns`, and no congestion windows above level 5. The already-known-good RM09 static-control `.bit.bin` is staged for a possible paired control but ignored by Git's `*.bin` rule; its pinned SHA is `819b088199ac4346c1eb9b7bb65ade42afe8f95eaeec02cca4bc6bdd2bb0d87b`.
 
 ## Frozen inputs
 
@@ -13,7 +13,14 @@ This worktree contains a guarded board procedure for the corrected RM10 A route.
 
 ## Corrected-route gate and run order
 
-Do not run either board script until the scheduler authorizes the exact corrected `.bit.bin` SHA and rollback plan. The candidate script currently fails closed with pending route identity fields. After corrected RTL schedule/dependence validation and route review, replace those fields with the route worker's exact source commit, IP ZIP SHA, XSA SHA, source `.bit` SHA, and Bootgen `.bit.bin` SHA. Place only the matching `.bit`, `.bit.bin`, plus the hash-checked RM10 DTBO and `shell.json` under `/tmp/rm10-boardprep/package/kv260-rm10-a-ra/`. Recompute the DTBO/package checksum file only if the route worker changes those files.
+The candidate script is pinned to the corrected route, but remains subject to exact-SHA scheduler authorization before any board load:
+
+- Source/IP commit `3602eafa7de5cee187b79f8e28c186a19f6f6133`; source SHA-256 `31a7b26f9bf28c0ad57892184ed30b42126162111fe4c4bda82aa7847754319a`.
+- IP `component.xml` SHA-256 `fae7fde4af5b3f5a1237d5e7717ea97622a9a8c6107ba96c97bfe6bb19feda56`; exported IP ZIP SHA-256 `b54c4ac0a15dc4501c3d1d470eeb2664fe9e2e60cf0d9ba7a0cfd9fdcca82e6b`.
+- Routed `.bit` SHA-256 `18ba853551f85ce1814332eacd370264696a93423fbf5a408e028b307c18ac23`; XSA SHA-256 `a85ff605c6e5dbe52a4e413ce38499b70d6c1bc857509ff5433d1f03f5934e0b`.
+- Bootgen v2024.2 output `.bit.bin` SHA-256 `722387cc80b345f0b7b29bdffe61911707cf12c5c25e42867d339b4a0c6fb5d7` (generated from the packaged relative-path BIF).
+
+The package preserves the `.bit`, `.bit.bin`, and BIF recipe with a checksum manifest. Do not substitute a different image or alter these pins. The RM10 DTBO and `shell.json` hashes remain the checked template hashes.
 
 Stage the package and helpers without root privileges. Only after exact-SHA authorization, invoke the integrated candidate procedure from the board's terminal:
 

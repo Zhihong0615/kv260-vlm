@@ -28,8 +28,8 @@ readonly cpu_pair_lock=/tmp/rm09-f16x/cpu-pair-active
 
 # These identity fields stay pending until recurrence validation and the
 # corrected route complete. Never reuse the provisional first-route image.
-readonly app_bit_source_sha=__RM10_CORRECTED_ROUTE_BIT_SHA_PENDING__
-readonly app_bin_sha=__RM10_CORRECTED_ROUTE_BIT_BIN_SHA_PENDING__
+readonly app_bit_source_sha=18ba853551f85ce1814332eacd370264696a93423fbf5a408e028b307c18ac23
+readonly app_bin_sha=722387cc80b345f0b7b29bdffe61911707cf12c5c25e42867d339b4a0c6fb5d7
 readonly app_dtbo_sha=8d689efec80db0cb800fd71848bbfde2277b0e492333a01ddba6b606414d3b2b
 readonly app_json_sha=802dbc8b3f118313a5a74df46f56dc550a61b687dfd484fc6a8fd5ac7895c344
 readonly runtime_manifest_sha=e35e0b1ff5ae5c3630af49c20f5494dd5ce82753f33374b216c36ac1b1cb95a9
@@ -42,9 +42,11 @@ readonly bench_sha=c687a693d20a95c81787754aa07b49f51e3cf868116f8652aa22f6d4f30ac
 readonly diagnostics_sha=3f77d1b8cc7ba0ecce195aacce5c6e9d125d38bb3e7d48eb937895ad74586058
 readonly restore_sha=ef428ea3e9215897310cfeaa5d79a4be320005ac8bbd6655c8505f2a9abe7e23
 readonly tensor_manifest_sha=fb842b9f72f2c079b78868d293eaa77d2cc4a44e351a92d4f70be580b6f0109d
-readonly route_source_commit=__RM10_CORRECTED_SOURCE_COMMIT_PENDING__
-readonly route_ip_zip_sha=__RM10_CORRECTED_IP_ZIP_SHA_PENDING__
-readonly route_xsa_sha=__RM10_CORRECTED_XSA_SHA_PENDING__
+readonly route_source_commit=3602eafa7de5cee187b79f8e28c186a19f6f6133
+readonly route_source_sha=31a7b26f9bf28c0ad57892184ed30b42126162111fe4c4bda82aa7847754319a
+readonly route_ip_zip_sha=b54c4ac0a15dc4501c3d1d470eeb2664fe9e2e60cf0d9ba7a0cfd9fdcca82e6b
+readonly ip_component_sha=fae7fde4af5b3f5a1237d5e7717ea97622a9a8c6107ba96c97bfe6bb19feda56
+readonly route_xsa_sha=a85ff605c6e5dbe52a4e413ce38499b70d6c1bc857509ff5433d1f03f5934e0b
 readonly route_ceiling_hz=100000000
 readonly bounded_pool_bytes=1671168
 readonly cma_margin_kb=8192
@@ -56,7 +58,7 @@ die() { echo "ERROR: $*" >&2; exit 1; }
 sha256_of() { sha256sum "$1" | awk '{print $1}'; }
 
 [[ "$app_bit_source_sha" =~ ^[0-9a-f]{64}$ && "$app_bin_sha" =~ ^[0-9a-f]{64}$ ]] || die "route image hashes are pending; no app operation allowed"
-[[ "$route_source_commit" =~ ^[0-9a-f]{7,40}$ && "$route_ip_zip_sha" =~ ^[0-9a-f]{64}$ && "$route_xsa_sha" =~ ^[0-9a-f]{64}$ ]] || die "corrected route source/IP/XSA identity is pending; no app operation allowed"
+[[ "$route_source_commit" =~ ^[0-9a-f]{7,40}$ && "$route_source_sha" =~ ^[0-9a-f]{64}$ && "$route_ip_zip_sha" =~ ^[0-9a-f]{64}$ && "$ip_component_sha" =~ ^[0-9a-f]{64}$ && "$route_xsa_sha" =~ ^[0-9a-f]{64}$ ]] || die "corrected route source/IP/XSA identity is pending; no app operation allowed"
 if [[ "$(id -u)" -ne 0 || "$#" -ne 0 ]]; then
   echo "Usage: sudo bash $0" >&2
   exit 2
@@ -135,7 +137,7 @@ mkdir -m 0755 -- "$run_dir"
 exec > >(tee -a "$run_dir/driver.log") 2>&1
 echo "run_dir=$run_dir"
 echo "host=$(hostname) utc=$(date -u +%FT%TZ) boot_id=$(cat /proc/sys/kernel/random/boot_id)"
-echo "rm10_source_commit=$route_source_commit ip_zip_sha256=$route_ip_zip_sha xsa_sha256=$route_xsa_sha"
+echo "rm10_source_commit=$route_source_commit source_sha256=$route_source_sha ip_component_sha256=$ip_component_sha ip_zip_sha256=$route_ip_zip_sha xsa_sha256=$route_xsa_sha"
 echo "rm10_bit_sha256=$app_bit_source_sha bit_bin_sha256=$app_bin_sha dtbo_sha256=$app_dtbo_sha shell_json_sha256=$app_json_sha"
 echo "runtime=RM09 CLI_sha256=$cli_sha CPU_library_sha256=$cpu_lib_sha runtime_manifest_sha256=$runtime_manifest_sha"
 echo "model_sha256=$model_sha mmproj_sha256=$mmproj_sha image_sha256=$image_sha_expected"

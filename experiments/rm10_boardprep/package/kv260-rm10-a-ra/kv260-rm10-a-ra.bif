@@ -1,0 +1,4 @@
+all:
+{
+  [destination_device = pl] kv260-rm10-a-ra.bit
+}
