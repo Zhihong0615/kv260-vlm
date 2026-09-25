@@ -1,0 +1,66 @@
+Fri Sep 25 06:06:33 AM UTC 2026
+    TID STAT     TIME WCHAN                        COMMAND
+ 190661 Sl   00:04:12 futex_wait_queue_me          llama-mtmd-cli
+ 190663 Sl   00:00:00 futex_wait_queue_me          llama-mtmd-cli
+ 190676 Sl   00:02:16 futex_wait_queue_me          llama-mtmd-cli
+ 190677 Sl   00:02:16 futex_wait_queue_me          llama-mtmd-cli
+ 190678 Sl   00:02:16 futex_wait_queue_me          llama-mtmd-cli
+[New LWP 190663]
+[New LWP 190676]
+[New LWP 190677]
+[New LWP 190678]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/aarch64-linux-gnu/libthread_db.so.1".
+syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+38	../sysdeps/unix/sysv/linux/aarch64/syscall.S: No such file or directory.
+
+Thread 5 (Thread 0xfffeeca3c3e0 (LWP 190678) "llama-mtmd-cli"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffff97a7e780 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffff97a7ba34 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffff982203c8 in start_thread (arg=0x80ac20) at ./nptl/pthread_create.c:442
+#4  0x0000ffff98289fdc in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 4 (Thread 0xfffeed24c3e0 (LWP 190677) "llama-mtmd-cli"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffff97a7e780 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffff97a7ba34 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffff982203c8 in start_thread (arg=0x80ac20) at ./nptl/pthread_create.c:442
+#4  0x0000ffff98289fdc in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 3 (Thread 0xfffeeda5c3e0 (LWP 190676) "llama-mtmd-cli"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffff97a7e780 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffff97a7ba34 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#3  0x0000ffff982203c8 in start_thread (arg=0x80ac20) at ./nptl/pthread_create.c:442
+#4  0x0000ffff98289fdc in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 2 (Thread 0xffff9783b3e0 (LWP 190663) "llama-mtmd-cli"):
+#0  __futex_abstimed_wait_common64 (private=0, cancel=true, abstime=0x0, op=393, expected=0, futex_word=0xaaaaf199f244) at ./nptl/futex-internal.c:57
+#1  __futex_abstimed_wait_common (cancel=true, private=0, abstime=0x0, clockid=0, expected=0, futex_word=0xaaaaf199f244) at ./nptl/futex-internal.c:87
+#2  __GI___futex_abstimed_wait_cancelable64 (futex_word=futex_word@entry=0xaaaaf199f244, expected=expected@entry=0, clockid=clockid@entry=0, abstime=abstime@entry=0x0, private=private@entry=0) at ./nptl/futex-internal.c:139
+#3  0x0000ffff9821f6c4 in __pthread_cond_wait_common (abstime=0x0, clockid=0, mutex=0xaaaaf199f1e0, cond=0xaaaaf199f218) at ./nptl/pthread_cond_wait.c:503
+#4  ___pthread_cond_wait (cond=0xaaaaf199f218, mutex=0xaaaaf199f1e0) at ./nptl/pthread_cond_wait.c:627
+#5  0x0000ffff98e25114 in std::thread::_State_impl<std::thread::_Invoker<std::tuple<common_log::resume()::{lambda()#1}> > >::_M_run() () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libllama-common.so.0
+#6  0x0000ffff984529cc in ?? () from /lib/aarch64-linux-gnu/libstdc++.so.6
+#7  0x0000ffff982203c8 in start_thread (arg=0x80ac20) at ./nptl/pthread_create.c:442
+#8  0x0000ffff98289fdc in thread_start () at ../sysdeps/unix/sysv/linux/aarch64/clone.S:79
+
+Thread 1 (Thread 0xffff98a3a020 (LWP 190661) "llama-mtmd-cli"):
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000ffff97a7e780 in ?? () from /lib/aarch64-linux-gnu/libgomp.so.1
+#2  0x0000ffff97b6108c in void (anonymous namespace)::tinyBLAS<4, __Float32x4_t, __Float32x4_t, unsigned short, float, float>::gemm<4, 6, 4>(long, long, long) [clone .constprop.0] () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0
+#3  0x0000ffff97b6d1e0 in llamafile_sgemm () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0
+#4  0x0000ffff97ad9fcc in ggml_compute_forward_mul_mat () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0
+#5  0x0000ffff97adc4f0 in ggml_graph_compute_thread.isra () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0
+#6  0x0000ffff97a73b44 in GOMP_parallel () from /lib/aarch64-linux-gnu/libgomp.so.1
+#7  0x0000ffff97add0fc in ggml_graph_compute () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0
+#8  0x0000ffff97add58c in ggml_backend_cpu_graph_compute(ggml_backend*, ggml_cgraph*) () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-cpu.so.0
+#9  0x0000ffff98606f44 in ggml_backend_sched_graph_compute_async () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-base.so.0
+#10 0x0000ffff98607184 in ggml_backend_sched_graph_compute () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libggml-base.so.0
+#11 0x0000ffff98b17af8 in clip_encode(clip_ctx*, clip_encode_params*) () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libmtmd.so.0
+#12 0x0000ffff98b21044 in clip_image_batch_encode(clip_ctx*, int, clip_image_f32_batch const*, std::vector<float, std::allocator<float> >&) () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libmtmd.so.0
+#13 0x0000ffff98a81fa8 in mtmd_encode_impl(mtmd_context*, mtmd_image_tokens const*, std::vector<float, std::allocator<float> >&) () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libmtmd.so.0
+#14 0x0000ffff98a84554 in mtmd_batch_encode () from /home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/libmtmd.so.0
+#15 0x0000aaaac6326488 in eval_message(mtmd_cli_context&, common_chat_msg&) ()
+[Inferior 1 (process 190661) detached]

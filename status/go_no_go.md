@@ -1,11 +1,11 @@
 # Research go/no-go
 
-> **Latest stage decision (RM07, 2026-09-24): `GO_BOARD_FFN_FAMILY` for a gated board measurement.** A single routed K16 image supports `N=1120` and `N=280`; real-tensor C-simulation passed sampled output regions; a calculated single staging pool is 1.594 MiB page-rounded; full-system Vivado route/bitgen passed at 187.512 MHz with WNS +0.425 ns and CLB-site occupancy 88.36%. The conservative serialized 0.5 GB/s model estimates 173.802 s for the 135-call family versus 250.124 s CPU, before PS packing and submit/sync. No bitstream has been loaded, and no PS-side runtime, board PL latency, DDR bandwidth, or full-tensor quality has been measured. The recovery route is unverified, so board loading remains gated. No novelty claim is made. Full evidence: [`RM07_RESULTS.md`](../experiments/rm07/RM07_RESULTS.md).
+> **Latest stage decision (RM08, 2026-09-25): `GO_VLM_INTEGRATION` confirmed.** The real KV260 MiniCPM-V QID 37804 request completed in **522.34 s** with 135 actual transformer FFN-down PL calls, 10 explicit out-of-scope CPU fallbacks, unchanged answer `G`, and successful starter-kit restore. The frozen four-thread CPU-only request took 668.35 s: **1.280× end-to-end speedup**, 21.85% lower wall time. The 135 PL calls took 99.667 s versus 250.124 s CPU family time (2.510×). Amdahl predicted 517.893 s from the measured family time; actual residual was 4.45 s. This is a strong static accelerator result; a distinct architecture novelty remains unproven. See [`RM08_RESULTS.md`](../experiments/rm08/RM08_RESULTS.md).
 
-Updated: 2026-09-24
-Decision: **GO_BOARD_FFN_FAMILY (RM07 measured-load candidate only); P3 method novelty remains unproven**
+Updated: 2026-09-25
+Decision: **GO_VLM_INTEGRATION (real full request passed); P3 method novelty remains unproven**
 
-The sections below retain prior-stage context. In particular, the earlier RM05 instruction not to start accelerator/bitstream work is superseded by RM07's completed local HLS, system route, and bitgen feasibility work. RM07 does not authorize programming the board; that remains gated on a verified recovery path.
+The sections below retain prior-stage context and must not be read as current RM08 board status. RM08 has now completed first load, standalone real-tensor benchmarking, and an actual MiniCPM-V PS+PL request. The next research decision should use the measured 4.45 s Amdahl residual and remaining vision time, with this FFN-down engine as the static baseline.
 
 The older reasons, evidence rows, and P3 reconsideration conditions below are historical context. Use the RM07 decision and result page above for current accelerator status.
 
