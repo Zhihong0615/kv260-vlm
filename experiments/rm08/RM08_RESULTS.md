@@ -1,25 +1,26 @@
 # RM08 — First real PL bring-up and FFN-down boundary
 
 Status: package, target-built benchmark runner, real tensor staging, and
-no-PL buffer/API probes are prepared. No RM07 bitstream has been loaded yet;
-board kernel remains on the starter-kit image.
+no-PL buffer/API probes are prepared. The RM07 flat-app files are installed on
+the writable root filesystem, but no successful RM07 UIO/AXI-Lite smoke or
+tensor benchmark has been captured. Latest board observation shows FPGA
+manager `operating` and no RM07 UIO device.
 
 ## Latest board state via direct SSH
 
-Captured at `2026-09-25T02:30:37Z` UTC:
+Captured at `2026-09-25T02:37:49Z` UTC:
 
 - Host `kria`, boot ID `2a931c48-99ad-4a3f-b3e1-f42634597098`.
 - Ubuntu 22.04.4, kernel `5.15.0-1027-xilinx-zynqmp`, root `/dev/mmcblk1p2`.
-- The prior elevated `xmutil listapps` check at 02:27:04Z showed
-  `k26-starter-kits`, XRT_FLAT, active slot 0, zero DFX slots. The latest
-  non-root query was denied access to the DFX manager socket; FPGA manager
-  state remains readable as `operating`.
+- The latest elevated `xmutil listapps` check, before the smoke attempt, showed
+  `k26-starter-kits` active and RM07 listed as an available XRT_FLAT app. A
+  later non-root query was denied access to the DFX manager socket. Current
+  direct checks show FPGA manager `operating` and no RM07 UIO device.
 - XRT `2.13.479-0ubuntu2`, device reports KV260 and 4 GiB DDR.
-- Latest readiness snapshot: `MemAvailable=3,308,776 kB`,
-  `CmaTotal=1,024,000 kB`, `CmaFree=544,488 kB`.
-- `k26-starter-kits` is still the active app, FPGA manager is `operating`, and
-  the RM08 firmware directory is not installed yet. Root/QSPI/SD firmware
-  files were not modified.
+- Latest readiness snapshot: `MemAvailable=3,295,496 kB`,
+  `CmaTotal=1,024,000 kB`, `CmaFree=534,768 kB`.
+- The RM07 package directory exists under `/lib/firmware/xilinx/`; boot
+  firmware, QSPI, and SD boot files were not modified. RM07 UIO is absent.
 - No apt/dpkg, VLM, XRT, or Vitis work was active in the readiness check. The
   matching `pgrep` output contained only the readiness shell itself.
 - `sudo` is password-required except `xmutil listapps`; the first-load script
@@ -84,14 +85,15 @@ Probe output: `evidence/xrt_bo_probe_20260925.log`.
   35×N=1120 plus 100×N=280 representative-tensor schedule replay. The latter
   is explicitly not all 27 distinct layer payloads.
 - Direct SSH reached the board, but `sudo` requires interactive authentication.
-  Two elevated entrypoint invocations stopped at the DTBO checksum check,
-  before copying anything into `/lib/firmware` or changing PL state. The cause
-  was a single-character typo in the script's expected DTBO SHA256 (`e` instead
-  of `f`). The package itself matched its manifest. The script is corrected
-  and restaged; the board-side manifest check passes for all three files. The
-  board still reports FPGA manager `operating` and no RM08 firmware directory
-  installed.
-  `sudo -n` is not available from a separate SSH session, so retry
+  The first two elevated attempts stopped on a one-character DTBO digest typo
+  (`e` instead of `f`). After correction, a third attempt passed all three
+  hashes and `xmutil listapps` exposed the candidate app. It then exited before
+  the load/restore timer was armed. The `/tmp/rm08-watchdog-check` marker
+  appeared after the script's original five-second self-test window, pointing
+  to timer scheduling jitter as the likely stop point. No RM07 UIO device is
+  present now. The smoke script now logs all commands and waits up to 30
+  seconds for that timer self-test; its corrected version is staged on the
+  board. `sudo -n` is not available from a separate SSH session, so retry
   the entrypoint from the user's own terminal with
   `ssh -tt kria 'sudo bash /tmp/rm08-deploy/ssh_entrypoint.sh'` and enter the
   board password there. No password is needed in chat.

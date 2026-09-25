@@ -1,13 +1,16 @@
-2026-09-25T02:30:37Z
+2026-09-25T02:37:49Z
 boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
 fpga_manager=operating
-MemAvailable:    3308776 kB
+MemAvailable:    3295496 kB
 CmaTotal:        1024000 kB
-CmaFree:          544488 kB
-firmware_installed=NO
+CmaFree:          534768 kB
+rm07_app_files_installed=YES
+rm07_uio_present=NO
 
 Previous elevated snapshot at 2026-09-25T02:27:04Z confirmed
 k26-starter-kits active, XRT_FLAT slot 0, and all package SHA256SUMS OK.
 Current non-root xmutil query is unavailable (DFX manager socket permission
 denied); FPGA manager state and memory counters remain readable over SSH.
-The corrected launcher was staged after the repeated checksum failure.
+Corrected diagnostic launcher staged; it waits up to 30 seconds for the timer
+self-test and logs the first failing command. Last app attempt did not leave an
+RM07 UIO node or proceed to board benchmarks.
