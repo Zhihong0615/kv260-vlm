@@ -1,8 +1,8 @@
 # RM10 A revision: ten-bank recurrence fix
 
-Status: ten-bank source is frozen in this commit. HLS C-sim, HLS synthesis, and
-full-top C/RTL co-simulation pass. Full-tensor numeric gate for the changed
-10-bank reduction order is pending; route/board measurements are not claimed.
+Status: ten-bank source is frozen in this commit. HLS C-sim, HLS synthesis,
+full-top C/RTL co-simulation, and the full-tensor numeric gate pass.
+Route/board measurements are not claimed here.
 
 ## Correctness audit and repair
 
@@ -64,10 +64,20 @@ batches per activation tile. It excludes host/driver gaps and AXI backpressure.
 ## Numerical status
 
 F16 weights, F32 activations, and F32 accumulation/output are unchanged. The
-10-bank balanced reduction order differs from the prior five-bank evaluator;
-therefore its prior numeric metrics are not reused. The exact real-tensor gate
-for layers 0/13/26 is pending and must pass max abs <= 1e-3, RMSE <= 1e-4,
-cosine >= 0.999 before board use.
+exact real-tensor evaluator uses the ten-bank mapping and reduction order, with
+`-fno-fast-math -ffp-contract=off`. All three captured tensors pass the frozen
+gate (max abs <= 1e-3, RMSE <= 1e-4, cosine >= 0.999).
+
+| Tensor | Max abs | RMSE | Cosine | Gate |
+|---|---:|---:|---:|---|
+| ffn_down-0 | 9.53674316e-6 | 1.75370962e-7 | 0.9999999999998500 | PASS |
+| ffn_down-13 | 2.19047070e-6 | 1.07185809e-7 | 0.9999999999998008 | PASS |
+| ffn_down-26 | 3.05175781e-4 | 5.29015367e-6 | 0.9999999999999630 | PASS |
+
+Metrics and error histogram are in `evidence/a_ra_fixed10/numeric/`; the exact
+evaluator is `source/reduction_probe_fixed10.cpp` and its reproduction wrapper
+is `scripts/run_rm10_a_fixed10_numeric.sh`. Input checksums are recorded in
+`evidence/a_ra_fixed10/numeric/capture_tensor_sha256.txt`.
 
 ## Frozen source and IP
 
