@@ -1,0 +1,33 @@
+RM08 integrated QID 37804 run
+============================
+
+Board run directory: /home/ubuntu/kv260-vlm-p2-cpu/runs/rm08-vlm-q37804-20260925T063228Z
+Boot ID: 2a931c48-99ad-4a3f-b3e1-f42634597098
+Request: 2026-09-25 06:33:34Z through 06:42:16Z
+Exit: 0; explicit starter-kit restore: PASS; FPGA manager after restore: operating
+Watchdog: 1500 s systemd restore timer armed before RM07 load
+
+Artifacts
+---------
+RM07 bitstream SHA-256: 1d537918b45bc9a53afb290beecda379918b7fd1a14374d6b5173358d8291942
+llama-mtmd-cli SHA-256: 73e4c8826a159e1bcf420b57cce20201353c611d57af15cdb6200f60ec5f00d0
+CPU runtime library SHA-256: 7351973a8d004b7380f27dd0849aa4d2965e4c91b9f473d99696efb8cbf2a265
+Model SHA-256: 8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773
+mmproj SHA-256: ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293
+Image SHA-256: 3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f
+
+Result
+------
+Full request elapsed: 522.34 s (`/usr/bin/time -v`), four A53 threads; output `G`, matching frozen CPU answer.
+Trace validation: PASS, 145 total operations = 135 PL + 10 explicit CPU fallbacks.
+PL shapes: 35 calls at K/M/N=4304/1152/1120 and 100 calls at 4304/1152/280; all 27 numbered layers executed 5 times, with no numbered-layer CPU fallback.
+Unnumbered fallbacks per media group: one ViT merger K/M/N=17216/1152/280 and one mm.down K/M/N=4608/1024/70; five of each.
+PL call wall sum: 99.666547 s; kernel: 86.546193 s; packing: 11.701990 s; unpacking: 1.167437 s; XRT sync-to/from: 0.093835/0.083503 s; AXI submit: 0.040940 s.
+Counters report 22.2292992 GB input + 0.3096576 GB output and a 1,671,168-byte bounded pool.
+Against the frozen 250.124 s CPU family time, measured PL family call wall is 2.510x faster. Amdahl prediction is 668.35 - 250.124 + 99.666547 = 517.893 s; measured 522.34 s, residual +4.45 s. End-to-end speedup vs frozen 668.35 s CPU-only request is 1.280x (21.85% lower wall time).
+
+Real tensor helper checks before full inference: PASS for layers 0, 13, 26. Max-absolute errors: 1.14440918e-5, 1.98930502e-6, 3.05175781e-4; RMSE: 1.80431792e-7, 1.08140651e-7, 5.31979913e-6; cosine: 0.999999999999816, 0.999999999999797, 0.999999999999931.
+
+Peak RSS: 1,866,380 KiB; swap use: 0. MemAvailable was 3,264,852 kB before request and 3,281,988 kB after request. Driver CmaFree snapshots: 704,780 kB before load, 661,068 kB before request, 674,272 kB after request, 684,484 kB after restore. Read-only polling during the request sampled CmaFree as low as 4,056 kB; this is a sampled minimum, not a guaranteed instantaneous minimum. CPU0 frequency was 1,333,333 kHz in driver snapshots. Temperature: not recorded.
+
+Raw files in this directory are copied from the board run directory; `driver.log` includes exact commands, artifact hashes, resource snapshots, trace checks, and restore result. `stderr.log`, `stdout.log`, `time-v.txt`, the complete `rm08_pl_trace.txt`, and real-tensor helper logs are preserved verbatim.
