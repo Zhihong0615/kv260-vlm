@@ -8,9 +8,9 @@
 - The captured boot ID is `2a931c48-99ad-4a3f-b3e1-f42634597098`; root is the
   writable SD root (`/dev/mmcblk1p2`). The exact A/B boot-firmware slot is
   UNKNOWN because `xmutil bootfw_status` requires interactive sudo.
-- Latest direct-SSH snapshot (2026-09-25 02:28:21 UTC):
-  `MemAvailable=3,303,964 kB`, `CmaTotal=1,024,000 kB`,
-  `CmaFree=547,248 kB`. FPGA manager state is `operating`. The last elevated
+- Latest direct-SSH snapshot (2026-09-25 02:30:37 UTC):
+  `MemAvailable=3,308,776 kB`, `CmaTotal=1,024,000 kB`,
+  `CmaFree=544,488 kB`. FPGA manager state is `operating`. The last elevated
   `xmutil listapps` check showed starter-kit active; unprivileged `xmutil`
   cannot access the DFX manager socket.
 - USB-UART is not connected. User selected direct SSH. RM08 does not modify
@@ -41,11 +41,12 @@ The prepared direct-SSH command is:
 ssh -tt kria 'sudo bash /tmp/rm08-deploy/ssh_entrypoint.sh'
 ```
 
-The app package, tensors, and benchmark binary are staged under `/tmp` only.
-This command needs the board user's interactive sudo password. RM08 has not
-loaded the PL image yet. The first attempt stopped at a DTBO hash error before
-any system-directory or PL change; follow-up SHA256SUMS verification passed.
-Rerun the command now that package hashes pass.
+The app package, tensors, benchmark binary, and corrected smoke script are
+staged under `/tmp` only. This command needs the board user's interactive sudo
+password. RM08 has not loaded the PL image yet. Two attempts stopped before
+any system-directory or PL change because the script had one incorrect DTBO
+hash digit (`e` instead of `f`). The script is corrected and the package
+manifest passes on the board. Rerun the command now.
 
 If the kernel/board itself stops responding, SSH and the timer cannot recover
 it; use a physical power cycle, which should return to the unchanged starter

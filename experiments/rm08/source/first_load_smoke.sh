@@ -21,7 +21,7 @@ test "$(cat /sys/class/fpga_manager/fpga0/state)" = operating
 grep -q "$base_app" "$log"
 
 expected_bin="b8ba3e533b96e84f8cbb23acc8808146286671ccced979c9381f9afe9ddfbc60"
-expected_dtbo="4fca210afb0258e7e67f6071a1d7d4c98681d60f847bfec5a3f00e0ab7c052d2"
+expected_dtbo="4fca210afb0258e7f67f6071a1d7d4c98681d60f847bfec5a3f00e0ab7c052d2"
 expected_json="802dbc8b3f118313a5a74df46f56dc550a61b687dfd484fc6a8fd5ac7895c344"
 printf '%s  %s\n' "$expected_bin" "$src_dir/$app.bit.bin" | sha256sum -c -
 printf '%s  %s\n' "$expected_dtbo" "$src_dir/$app.dtbo" | sha256sum -c -
