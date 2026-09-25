@@ -1,16 +1,164 @@
-From 0000000000000000000000000000000000000006 Mon Sep 17 00:00:00 2001
-From: Codex <codex@localhost>
-Date: Fri, 25 Sep 2026 15:00:00 +0800
-Subject: [PATCH] ggml: admit bounded observed FFN-down extents
-
----
- ggml/src/ggml-cpu/kv260_ffn_down.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
+diff --git a/ggml/src/ggml-cpu/CMakeLists.txt b/ggml/src/ggml-cpu/CMakeLists.txt
+index 0aca890..25c183e 100644
+--- a/ggml/src/ggml-cpu/CMakeLists.txt
++++ b/ggml/src/ggml-cpu/CMakeLists.txt
+@@ -691,6 +691,17 @@ function(ggml_add_cpu_backend_variant_impl tag_name)
+         set_target_properties(${GGML_CPU_NAME} PROPERTIES COMPILE_FLAGS "-msimd128")
+     endif()
+ 
++    if (GGML_KV260_XRT AND NOT tag_name)
++        add_executable(rm08-ffn-down-helper-smoke
++            ${CMAKE_SOURCE_DIR}/experiments/rm08/ffn_down_helper_smoke.c)
++        target_include_directories(rm08-ffn-down-helper-smoke PRIVATE
++            ${CMAKE_SOURCE_DIR}/ggml/include)
++        target_link_libraries(rm08-ffn-down-helper-smoke PRIVATE
++            ${GGML_CPU_NAME} ggml-base m)
++        set_target_properties(rm08-ffn-down-helper-smoke PROPERTIES
++            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
++    endif()
++
+   if (CMAKE_C_COMPILER_ID STREQUAL "IntelLLVM" OR CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
+       # The compiler automatically enables "-ffast-math" which can cause NaNs in tests due to "-fassociative-math"
+       target_compile_options(${GGML_CPU_NAME} PRIVATE "$<$<OR:$<COMPILE_LANG_AND_ID:C,IntelLLVM>,$<COMPILE_LANG_AND_ID:CXX,IntelLLVM>>:$<$<BOOL:${WIN32}>:/clang:>-fno-associative-math>")
 diff --git a/ggml/src/ggml-cpu/kv260_ffn_down.c b/ggml/src/ggml-cpu/kv260_ffn_down.c
+index 622203b..72a38e3 100644
 --- a/ggml/src/ggml-cpu/kv260_ffn_down.c
 +++ b/ggml/src/ggml-cpu/kv260_ffn_down.c
-@@ -386,7 +386,8 @@ static const char *kv260_validate(const struct ggml_tensor *dst, int *layer, unsigned *active_n) {
+@@ -67,6 +67,20 @@ static uint64_t g_pl_calls;
+ static uint64_t g_cpu_fallbacks;
+ static uint64_t g_n1120_calls;
+ static uint64_t g_n280_calls;
++enum {
++    KV_EXTENT_N960 = 0,
++    KV_EXTENT_N1008,
++    KV_EXTENT_N1024,
++    KV_EXTENT_N1056,
++    KV_EXTENT_N1120,
++    KV_EXTENT_N240,
++    KV_EXTENT_N252,
++    KV_EXTENT_N256,
++    KV_EXTENT_N264,
++    KV_EXTENT_N280,
++    KV_EXTENT_COUNT,
++};
++static uint64_t g_extent_calls[KV_EXTENT_COUNT];
+ static uint64_t g_merger_calls;
+ static uint64_t g_vit_merger_calls;
+ static uint64_t g_mm_down_calls;
+@@ -127,6 +141,30 @@ static uint64_t kv260_expected_media_groups(void) {
+     return (uint64_t) parsed;
+ }
+ 
++static unsigned kv260_extent_index(unsigned active_n) {
++    switch (active_n) {
++        case 960u: return KV_EXTENT_N960;
++        case 1008u: return KV_EXTENT_N1008;
++        case 1024u: return KV_EXTENT_N1024;
++        case 1056u: return KV_EXTENT_N1056;
++        case 1120u: return KV_EXTENT_N1120;
++        case 240u: return KV_EXTENT_N240;
++        case 252u: return KV_EXTENT_N252;
++        case 256u: return KV_EXTENT_N256;
++        case 264u: return KV_EXTENT_N264;
++        case 280u: return KV_EXTENT_N280;
++        default: return KV_EXTENT_COUNT;
++    }
++}
++
++static unsigned kv260_expected_qid(void) {
++    const char *value = getenv("RM09_PL_EXPECTED_QID");
++    if (!value) return 0u;
++    if (strcmp(value, "38299") == 0) return 38299u;
++    if (strcmp(value, "35419") == 0) return 35419u;
++    return 0u;
++}
++
+ static unsigned kv260_reason_id(const char *reason) {
+     if (!reason) return KV_FB_OTHER;
+     if (strcmp(reason, "unmatched_merger") == 0) return KV_FB_MERGER;
+@@ -164,23 +202,46 @@ static void kv260_context_destroy(void) {
+ 
+ static void kv260_report_exit(void) {
+     const uint64_t groups = kv260_expected_media_groups();
+-    const uint64_t expected_n1120 = groups * 7u;
+-    const uint64_t expected_n280 = groups * 20u;
+-    const uint64_t expected_calls = expected_n1120 + expected_n280;
++    const unsigned expected_qid = kv260_expected_qid();
++    const uint64_t expected_n1120 = expected_qid == 0u ? groups * 7u : 0u;
++    const uint64_t expected_n280 = expected_qid == 0u ? groups * 20u : 0u;
++    const uint64_t expected_calls = groups * 27u;
+     const uint64_t expected_fallbacks = groups * 2u;
+     const uint64_t expected_vit_merger = groups;
+     const uint64_t expected_mm_down = groups;
+     const uint64_t expected_merger = expected_fallbacks;
+     const uint64_t expected_total_calls = expected_calls + expected_merger;
++    uint64_t expected_extent_calls[KV_EXTENT_COUNT] = { 0 };
++    unsigned expected_qid_groups = 0u;
++    if (expected_qid == 38299u) {
++        expected_qid_groups = 3u;
++        expected_extent_calls[KV_EXTENT_N1024] = 14u;
++        expected_extent_calls[KV_EXTENT_N1056] = 7u;
++        expected_extent_calls[KV_EXTENT_N256] = 40u;
++        expected_extent_calls[KV_EXTENT_N264] = 20u;
++    } else if (expected_qid == 35419u) {
++        expected_qid_groups = 7u;
++        expected_extent_calls[KV_EXTENT_N1008] = 49u;
++        expected_extent_calls[KV_EXTENT_N252] = 140u;
++    }
++    int extent_histogram_matches = -1;
++    if (expected_qid != 0u) {
++        extent_histogram_matches = groups == expected_qid_groups;
++        for (unsigned i = 0; i < KV_EXTENT_COUNT; ++i) {
++            if (g_extent_calls[i] != expected_extent_calls[i]) extent_histogram_matches = 0;
++        }
++    }
+     int matched = -1;
+     if (groups != 0u) {
+         matched = g_pl_calls == expected_calls && g_cpu_fallbacks == expected_fallbacks &&
++                  g_n1120_calls == expected_n1120 && g_n280_calls == expected_n280 &&
+                   g_merger_calls == expected_merger && g_vit_merger_calls == expected_vit_merger &&
+                   g_mm_down_calls == expected_mm_down && g_total_calls == expected_total_calls;
+         for (unsigned layer = 0; layer < 27u; ++layer) {
+             if (g_layer_calls[layer] != groups || g_layer_pl_calls[layer] != groups ||
+                 g_layer_cpu_calls[layer] != 0u) matched = 0;
+         }
++        if (expected_qid != 0u && extent_histogram_matches != 1) matched = 0;
+     }
+     kv260_log("RM08_PL_SUMMARY expected_calls=%" PRIu64 " expected_total_calls=%" PRIu64
+               " actual_calls=%" PRIu64
+@@ -206,6 +267,30 @@ static void kv260_report_exit(void) {
+               g_total_stats.stage_commands, g_total_stats.compute_commands,
+               kv260_page_round(KV_WEIGHT_BATCH_BYTES) + kv260_page_round(KV_X_TILE_BYTES) +
+               kv260_page_round(KV_Y_BATCH_BYTES));
++    kv260_log("RM09_PL_EXTENTS qid=%u expectation_enabled=%u expected_groups=%u actual_groups=%" PRIu64
++              " expected_N960=%" PRIu64 " actual_N960=%" PRIu64
++              " expected_N1008=%" PRIu64 " actual_N1008=%" PRIu64
++              " expected_N1024=%" PRIu64 " actual_N1024=%" PRIu64
++              " expected_N1056=%" PRIu64 " actual_N1056=%" PRIu64
++              " expected_N1120=%" PRIu64 " actual_N1120=%" PRIu64
++              " expected_N240=%" PRIu64 " actual_N240=%" PRIu64
++              " expected_N252=%" PRIu64 " actual_N252=%" PRIu64
++              " expected_N256=%" PRIu64 " actual_N256=%" PRIu64
++              " expected_N264=%" PRIu64 " actual_N264=%" PRIu64
++              " expected_N280=%" PRIu64 " actual_N280=%" PRIu64
++              " matches_expected=%d\n",
++              expected_qid, expected_qid != 0u, expected_qid_groups, groups,
++              expected_extent_calls[KV_EXTENT_N960], g_extent_calls[KV_EXTENT_N960],
++              expected_extent_calls[KV_EXTENT_N1008], g_extent_calls[KV_EXTENT_N1008],
++              expected_extent_calls[KV_EXTENT_N1024], g_extent_calls[KV_EXTENT_N1024],
++              expected_extent_calls[KV_EXTENT_N1056], g_extent_calls[KV_EXTENT_N1056],
++              expected_extent_calls[KV_EXTENT_N1120], g_extent_calls[KV_EXTENT_N1120],
++              expected_extent_calls[KV_EXTENT_N240], g_extent_calls[KV_EXTENT_N240],
++              expected_extent_calls[KV_EXTENT_N252], g_extent_calls[KV_EXTENT_N252],
++              expected_extent_calls[KV_EXTENT_N256], g_extent_calls[KV_EXTENT_N256],
++              expected_extent_calls[KV_EXTENT_N264], g_extent_calls[KV_EXTENT_N264],
++              expected_extent_calls[KV_EXTENT_N280], g_extent_calls[KV_EXTENT_N280],
++              extent_histogram_matches);
+     for (unsigned layer = 0; layer < 27u; ++layer) {
+         kv260_log("RM08_PL_LAYER layer=%u expected=%" PRIu64 " calls=%" PRIu64
+                   " pl=%" PRIu64 " cpu_fallback=%" PRIu64 "\n",
+@@ -393,7 +478,8 @@ static const char *kv260_validate(const struct ggml_tensor *dst, int *layer, uns
+         return "shape_mismatch";
      *active_n = (unsigned) x->ne[1];
      if (dst->ne[1] != x->ne[1]) return "output_shape_mismatch";
 -    if ((*layer <= 6 && *active_n != 1120u) || (*layer >= 7 && *active_n != 280u))
@@ -19,5 +167,32 @@ diff --git a/ggml/src/ggml-cpu/kv260_ffn_down.c b/ggml/src/ggml-cpu/kv260_ffn_do
          return "layer_extent_mismatch";
      if (w->nb[0] != sizeof(uint16_t) || w->nb[1] != KV_K * sizeof(uint16_t) ||
          w->nb[2] != KV_K * KV_M * sizeof(uint16_t) ||
--- 
-2.43.0
+@@ -498,11 +584,17 @@ int ggml_kv260_ffn_down_execute(struct ggml_tensor *dst) {
+         const struct ggml_tensor *x = dst->src[1];
+         if (w && x && w->type == GGML_TYPE_F16 && x->type == GGML_TYPE_F32 &&
+             dst->type == GGML_TYPE_F32 && w->ne[0] == 17216 && w->ne[1] == 1152 &&
+-            x->ne[0] == 17216 && x->ne[1] == 280 && dst->ne[0] == 1152 && dst->ne[1] == 280) {
++            x->ne[0] == 17216 &&
++            (x->ne[1] == 240 || x->ne[1] == 252 || x->ne[1] == 256 ||
++             x->ne[1] == 264 || x->ne[1] == 280) &&
++            dst->ne[0] == 1152 && dst->ne[1] == x->ne[1]) {
+             ++g_vit_merger_calls;
+         } else if (w && x && w->type == GGML_TYPE_F16 && x->type == GGML_TYPE_F32 &&
+                    dst->type == GGML_TYPE_F32 && w->ne[0] == 4608 && w->ne[1] == 1024 &&
+-                   x->ne[0] == 4608 && x->ne[1] == 70 && dst->ne[0] == 1024 && dst->ne[1] == 70) {
++                   x->ne[0] == 4608 &&
++                   (x->ne[1] == 60 || x->ne[1] == 63 || x->ne[1] == 64 ||
++                    x->ne[1] == 66 || x->ne[1] == 70) &&
++                   dst->ne[0] == 1024 && dst->ne[1] == x->ne[1]) {
+             ++g_mm_down_calls;
+         }
+     }
+@@ -537,6 +629,8 @@ int ggml_kv260_ffn_down_execute(struct ggml_tensor *dst) {
+         if (layer >= 0 && layer < 27) ++g_layer_pl_calls[layer];
+         if (active_n == 1120u) ++g_n1120_calls;
+         if (active_n == 280u) ++g_n280_calls;
++        const unsigned extent_index = kv260_extent_index(active_n);
++        if (extent_index < KV_EXTENT_COUNT) ++g_extent_calls[extent_index];
+         kv260_log("RM08_PL_CALL layer=%s status=PL K=%u M=%u N=%u wall_ms=%.3f pack_ms=%.3f"
+                   " sync_to_ms=%.3f sync_from_ms=%.3f submit_ms=%.3f kernel_ms=%.3f"
+                   " unpack_ms=%.3f input_bytes=%" PRIu64 " output_bytes=%" PRIu64
