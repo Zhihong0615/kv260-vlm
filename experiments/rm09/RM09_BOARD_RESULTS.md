@@ -1,5 +1,9 @@
 # RM09 board results
 
+> **Earlier RM09 snapshot.** The statement below that the extra PS+PL pair was
+> awaiting launch predates the static extent image. Both QID38299 and QID35419
+> have since completed with real PL calls; see the [static extent board run](../rm09_static_extent/evidence/board/rm09-pl-q38299-q35419-20260925T122922Z/RESULTS.md).
+
 ## Clock source and safe rate path
 
 The KV260 `fclk0` sysfs endpoint is provided by Xilinx's `xlnx,fclk` driver. Its

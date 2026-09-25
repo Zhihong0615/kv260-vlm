@@ -1,5 +1,10 @@
 # RM09 static extent board baseline
 
+> **Build-stage snapshot.** The load/rollback status below records the state when
+> this bitstream was generated. It was subsequently loaded on the KV260 and
+> completed QID38299 and QID35419 with real PL calls, matching answers, and
+> successful starter-kit restoration. See the [board run evidence](evidence/board/rm09-pl-q38299-q35419-20260925T122922Z/RESULTS.md) for the later measurements.
+
 ## Build and status
 
 The single RM09 extent variant was built as a full KV260 PS + PL system with

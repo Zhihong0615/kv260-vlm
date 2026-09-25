@@ -1,5 +1,10 @@
 # RM09 FFN-down token-extent coverage
 
+> **Frozen RM07 contract audit.** Counts and "not run" statements below describe
+> the original N=1120/280 bitstream at the time of this audit. The subsequent
+> static extent image admitted the observed additional shapes and completed
+> QID38299 (81 PL calls) and QID35419 (189 PL calls); see the [new board run](../rm09_static_extent/evidence/board/rm09-pl-q38299-q35419-20260925T122922Z/RESULTS.md).
+
 ## Result
 
 The current RM07 bitstream and host hook accept only the two numbered
