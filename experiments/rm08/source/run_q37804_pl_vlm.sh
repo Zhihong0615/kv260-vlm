@@ -206,7 +206,7 @@ set +e
   "$cli" -m "$model" --mmproj "$mmproj" --image "$image" -p "$prompt" \
   -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 \
   --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4 \
-  >"$stdout_log" 2>"$stderr_log"
+  </dev/null >"$stdout_log" 2>"$stderr_log"
 request_rc=$?
 set -e
 echo "request_end_utc=$(date -u +%FT%TZ) request_exit_code=$request_rc"
