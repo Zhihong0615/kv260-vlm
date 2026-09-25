@@ -1,0 +1,4 @@
+RM09_HLS_IDENTITY uio=/dev/uio6 compatible=xlnx,vision-ffn-down-tile-1.0,generic-uio addr=0xa0010000 size=0x10000 PASS
+RM09_APM_IDENTITY uio=/dev/uio5 compatible=generic-uio addr=0xa0000000 size=0x10000 PASS
+AP_CTRL_before=0x00000004
+AXI_LITE_ABI_PROBE=0xfffffffc (-4) expected=-4 PASS dma_pointer_used=0
