@@ -1,0 +1,2 @@
+bitstream=/home/zhiro/research/kv260-vlm-workers/RM10-full-route/experiments/rm10_route/build/corrected_candidate/kv260_rm10_recurrence_decoupled.runs/impl_1/kv260_rm10_recurrence_decoupled_wrapper.bit
+xsa=/home/zhiro/research/kv260-vlm-workers/RM10-full-route/experiments/rm10_route/build/corrected_candidate/kv260_rm10_recurrence_decoupled.xsa

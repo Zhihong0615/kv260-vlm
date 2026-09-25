@@ -1,4 +1,4 @@
-# RM10 full-system route result
+# RM10 five-bank provisional route result
 
 Status: **`PROVISIONAL_INVALID` — full physical implementation completed for
 the frozen A-rescue package, but its scheduled accumulator recurrence is

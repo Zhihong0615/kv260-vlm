@@ -42,3 +42,12 @@ RM10_EVIDENCE_ROOT="$PWD/experiments/rm10_route/evidence/corrected_candidate" \
 
 Start that run only after the corrected source/IP is frozen and its recurrence
 correctness is explicitly validated.
+
+The corrected ten-bank candidate completed its own full-system route after the
+five-bank package was rejected by recurrence auditing. See
+[`RM10_CORRECTED_ROUTE_RESULTS.md`](RM10_CORRECTED_ROUTE_RESULTS.md) for the
+frozen source/IP identities, numeric and RTL co-simulation gates, routed
+resource/timing/congestion reports, bitstream/XSA hashes, and the separate
+corrected-candidate evidence directory. The corrected route passed 100 MHz
+setup and hold timing, but board testing and request-level validation remain
+separate from this route task.

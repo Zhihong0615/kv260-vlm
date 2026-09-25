@@ -1,0 +1,519 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
+| Date              : Sat Sep 26 02:18:43 2026
+| Host              : zhiro-ThinkBook-16p-G5-IRX running 64-bit Ubuntu 24.04.5 LTS
+| Command           : report_timing_summary -delay_type max -report_unconstrained -file /home/zhiro/research/kv260-vlm-workers/RM10-full-route/experiments/rm10_route/build/corrected_candidate/timing_post_route_setup.rpt
+| Design            : kv260_rm10_recurrence_decoupled_wrapper
+| Device            : xck26-sfvc784
+| Speed File        : -2LV  PRODUCTION 1.30 05-15-2022
+| Design State      : Routed
+| Temperature Grade : C
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+  Ignore I/O Paths                           :  No
+  Timing Early Launch at Borrowing Latches   :  No
+  Borrow Time for Max Delay Exceptions       :  Yes
+  Merge Timing Exceptions                    :  Yes
+  Inter-SLR Compensation                     :  Conservative
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+------------------------------------------------------------------------------------------------
+| Report Methodology
+| ------------------
+------------------------------------------------------------------------------------------------
+
+No report available as report_methodology has not been run prior. Run report_methodology on the current design for the summary of methodology violations.
+
+
+
+check_timing report
+
+Table of Contents
+-----------------
+1. checking no_clock (0)
+2. checking constant_clock (0)
+3. checking pulse_width_clock (0)
+4. checking unconstrained_internal_endpoints (564)
+5. checking no_input_delay (0)
+6. checking no_output_delay (0)
+7. checking multiple_clock (0)
+8. checking generated_clocks (0)
+9. checking loops (0)
+10. checking partial_input_delay (0)
+11. checking partial_output_delay (0)
+12. checking latch_loops (0)
+
+1. checking no_clock (0)
+------------------------
+ There are 0 register/latch pins with no clock.
+
+
+2. checking constant_clock (0)
+------------------------------
+ There are 0 register/latch pins with constant_clock.
+
+
+3. checking pulse_width_clock (0)
+---------------------------------
+ There are 0 register/latch pins which need pulse_width check
+
+
+4. checking unconstrained_internal_endpoints (564)
+--------------------------------------------------
+ There are 0 pins that are not constrained for maximum delay.
+
+ There are 564 pins that are not constrained for maximum delay due to constant clock. (MEDIUM)
+
+
+5. checking no_input_delay (0)
+------------------------------
+ There are 0 input ports with no input delay specified.
+
+ There are 0 input ports with no input delay but user has a false path constraint.
+
+
+6. checking no_output_delay (0)
+-------------------------------
+ There are 0 ports with no output delay specified.
+
+ There are 0 ports with no output delay but user has a false path constraint
+
+ There are 0 ports with no output delay but with a timing clock defined on it or propagating through it
+
+
+7. checking multiple_clock (0)
+------------------------------
+ There are 0 register/latch pins with multiple clocks.
+
+
+8. checking generated_clocks (0)
+--------------------------------
+ There are 0 generated clocks that are not connected to a clock source.
+
+
+9. checking loops (0)
+---------------------
+ There are 0 combinational loops in the design.
+
+
+10. checking partial_input_delay (0)
+------------------------------------
+ There are 0 input ports with partial input delay specified.
+
+
+11. checking partial_output_delay (0)
+-------------------------------------
+ There are 0 ports with partial output delay specified.
+
+
+12. checking latch_loops (0)
+----------------------------
+ There are 0 combinational latch loops in the design through latch input
+
+
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+      3.564        0.000                      0               146565        3.500        0.000                       0                 59915  
+
+
+All user specified timing constraints are met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock     Waveform(ns)       Period(ns)      Frequency(MHz)
+-----     ------------       ----------      --------------
+clk_pl_0  {0.000 5.000}      10.000          100.000         
+clk_pl_1  {0.000 5.000}      10.000          100.000         
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock             WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----             -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+clk_pl_0            3.564        0.000                      0               146532        3.500        0.000                       0                 59915  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    --------          -------      -------  ---------------------  -------------------  
+
+
+------------------------------------------------------------------------------------------------
+| Other Path Groups Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock          WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints  
+----------    ----------    --------          -------      -------  ---------------------  -------------------  
+**default**   clk_pl_0                          9.462        0.000                      0                   33  
+
+
+------------------------------------------------------------------------------------------------
+| User Ignored Path Table
+| -----------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock    
+----------    ----------    --------    
+(none)                      clk_pl_0      
+(none)        clk_pl_0      clk_pl_0      
+
+
+------------------------------------------------------------------------------------------------
+| Unconstrained Path Table
+| ------------------------
+------------------------------------------------------------------------------------------------
+
+Path Group    From Clock    To Clock    
+----------    ----------    --------    
+(none)                      clk_pl_0      
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_pl_0
+  To Clock:  clk_pl_0
+
+Setup :            0  Failing Endpoints,  Worst Slack        3.564ns,  Total Violation        0.000ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+PW    :            0  Failing Endpoints,  Worst Slack        3.500ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             3.564ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_10_addr_reg_4269_reg[2]/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/p_ZN12_GLOBAL_N_116activation_cacheE_3_U/ram_reg_uram_7/EN_A
+                            (rising edge-triggered cell URAM288 clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.681ns  (logic 0.565ns (9.945%)  route 5.116ns (90.055%))
+  Logic Levels:           3  (CARRY8=2 LUT6=1)
+  Clock Path Skew:        0.004ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.005ns = ( 13.005 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.189ns
+    Clock Pessimism Removal (CPR):    0.188ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.922ns (routing 1.584ns, distribution 1.338ns)
+  Clock Net Delay (Destination): 2.789ns (routing 1.450ns, distribution 1.339ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=61785, routed)       2.922     3.189    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_clk
+    SLICE_X29Y99         FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_10_addr_reg_4269_reg[2]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X29Y99         FDRE (Prop_HFF2_SLICEM_C_Q)
+                                                      0.114     3.303 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_10_addr_reg_4269_reg[2]/Q
+                         net (fo=20, routed)          1.399     4.702    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9_fu_1475/flow_control_loop_pipe_sequential_init_U/DI[0]
+    SLICE_X44Y43         CARRY8 (Prop_CARRY8_SLICEL_DI[1]_CO[7])
+                                                      0.171     4.873 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9_fu_1475/flow_control_loop_pipe_sequential_init_U/ram_reg_uram_1_i_4/CO[7]
+                         net (fo=1, routed)           0.030     4.903    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9_fu_1475/flow_control_loop_pipe_sequential_init_U/ram_reg_uram_1_i_4_n_0
+    SLICE_X44Y44         CARRY8 (Prop_CARRY8_SLICEL_CI_CO[4])
+                                                      0.144     5.047 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9_fu_1475/flow_control_loop_pipe_sequential_init_U/ram_reg_uram_1_i_3/CO[4]
+                         net (fo=6, routed)           1.861     6.908    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9_fu_1475/flow_control_loop_pipe_sequential_init_U/p_ZN12_GLOBAL_N_116activation_cacheE_0_address0[12]
+    SLICE_X19Y110        LUT6 (Prop_C6LUT_SLICEL_I5_O)
+                                                      0.136     7.044 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9_fu_1475/flow_control_loop_pipe_sequential_init_U/ram_reg_uram_1_i_1__2/O
+                         net (fo=16, routed)          1.826     8.870    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/p_ZN12_GLOBAL_N_116activation_cacheE_3_U/xbits_2_reg_17475_pp0_iter3_reg_reg[24]_srl3_i_1_0
+    URAM288_X0Y14        URAM288                                      r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/p_ZN12_GLOBAL_N_116activation_cacheE_3_U/ram_reg_uram_7/EN_A
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=61785, routed)       2.789    13.005    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/p_ZN12_GLOBAL_N_116activation_cacheE_3_U/ap_clk
+    URAM288_X0Y14        URAM288                                      r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/p_ZN12_GLOBAL_N_116activation_cacheE_3_U/ram_reg_uram_7/CLK
+                         clock pessimism              0.188    13.193    
+                         clock uncertainty           -0.130    13.063    
+    URAM288_X0Y14        URAM288 (Setup_URAM_288K_INST_URAM288_CLK_EN_A)
+                                                     -0.629    12.434    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/p_ZN12_GLOBAL_N_116activation_cacheE_3_U/ram_reg_uram_7
+  -------------------------------------------------------------------
+                         required time                         12.434    
+                         arrival time                          -8.870    
+  -------------------------------------------------------------------
+                         slack                                  3.564    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_pl_0
+Waveform(ns):       { 0.000 5.000 }
+Period(ns):         10.000
+Sources:            { kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0] }
+
+Check Type        Corner  Lib Pin          Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location  Pin
+Min Period        n/a     PS8/MAXIGP0ACLK  n/a            3.000         10.000      7.000      PS8_X0Y0  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/MAXIGP0ACLK
+Low Pulse Width   Slow    PS8/MAXIGP0ACLK  n/a            1.500         5.000       3.500      PS8_X0Y0  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/MAXIGP0ACLK
+High Pulse Width  Slow    PS8/MAXIGP0ACLK  n/a            1.500         5.000       3.500      PS8_X0Y0  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/MAXIGP0ACLK
+
+
+
+---------------------------------------------------------------------------------------------------
+Path Group:  **default**
+From Clock:  clk_pl_0
+  To Clock:  
+
+Setup :            0  Failing Endpoints,  Worst Slack        9.462ns,  Total Violation        0.000ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             9.462ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_cdc_pntr.rd_pntr_cdc_dc_inst/src_gray_ff_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_cdc_pntr.rd_pntr_cdc_dc_inst/dest_graysync_ff_reg[0][0]/D
+  Path Group:             **default**
+  Path Type:              Max at Slow Process Corner
+  Requirement:            10.000ns  (MaxDelay Path 10.000ns)
+  Data Path Delay:        0.538ns  (logic 0.113ns (21.004%)  route 0.425ns (78.996%))
+  Logic Levels:           0  
+  Output Delay:           0.000ns
+  Timing Exception:       MaxDelay Path 10.000ns -datapath_only
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    SLICE_X30Y137                                     0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_cdc_pntr.rd_pntr_cdc_dc_inst/src_gray_ff_reg[0]/C
+    SLICE_X30Y137        FDRE (Prop_HFF_SLICEL_C_Q)
+                                                      0.113     0.113 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_cdc_pntr.rd_pntr_cdc_dc_inst/src_gray_ff_reg[0]/Q
+                         net (fo=1, routed)           0.425     0.538    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_cdc_pntr.rd_pntr_cdc_dc_inst/async_path[0]
+    SLICE_X29Y133        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_cdc_pntr.rd_pntr_cdc_dc_inst/dest_graysync_ff_reg[0][0]/D
+  -------------------------------------------------------------------    -------------------
+
+                         max delay                   10.000    10.000    
+    SLICE_X29Y133        FDRE                         0.000    10.000    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_cdc_pntr.rd_pntr_cdc_dc_inst/dest_graysync_ff_reg[0][0]
+                         output delay                -0.000    10.000    
+  -------------------------------------------------------------------
+                         required time                         10.000    
+                         arrival time                          -0.538    
+  -------------------------------------------------------------------
+                         slack                                  9.462    
+
+
+
+
+
+--------------------------------------------------------------------------------------
+Path Group:  (none)
+From Clock:  
+  To Clock:  clk_pl_0
+
+Max Delay             2 Endpoints
+Min Delay             0 Endpoints
+--------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/EMIOGPIOO[95]
+                            (internal pin)
+  Destination:            kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_IN_cdc_to/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Setup (Max at Slow Process Corner)
+  Data Path Delay:        5.312ns  (logic 0.137ns (2.579%)  route 5.175ns (97.421%))
+  Logic Levels:           1  (LUT1=1)
+  Clock Uncertainty:      0.127ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Destination): 2.836ns (routing 1.450ns, distribution 1.386ns)
+  Timing Exception:       False Path
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    PS8_X0Y0             PS8                          0.000     0.000 f  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/EMIOGPIOO[95]
+                         net (fo=4793, routed)        4.933     4.933    kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/aresetn
+    SLICE_X1Y68          LUT1 (Prop_G6LUT_SLICEM_I0_O)
+                                                      0.137     5.070 r  kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_IN_cdc_to_i_1/O
+                         net (fo=1, routed)           0.242     5.312    kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/asr_d1
+    SLICE_X1Y68          FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_IN_cdc_to/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181     0.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035     0.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=61785, routed)       2.836     3.052    kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/aclk
+    SLICE_X1Y68          FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/EXT_LPF/ACTIVE_LOW_AUX.ACT_LO_AUX/GENERATE_LEVEL_P_S_CDC.SINGLE_BIT.CROSS_PLEVEL_IN2SCNDRY_IN_cdc_to/C
+
+
+
+
+
+--------------------------------------------------------------------------------------
+Path Group:  (none)
+From Clock:  clk_pl_0
+  To Clock:  clk_pl_0
+
+Max Delay           145 Endpoints
+Min Delay             0 Endpoints
+--------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/ACTIVE_LOW_BSR_OUT_DFF[0].FDRE_BSR_N/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            <hidden>
+                            (recovery check against rising-edge clock clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Recovery (Max at Slow Process Corner)
+  Data Path Delay:        1.817ns  (logic 0.114ns (6.273%)  route 1.703ns (93.727%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.337ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.049ns
+    Source Clock Delay      (SCD):    3.385ns
+    Clock Pessimism Removal (CPR):    0.000ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.118ns (routing 1.584ns, distribution 1.534ns)
+  Clock Net Delay (Destination): 2.833ns (routing 1.450ns, distribution 1.383ns)
+  Timing Exception:       False Path
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=61785, routed)       3.118     3.385    kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/aclk
+    SLICE_X0Y69          FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/ACTIVE_LOW_BSR_OUT_DFF[0].FDRE_BSR_N/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X0Y69          FDRE (Prop_DFF_SLICEL_C_Q)
+                                                      0.114     3.499 r  kv260_rm10_recurrence_decoupled_i/axi_smc_data/inst/clk_map/psr_aclk/U0/ACTIVE_LOW_BSR_OUT_DFF[0].FDRE_BSR_N/Q
+                         net (fo=66, routed)          1.703     5.202    <hidden>
+    SLICE_X3Y82          FDCE                                         f  <hidden>  (IS_INVERTED)
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181     0.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035     0.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=61785, routed)       2.833     3.049    <hidden>
+    SLICE_X3Y82          FDCE                                         r  <hidden>
+
+
+
+
+
+--------------------------------------------------------------------------------------
+Path Group:  (none)
+From Clock:  
+  To Clock:  clk_pl_0
+
+Max Delay          9704 Endpoints
+Min Delay             0 Endpoints
+--------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack:                    inf
+  Source:                 kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/EMIOGPIOO[95]
+                            (internal pin)
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/gmem_w_m_axi_U/load_unit_0/buff_rdata/U_fifo_mem/mem_reg_1/ENARDEN
+                            (rising edge-triggered cell RAMB36E2 clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             (none)
+  Path Type:              Setup (Max at Slow Process Corner)
+  Data Path Delay:        6.165ns  (logic 0.080ns (1.298%)  route 6.085ns (98.702%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Uncertainty:      0.127ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.050ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Destination): 2.659ns (routing 1.450ns, distribution 1.209ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+    PS8_X0Y0             PS8                          0.000     0.000 f  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/EMIOGPIOO[95]
+                         net (fo=4793, routed)        5.019     5.019    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/gmem_w_m_axi_U/load_unit_0/buff_rdata/U_fifo_mem/ap_rst_n
+    SLICE_X21Y19         LUT4 (Prop_D6LUT_SLICEM_I0_O)
+                                                      0.080     5.099 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/gmem_w_m_axi_U/load_unit_0/buff_rdata/U_fifo_mem/mem_reg_0_i_1/O
+                         net (fo=2, routed)           1.066     6.165    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/gmem_w_m_axi_U/load_unit_0/buff_rdata/U_fifo_mem/mem_reg_0_i_1_n_0
+    RAMB36_X0Y4          RAMB36E2                                     r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/gmem_w_m_axi_U/load_unit_0/buff_rdata/U_fifo_mem/mem_reg_1/ENARDEN
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181     0.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035     0.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=61785, routed)       2.659     2.875    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/gmem_w_m_axi_U/load_unit_0/buff_rdata/U_fifo_mem/ap_clk
+    RAMB36_X0Y4          RAMB36E2                                     r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/gmem_w_m_axi_U/load_unit_0/buff_rdata/U_fifo_mem/mem_reg_1/CLKARDCLK
+
+
+
+
+
