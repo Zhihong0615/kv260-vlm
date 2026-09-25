@@ -1,0 +1,1294 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
+| Date              : Sat Sep 26 01:43:50 2026
+| Host              : zhiro-ThinkBook-16p-G5-IRX running 64-bit Ubuntu 24.04.5 LTS
+| Command           : report_timing -delay_type max -max_paths 20 -nworst 2 -path_type full_clock_expanded -file /home/zhiro/research/kv260-vlm-workers/RM10-full-route/experiments/rm10_route/build/full_system/critical_paths_post_route.rpt
+| Design            : kv260_rm10_recurrence_decoupled_wrapper
+| Device            : xck26-sfvc784
+| Speed File        : -2LV  PRODUCTION 1.30 05-15-2022
+| Design State      : Routed
+| Temperature Grade : C
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (MET) :             3.935ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.825ns  (logic 0.476ns (8.172%)  route 5.349ns (91.828%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.155ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.889ns = ( 12.889 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.673ns (routing 1.450ns, distribution 1.223ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.772     8.600    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X36Y221        LUT6 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.056     8.656 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_3/O
+                         net (fo=1, routed)           0.185     8.841    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_3_n_0
+    SLICE_X36Y222        LUT5 (Prop_D6LUT_SLICEL_I2_O)
+                                                      0.152     8.993 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_1/O
+                         net (fo=1, routed)           0.067     9.060    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_1_n_0
+    SLICE_X36Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.673    12.889    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X36Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]/C
+                         clock pessimism              0.192    13.081    
+                         clock uncertainty           -0.130    12.951    
+    SLICE_X36Y222        FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.044    12.995    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]
+  -------------------------------------------------------------------
+                         required time                         12.995    
+                         arrival time                          -9.060    
+  -------------------------------------------------------------------
+                         slack                                  3.935    
+
+Slack (MET) :             3.935ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.825ns  (logic 0.476ns (8.172%)  route 5.349ns (91.828%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.155ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.889ns = ( 12.889 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.673ns (routing 1.450ns, distribution 1.223ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.772     8.600    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X36Y221        LUT6 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.056     8.656 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_3/O
+                         net (fo=1, routed)           0.185     8.841    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_3_n_0
+    SLICE_X36Y222        LUT5 (Prop_D6LUT_SLICEL_I2_O)
+                                                      0.152     8.993 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_1/O
+                         net (fo=1, routed)           0.067     9.060    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[22]_i_1_n_0
+    SLICE_X36Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.673    12.889    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X36Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]/C
+                         clock pessimism              0.192    13.081    
+                         clock uncertainty           -0.130    12.951    
+    SLICE_X36Y222        FDRE (Setup_DFF_SLICEL_C_D)
+                                                      0.044    12.995    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[22]
+  -------------------------------------------------------------------
+                         required time                         12.995    
+                         arrival time                          -9.060    
+  -------------------------------------------------------------------
+                         slack                                  3.935    
+
+Slack (MET) :             4.006ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.765ns  (logic 0.556ns (9.645%)  route 5.209ns (90.355%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.143ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.900ns = ( 12.900 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.684ns (routing 1.450ns, distribution 1.234ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.711     8.539    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X37Y221        LUT6 (Prop_E6LUT_SLICEM_I1_O)
+                                                      0.152     8.691 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_3/O
+                         net (fo=1, routed)           0.104     8.795    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_3_n_0
+    SLICE_X36Y221        LUT5 (Prop_C6LUT_SLICEL_I2_O)
+                                                      0.136     8.931 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_1/O
+                         net (fo=1, routed)           0.069     9.000    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_1_n_0
+    SLICE_X36Y221        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.684    12.900    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X36Y221        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]/C
+                         clock pessimism              0.192    13.092    
+                         clock uncertainty           -0.130    12.962    
+    SLICE_X36Y221        FDRE (Setup_CFF_SLICEL_C_D)
+                                                      0.044    13.006    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]
+  -------------------------------------------------------------------
+                         required time                         13.006    
+                         arrival time                          -9.000    
+  -------------------------------------------------------------------
+                         slack                                  4.006    
+
+Slack (MET) :             4.006ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.765ns  (logic 0.556ns (9.645%)  route 5.209ns (90.355%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.143ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.900ns = ( 12.900 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.684ns (routing 1.450ns, distribution 1.234ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.711     8.539    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X37Y221        LUT6 (Prop_E6LUT_SLICEM_I1_O)
+                                                      0.152     8.691 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_3/O
+                         net (fo=1, routed)           0.104     8.795    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_3_n_0
+    SLICE_X36Y221        LUT5 (Prop_C6LUT_SLICEL_I2_O)
+                                                      0.136     8.931 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_1/O
+                         net (fo=1, routed)           0.069     9.000    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885[27]_i_1_n_0
+    SLICE_X36Y221        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.684    12.900    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X36Y221        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]/C
+                         clock pessimism              0.192    13.092    
+                         clock uncertainty           -0.130    12.962    
+    SLICE_X36Y221        FDRE (Setup_CFF_SLICEL_C_D)
+                                                      0.044    13.006    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_2_reg_15885_reg[27]
+  -------------------------------------------------------------------
+                         required time                         13.006    
+                         arrival time                          -9.000    
+  -------------------------------------------------------------------
+                         slack                                  4.006    
+
+Slack (MET) :             4.044ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.717ns  (logic 0.512ns (8.956%)  route 5.205ns (91.044%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.153ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.891ns = ( 12.891 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.675ns (routing 1.450ns, distribution 1.225ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.699     8.528    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X34Y221        LUT6 (Prop_E6LUT_SLICEM_I1_O)
+                                                      0.187     8.715 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_3/O
+                         net (fo=1, routed)           0.100     8.815    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_3_n_0
+    SLICE_X34Y222        LUT5 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.057     8.872 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_1/O
+                         net (fo=1, routed)           0.081     8.953    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_1_n_0
+    SLICE_X34Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.675    12.891    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X34Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]/C
+                         clock pessimism              0.192    13.083    
+                         clock uncertainty           -0.130    12.953    
+    SLICE_X34Y222        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.043    12.996    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]
+  -------------------------------------------------------------------
+                         required time                         12.996    
+                         arrival time                          -8.953    
+  -------------------------------------------------------------------
+                         slack                                  4.044    
+
+Slack (MET) :             4.044ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.717ns  (logic 0.512ns (8.956%)  route 5.205ns (91.044%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.153ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.891ns = ( 12.891 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.675ns (routing 1.450ns, distribution 1.225ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.699     8.528    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X34Y221        LUT6 (Prop_E6LUT_SLICEM_I1_O)
+                                                      0.187     8.715 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_3/O
+                         net (fo=1, routed)           0.100     8.815    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_3_n_0
+    SLICE_X34Y222        LUT5 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.057     8.872 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_1/O
+                         net (fo=1, routed)           0.081     8.953    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[27]_i_1_n_0
+    SLICE_X34Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.675    12.891    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X34Y222        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]/C
+                         clock pessimism              0.192    13.083    
+                         clock uncertainty           -0.130    12.953    
+    SLICE_X34Y222        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.043    12.996    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[27]
+  -------------------------------------------------------------------
+                         required time                         12.996    
+                         arrival time                          -8.953    
+  -------------------------------------------------------------------
+                         slack                                  4.044    
+
+Slack (MET) :             4.053ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.721ns  (logic 0.574ns (10.034%)  route 5.147ns (89.966%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.139ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.904ns = ( 12.904 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.688ns (routing 1.450ns, distribution 1.238ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.369     8.197    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        LUT6 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.081     8.278 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_3/O
+                         net (fo=1, routed)           0.372     8.650    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_3_n_0
+    SLICE_X32Y224        LUT5 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.225     8.875 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_1/O
+                         net (fo=1, routed)           0.081     8.956    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_1_n_0
+    SLICE_X32Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.688    12.904    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X32Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]/C
+                         clock pessimism              0.192    13.096    
+                         clock uncertainty           -0.130    12.966    
+    SLICE_X32Y224        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.043    13.009    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]
+  -------------------------------------------------------------------
+                         required time                         13.009    
+                         arrival time                          -8.956    
+  -------------------------------------------------------------------
+                         slack                                  4.053    
+
+Slack (MET) :             4.053ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.721ns  (logic 0.574ns (10.034%)  route 5.147ns (89.966%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.139ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.904ns = ( 12.904 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.688ns (routing 1.450ns, distribution 1.238ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.369     8.197    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        LUT6 (Prop_F6LUT_SLICEL_I1_O)
+                                                      0.081     8.278 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_3/O
+                         net (fo=1, routed)           0.372     8.650    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_3_n_0
+    SLICE_X32Y224        LUT5 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.225     8.875 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_1/O
+                         net (fo=1, routed)           0.081     8.956    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[29]_i_1_n_0
+    SLICE_X32Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.688    12.904    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X32Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]/C
+                         clock pessimism              0.192    13.096    
+                         clock uncertainty           -0.130    12.966    
+    SLICE_X32Y224        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.043    13.009    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[29]
+  -------------------------------------------------------------------
+                         required time                         13.009    
+                         arrival time                          -8.956    
+  -------------------------------------------------------------------
+                         slack                                  4.053    
+
+Slack (MET) :             4.064ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_METRIC_3.Metric_Sel_3_CDC_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.729ns  (logic 0.630ns (10.996%)  route 5.099ns (89.004%))
+  Logic Levels:           4  (LUT5=1 LUT6=2 MUXF7=1)
+  Clock Path Skew:        -0.121ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.050ns = ( 13.050 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.416ns
+    Clock Pessimism Removal (CPR):    0.244ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.149ns (routing 1.584ns, distribution 1.565ns)
+  Clock Net Delay (Destination): 2.834ns (routing 1.450ns, distribution 1.384ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       3.149     3.416    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/s_axi_aclk
+    SLICE_X10Y156        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_METRIC_3.Metric_Sel_3_CDC_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y156        FDRE (Prop_FFF2_SLICEM_C_Q)
+                                                      0.116     3.532 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_METRIC_3.Metric_Sel_3_CDC_reg[0]/Q
+                         net (fo=72, routed)          1.701     5.233    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/Metric_Sel_3[0]
+    SLICE_X9Y190         LUT5 (Prop_B6LUT_SLICEL_I0_O)
+                                                      0.138     5.371 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[2]_i_10__1/O
+                         net (fo=67, routed)          2.536     7.907    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[2]_i_10__1_n_0
+    SLICE_X27Y168        LUT6 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.137     8.044 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_7__1/O
+                         net (fo=1, routed)           0.797     8.841    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_7__1_n_0
+    SLICE_X18Y166        LUT6 (Prop_G6LUT_SLICEM_I0_O)
+                                                      0.137     8.978 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_3__1/O
+                         net (fo=1, routed)           0.021     8.999    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_3__1_n_0
+    SLICE_X18Y166        MUXF7 (Prop_F7MUX_GH_SLICEM_I1_O)
+                                                      0.102     9.101 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in_reg[1]_i_1__1/O
+                         net (fo=1, routed)           0.044     9.145    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[31]_0[1]
+    SLICE_X18Y166        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.834    13.050    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/core_aclk
+    SLICE_X18Y166        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]/C
+                         clock pessimism              0.244    13.294    
+                         clock uncertainty           -0.130    13.165    
+    SLICE_X18Y166        FDRE (Setup_HFF_SLICEM_C_D)
+                                                      0.044    13.209    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]
+  -------------------------------------------------------------------
+                         required time                         13.209    
+                         arrival time                          -9.145    
+  -------------------------------------------------------------------
+                         slack                                  4.064    
+
+Slack (MET) :             4.064ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_METRIC_3.Metric_Sel_3_CDC_reg[0]/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.729ns  (logic 0.630ns (10.996%)  route 5.099ns (89.004%))
+  Logic Levels:           4  (LUT5=1 LUT6=2 MUXF7=1)
+  Clock Path Skew:        -0.121ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.050ns = ( 13.050 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.416ns
+    Clock Pessimism Removal (CPR):    0.244ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.149ns (routing 1.584ns, distribution 1.565ns)
+  Clock Net Delay (Destination): 2.834ns (routing 1.450ns, distribution 1.384ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       3.149     3.416    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/s_axi_aclk
+    SLICE_X10Y156        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_METRIC_3.Metric_Sel_3_CDC_reg[0]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X10Y156        FDRE (Prop_FFF2_SLICEM_C_Q)
+                                                      0.116     3.532 f  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_METRIC_3.Metric_Sel_3_CDC_reg[0]/Q
+                         net (fo=72, routed)          1.701     5.233    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/Metric_Sel_3[0]
+    SLICE_X9Y190         LUT5 (Prop_B6LUT_SLICEL_I0_O)
+                                                      0.138     5.371 f  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[2]_i_10__1/O
+                         net (fo=67, routed)          2.536     7.907    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[2]_i_10__1_n_0
+    SLICE_X27Y168        LUT6 (Prop_G6LUT_SLICEL_I4_O)
+                                                      0.137     8.044 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_7__1/O
+                         net (fo=1, routed)           0.797     8.841    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_7__1_n_0
+    SLICE_X18Y166        LUT6 (Prop_G6LUT_SLICEM_I0_O)
+                                                      0.137     8.978 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_3__1/O
+                         net (fo=1, routed)           0.021     8.999    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in[1]_i_3__1_n_0
+    SLICE_X18Y166        MUXF7 (Prop_F7MUX_GH_SLICEM_I1_O)
+                                                      0.102     9.101 r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/register_module_inst/GEN_MUX_N_CNT.Add_in_reg[1]_i_1__1/O
+                         net (fo=1, routed)           0.044     9.145    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[31]_0[1]
+    SLICE_X18Y166        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.834    13.050    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/core_aclk
+    SLICE_X18Y166        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]/C
+                         clock pessimism              0.244    13.294    
+                         clock uncertainty           -0.130    13.165    
+    SLICE_X18Y166        FDRE (Setup_HFF_SLICEM_C_D)
+                                                      0.044    13.209    kv260_rm10_recurrence_decoupled_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/metric_counters_inst/GEN_METRIC_CNT_3.axi_perf_mon_v5_0_35_metric_sel_n_cnt_inst_3/GEN_MUX_N_CNT.Add_in_reg[1]
+  -------------------------------------------------------------------
+                         required time                         13.209    
+                         arrival time                          -9.145    
+  -------------------------------------------------------------------
+                         slack                                  4.064    
+
+Slack (MET) :             4.088ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_CS_fsm_reg[39]/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg/DINADIN[15]
+                            (rising edge-triggered cell RAMB18E2 clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        4.993ns  (logic 0.406ns (8.131%)  route 4.587ns (91.869%))
+  Logic Levels:           2  (LUT3=1 LUT5=1)
+  Clock Path Skew:        -0.190ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.005ns = ( 13.005 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.379ns
+    Clock Pessimism Removal (CPR):    0.185ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.112ns (routing 1.584ns, distribution 1.528ns)
+  Clock Net Delay (Destination): 2.789ns (routing 1.450ns, distribution 1.339ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       3.112     3.379    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_clk
+    SLICE_X22Y134        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_CS_fsm_reg[39]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X22Y134        FDRE (Prop_EFF_SLICEL_C_Q)
+                                                      0.114     3.493 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_CS_fsm_reg[39]/Q
+                         net (fo=101, routed)         2.163     5.656    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_2[0]
+    SLICE_X29Y207        LUT5 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.138     5.794 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_i_33__1/O
+                         net (fo=1, routed)           0.362     6.156    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_i_33__1_n_0
+    SLICE_X32Y207        LUT3 (Prop_C5LUT_SLICEM_I2_O)
+                                                      0.154     6.310 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_i_1__5/O
+                         net (fo=4, routed)           2.062     8.372    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/result_tile_13_d1_local[15]
+    RAMB18_X1Y34         RAMB18E2                                     r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg/DINADIN[15]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.789    13.005    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ap_clk
+    RAMB18_X1Y34         RAMB18E2                                     r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg/CLKBWRCLK
+                         clock pessimism              0.185    13.190    
+                         clock uncertainty           -0.130    13.060    
+    RAMB18_X1Y34         RAMB18E2 (Setup_RAMB18E2_L_RAMB180_CLKBWRCLK_DINADIN[15])
+                                                     -0.600    12.460    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg
+  -------------------------------------------------------------------
+                         required time                         12.460    
+                         arrival time                          -8.372    
+  -------------------------------------------------------------------
+                         slack                                  4.088    
+
+Slack (MET) :             4.088ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_CS_fsm_reg[39]/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg/DINADIN[15]
+                            (rising edge-triggered cell RAMB18E2 clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        4.993ns  (logic 0.406ns (8.131%)  route 4.587ns (91.869%))
+  Logic Levels:           2  (LUT3=1 LUT5=1)
+  Clock Path Skew:        -0.190ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    3.005ns = ( 13.005 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.379ns
+    Clock Pessimism Removal (CPR):    0.185ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      3.112ns (routing 1.584ns, distribution 1.528ns)
+  Clock Net Delay (Destination): 2.789ns (routing 1.450ns, distribution 1.339ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       3.112     3.379    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_clk
+    SLICE_X22Y134        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_CS_fsm_reg[39]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X22Y134        FDRE (Prop_EFF_SLICEL_C_Q)
+                                                      0.114     3.493 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/ap_CS_fsm_reg[39]/Q
+                         net (fo=101, routed)         2.163     5.656    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_2[0]
+    SLICE_X29Y207        LUT5 (Prop_H6LUT_SLICEM_I3_O)
+                                                      0.138     5.794 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_i_33__1/O
+                         net (fo=1, routed)           0.362     6.156    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_i_33__1_n_0
+    SLICE_X32Y207        LUT3 (Prop_C5LUT_SLICEM_I2_O)
+                                                      0.154     6.310 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg_i_1__5/O
+                         net (fo=4, routed)           2.062     8.372    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/result_tile_13_d1_local[15]
+    RAMB18_X1Y34         RAMB18E2                                     r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg/DINADIN[15]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.789    13.005    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ap_clk
+    RAMB18_X1Y34         RAMB18E2                                     r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg/CLKBWRCLK
+                         clock pessimism              0.185    13.190    
+                         clock uncertainty           -0.130    13.060    
+    RAMB18_X1Y34         RAMB18E2 (Setup_RAMB18E2_L_RAMB180_CLKBWRCLK_DINADIN[15])
+                                                     -0.600    12.460    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/result_tile_13_U/ram_reg
+  -------------------------------------------------------------------
+                         required time                         12.460    
+                         arrival time                          -8.372    
+  -------------------------------------------------------------------
+                         slack                                  4.088    
+
+Slack (MET) :             4.158ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.611ns  (logic 0.573ns (10.213%)  route 5.038ns (89.787%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.899ns = ( 12.899 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.683ns (routing 1.450ns, distribution 1.233ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.492     8.320    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X31Y225        LUT6 (Prop_H6LUT_SLICEM_I1_O)
+                                                      0.154     8.474 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_3/O
+                         net (fo=1, routed)           0.125     8.599    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_3_n_0
+    SLICE_X32Y226        LUT5 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.151     8.750 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_1/O
+                         net (fo=1, routed)           0.096     8.846    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_1_n_0
+    SLICE_X32Y226        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.683    12.899    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X32Y226        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]/C
+                         clock pessimism              0.192    13.091    
+                         clock uncertainty           -0.130    12.961    
+    SLICE_X32Y226        FDRE (Setup_DFF_SLICEM_C_D)
+                                                      0.043    13.004    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]
+  -------------------------------------------------------------------
+                         required time                         13.004    
+                         arrival time                          -8.846    
+  -------------------------------------------------------------------
+                         slack                                  4.158    
+
+Slack (MET) :             4.158ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.611ns  (logic 0.573ns (10.213%)  route 5.038ns (89.787%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.899ns = ( 12.899 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.683ns (routing 1.450ns, distribution 1.233ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.492     8.320    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X31Y225        LUT6 (Prop_H6LUT_SLICEM_I1_O)
+                                                      0.154     8.474 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_3/O
+                         net (fo=1, routed)           0.125     8.599    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_3_n_0
+    SLICE_X32Y226        LUT5 (Prop_D6LUT_SLICEM_I2_O)
+                                                      0.151     8.750 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_1/O
+                         net (fo=1, routed)           0.096     8.846    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855[24]_i_1_n_0
+    SLICE_X32Y226        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.683    12.899    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X32Y226        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]/C
+                         clock pessimism              0.192    13.091    
+                         clock uncertainty           -0.130    12.961    
+    SLICE_X32Y226        FDRE (Setup_DFF_SLICEM_C_D)
+                                                      0.043    13.004    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_5_reg_15855_reg[24]
+  -------------------------------------------------------------------
+                         required time                         13.004    
+                         arrival time                          -8.846    
+  -------------------------------------------------------------------
+                         slack                                  4.158    
+
+Slack (MET) :             4.174ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.586ns  (logic 0.678ns (12.138%)  route 4.908ns (87.862%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.154ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.890ns = ( 12.890 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.674ns (routing 1.450ns, distribution 1.224ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.378     8.206    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        LUT6 (Prop_D6LUT_SLICEL_I1_O)
+                                                      0.185     8.391 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_3/O
+                         net (fo=1, routed)           0.124     8.515    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_3_n_0
+    SLICE_X31Y224        LUT5 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.225     8.740 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_1/O
+                         net (fo=1, routed)           0.081     8.821    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_1_n_0
+    SLICE_X31Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.674    12.890    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X31Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]/C
+                         clock pessimism              0.192    13.082    
+                         clock uncertainty           -0.130    12.952    
+    SLICE_X31Y224        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.043    12.995    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]
+  -------------------------------------------------------------------
+                         required time                         12.995    
+                         arrival time                          -8.821    
+  -------------------------------------------------------------------
+                         slack                                  4.174    
+
+Slack (MET) :             4.174ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]/D
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.586ns  (logic 0.678ns (12.138%)  route 4.908ns (87.862%))
+  Logic Levels:           3  (LUT4=1 LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.154ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.890ns = ( 12.890 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.674ns (routing 1.450ns, distribution 1.224ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.378     8.206    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        LUT6 (Prop_D6LUT_SLICEL_I1_O)
+                                                      0.185     8.391 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_3/O
+                         net (fo=1, routed)           0.124     8.515    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_3_n_0
+    SLICE_X31Y224        LUT5 (Prop_B6LUT_SLICEM_I2_O)
+                                                      0.225     8.740 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_1/O
+                         net (fo=1, routed)           0.081     8.821    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845[29]_i_1_n_0
+    SLICE_X31Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.674    12.890    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X31Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]/C
+                         clock pessimism              0.192    13.082    
+                         clock uncertainty           -0.130    12.952    
+    SLICE_X31Y224        FDRE (Setup_BFF_SLICEM_C_D)
+                                                      0.043    12.995    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/tmp_reg_15845_reg[29]
+  -------------------------------------------------------------------
+                         required time                         12.995    
+                         arrival time                          -8.821    
+  -------------------------------------------------------------------
+                         slack                                  4.174    
+
+Slack (MET) :             4.189ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.458ns  (logic 0.268ns (4.910%)  route 5.190ns (95.090%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        -0.144ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.899ns = ( 12.899 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.683ns (routing 1.450ns, distribution 1.233ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.865     8.694    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.683    12.899    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X30Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]/C
+                         clock pessimism              0.192    13.091    
+                         clock uncertainty           -0.130    12.961    
+    SLICE_X30Y224        FDRE (Setup_HFF2_SLICEL_C_CE)
+                                                     -0.079    12.882    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]
+  -------------------------------------------------------------------
+                         required time                         12.882    
+                         arrival time                          -8.694    
+  -------------------------------------------------------------------
+                         slack                                  4.189    
+
+Slack (MET) :             4.189ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.458ns  (logic 0.268ns (4.910%)  route 5.190ns (95.090%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        -0.144ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.899ns = ( 12.899 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.683ns (routing 1.450ns, distribution 1.233ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.865     8.694    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        FDRE                                         f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.683    12.899    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X30Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]/C
+                         clock pessimism              0.192    13.091    
+                         clock uncertainty           -0.130    12.961    
+    SLICE_X30Y224        FDRE (Setup_HFF2_SLICEL_C_CE)
+                                                     -0.079    12.882    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_3_fu_650_reg[29]
+  -------------------------------------------------------------------
+                         required time                         12.882    
+                         arrival time                          -8.694    
+  -------------------------------------------------------------------
+                         slack                                  4.189    
+
+Slack (MET) :             4.189ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.458ns  (logic 0.268ns (4.910%)  route 5.190ns (95.090%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        -0.144ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.899ns = ( 12.899 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.683ns (routing 1.450ns, distribution 1.233ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.865     8.694    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.683    12.899    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X30Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]/C
+                         clock pessimism              0.192    13.091    
+                         clock uncertainty           -0.130    12.961    
+    SLICE_X30Y224        FDRE (Setup_GFF2_SLICEL_C_CE)
+                                                     -0.079    12.882    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]
+  -------------------------------------------------------------------
+                         required time                         12.882    
+                         arrival time                          -8.694    
+  -------------------------------------------------------------------
+                         slack                                  4.189    
+
+Slack (MET) :             4.189ns  (required time - arrival time)
+  Source:                 kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]/CE
+                            (rising edge-triggered cell FDRE clocked by clk_pl_0  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk_pl_0
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk_pl_0 rise@10.000ns - clk_pl_0 rise@0.000ns)
+  Data Path Delay:        5.458ns  (logic 0.268ns (4.910%)  route 5.190ns (95.090%))
+  Logic Levels:           1  (LUT4=1)
+  Clock Path Skew:        -0.144ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.899ns = ( 12.899 - 10.000 ) 
+    Source Clock Delay      (SCD):    3.236ns
+    Clock Pessimism Removal (CPR):    0.192ns
+  Clock Uncertainty:      0.130ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.250ns
+    Phase Error              (PE):    0.000ns
+  Clock Net Delay (Source):      2.969ns (routing 1.584ns, distribution 1.385ns)
+  Clock Net Delay (Destination): 2.683ns (routing 1.450ns, distribution 1.233ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_pl_0 rise edge)
+                                                      0.000     0.000 r  
+    PS8_X0Y0             PS8                          0.000     0.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.229     0.229    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.038     0.267 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.969     3.236    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X35Y138        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y138        FDRE (Prop_HFF_SLICEM_C_Q)
+                                                      0.114     3.350 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34_reg/Q
+                         net (fo=9, routed)           0.325     3.675    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_enable_reg_pp0_iter34
+    SLICE_X41Y141        LUT4 (Prop_D5LUT_SLICEM_I0_O)
+                                                      0.154     3.829 f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_73_fu_370[31]_i_1/O
+                         net (fo=961, routed)         4.865     8.694    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_13_fu_6101
+    SLICE_X30Y224        FDRE                                         f  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_pl_0 rise edge)
+                                                     10.000    10.000 r  
+    PS8_X0Y0             PS8                          0.000    10.000 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/PS8_i/PLCLK[0]
+                         net (fo=1, routed)           0.181    10.181    kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/pl_clk_unbuffered[0]
+    BUFG_PS_X0Y80        BUFG_PS (Prop_BUFG_PS_I_O)
+                                                      0.035    10.216 r  kv260_rm10_recurrence_decoupled_i/zynq_ultra_ps_e_0/inst/buffer_pl_clk_0.PL_CLK_0_BUFG/O
+    X1Y1 (CLOCK_ROOT)    net (fo=58126, routed)       2.683    12.899    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/ap_clk
+    SLICE_X30Y224        FDRE                                         r  kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]/C
+                         clock pessimism              0.192    13.091    
+                         clock uncertainty           -0.130    12.961    
+    SLICE_X30Y224        FDRE (Setup_GFF2_SLICEL_C_CE)
+                                                     -0.079    12.882    kv260_rm10_recurrence_decoupled_i/vision_ffn_down_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_247/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_164_9_fu_1155/accum_8_fu_630_reg[22]
+  -------------------------------------------------------------------
+                         required time                         12.882    
+                         arrival time                          -8.694    
+  -------------------------------------------------------------------
+                         slack                                  4.189    
+
+
+
+

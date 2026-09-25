@@ -26,3 +26,19 @@ ignored by Git. The results document records the IP/source identity, resource
 totals including CLB sites and BRAM/URAM, 100 MHz timing slack, routed-frequency
 interpretation, congestion, critical path, bitstream and XSA checksums, and any
 implementation warnings or errors.
+
+The original A-rescue route is archived as `PROVISIONAL_INVALID` because its
+HLS schedule places an accumulator load and store five stages apart while the
+bound FP32 adder latency is seven cycles. It must not be loaded. To route a
+corrected package while retaining the original evidence, set distinct output
+directories:
+
+```bash
+RM10_IP_REPO=/absolute/path/to/corrected/ip \
+RM10_SYSTEM_ROOT="$PWD/experiments/rm10_route/build/corrected_candidate" \
+RM10_EVIDENCE_ROOT="$PWD/experiments/rm10_route/evidence/corrected_candidate" \
+  scripts/rm10/run_full_system.sh
+```
+
+Start that run only after the corrected source/IP is frozen and its recurrence
+correctness is explicitly validated.
