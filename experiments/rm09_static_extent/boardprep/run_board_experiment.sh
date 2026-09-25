@@ -27,12 +27,12 @@ readonly package_manifest_sha=cae3a750941c191ba17f1c9cbfacaa5a5093ecc41eaa9a99f1
 readonly app_bin_sha=819b088199ac4346c1eb9b7bb65ade42afe8f95eaeec02cca4bc6bdd2bb0d87b
 readonly app_dtbo_sha=85fd0a2e2186886d8d52178c0934ba51585c37c28e5dd54a1c5536f2e506521e
 readonly app_json_sha=802dbc8b3f118313a5a74df46f56dc550a61b687dfd484fc6a8fd5ac7895c344
-readonly runtime_manifest_sha=__RM09_RUNTIME_ARTIFACTS_SHA256__
-readonly cli_sha=__RM09_RUNTIME_CLI_SHA256__
+readonly runtime_manifest_sha=e35e0b1ff5ae5c3630af49c20f5494dd5ce82753f33374b216c36ac1b1cb95a9
+readonly cli_sha=6a45ea3647b1db19d06408441729681d19966af569040e4577b1410b803d7254
 readonly model_sha=8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773
 readonly mmproj_sha=ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293
-readonly cpu_lib_sha=__RM09_RUNTIME_CPU_LIBRARY_SHA256__
-readonly helper_sha=__RM09_RUNTIME_HELPER_SHA256__
+readonly cpu_lib_sha=b44c771488d7fa63e73d1ddf0f15427f1943000fc969d4fe4cd42102e1c777b7
+readonly helper_sha=9e4fd845a7ec0b9772ff376803f769f305b38eb89cd64eb72cd8cc2fd2f660f7
 readonly route_ceiling_hz=100000000
 # Rounded XRT BOs: W=1,101,824; X=552,960; Y=16,384 bytes.
 readonly rm09_bounded_pool_bytes=1671168
@@ -186,9 +186,10 @@ trap finish EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
-systemd-run --quiet --unit="$rollback_unit" --on-active="${rollback_seconds}s" "$restore_script" "$restore_log"
+systemd-run --quiet --unit="$rollback_unit" --on-active="${rollback_seconds}s" "$restore_script" "$restore_log" || die "could not create the RM09 rollback timer"
+systemctl is-active --quiet "$rollback_unit.timer" || die "RM09 rollback timer is not active; no app state has been changed"
 timer_armed=1
-echo "rollback_timer=$rollback_unit.timer restore_after_seconds=$rollback_seconds"
+echo "rollback_timer=$rollback_unit.timer timer_state=active restore_after_seconds=$rollback_seconds"
 if [[ "$package_preinstalled" == 0 ]]; then
   install -d -m 0755 -- "$install_dir"
   install -m 0644 -- "$package_source/$app.bit.bin" "$install_dir/$app.bit.bin"

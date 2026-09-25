@@ -19,6 +19,15 @@ task does not load the image or run either VLM request.
 - Runtime base source commit: `7c9c15992ff6df6d6fa10636b430e170a3dd2934`.
 - `runtime_dispatch.patch` SHA-256:
   `22d96ed06be3b8d6c2dd8f841785fdd90981932fe0c3754189dfe710493dc32d`.
+- Board native build outputs:
+  - `RM09_RUNTIME_ARTIFACTS.sha256`:
+    `e35e0b1ff5ae5c3630af49c20f5494dd5ce82753f33374b216c36ac1b1cb95a9`.
+  - `llama-mtmd-cli`:
+    `6a45ea3647b1db19d06408441729681d19966af569040e4577b1410b803d7254`.
+  - `libggml-cpu.so.0.24.0`:
+    `b44c771488d7fa63e73d1ddf0f15427f1943000fc969d4fe4cd42102e1c777b7`.
+  - `rm08-ffn-down-helper-smoke`:
+    `9e4fd845a7ec0b9772ff376803f769f305b38eb89cd64eb72cd8cc2fd2f660f7`.
 - RM09 identity uses UIO name `vision_ffn_down_tile_0`, compatible
   `xlnx,vision-ffn-down-tile-1.0`, AXI-Lite window `0xa0010000–0xa001ffff`,
   and invalid task return `-4`. There is no immutable IP-ID register.
@@ -67,9 +76,9 @@ ssh kria 'bash /tmp/rm09-static-extent/runtime/build_runtime.sh'
 
 Before a board run, copy this `boardprep` directory, the pinned route package,
 and the RM08 restore/diagnostics helpers to the matching paths under
-`/tmp/rm09-static-extent/`. Fill the four runtime SHA placeholders in
-`run_board_experiment.sh` from the completed runtime build. Review those hashes
-and the worktree commit before loading. The only privileged invocation is:
+`/tmp/rm09-static-extent/`. The final runtime SHA pins are already filled in
+`run_board_experiment.sh`. Review those hashes and the worktree commit before
+loading. The only privileged invocation is:
 
 ```sh
 sudo bash /tmp/rm09-static-extent/boardprep/run_board_experiment.sh
