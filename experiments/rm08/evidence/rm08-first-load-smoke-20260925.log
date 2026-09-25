@@ -1,0 +1,417 @@
++ [first_load_smoke.sh:20] trap 'rc=$?; echo "ERROR rc=$rc line=$LINENO command=$BASH_COMMAND"' ERR
+++ [first_load_smoke.sh:22] date -u +%FT%TZ
+++ [first_load_smoke.sh:22] hostname
++ [first_load_smoke.sh:22] echo 'utc=2026-09-25T02:39:23Z host=kria'
+utc=2026-09-25T02:39:23Z host=kria
+++ [first_load_smoke.sh:23] cat /proc/sys/kernel/random/boot_id
++ [first_load_smoke.sh:23] echo boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
+boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
++ [first_load_smoke.sh:24] grep -E '^(MemAvailable|CmaTotal|CmaFree):' /proc/meminfo
+MemAvailable:    3294872 kB
+CmaTotal:        1024000 kB
+CmaFree:          533940 kB
+++ [first_load_smoke.sh:25] xmutil listapps
++ [first_load_smoke.sh:25] apps='                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1'
++ [first_load_smoke.sh:26] printf '%s\n' '                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1'
+                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1
+++ [first_load_smoke.sh:27] cat /sys/class/fpga_manager/fpga0/state
++ [first_load_smoke.sh:27] test operating = operating
++ [first_load_smoke.sh:28] grep -q k26-starter-kits
++ [first_load_smoke.sh:30] expected_bin=b8ba3e533b96e84f8cbb23acc8808146286671ccced979c9381f9afe9ddfbc60
++ [first_load_smoke.sh:31] expected_dtbo=4fca210afb0258e7f67f6071a1d7d4c98681d60f847bfec5a3f00e0ab7c052d2
++ [first_load_smoke.sh:32] expected_json=802dbc8b3f118313a5a74df46f56dc550a61b687dfd484fc6a8fd5ac7895c344
++ [first_load_smoke.sh:33] printf '%s  %s\n' b8ba3e533b96e84f8cbb23acc8808146286671ccced979c9381f9afe9ddfbc60 /tmp/rm08-deploy/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.bit.bin
++ [first_load_smoke.sh:33] sha256sum -c -
+/tmp/rm08-deploy/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.bit.bin: OK
++ [first_load_smoke.sh:34] printf '%s  %s\n' 4fca210afb0258e7f67f6071a1d7d4c98681d60f847bfec5a3f00e0ab7c052d2 /tmp/rm08-deploy/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.dtbo
++ [first_load_smoke.sh:34] sha256sum -c -
+/tmp/rm08-deploy/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.dtbo: OK
++ [first_load_smoke.sh:35] printf '%s  %s\n' 802dbc8b3f118313a5a74df46f56dc550a61b687dfd484fc6a8fd5ac7895c344 /tmp/rm08-deploy/kv260-rm07-bounded-k16/shell.json
++ [first_load_smoke.sh:35] sha256sum -c -
+/tmp/rm08-deploy/kv260-rm07-bounded-k16/shell.json: OK
++ [first_load_smoke.sh:37] install -d -m 0755 /lib/firmware/xilinx/kv260-rm07-bounded-k16
++ [first_load_smoke.sh:38] install -m 0644 /tmp/rm08-deploy/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.bit.bin /lib/firmware/xilinx/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.bit.bin
++ [first_load_smoke.sh:39] install -m 0644 /tmp/rm08-deploy/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.dtbo /lib/firmware/xilinx/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.dtbo
++ [first_load_smoke.sh:40] install -m 0644 /tmp/rm08-deploy/kv260-rm07-bounded-k16/shell.json /lib/firmware/xilinx/kv260-rm07-bounded-k16/shell.json
+++ [first_load_smoke.sh:41] xmutil listapps
++ [first_load_smoke.sh:41] apps='                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1'
++ [first_load_smoke.sh:42] printf '%s\n' '                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1'
+                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1
++ [first_load_smoke.sh:43] grep -q kv260-rm07-bounded-k16
++ [first_load_smoke.sh:47] echo step=verify_rollback_timer
+step=verify_rollback_timer
++ [first_load_smoke.sh:48] check_unit=rm08-watchdog-check-168656
++ [first_load_smoke.sh:49] rm -f /tmp/rm08-watchdog-check
++ [first_load_smoke.sh:50] systemd-run --quiet --unit=rm08-watchdog-check-168656 --on-active=2s /usr/bin/touch /tmp/rm08-watchdog-check
+++ [first_load_smoke.sh:51] seq 1 300
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:53] sleep 0.1
++ [first_load_smoke.sh:51] for _ in $(seq 1 300)
++ [first_load_smoke.sh:52] [[ -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:52] break
++ [first_load_smoke.sh:55] [[ ! -e /tmp/rm08-watchdog-check ]]
++ [first_load_smoke.sh:60] rm -f /tmp/rm08-watchdog-check
++ [first_load_smoke.sh:61] systemctl reset-failed rm08-watchdog-check-168656.service
++ [first_load_smoke.sh:61] true
++ [first_load_smoke.sh:62] echo timer_self_test=PASS
+timer_self_test=PASS
++ [first_load_smoke.sh:64] echo step=arm_180s_restore
+step=arm_180s_restore
++ [first_load_smoke.sh:65] systemd-run --quiet --unit=rm08-first-load-rollback --on-active=180s /bin/bash -c 'xmutil unloadapp >/dev/null 2>&1 || true; xmutil loadapp k26-starter-kits >/dev/null 2>&1'
++ [first_load_smoke.sh:75] trap restore EXIT INT TERM
++ [first_load_smoke.sh:77] echo step=load_custom_app
+step=load_custom_app
++ [first_load_smoke.sh:78] xmutil unloadapp
+remove from slot 0 returns: 0 (Ok)
++ [first_load_smoke.sh:79] xmutil loadapp kv260-rm07-bounded-k16
+kv260-rm07-bounded-k16: loaded to slot 0
+++ [first_load_smoke.sh:80] cat /sys/class/fpga_manager/fpga0/state
++ [first_load_smoke.sh:80] echo 'loadapp_returned fpga_manager=operating'
+loadapp_returned fpga_manager=operating
++ [first_load_smoke.sh:81] set +x
+uio_names_begin
+axi-pmon
+axi-pmon
+axi-pmon
+axi-pmon
+fabric
+axi_perf_mon_0
+vision_ffn_down_tile_0
+uio_names_end
+post_load_fpga_manager=operating
++ [first_load_smoke.sh:98] gcc -O2 -Wall -Wextra /tmp/rm08-deploy/kv260-rm07-bounded-k16/axilite_smoke.c -o /tmp/rm08_axilite_smoke
++ [first_load_smoke.sh:99] /tmp/rm08_axilite_smoke
+HLS UIO=/dev/uio6 uio_version=devicetree compatible=xlnx,vision-ffn-down-tile-1.0,generic-uio expected_control_base=0xa0010000
+AP_CTRL_before=0x00000004 idle=1
+AXI_LITE_ABI_PROBE=0xfffffffc (-4) expected=-4 PASS
+APM UIO=/dev/uio5 compatible=generic-uio GClockCounterMSB=0x00000000 LSB=0x00000000
++ [first_load_smoke.sh:100] echo custom_app_smoke=PASS
+custom_app_smoke=PASS
++ [first_load_smoke.sh:102] restore
++ [first_load_smoke.sh:68] set +e
++ [first_load_smoke.sh:69] xmutil unloadapp
++ [first_load_smoke.sh:70] xmutil loadapp k26-starter-kits
++ [first_load_smoke.sh:71] systemctl stop rm08-first-load-rollback.timer
++ [first_load_smoke.sh:72] systemctl stop rm08-first-load-rollback.service
++ [first_load_smoke.sh:73] systemctl reset-failed rm08-first-load-rollback.timer rm08-first-load-rollback.service
+++ [first_load_smoke.sh:102] rc=1
+++ [first_load_smoke.sh:102] echo 'ERROR rc=1 line=102 command=systemctl reset-failed "$rollback_unit.timer" "$rollback_unit.service" > /dev/null 2>&1'
+ERROR rc=1 line=102 command=systemctl reset-failed "$rollback_unit.timer" "$rollback_unit.service" > /dev/null 2>&1
++ [first_load_smoke.sh:103] trap - EXIT INT TERM
+++ [first_load_smoke.sh:104] cat /sys/class/fpga_manager/fpga0/state
++ [first_load_smoke.sh:104] test operating = operating
+++ [first_load_smoke.sh:105] xmutil listapps
++ [first_load_smoke.sh:105] apps='                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1'
++ [first_load_smoke.sh:106] printf '%s\n' '                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1'
+                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1
++ [first_load_smoke.sh:107] grep -q k26-starter-kits
++ [first_load_smoke.sh:108] echo starter_kit_restore=PASS
+starter_kit_restore=PASS
++ [first_load_smoke.sh:109] grep -E '^(MemAvailable|CmaTotal|CmaFree):' /proc/meminfo
+MemAvailable:    3289840 kB
+CmaTotal:        1024000 kB
+CmaFree:          530928 kB

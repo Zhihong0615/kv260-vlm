@@ -1,6 +1,6 @@
 # RM08 KV260 recovery card
 
-## Before the first PL load
+## Latest board state after first PL smoke and benchmark
 
 - Connect to the board using SSH alias `kria` (`ubuntu@10.192.176.217`).
 - Confirm `xmutil listapps` shows `k26-starter-kits`, XRT_FLAT, slot 0.
@@ -8,10 +8,11 @@
 - The captured boot ID is `2a931c48-99ad-4a3f-b3e1-f42634597098`; root is the
   writable SD root (`/dev/mmcblk1p2`). The exact A/B boot-firmware slot is
   UNKNOWN because `xmutil bootfw_status` requires interactive sudo.
-- Latest direct-SSH snapshot (2026-09-25 02:37:49 UTC):
-  `MemAvailable=3,295,496 kB`, `CmaTotal=1,024,000 kB`,
-  `CmaFree=534,768 kB`. FPGA manager is `operating`; no RM07 UIO entry is
-  present. The RM07 app files are installed under `/lib/firmware/xilinx/`.
+- Latest direct-SSH snapshot (2026-09-25 02:45:58 UTC):
+  `MemAvailable=3,289,892 kB`, `CmaTotal=1,024,000 kB`,
+  `CmaFree=528,768 kB`. FPGA manager is `operating`; no RM07 UIO entry is
+  present after the logged starter-kit restore. The RM07 app files remain
+  installed under `/lib/firmware/xilinx/`.
   Non-root `xmutil` cannot access the DFX manager socket.
 - USB-UART is not connected. User selected direct SSH. RM08 does not modify
   boot firmware, QSPI, SD image, or boot files.
@@ -33,9 +34,9 @@ xmutil loadapp k26-starter-kits
 
 Manual restore over SSH is the same two commands with `sudo`. Expected final
 state: FPGA manager `operating`; `xmutil listapps` shows `k26-starter-kits`;
-RM07 UIO entries are gone. The path becomes verified only after one full
-script execution is captured in `/tmp/rm08-first-load-smoke.log` and copied to
-the repository evidence directory.
+RM07 UIO entries are gone. The first full load, AXI-Lite smoke, and restore
+cycle passed; see the captured log in the repository evidence directory. A
+physical recovery/power-cycle path still has not been exercised.
 
 The prepared direct-SSH command is:
 
@@ -44,11 +45,11 @@ ssh -tt kria 'sudo bash /tmp/rm08-deploy/ssh_entrypoint.sh'
 ```
 
 The app package files are installed on the writable root filesystem; tensors,
-benchmark binary, and the latest diagnostic smoke script are staged under
-`/tmp`. This command needs the board user's interactive sudo password. The
-last run passed package hashes but did not leave an RM07 UIO device. The
-timer self-test appears to have timed out at its old 5-second limit; its wait
-is now 30 seconds and the script logs the failure point. Rerun the command.
+benchmark binary, and diagnostic scripts are staged under `/tmp`. The user
+must enter the board user's sudo password in their local terminal. The first
+RM07 load, AXI-Lite probe, starter-kit restore, and standalone benchmark have
+now passed. The benchmark's `starter_kit_restore=PASS` is the latest software
+rollback evidence.
 
 If the kernel/board itself stops responding, SSH and the timer cannot recover
 it; use a physical power cycle, which should return to the unchanged starter

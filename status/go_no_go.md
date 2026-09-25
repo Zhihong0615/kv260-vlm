@@ -1,11 +1,11 @@
 # Research go/no-go
 
-> **Latest stage decision (RM07, 2026-09-24): `GO_BOARD_FFN_FAMILY` for a gated board measurement.** A single routed K16 image supports `N=1120` and `N=280`; real-tensor C-simulation passed sampled output regions; a calculated single staging pool is 1.594 MiB page-rounded; full-system Vivado route/bitgen passed at 187.512 MHz with WNS +0.425 ns and CLB-site occupancy 88.36%. The conservative serialized 0.5 GB/s model estimates 173.802 s for the 135-call family versus 250.124 s CPU, before PS packing and submit/sync. No bitstream has been loaded, and no PS-side runtime, board PL latency, DDR bandwidth, or full-tensor quality has been measured. The recovery route is unverified, so board loading remains gated. No novelty claim is made. Full evidence: [`RM07_RESULTS.md`](../experiments/rm07/RM07_RESULTS.md).
+> **Latest stage decision (RM08, 2026-09-25): `GO_VLM_INTEGRATION`.** The RM07 image was loaded on KV260, passed AXI-Lite smoke, then unloaded with starter-kit restore. Real-tensor calls for N=1120 and N=280 passed numeric limits. A shape-weighted 135-call replay took 99.013 s wall including packing and output handling versus 250.124 s CPU (2.526×); it reused representative tensors rather than all 27 unique layer payloads. Active measured clock was 99.999 MHz. This clears the standalone gate but does not prove a full VLM speedup: PS+PL inference, output preservation, unique-layer dispatch, and fallback counts remain unmeasured. No novelty claim is made. See [`RM08_RESULTS.md`](../experiments/rm08/RM08_RESULTS.md) and [`RM08_CHECKPOINT.md`](../experiments/rm08/RM08_CHECKPOINT.md).
 
-Updated: 2026-09-24
-Decision: **GO_BOARD_FFN_FAMILY (RM07 measured-load candidate only); P3 method novelty remains unproven**
+Updated: 2026-09-25
+Decision: **GO_VLM_INTEGRATION (RM08 standalone gate passed); P3 method novelty remains unproven**
 
-The sections below retain prior-stage context. In particular, the earlier RM05 instruction not to start accelerator/bitstream work is superseded by RM07's completed local HLS, system route, and bitgen feasibility work. RM07 does not authorize programming the board; that remains gated on a verified recovery path.
+The sections below retain prior-stage context and must not be read as current RM08 board status. RM08 has now completed one authorized first-load/smoke/restore cycle and a standalone real-tensor benchmark. The remaining gate is to integrate the engine into the actual MiniCPM-V runtime and measure QID 37804 end to end.
 
 The older reasons, evidence rows, and P3 reconsideration conditions below are historical context. Use the RM07 decision and result page above for current accelerator status.
 

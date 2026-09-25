@@ -1,14 +1,15 @@
 # RM08 — First real PL bring-up and FFN-down boundary
 
-Status: package, target-built benchmark runner, real tensor staging, and
-no-PL buffer/API probes are prepared. The RM07 flat-app files are installed on
-the writable root filesystem, but no successful RM07 UIO/AXI-Lite smoke or
-tensor benchmark has been captured. Latest board observation shows FPGA
-manager `operating` and no RM07 UIO device.
+Status: **first real PL load, AXI-Lite smoke, restore, and standalone real-tensor
+benchmarks passed. `GO_VLM_INTEGRATION`.** The 135-call shape-weighted replay
+took 99.013 s end to end versus the 250.124 s CPU family baseline (2.526×).
+Full MiniCPM-V runtime integration and a PS+PL VLM request remain the next
+uncompleted RM08 task; the 99.013 s replay used representative repeated layer
+payloads, not all 27 unique layer tensors.
 
 ## Latest board state via direct SSH
 
-Captured at `2026-09-25T02:37:49Z` UTC:
+Captured at `2026-09-25T02:45:58Z` UTC:
 
 - Host `kria`, boot ID `2a931c48-99ad-4a3f-b3e1-f42634597098`.
 - Ubuntu 22.04.4, kernel `5.15.0-1027-xilinx-zynqmp`, root `/dev/mmcblk1p2`.
@@ -17,10 +18,11 @@ Captured at `2026-09-25T02:37:49Z` UTC:
   later non-root query was denied access to the DFX manager socket. Current
   direct checks show FPGA manager `operating` and no RM07 UIO device.
 - XRT `2.13.479-0ubuntu2`, device reports KV260 and 4 GiB DDR.
-- Latest readiness snapshot: `MemAvailable=3,295,496 kB`,
-  `CmaTotal=1,024,000 kB`, `CmaFree=534,768 kB`.
+- Latest readiness snapshot after restore: `MemAvailable=3,289,892 kB`,
+  `CmaTotal=1,024,000 kB`, `CmaFree=528,768 kB`.
 - The RM07 package directory exists under `/lib/firmware/xilinx/`; boot
-  firmware, QSPI, and SD boot files were not modified. RM07 UIO is absent.
+  firmware, QSPI, and SD boot files were not modified. After the smoke and
+  benchmark restored the starter-kit, RM07 UIO is absent.
 - No apt/dpkg, VLM, XRT, or Vitis work was active in the readiness check. The
   matching `pgrep` output contained only the readiness shell itself.
 - `sudo` is password-required except `xmutil listapps`; the first-load script
@@ -84,26 +86,71 @@ Probe output: `evidence/xrt_bo_probe_20260925.log`.
   three real single calls, five-call repetitions for each extent, and a
   35×N=1120 plus 100×N=280 representative-tensor schedule replay. The latter
   is explicitly not all 27 distinct layer payloads.
-- Direct SSH reached the board, but `sudo` requires interactive authentication.
-  The first two elevated attempts stopped on a one-character DTBO digest typo
-  (`e` instead of `f`). After correction, a third attempt passed all three
-  hashes and `xmutil listapps` exposed the candidate app. It then exited before
-  the load/restore timer was armed. The `/tmp/rm08-watchdog-check` marker
-  appeared after the script's original five-second self-test window, pointing
-  to timer scheduling jitter as the likely stop point. No RM07 UIO device is
-  present now. The smoke script now logs all commands and waits up to 30
-  seconds for that timer self-test; its corrected version is staged on the
-  board. `sudo -n` is not available from a separate SSH session, so retry
-  the entrypoint from the user's own terminal with
-  `ssh -tt kria 'sudo bash /tmp/rm08-deploy/ssh_entrypoint.sh'` and enter the
-  board password there. No password is needed in chat.
+- Direct SSH reached the board; the user authenticated `sudo` in the local
+  terminal. The initial digest typo was corrected, and the watchdog self-test
+  was lengthened after an earlier 5-second timeout. The successful run then
+  loaded RM07, passed AXI-Lite smoke, unloaded it, restored the starter-kit,
+  and completed the benchmark. The board's `xmutil` DFX socket denies
+  unprivileged inspection; the root-run smoke and benchmark logs record both
+  successful restores.
 
 Source and staging evidence: `evidence/target_compile_and_stage_20260925.log`,
-`evidence/hash_retry_and_board_state_20260925.log` (includes the corrected
-script digest and post-failure board state).
+`evidence/rm08-first-load-smoke-20260925.log`, and
+`evidence/rm08-board-bench-20260925T023936Z.log`.
 
-## Not yet measured
+## First board load and standalone FFN-down replay
 
-No load/unload, AXI-Lite smoke, tensor execution, PL cycle, DMA bandwidth,
-135-call total, or CPU-vs-PL result has been observed. The RM07 45.837 s family
-number remains an HLS schedule projection only.
+Captured 2026-09-25. The first-load smoke passed on the actual KV260:
+
+- RM07 flat app was loaded and the HLS control mapping appeared as `/dev/uio6`;
+  APM appeared as `/dev/uio5`.
+- Safe invalid-task AXI-Lite probe returned `-4` as expected.
+- Starter-kit restore passed; the follow-on benchmark also reports
+  `benchmark_complete=PASS` and `starter_kit_restore=PASS`.
+- One cleanup `systemctl reset-failed` returned 1, but the explicit starter-kit
+  restore check passed and the benchmark completed. Final direct SSH check
+  showed FPGA manager `operating`, no RM07 UIO node, and `CmaFree=528,768 kB`.
+- PL/APM clock calibration during execution measured `99.999 MHz`. The
+  previously reported 187.512 MHz is routed timing capacity, not the clock
+  actually used in this board run.
+- CPU frequency was `1,333,333 kHz`; board temperature was `UNKNOWN`.
+
+One-call measurements against the captured real tensors:
+
+| Shape (`K/M/N`) | HLS wait | Total call wall | APM effective bandwidth | Kernel/system GMAC/s | Max abs / RMSE / cosine |
+|---|---:|---:|---:|---:|---|
+| layer 0, `4304/1152/1120` | 1.440 s | 1.653 s | 0.258 GB/s | 3.857 / 3.359 | 1.14e-5 / 1.80e-7 / 0.999999999999816 |
+| layer 13, `4304/1152/280` | 0.361 s | 0.415 s | 0.264 GB/s | 3.841 / 3.346 | 1.99e-6 / 1.08e-7 / 0.999999999999797 |
+| layer 26, `4304/1152/280` | 0.361 s | 0.416 s | 0.264 GB/s | 3.841 / 3.335 | 3.05e-4 / 5.32e-6 / 0.999999999999931 |
+
+All three real-tensor comparisons passed the bench limits (max abs ≤1e-3,
+RMSE ≤1e-4, cosine ≥0.999). Five repeated calls took 8.223 s for N=1120 and
+2.082 s for N=280.
+
+The 135-call shape-weighted replay used layer-0 payload for all 35 N=1120 calls
+and layer-13 payload for all 100 N=280 calls; it did **not** use 27 distinct
+layer payloads:
+
+| Replay | Kernel/HLS wait | Host pack | XRT sync | Submit | Unpack | Total wall |
+|---|---:|---:|---:|---:|---:|---:|
+| 35 × N=1120 | 50.388 s | 6.254 s | 0.093 s | 0.024 s | 0.693 s | 57.476 s |
+| 100 × N=280 | 36.147 s | 4.793 s | 0.069 s | 0.017 s | 0.493 s | 41.537 s |
+| Total 135 calls | 86.535 s | 11.047 s | 0.162 s | 0.041 s | 1.186 s | **99.013 s** |
+
+APM reported 22.539 GB of total PL reads+writes for the replay, averaging
+0.260 GB/s during HLS execution. The bounded XRT BO pool summed to
+1,671,168 bytes (1.594 MiB, 408 CMA pages); the smallest `CmaFree` sampled by
+the runner was 514,100 kB. This is a measured board working set, not the
+full-tensor staging projection.
+
+Against the `250.124 s` CPU family baseline, this representative PL replay is
+`2.526×` faster including packing and output handling. RM08's standalone gate
+is met: **`GO_VLM_INTEGRATION`**. The Amdahl estimate for the full request is
+`668.35 - 250.124 + 99.013 = 517.239 s` (about `1.292×`), but this is only a
+prediction. No real VLM request has run through the PL backend yet; output
+answer preservation, 135 unique layer dispatches, fallback counts, and actual
+request latency remain unmeasured. Next is QID 37804 integration.
+
+Raw board logs captured locally:
+`evidence/rm08-first-load-smoke-20260925.log` and
+`evidence/rm08-board-bench-20260925T023936Z.log`.
