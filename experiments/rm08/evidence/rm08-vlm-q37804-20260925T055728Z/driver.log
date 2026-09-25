@@ -1,0 +1,54 @@
+run_dir=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm08-vlm-q37804-20260925T055728Z
+host=kria utc=2026-09-25T05:57:28Z
+boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
+cli=/home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/llama-mtmd-cli cli_sha256=73e4c8826a159e1bcf420b57cce20201353c611d57af15cdb6200f60ec5f00d0
+model=/home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf model_sha256=8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773
+mmproj=/home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf mmproj_sha256=ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293
+image=/home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/58d543df7eab2bfc.jpg image_sha256=3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f
+/lib/firmware/xilinx/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.bit.bin: OK
+/lib/firmware/xilinx/kv260-rm07-bounded-k16/kv260-rm07-bounded-k16.dtbo: OK
+/lib/firmware/xilinx/kv260-rm07-bounded-k16/shell.json: OK
+snapshot=before_load utc=2026-09-25T05:57:57Z
+MemAvailable:    3300944 kB
+CmaTotal:        1024000 kB
+CmaFree:          505320 kB
+cpu0_scaling_cur_freq_kHz=1333333
+fpga_manager=operating
+rollback_timer=rm08-vlm-q37804-20260925T055728Z-rollback.timer restore_after_seconds=1500
+remove from slot 0 returns: 0 (Ok)
+kv260-rm07-bounded-k16: loaded to slot 0
+hls_uio_name_file=/sys/class/uio/uio6/name hls_uio_device=/dev/uio6
+hls_uio_device_name=vision_ffn_down_tile_0
+helper_begin_utc=2026-09-25T05:57:58Z helper=/home/ubuntu/kv260-vlm-p2-cpu/rm08-build-1a90d48/bin/rm08-ffn-down-helper-smoke tensors=/tmp/rm08-deploy/tensors
+SMOKE_RESULT layer=ffn_down-0 status=PASS K=4304 M=1152 N=1120 max_abs=1.14440918e-05 rmse=1.80431792e-07 cosine=0.999999999999816
+SMOKE_RESULT layer=ffn_down-13 status=PASS K=4304 M=1152 N=280 max_abs=1.98930502e-06 rmse=1.08140651e-07 cosine=0.999999999999797
+SMOKE_RESULT layer=ffn_down-26 status=PASS K=4304 M=1152 N=280 max_abs=0.000305175781 rmse=5.31979913e-06 cosine=0.999999999999931
+real_tensor_helper_checks=PASS rc=0 trace=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm08-vlm-q37804-20260925T055728Z/helper-smoke-trace.txt log=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm08-vlm-q37804-20260925T055728Z/helper-smoke.log
+snapshot=before_request utc=2026-09-25T05:58:01Z
+MemAvailable:    3298472 kB
+CmaTotal:        1024000 kB
+CmaFree:          498928 kB
+cpu0_scaling_cur_freq_kHz=1333333
+fpga_manager=operating
+frozen_prompt=$'Answer the following question based only on the image. Give a short, direct answer.\nQuestion: what letter does these athlete\'s school likely begin with?\nAnswer:'
+cli_timeout_seconds=1200 timeout_kill_after_seconds=10
+cli_args=-m /home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf --mmproj /home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf --image /home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/58d543df7eab2bfc.jpg -p <frozen-prompt> -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4
+request_begin_utc=2026-09-25T05:58:01Z
+request_end_utc=2026-09-25T06:08:25Z request_exit_code=143
+snapshot=after_request_before_restore utc=2026-09-25T06:08:25Z
+MemAvailable:    3282872 kB
+CmaTotal:        1024000 kB
+CmaFree:          553112 kB
+cpu0_scaling_cur_freq_kHz=1333333
+fpga_manager=operating
+ERROR: CLI stdout is empty
+explicit_restore_begin utc=2026-09-25T06:08:25Z
+starter_kit_restore=PASS
+snapshot=after_restore utc=2026-09-25T06:08:27Z
+MemAvailable:    3305260 kB
+CmaTotal:        1024000 kB
+CmaFree:          563680 kB
+cpu0_scaling_cur_freq_kHz=1333333
+fpga_manager=operating
+explicit_restore_end utc=2026-09-25T06:08:27Z
+run_exit_status=1 starter_kit_restore=PASS

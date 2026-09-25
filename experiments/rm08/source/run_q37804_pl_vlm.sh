@@ -221,10 +221,13 @@ summary="$(grep '^RM08_PL_SUMMARY ' "$trace" | tail -n1 || true)"
 [[ -n "$summary" ]] || die "RM08_PL_SUMMARY missing; PL dispatch was not proven"
 value() { sed -n "s/.*\<$1=\([^ ]*\).*/\1/p" <<<"$summary"; }
 for check in \
-  "expected_calls:135" "expected_total_calls:140" "actual_calls:140" \
-  "expected_PL:135" "actual_PL:135" "cpu_fallbacks:5" \
+  "expected_calls:135" "expected_total_calls:145" "actual_calls:145" \
+  "expected_PL:135" "actual_PL:135" "cpu_fallbacks:10" \
   "expected_N1120:35" "actual_N1120:35" "expected_N280:100" "actual_N280:100" \
-  "expected_merger_cpu:5" "merger_cpu:5" "matches_expected:1" "media_groups:5"; do
+  "expected_merger_cpu:10" "merger_cpu:10" \
+  "expected_vit_merger_cpu:5" "vit_merger_cpu:5" \
+  "expected_mm_down_cpu:5" "mm_down_cpu:5" \
+  "matches_expected:1" "media_groups:5"; do
   key="${check%%:*}"; expected="${check#*:}"; actual="$(value "$key")"
   echo "trace_check=$key actual=${actual:-MISSING} expected=$expected"
   [[ "$actual" == "$expected" ]] || die "PL trace mismatch at $key"
@@ -239,15 +242,18 @@ awk '
       if ($0 ~ /N=1120([[:space:]]|$)/) wide++
       else if ($0 ~ /N=280([[:space:]]|$)/) narrow++
       else badshape++
+      if ($0 !~ /K=4304 M=1152 N=(1120|280) /) badshape++
     } else if ($0 ~ /status=CPU_FALLBACK([[:space:]]|$)/) {
       fallback++
-      if ($0 ~ /layer=ffn_down([[:space:]]|$)/ && $0 ~ /K=17216([[:space:]]|$)/) merger++
+      if ($0 ~ /layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=17216 M=1152 N=280 /) vit_merger++
+      else if ($0 ~ /layer=ffn_down status=CPU_FALLBACK reason=unmatched_merger K=4608 M=1024 N=70 /) mm_down++
       else badfallback++
     }
   }
   END {
-    printf "trace_lines=%d pl=%d n1120=%d n280=%d merger_fallbacks=%d\n", total, pl, wide, narrow, merger
-    exit !(total == 140 && pl == 135 && wide == 35 && narrow == 100 && fallback == 5 && merger == 5 && !badshape && !badfallback)
+    printf "trace_lines=%d pl=%d n1120=%d n280=%d cpu_fallbacks=%d vit_merger=%d mm_down=%d\n", total, pl, wide, narrow, fallback, vit_merger, mm_down
+    exit !(total == 145 && pl == 135 && wide == 35 && narrow == 100 &&
+           fallback == 10 && vit_merger == 5 && mm_down == 5 && !badshape && !badfallback)
   }
 ' "$trace" || die "individual PL/fallback trace lines do not match the expected request"
 awk '

@@ -1,0 +1,28 @@
+RM08 QID 37804 diagnostic-run context
+====================================
+
+The runtime helper passed all three captured-tensor comparisons before the
+VLM CLI started. The request then stalled after two image groups. A GDB attach
+captured the stack in stall-stack-190661-20260925T060633Z.txt: the main thread
+was in tinyBLAS/llamafile_sgemm inside clip_encode, while the worker threads
+were blocked in libgomp. The scheduler requested an intentional SIGTERM to PID
+190661 after that diagnosis. The CLI ended at 2026-09-25T06:08:25Z with status
+143; this was a diagnostic abort, not the 1200-second timeout or an inference
+completion. stdout is empty, and no final answer was produced.
+
+Partial runtime trace:
+- 54 PL calls: 14 at N=1120 and 40 at N=280; every numbered layer 0–26 ran
+  exactly twice.
+- 4 CPU fallbacks: two ViT merger calls (K/M/N=17216/1152/280) and two
+  mm.down calls (K/M/N=4608/1024/70). These are two completed media groups,
+  not the full five-group request.
+- The normal-exit `RM08_PL_SUMMARY` is absent because the CLI received SIGTERM.
+- Summed PL wall time 39.927273 s; kernel time 34.618610 s; packing 4.704230 s.
+
+GNU time reported 10:24.11 elapsed and 1,844,284 KiB peak RSS. CPU0 was
+1,333,333 kHz. MemAvailable/CmaFree (kB): before load 3,300,944/505,320;
+before request 3,298,472/498,928; after request before restore
+3,282,872/553,112; after restore 3,305,260/563,680. Passive mid-run samples
+showed CmaFree 3,768 kB at 06:05:15Z, 3,108 kB at 06:07:08Z, and 2,988 kB at
+06:07:52Z, with roughly 1.93 GiB MemAvailable. The app restore passed and the rollback timer is
+inactive. These are diagnostic-run observations, not a completed VLM result.
