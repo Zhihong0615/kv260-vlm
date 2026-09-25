@@ -82,8 +82,12 @@ OpenMP/CUDA/Vulkan OFF. This differs from the frozen RM08 build, so the
 quality comparison must use the same binary for both runs. The stripped
 transfer archive is `/tmp/rm09-f16x-aarch64-eb09ee7.tar.gz` (SHA-256
 `c9f4184da002829edb0abae327822bb4896bef7d79332c132e6162c3851b9246`, 5.0 MB).
-It has not been copied to the board. After owner-approved staging, extract it
-so the CLI and libraries are under `/tmp/rm09-f16x/bin`.
+After owner coordination, it was copied as user `ubuntu` to
+`/tmp/rm09-f16x/aarch64.tar.gz` and unpacked to `/tmp/rm09-f16x/bin`; the
+runner is `/tmp/rm09-f16x/run_q37804_aarch64_cpu_pair.sh`. Archive, runner,
+and all seven staged ELF hashes were verified. The board owner reported the
+starter kit/FCLK0 idle before staging. No CLI, `xmutil`, FCLK, or FPGA action
+was performed during staging.
 
 Staged stripped payload hashes:
 
@@ -103,8 +107,8 @@ its CLI SHA-256 is `e3d89fd935dd9af7edb9765be9a4045c2a51d9197fcefcf3d938d7116f34
 The executable embeds that build directory in RUNPATH, so the board runner sets
 `LD_LIBRARY_PATH=/tmp/rm09-f16x/bin` to load the staged copies.
 
-Run [`scripts/rm09/run_q37804_aarch64_cpu_pair.sh`](../../scripts/rm09/run_q37804_aarch64_cpu_pair.sh)
-on the board only after the board owner releases it. The script first runs
+Run `bash /tmp/rm09-f16x/run_q37804_aarch64_cpu_pair.sh` only after the board
+owner releases it. The script first runs
 P0 with `RM09_F16X_SIM` unset, then P1 with it enabled, with identical binary,
 libraries, model, mmproj, image, seed, and four-thread settings. It stores
 separate logs and requires five P1 trace calls per numbered layer (135 total).
