@@ -1,0 +1,1111 @@
+{
+  "contract_id": "rm13-textvqa-quality-split-v1",
+  "created_from": "experiments/rm13/make_quality_split.py",
+  "dataset": {
+    "name": "TextVQA",
+    "version": "0.5.1",
+    "source_split": "validation",
+    "annotation_url": "https://dl.fbaipublicfiles.com/textvqa/data/TextVQA_0.5.1_val.json",
+    "annotation_sha256": "4ceb5aadc1a41719d0a3e4dfdf06838bcfee1db569a9a65ee67d31c99893081d",
+    "license": "CC BY 4.0"
+  },
+  "selection": {
+    "seed": "rm13-textvqa-split-v1-20260926",
+    "unit": "unique image ID",
+    "question_per_image": "lowest SHA-256 of seed|question|image_id|question_id",
+    "calibration_image_order": "ascending SHA-256 of seed|calibration|image_id",
+    "final_image_order": "ascending SHA-256 of seed|final|image_id after removing development and calibration images",
+    "development_source": "/home/zhiro/research/kv260-vlm/datasets/textvqa_v0.5.1_dev_50_seed20260923/manifest.json",
+    "development_manifest_sha256": "62c32317029e40895ffd8e476e8a845416dac9d1d9490dfd6efb5f28a4374962",
+    "development_image_ids_excluded_from_calibration_and_final": true
+  },
+  "purpose_and_limit": "The existing 50-QID profiling subset is development only. Calibration and final sets are sampled from the full TextVQA validation annotations with unique image IDs and are disjoint from each other and the profiling subset. This is a held-out validation screen, not a claim on the official TextVQA test split or population-wide accuracy.",
+  "splits": {
+    "development": [
+      {
+        "question_id": 37804,
+        "image_id": "58d543df7eab2bfc"
+      },
+      {
+        "question_id": 38829,
+        "image_id": "348834d8ba0f09a4"
+      },
+      {
+        "question_id": 38449,
+        "image_id": "455a1a5d3b547e64"
+      },
+      {
+        "question_id": 38299,
+        "image_id": "61715b8521ae5d6a"
+      },
+      {
+        "question_id": 36274,
+        "image_id": "34797238e7cb2996"
+      },
+      {
+        "question_id": 36987,
+        "image_id": "76b45f2ac0e8d898"
+      },
+      {
+        "question_id": 37549,
+        "image_id": "9218c5a41010b6b3"
+      },
+      {
+        "question_id": 38061,
+        "image_id": "276f611acc2dd305"
+      },
+      {
+        "question_id": 36543,
+        "image_id": "016b57639f13e1dc"
+      },
+      {
+        "question_id": 35095,
+        "image_id": "c9d902416037a09e"
+      },
+      {
+        "question_id": 37809,
+        "image_id": "01bec27c61ec0b5d"
+      },
+      {
+        "question_id": 37911,
+        "image_id": "9bcaa57bf95232ec"
+      },
+      {
+        "question_id": 34688,
+        "image_id": "2986fd7e368ba4b6"
+      },
+      {
+        "question_id": 36294,
+        "image_id": "9ac301ba7138a306"
+      },
+      {
+        "question_id": 38169,
+        "image_id": "b1a23041365708ed"
+      },
+      {
+        "question_id": 37852,
+        "image_id": "0413b2bcad5b3579"
+      },
+      {
+        "question_id": 38388,
+        "image_id": "8e6a1dfce13b6b2a"
+      },
+      {
+        "question_id": 39020,
+        "image_id": "cf5679eb664b61ad"
+      },
+      {
+        "question_id": 38465,
+        "image_id": "dc739a78b6c50d20"
+      },
+      {
+        "question_id": 35597,
+        "image_id": "08be3964ac87c44e"
+      },
+      {
+        "question_id": 38248,
+        "image_id": "04da5dff642e080f"
+      },
+      {
+        "question_id": 35856,
+        "image_id": "52dd8d57edf1cafb"
+      },
+      {
+        "question_id": 38468,
+        "image_id": "2e3e36742f841cf1"
+      },
+      {
+        "question_id": 38981,
+        "image_id": "01a9eabbfb7267e6"
+      },
+      {
+        "question_id": 35506,
+        "image_id": "aa00c3d5ab3ef2cb"
+      },
+      {
+        "question_id": 35552,
+        "image_id": "60fd879040955560"
+      },
+      {
+        "question_id": 38196,
+        "image_id": "56b9d4fbb61cbd66"
+      },
+      {
+        "question_id": 35419,
+        "image_id": "004b75d1299e653c"
+      },
+      {
+        "question_id": 36648,
+        "image_id": "ec6b3bf31c65b3cb"
+      },
+      {
+        "question_id": 35241,
+        "image_id": "23b808129d025f6d"
+      },
+      {
+        "question_id": 38293,
+        "image_id": "a91245a62621b25f"
+      },
+      {
+        "question_id": 37832,
+        "image_id": "c48f82ad757484d6"
+      },
+      {
+        "question_id": 36867,
+        "image_id": "c7fcaaba5fdf2bd8"
+      },
+      {
+        "question_id": 35186,
+        "image_id": "6659c1692324cda8"
+      },
+      {
+        "question_id": 35950,
+        "image_id": "9d85d260f22be0c8"
+      },
+      {
+        "question_id": 36602,
+        "image_id": "53abc3545e4b9b22"
+      },
+      {
+        "question_id": 38239,
+        "image_id": "ac49288b13c93c07"
+      },
+      {
+        "question_id": 34699,
+        "image_id": "753b097c94a2fb4d"
+      },
+      {
+        "question_id": 35201,
+        "image_id": "b917faf5923773c8"
+      },
+      {
+        "question_id": 34609,
+        "image_id": "181f00d3ee2b2076"
+      },
+      {
+        "question_id": 38092,
+        "image_id": "f00d9d8a17483493"
+      },
+      {
+        "question_id": 34780,
+        "image_id": "39989e0611712a64"
+      },
+      {
+        "question_id": 35352,
+        "image_id": "0d8fb41664833550"
+      },
+      {
+        "question_id": 39538,
+        "image_id": "4942bce39017422e"
+      },
+      {
+        "question_id": 35005,
+        "image_id": "97c8c2c2c6f572f1"
+      },
+      {
+        "question_id": 35988,
+        "image_id": "97d814b5fcf487af"
+      },
+      {
+        "question_id": 37221,
+        "image_id": "581f27ef1b53338d"
+      },
+      {
+        "question_id": 37868,
+        "image_id": "ff8700aea4449c7e"
+      },
+      {
+        "question_id": 37931,
+        "image_id": "f5528de5641931e5"
+      },
+      {
+        "question_id": 36242,
+        "image_id": "045e2f6f4b41fd53"
+      }
+    ],
+    "calibration": [
+      {
+        "question_id": 35854,
+        "image_id": "0f93407aa9c41b11"
+      },
+      {
+        "question_id": 38779,
+        "image_id": "4ccbcbf33650b75a"
+      },
+      {
+        "question_id": 39099,
+        "image_id": "cd75fd55f7a10830"
+      },
+      {
+        "question_id": 39122,
+        "image_id": "5508e86419278627"
+      },
+      {
+        "question_id": 37132,
+        "image_id": "00466f2d1b617884"
+      },
+      {
+        "question_id": 34991,
+        "image_id": "caef3d1e97c2cf15"
+      },
+      {
+        "question_id": 36984,
+        "image_id": "031eed019baea941"
+      },
+      {
+        "question_id": 38475,
+        "image_id": "b6ab41bc68a00d27"
+      },
+      {
+        "question_id": 35271,
+        "image_id": "b71e69f5d5f356d0"
+      },
+      {
+        "question_id": 38180,
+        "image_id": "a0cea9146b5c964d"
+      },
+      {
+        "question_id": 36140,
+        "image_id": "a6d7668cf8a57563"
+      },
+      {
+        "question_id": 34662,
+        "image_id": "391a6d50a130f00b"
+      },
+      {
+        "question_id": 36382,
+        "image_id": "7b9ad69efc73985d"
+      },
+      {
+        "question_id": 36336,
+        "image_id": "f84d81be3c452eaf"
+      },
+      {
+        "question_id": 36379,
+        "image_id": "9cdef54acc03e6fd"
+      },
+      {
+        "question_id": 34863,
+        "image_id": "24c438f1db2149b5"
+      },
+      {
+        "question_id": 36738,
+        "image_id": "8765595053085d54"
+      },
+      {
+        "question_id": 35532,
+        "image_id": "81ac0221208f4892"
+      },
+      {
+        "question_id": 36395,
+        "image_id": "002a1fb97133ae95"
+      },
+      {
+        "question_id": 36299,
+        "image_id": "c55b8176180ad921"
+      }
+    ],
+    "final_test": [
+      {
+        "question_id": 39569,
+        "image_id": "1ace6efb1e3dd50f"
+      },
+      {
+        "question_id": 35260,
+        "image_id": "fc126f88f3500417"
+      },
+      {
+        "question_id": 34898,
+        "image_id": "cb8c1e4d0ba9b4fb"
+      },
+      {
+        "question_id": 39438,
+        "image_id": "0053a650ec50c21f"
+      },
+      {
+        "question_id": 34776,
+        "image_id": "de16e970e8c0adbe"
+      },
+      {
+        "question_id": 37234,
+        "image_id": "e7d63255fad3e1ca"
+      },
+      {
+        "question_id": 35244,
+        "image_id": "136c14e123c01b46"
+      },
+      {
+        "question_id": 38075,
+        "image_id": "9fc2185d2de5b452"
+      },
+      {
+        "question_id": 34833,
+        "image_id": "443c0b31a360e242"
+      },
+      {
+        "question_id": 39089,
+        "image_id": "e14568617acccd92"
+      },
+      {
+        "question_id": 38720,
+        "image_id": "7465dbb3774b9438"
+      },
+      {
+        "question_id": 34969,
+        "image_id": "301668e27f9354b8"
+      },
+      {
+        "question_id": 39230,
+        "image_id": "6ba9b1e340b1f5a3"
+      },
+      {
+        "question_id": 39340,
+        "image_id": "ccb8540a7d0d9243"
+      },
+      {
+        "question_id": 35257,
+        "image_id": "0b1b19c7ee063044"
+      },
+      {
+        "question_id": 35245,
+        "image_id": "2c296753ea709fad"
+      },
+      {
+        "question_id": 37703,
+        "image_id": "25aa0d5e189efd76"
+      },
+      {
+        "question_id": 39433,
+        "image_id": "30e45da4d94b432d"
+      },
+      {
+        "question_id": 39084,
+        "image_id": "645a588b44b7ddd0"
+      },
+      {
+        "question_id": 38478,
+        "image_id": "6d739db7ac457ec4"
+      },
+      {
+        "question_id": 37021,
+        "image_id": "6ae9f1777f0f348b"
+      },
+      {
+        "question_id": 36116,
+        "image_id": "0f4f428ec2fc6133"
+      },
+      {
+        "question_id": 37754,
+        "image_id": "c9ba71f6d0ba0496"
+      },
+      {
+        "question_id": 37332,
+        "image_id": "66d0b98c45fff752"
+      },
+      {
+        "question_id": 38738,
+        "image_id": "b513db9e5610a9cc"
+      },
+      {
+        "question_id": 35487,
+        "image_id": "2a29ee71f8c328ca"
+      },
+      {
+        "question_id": 36630,
+        "image_id": "8c978b60b1b5ae45"
+      },
+      {
+        "question_id": 37651,
+        "image_id": "0e3431ee46f0b6c4"
+      },
+      {
+        "question_id": 39345,
+        "image_id": "7f232be04142ac81"
+      },
+      {
+        "question_id": 36834,
+        "image_id": "8999410486fed918"
+      },
+      {
+        "question_id": 37039,
+        "image_id": "4ab35c806e6cdf9e"
+      },
+      {
+        "question_id": 39357,
+        "image_id": "ded3f580dab69d11"
+      },
+      {
+        "question_id": 36115,
+        "image_id": "4f71899b6c2914a4"
+      },
+      {
+        "question_id": 37227,
+        "image_id": "fcb2e79426180288"
+      },
+      {
+        "question_id": 38274,
+        "image_id": "622da82e43662fe0"
+      },
+      {
+        "question_id": 37430,
+        "image_id": "62a01e342061cb34"
+      },
+      {
+        "question_id": 37122,
+        "image_id": "b9f45d24da6e9758"
+      },
+      {
+        "question_id": 38510,
+        "image_id": "b25efd82bcaf3be5"
+      },
+      {
+        "question_id": 38132,
+        "image_id": "4745d52ded8f93fc"
+      },
+      {
+        "question_id": 39390,
+        "image_id": "2781f6e7914b94f4"
+      },
+      {
+        "question_id": 39407,
+        "image_id": "0c072bab03db743d"
+      },
+      {
+        "question_id": 35354,
+        "image_id": "78d66800391efee9"
+      },
+      {
+        "question_id": 34610,
+        "image_id": "30f9b48158fc56e6"
+      },
+      {
+        "question_id": 39341,
+        "image_id": "029ca9b64cfc78a4"
+      },
+      {
+        "question_id": 38635,
+        "image_id": "88f2513697fe0986"
+      },
+      {
+        "question_id": 37742,
+        "image_id": "8254794b6d819b15"
+      },
+      {
+        "question_id": 36255,
+        "image_id": "2e1a5d4eb35e5f4f"
+      },
+      {
+        "question_id": 37124,
+        "image_id": "7a0ab04677000cfb"
+      },
+      {
+        "question_id": 34684,
+        "image_id": "9742c58a933a5a1e"
+      },
+      {
+        "question_id": 39249,
+        "image_id": "e1dd44177f2eb45e"
+      },
+      {
+        "question_id": 35247,
+        "image_id": "fa03a9ad4d82432a"
+      },
+      {
+        "question_id": 34878,
+        "image_id": "fbf5f29787f677dd"
+      },
+      {
+        "question_id": 39518,
+        "image_id": "5bc5e7f53a9d2a34"
+      },
+      {
+        "question_id": 39354,
+        "image_id": "91c56a3e4729344a"
+      },
+      {
+        "question_id": 35723,
+        "image_id": "9f57624d38c5acd8"
+      },
+      {
+        "question_id": 35404,
+        "image_id": "3c6a7bac733e2077"
+      },
+      {
+        "question_id": 38419,
+        "image_id": "384fc39d0e448706"
+      },
+      {
+        "question_id": 35652,
+        "image_id": "92839e8182b79c40"
+      },
+      {
+        "question_id": 35835,
+        "image_id": "eb92d60d390619f1"
+      },
+      {
+        "question_id": 39486,
+        "image_id": "218416a29eba6cb0"
+      },
+      {
+        "question_id": 37427,
+        "image_id": "367e271ed9fc8b87"
+      },
+      {
+        "question_id": 36356,
+        "image_id": "18d06cdc3aef9386"
+      },
+      {
+        "question_id": 39179,
+        "image_id": "78284e7e6e696343"
+      },
+      {
+        "question_id": 36012,
+        "image_id": "40075f98e66f4370"
+      },
+      {
+        "question_id": 35074,
+        "image_id": "55b56c4a07efc92c"
+      },
+      {
+        "question_id": 34692,
+        "image_id": "dee3b64f1590bf7e"
+      },
+      {
+        "question_id": 35060,
+        "image_id": "02d4ae02865321a3"
+      },
+      {
+        "question_id": 34897,
+        "image_id": "6453fd79ed1354ce"
+      },
+      {
+        "question_id": 36878,
+        "image_id": "06bb1fea570039b2"
+      },
+      {
+        "question_id": 37203,
+        "image_id": "200ba9ec8d4cf1ae"
+      },
+      {
+        "question_id": 39186,
+        "image_id": "db51fbe4908a0d41"
+      },
+      {
+        "question_id": 38691,
+        "image_id": "d446e470f7ec0dd9"
+      },
+      {
+        "question_id": 35359,
+        "image_id": "3b9b02bcd3f99c1a"
+      },
+      {
+        "question_id": 35792,
+        "image_id": "a270d5964a5c1ce0"
+      },
+      {
+        "question_id": 35838,
+        "image_id": "a7ec58b2c2373f03"
+      },
+      {
+        "question_id": 38995,
+        "image_id": "5fc62d577339fc52"
+      },
+      {
+        "question_id": 38719,
+        "image_id": "3a0a1188183c48bf"
+      },
+      {
+        "question_id": 36169,
+        "image_id": "455e93f799044a86"
+      },
+      {
+        "question_id": 38432,
+        "image_id": "bb66130552280e6b"
+      },
+      {
+        "question_id": 37154,
+        "image_id": "591c509f630b0e0a"
+      },
+      {
+        "question_id": 38936,
+        "image_id": "3cabd5faa931f343"
+      },
+      {
+        "question_id": 34701,
+        "image_id": "07788c82bbbd1887"
+      },
+      {
+        "question_id": 38394,
+        "image_id": "5056a8e94ef14729"
+      },
+      {
+        "question_id": 37106,
+        "image_id": "45047ffd01cfb29d"
+      },
+      {
+        "question_id": 38786,
+        "image_id": "39a9925a3a8f4c4b"
+      },
+      {
+        "question_id": 35976,
+        "image_id": "206a0f4f02499cdc"
+      },
+      {
+        "question_id": 36386,
+        "image_id": "e7b7be77caf99b9e"
+      },
+      {
+        "question_id": 36174,
+        "image_id": "9ebbe79077ffe201"
+      },
+      {
+        "question_id": 36155,
+        "image_id": "bf682b86659bc94f"
+      },
+      {
+        "question_id": 38123,
+        "image_id": "218505bf452b22e5"
+      },
+      {
+        "question_id": 35188,
+        "image_id": "3f49a46ec9a6db62"
+      },
+      {
+        "question_id": 38655,
+        "image_id": "d9d0de79f080397d"
+      },
+      {
+        "question_id": 38669,
+        "image_id": "f200621d0bc17280"
+      },
+      {
+        "question_id": 37950,
+        "image_id": "56b1d4923e2362b0"
+      },
+      {
+        "question_id": 37216,
+        "image_id": "28965287b0087f08"
+      },
+      {
+        "question_id": 36201,
+        "image_id": "52a816d2db8d86fd"
+      },
+      {
+        "question_id": 36209,
+        "image_id": "abe4d58ef1071f88"
+      },
+      {
+        "question_id": 35811,
+        "image_id": "acd7649af3a05139"
+      },
+      {
+        "question_id": 35989,
+        "image_id": "99bc11f22d19a274"
+      },
+      {
+        "question_id": 39287,
+        "image_id": "012c101e4543382e"
+      },
+      {
+        "question_id": 36855,
+        "image_id": "07bb439545f503f0"
+      },
+      {
+        "question_id": 35138,
+        "image_id": "1582ecaf88bcf8b8"
+      },
+      {
+        "question_id": 36870,
+        "image_id": "873ee1c438bdc7e6"
+      },
+      {
+        "question_id": 36802,
+        "image_id": "10165e8bac12b804"
+      },
+      {
+        "question_id": 36266,
+        "image_id": "6dcd8b0fbf6a9f47"
+      },
+      {
+        "question_id": 37002,
+        "image_id": "611c1491edebdc84"
+      },
+      {
+        "question_id": 39116,
+        "image_id": "01bd42a657556876"
+      },
+      {
+        "question_id": 34741,
+        "image_id": "25776b27892b7b6a"
+      },
+      {
+        "question_id": 35224,
+        "image_id": "22668e7f4a58d098"
+      },
+      {
+        "question_id": 35528,
+        "image_id": "2f8be2b2de5573dc"
+      },
+      {
+        "question_id": 38278,
+        "image_id": "cffff51120c76bed"
+      },
+      {
+        "question_id": 38869,
+        "image_id": "a20bb71106ca59e7"
+      },
+      {
+        "question_id": 36546,
+        "image_id": "abb4f05c1cd83374"
+      },
+      {
+        "question_id": 36477,
+        "image_id": "0d6f54c1a331d990"
+      },
+      {
+        "question_id": 34896,
+        "image_id": "02844f7565b33e32"
+      },
+      {
+        "question_id": 35615,
+        "image_id": "02df4a726c2bb5a5"
+      },
+      {
+        "question_id": 36479,
+        "image_id": "66aafef7ca8d2ef2"
+      },
+      {
+        "question_id": 37378,
+        "image_id": "7dbb6236b74f0288"
+      },
+      {
+        "question_id": 35175,
+        "image_id": "b78b162168d81b7f"
+      },
+      {
+        "question_id": 35178,
+        "image_id": "31ea74d67a685249"
+      },
+      {
+        "question_id": 35735,
+        "image_id": "7a0f135aabc5b67f"
+      },
+      {
+        "question_id": 36752,
+        "image_id": "51b82971971532c7"
+      },
+      {
+        "question_id": 35010,
+        "image_id": "2c8f93aa9a48bdc3"
+      },
+      {
+        "question_id": 39428,
+        "image_id": "cb5ccdebc29f1a37"
+      },
+      {
+        "question_id": 39247,
+        "image_id": "a4dc6dff750053cd"
+      },
+      {
+        "question_id": 38113,
+        "image_id": "ccde4043b8a15a79"
+      },
+      {
+        "question_id": 35535,
+        "image_id": "239ad3ea05915adc"
+      },
+      {
+        "question_id": 36804,
+        "image_id": "b9077002279a85a8"
+      },
+      {
+        "question_id": 36726,
+        "image_id": "3f2d13c846eb4541"
+      },
+      {
+        "question_id": 36718,
+        "image_id": "83f9b16f616efeae"
+      },
+      {
+        "question_id": 39582,
+        "image_id": "20f09fa1bd539bb2"
+      },
+      {
+        "question_id": 36440,
+        "image_id": "16c12e0d27099899"
+      },
+      {
+        "question_id": 37107,
+        "image_id": "5b80ee3e3c246186"
+      },
+      {
+        "question_id": 35148,
+        "image_id": "2429c36cd49ddd03"
+      },
+      {
+        "question_id": 39534,
+        "image_id": "25ad81da4cb9d105"
+      },
+      {
+        "question_id": 35393,
+        "image_id": "16f467e6724072eb"
+      },
+      {
+        "question_id": 34953,
+        "image_id": "0d510e343e205774"
+      },
+      {
+        "question_id": 35111,
+        "image_id": "0d574ae2484df0e9"
+      },
+      {
+        "question_id": 36113,
+        "image_id": "e153cbe601bf65aa"
+      },
+      {
+        "question_id": 38874,
+        "image_id": "26726e25ef9b30e7"
+      },
+      {
+        "question_id": 38476,
+        "image_id": "5ce9d07a617d14b5"
+      },
+      {
+        "question_id": 35521,
+        "image_id": "e90557ab2be28853"
+      },
+      {
+        "question_id": 37499,
+        "image_id": "01cc0f8a81d39848"
+      },
+      {
+        "question_id": 37967,
+        "image_id": "8ed1bb755e9a3f8b"
+      },
+      {
+        "question_id": 38336,
+        "image_id": "0534930d836682cb"
+      },
+      {
+        "question_id": 35817,
+        "image_id": "0255c5bbd833e241"
+      },
+      {
+        "question_id": 34976,
+        "image_id": "3a0310534176b044"
+      },
+      {
+        "question_id": 38703,
+        "image_id": "85c6ced818673304"
+      },
+      {
+        "question_id": 36015,
+        "image_id": "9c8b5faa177f1f2d"
+      },
+      {
+        "question_id": 39244,
+        "image_id": "f2208df6e8ec7800"
+      },
+      {
+        "question_id": 38453,
+        "image_id": "6cbcc2ebf554af12"
+      },
+      {
+        "question_id": 36093,
+        "image_id": "1513e33effd3e7ed"
+      },
+      {
+        "question_id": 36776,
+        "image_id": "0eb6e18693f9a7d3"
+      },
+      {
+        "question_id": 37410,
+        "image_id": "e7e77e2d4aaf4808"
+      },
+      {
+        "question_id": 36532,
+        "image_id": "bd86878e04fcaeae"
+      },
+      {
+        "question_id": 36073,
+        "image_id": "74d135a5df49b04d"
+      },
+      {
+        "question_id": 37787,
+        "image_id": "368adc2e6ded01ba"
+      },
+      {
+        "question_id": 35635,
+        "image_id": "7f4fdaca6ad86560"
+      },
+      {
+        "question_id": 35025,
+        "image_id": "36287f6050ba92b5"
+      },
+      {
+        "question_id": 38986,
+        "image_id": "2fcbf5fbdf4b90de"
+      },
+      {
+        "question_id": 39263,
+        "image_id": "36fd42cb77e64356"
+      },
+      {
+        "question_id": 37961,
+        "image_id": "e61803d4807e167d"
+      },
+      {
+        "question_id": 39015,
+        "image_id": "02a950e4790377dc"
+      },
+      {
+        "question_id": 38552,
+        "image_id": "47640ae412560b78"
+      },
+      {
+        "question_id": 35599,
+        "image_id": "0bcbb7362e9f74a4"
+      },
+      {
+        "question_id": 37229,
+        "image_id": "5672162112fd4d65"
+      },
+      {
+        "question_id": 38129,
+        "image_id": "40b8439ee1cec6aa"
+      },
+      {
+        "question_id": 36322,
+        "image_id": "279a2ceb9f66b515"
+      },
+      {
+        "question_id": 36349,
+        "image_id": "ab9c12b4c9a65443"
+      },
+      {
+        "question_id": 34854,
+        "image_id": "21403aae865540bd"
+      },
+      {
+        "question_id": 35467,
+        "image_id": "b24c7024a6d15d66"
+      },
+      {
+        "question_id": 34927,
+        "image_id": "64f4bbe869660690"
+      },
+      {
+        "question_id": 37597,
+        "image_id": "021e7031adf5cb7e"
+      },
+      {
+        "question_id": 38236,
+        "image_id": "3f2cf3a41f5038ad"
+      },
+      {
+        "question_id": 38114,
+        "image_id": "0870b2b4e7309624"
+      },
+      {
+        "question_id": 39273,
+        "image_id": "8948be040946c0b8"
+      },
+      {
+        "question_id": 35515,
+        "image_id": "2d64472ea6306593"
+      },
+      {
+        "question_id": 37600,
+        "image_id": "f77ae0bc1eb9aaba"
+      },
+      {
+        "question_id": 39253,
+        "image_id": "226bd0e27df527b8"
+      },
+      {
+        "question_id": 38221,
+        "image_id": "3f49275613bd6a76"
+      },
+      {
+        "question_id": 37308,
+        "image_id": "590234908349d651"
+      },
+      {
+        "question_id": 36095,
+        "image_id": "002cc8bb1d50cde0"
+      },
+      {
+        "question_id": 36364,
+        "image_id": "f3f1dc7b8d3fc7cc"
+      },
+      {
+        "question_id": 36709,
+        "image_id": "0e74e435fca31ff0"
+      },
+      {
+        "question_id": 37623,
+        "image_id": "0d751daf458c742e"
+      },
+      {
+        "question_id": 34964,
+        "image_id": "39bdb52aa20a4a1f"
+      },
+      {
+        "question_id": 38792,
+        "image_id": "662c0cc572d74dad"
+      },
+      {
+        "question_id": 36160,
+        "image_id": "f87135cc1aef6c43"
+      },
+      {
+        "question_id": 39305,
+        "image_id": "0e3cb83ebe023379"
+      },
+      {
+        "question_id": 37511,
+        "image_id": "08edcfe24b9ac578"
+      },
+      {
+        "question_id": 37959,
+        "image_id": "45bed83a9fdbc6e0"
+      },
+      {
+        "question_id": 35430,
+        "image_id": "02ef6de789b37127"
+      },
+      {
+        "question_id": 37497,
+        "image_id": "2f39a8f0171a2e82"
+      },
+      {
+        "question_id": 37947,
+        "image_id": "002f860e692757f7"
+      },
+      {
+        "question_id": 37329,
+        "image_id": "04ab31205c0ffdf8"
+      },
+      {
+        "question_id": 35634,
+        "image_id": "ee1e78b23c92d86b"
+      },
+      {
+        "question_id": 35264,
+        "image_id": "657bcc1c27cacad8"
+      },
+      {
+        "question_id": 35830,
+        "image_id": "0894dfcf5b32a4be"
+      },
+      {
+        "question_id": 37869,
+        "image_id": "a9af41cdbf102758"
+      },
+      {
+        "question_id": 35530,
+        "image_id": "efb2cfa49091b465"
+      }
+    ]
+  }
+}
