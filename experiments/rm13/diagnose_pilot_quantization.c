@@ -5,21 +5,218 @@
 #include <inttypes.h>
 #include <math.h>
 #include <glob.h>
-#include <sys/stat.h>
-typedef struct { char magic[8]; uint32_t version,bits,group_size,groups; int64_t k,m; uint64_t fingerprint; } Header;
-static uint64_t fnv(const void* p,size_t n){const unsigned char*b=p;uint64_t h=UINT64_C(14695981039346656037);for(size_t i=0;i<n;i++){h^=b[i];h*=UINT64_C(1099511628211);}return h;}
-static int32_t round_even(float x){return (int32_t)nearbyintf(x);}
-static int readall(const char*p,void*x,size_t n){FILE*f=fopen(p,"rb");if(!f)return 0;int ok=fread(x,1,n,f)==n;fclose(f);return ok;}
-static int decode(int8_t q){return q;}
-static void histogram(const char*dir){glob_t g={0};char pat[1024];snprintf(pat,sizeof(pat),"%s/*_w4_g128.bin",dir);if(glob(pat,0,NULL,&g)){puts("HIST_FAIL glob");return;}uint64_t hist[15]={0},total=0,files=0;for(size_t f=0;f<g.gl_pathc;f++){FILE*fp=fopen(g.gl_pathv[f],"rb");Header h;if(!fp||fread(&h,sizeof h,1,fp)!=1){if(fp)fclose(fp);continue;}if(memcmp(h.magic,"RM13WQ1",7)||h.bits!=4||h.group_size!=128){fclose(fp);continue;}fseek(fp,(long)((size_t)h.m*h.groups*sizeof(float)),SEEK_CUR);size_t cb=(size_t)h.m*h.groups*64;unsigned char*c=malloc(cb);if(!c||fread(c,1,cb,fp)!=cb){free(c);fclose(fp);continue;}fclose(fp);files++;for(int64_t r=0;r<h.m;r++)for(uint32_t gr=0;gr<h.groups;gr++){int valid=(int)fmin(128.0,(double)h.k-(double)gr*128.0);size_t off=((size_t)r*h.groups+gr)*64;for(int i=0;i<valid;i++){int q=(c[off+i/2]>>((i&1)*4))&15;if(q&8)q-=16;hist[q+7]++;total++;}}free(c);}uint64_t sat=hist[0]+hist[14];printf("HIST files=%" PRIu64 " elements=%" PRIu64 " q-7..7=",files,total);for(int i=0;i<15;i++)printf("%s%" PRIu64,i?",":"",hist[i]);printf(" sat=%" PRIu64 " sat_fraction=%.9g\n",sat,(double)sat/(double)total);globfree(&g);}
-static int diag_up0(const char*cache,const char*raw){
-    char p[1024];Header h;FILE*f=fopen(cache,"rb");if(!f||fread(&h,sizeof h,1,f)!=1){puts("DIAG_FAIL cache read");return 0;}if(memcmp(h.magic,"RM13WQ1",7)||h.bits!=4||h.k!=1152||h.m!=4304||h.groups!=9){puts("DIAG_FAIL cache header");fclose(f);return 0;}float*ws=malloc((size_t)h.m*h.groups*sizeof(float));size_t cb=(size_t)h.m*h.groups*64;unsigned char*codes=malloc(cb);if(!ws||!codes||fread(ws,sizeof(float),(size_t)h.m*h.groups,f)!=(size_t)h.m*h.groups||fread(codes,1,cb,f)!=cb){puts("DIAG_FAIL cache payload");fclose(f);free(ws);free(codes);return 0;}fclose(f);
-    snprintf(p,sizeof(p),"%s/ffn_up-0.weight.f16",raw);_Float16*w=malloc((size_t)h.k*h.m*sizeof(_Float16));if(!w||!readall(p,w,(size_t)h.k*h.m*sizeof(_Float16))){puts("DIAG_FAIL weight");return 0;}if(fnv(w,(size_t)h.k*h.m*sizeof(_Float16))!=h.fingerprint){puts("DIAG_FAIL source fingerprint mismatch");return 0;}
-    snprintf(p,sizeof(p),"%s/ffn_up-0.activation.f32",raw);float*x=malloc((size_t)h.k*sizeof(float));if(!x||!readall(p,x,(size_t)h.k*sizeof(float))){puts("DIAG_FAIL activation");return 0;}
-    snprintf(p,sizeof(p),"%s/ffn_up-0.output.f32",raw);float*y0=malloc((size_t)h.m*sizeof(float));if(!y0||!readall(p,y0,(size_t)h.m*sizeof(float))){puts("DIAG_FAIL original output");return 0;}
-    int8_t*xq=malloc((size_t)h.k);float xs[9];for(int gr=0;gr<9;gr++){int start=gr*128,valid=(int)fmin(128.0,(double)h.k-start);float mx=0;for(int i=0;i<valid;i++)if(fabsf(x[start+i])>mx)mx=fabsf(x[start+i]);xs[gr]=mx?mx/127.0f:1.0f;for(int i=0;i<valid;i++){int q=round_even(x[start+i]/xs[gr]);if(q < -127)q=-127;if(q>127)q=127;xq[start+i]=(int8_t)q;}}
-    double ss=0,rr=0,oo=0,dot=0,mx=0;uint64_t hist[15]={0},sat=0;
-    for(int64_t r=0;r<h.m;r++){volatile float y=0;for(int gr=0;gr<9;gr++){int start=gr*128,valid=(int)fmin(128.0,(double)h.k-start);int32_t sum=0;size_t off=((size_t)r*9+gr)*64;for(int i=0;i<valid;i++){int q=(codes[off+i/2]>>((i&1)*4))&15;if(q&8)q-=16;hist[q+7]++;if(q==-7||q==7)sat++;sum+=q*(int32_t)xq[start+i];}volatile float term=(float)sum;term=term*ws[(size_t)r*9+gr];term=term*xs[gr];y=y+term;}double a=y,b=y0[r],d=a-b;if(fabs(d)>mx)mx=fabs(d);ss+=d*d;rr+=b*b;oo+=a*a;dot+=a*b;}
-    printf("DIAG qid=37804 op=ffn_up-0 layer=0 W4A8 K=1152 M=4304 sampled_tokens=1 reference=RM11_original_capture source_fingerprint=match maxabs=%.9g rmse=%.9g cosine=%.15g\n",mx,sqrt(ss/h.m),sqrt(rr*oo)==0?1:dot/sqrt(rr*oo));printf("LAYER_HIST elements=%" PRIu64 " q-7..7=",(uint64_t)h.k*h.m);for(int i=0;i<15;i++)printf("%s%" PRIu64,i?",":"",hist[i]);printf(" saturated=%" PRIu64 " fraction=%.9g\n",sat,(double)sat/((double)h.k*h.m));free(ws);free(codes);free(w);free(x);free(y0);free(xq);return 1;
+
+typedef struct {
+    char magic[8];
+    uint32_t version, bits, group_size, groups;
+    int64_t k, m;
+    uint64_t fingerprint;
+} Header;
+
+static uint64_t fnv64(const void *data, size_t size) {
+    const unsigned char *bytes = (const unsigned char *) data;
+    uint64_t hash = UINT64_C(14695981039346656037);
+    for (size_t i = 0; i < size; ++i) {
+        hash ^= bytes[i];
+        hash *= UINT64_C(1099511628211);
+    }
+    return hash;
 }
-int main(int argc,char**argv){if(argc!=3){fprintf(stderr,"usage: %s W4_CACHE_DIR RM11_TENSOR_DIR\n",argv[0]);return 2;}char cache[1024];snprintf(cache,sizeof(cache),"%s/ffn_up-0_w4_g128.bin",argv[1]);histogram(argv[1]);return diag_up0(cache,argv[2])?0:1;}
+
+static int32_t round_ties_even(float value) {
+    return (int32_t) nearbyintf(value);
+}
+
+static int read_bytes(const char *path, void *destination, size_t size) {
+    FILE *file = fopen(path, "rb");
+    if (file == NULL) return 0;
+    const int ok = fread(destination, 1, size, file) == size;
+    fclose(file);
+    return ok;
+}
+
+static int read_cache(const char *path, Header *header, float **scales, uint8_t **codes) {
+    FILE *file = fopen(path, "rb");
+    if (file == NULL || fread(header, sizeof(*header), 1, file) != 1) {
+        if (file != NULL) fclose(file);
+        return 0;
+    }
+    if (memcmp(header->magic, "RM13WQ1", 7) != 0 || header->version != 1 ||
+        header->bits != 4 || header->group_size != 128 ||
+        header->groups != (uint32_t) ((header->k + 127) / 128)) {
+        fclose(file);
+        return 0;
+    }
+    const size_t scale_count = (size_t) header->m * header->groups;
+    const size_t code_count = scale_count * 64;
+    *scales = (float *) malloc(scale_count * sizeof(float));
+    *codes = (uint8_t *) malloc(code_count);
+    const int ok = *scales != NULL && *codes != NULL &&
+        fread(*scales, sizeof(float), scale_count, file) == scale_count &&
+        fread(*codes, 1, code_count, file) == code_count;
+    fclose(file);
+    if (!ok) {
+        free(*scales); free(*codes); *scales = NULL; *codes = NULL;
+    }
+    return ok;
+}
+
+static void print_histogram_all(const char *cache_dir) {
+    char pattern[1024];
+    snprintf(pattern, sizeof(pattern), "%s/*_w4_g128.bin", cache_dir);
+    glob_t files = {0};
+    if (glob(pattern, 0, NULL, &files) != 0) {
+        puts("HIST_FAIL glob");
+        return;
+    }
+    uint64_t histogram[15] = {0};
+    uint64_t total = 0;
+    uint64_t valid_files = 0;
+    for (size_t fi = 0; fi < files.gl_pathc; ++fi) {
+        Header h;
+        float *scales = NULL;
+        uint8_t *codes = NULL;
+        if (!read_cache(files.gl_pathv[fi], &h, &scales, &codes)) continue;
+        ++valid_files;
+        for (int64_t row = 0; row < h.m; ++row) {
+            for (uint32_t group = 0; group < h.groups; ++group) {
+                const int valid = (int) fmin(128.0, (double) h.k - (double) group * 128.0);
+                const size_t offset = ((size_t) row * h.groups + group) * 64;
+                for (int i = 0; i < valid; ++i) {
+                    int q = (codes[offset + (size_t) i / 2] >> ((i & 1) * 4)) & 0x0f;
+                    if (q & 0x08) q -= 16;
+                    ++histogram[q + 7];
+                    ++total;
+                }
+            }
+        }
+        free(scales); free(codes);
+    }
+    const uint64_t saturated = histogram[0] + histogram[14];
+    printf("HIST files=%" PRIu64 " elements=%" PRIu64 " q-7..7=", valid_files, total);
+    for (int i = 0; i < 15; ++i) printf("%s%" PRIu64, i ? "," : "", histogram[i]);
+    printf(" saturated=%" PRIu64 " saturation_fraction=%.9g\n",
+           saturated, (double) saturated / (double) total);
+    globfree(&files);
+}
+
+static int diagnose_one(const char *cache_path, const char *tensor_dir, const char *op) {
+    Header h;
+    float *weight_scales = NULL;
+    uint8_t *weight_codes = NULL;
+    if (!read_cache(cache_path, &h, &weight_scales, &weight_codes)) {
+        fprintf(stderr, "DIAG_FAIL cache=%s\n", cache_path);
+        return 0;
+    }
+
+    char path[1024];
+    const size_t weight_count = (size_t) h.k * (size_t) h.m;
+    snprintf(path, sizeof(path), "%s/%s.weight.f16", tensor_dir, op);
+    _Float16 *weight = (_Float16 *) malloc(weight_count * sizeof(_Float16));
+    if (weight == NULL || !read_bytes(path, weight, weight_count * sizeof(_Float16)) ||
+        fnv64(weight, weight_count * sizeof(_Float16)) != h.fingerprint) {
+        fprintf(stderr, "DIAG_FAIL source weight or fingerprint op=%s\n", op);
+        free(weight); free(weight_scales); free(weight_codes);
+        return 0;
+    }
+
+    snprintf(path, sizeof(path), "%s/%s.activation.f32", tensor_dir, op);
+    float *activation = (float *) malloc((size_t) h.k * sizeof(float));
+    if (activation == NULL || !read_bytes(path, activation, (size_t) h.k * sizeof(float))) {
+        fprintf(stderr, "DIAG_FAIL activation op=%s\n", op);
+        free(weight); free(weight_scales); free(weight_codes); free(activation);
+        return 0;
+    }
+
+    snprintf(path, sizeof(path), "%s/%s.output.f32", tensor_dir, op);
+    float *reference = (float *) malloc((size_t) h.m * sizeof(float));
+    if (reference == NULL || !read_bytes(path, reference, (size_t) h.m * sizeof(float))) {
+        fprintf(stderr, "DIAG_FAIL original output op=%s\n", op);
+        free(weight); free(weight_scales); free(weight_codes); free(activation); free(reference);
+        return 0;
+    }
+
+    int8_t *activation_codes = (int8_t *) malloc((size_t) h.k);
+    float *activation_scales = (float *) malloc((size_t) h.groups * sizeof(float));
+    if (activation_codes == NULL || activation_scales == NULL) {
+        fprintf(stderr, "DIAG_FAIL scratch op=%s\n", op);
+        free(weight); free(weight_scales); free(weight_codes); free(activation); free(reference);
+        free(activation_codes); free(activation_scales);
+        return 0;
+    }
+    for (uint32_t group = 0; group < h.groups; ++group) {
+        const int start = (int) group * 128;
+        const int valid = (int) fmin(128.0, (double) h.k - start);
+        float maximum = 0.0f;
+        for (int i = 0; i < valid; ++i) maximum = fmaxf(maximum, fabsf(activation[start + i]));
+        activation_scales[group] = maximum == 0.0f ? 1.0f : maximum / 127.0f;
+        for (int i = 0; i < valid; ++i) {
+            int q = round_ties_even(activation[start + i] / activation_scales[group]);
+            if (q < -127) q = -127;
+            if (q > 127) q = 127;
+            activation_codes[start + i] = (int8_t) q;
+        }
+    }
+
+    double squared_error = 0.0, squared_reference = 0.0, squared_output = 0.0;
+    double dot = 0.0, max_abs = 0.0;
+    uint64_t histogram[15] = {0}, saturated = 0;
+    for (int64_t row = 0; row < h.m; ++row) {
+        volatile float output = 0.0f;
+        for (uint32_t group = 0; group < h.groups; ++group) {
+            const int start = (int) group * 128;
+            const int valid = (int) fmin(128.0, (double) h.k - start);
+            const size_t offset = ((size_t) row * h.groups + group) * 64;
+            int32_t partial = 0;
+            for (int i = 0; i < valid; ++i) {
+                int q = (weight_codes[offset + (size_t) i / 2] >> ((i & 1) * 4)) & 0x0f;
+                if (q & 0x08) q -= 16;
+                ++histogram[q + 7];
+                if (q == -7 || q == 7) ++saturated;
+                partial += q * (int32_t) activation_codes[start + i];
+            }
+            volatile float term = (float) partial;
+            term = term * weight_scales[(size_t) row * h.groups + group];
+            term = term * activation_scales[group];
+            output = output + term;
+        }
+        const double actual = output;
+        const double expected = reference[row];
+        const double difference = actual - expected;
+        max_abs = fmax(max_abs, fabs(difference));
+        squared_error += difference * difference;
+        squared_reference += expected * expected;
+        squared_output += actual * actual;
+        dot += actual * expected;
+    }
+    const double denominator = sqrt(squared_reference * squared_output);
+    const double cosine = denominator == 0.0 ? 1.0 : dot / denominator;
+    const char *suffix = strrchr(op, '-');
+    const int layer = suffix == NULL ? -1 : atoi(suffix + 1);
+    printf("DIAG qid=37804 op=%s layer=%d W4A8 K=%" PRId64 " M=%" PRId64
+           " sampled_tokens=1 reference=RM11_original_capture source_fingerprint=match"
+           " maxabs=%.9g rmse=%.9g cosine=%.15g\n",
+           op, layer, h.k, h.m, max_abs, sqrt(squared_error / (double) h.m), cosine);
+    printf("LAYER_HIST op=%s elements=%" PRIu64 " q-7..7=", op, weight_count);
+    for (int i = 0; i < 15; ++i) printf("%s%" PRIu64, i ? "," : "", histogram[i]);
+    printf(" saturated=%" PRIu64 " saturation_fraction=%.9g\n",
+           saturated, (double) saturated / (double) weight_count);
+
+    free(weight); free(weight_scales); free(weight_codes); free(activation); free(reference);
+    free(activation_codes); free(activation_scales);
+    return 1;
+}
+
+int main(int argc, char **argv) {
+    if (argc < 4) {
+        fprintf(stderr, "usage: %s W4_CACHE_DIR RM11_TENSOR_DIR TENSOR_NAME...\n", argv[0]);
+        return 2;
+    }
+    print_histogram_all(argv[1]);
+    for (int i = 3; i < argc; ++i) {
+        char cache_path[1024];
+        snprintf(cache_path, sizeof(cache_path), "%s/%s_w4_g128.bin", argv[1], argv[i]);
+        if (!diagnose_one(cache_path, argv[2], argv[i])) return 1;
+    }
+    return 0;
+}
