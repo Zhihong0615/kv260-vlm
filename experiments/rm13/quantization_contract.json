@@ -1,0 +1,66 @@
+{
+  "contract_id": "rm13-vision-ffn-symmetric-g128-v1",
+  "status": "frozen_for_first_quality_and_hardware_screen",
+  "scope": {
+    "model": "MiniCPM-V-4.6-Q4_K_M with existing F16 vision weights and unchanged Q4_K_M language path",
+    "operators": ["vision_transformer_ffn_up", "vision_transformer_ffn_down"],
+    "excluded": ["merger", "attention", "softmax", "layer_norm", "GDN", "KV_cache"],
+    "shape_families_K_M_N": [[1152, 4304, 1120], [1152, 4304, 280], [4304, 1152, 1120], [4304, 1152, 280]]
+  },
+  "variants": {
+    "W8A8_reference": {
+      "weight_bits": 8,
+      "weight_code_signed_range": [-127, 127],
+      "weight_packing": "one signed int8 byte per weight",
+      "weight_scale_divisor": 127
+    },
+    "W4A8_primary": {
+      "weight_bits": 4,
+      "weight_code_signed_range": [-7, 7],
+      "reserved_code": -8,
+      "weight_packing": "two signed two's-complement nibbles per byte; lower nibble is lower K index; reserved -8 never emitted",
+      "weight_scale_divisor": 7
+    }
+  },
+  "quantization": {
+    "weight_source_dtype": "F16",
+    "activation_source_dtype": "F32",
+    "activation_bits": 8,
+    "activation_code_signed_range": [-127, 127],
+    "symmetric": true,
+    "zero_point": 0,
+    "group_axis": "K",
+    "group_size": 128,
+    "group_count": "ceil(K/128)",
+    "weight_scale_granularity": "one F32 scale per output channel m and K group g, fixed offline from original F16 weights",
+    "activation_scale_granularity": "one F32 scale per input token n and K group g, computed dynamically from that F32 activation group",
+    "scale_rule": "max(abs(finite_values))/scale_divisor; if all values are zero, scale=1 and all codes=0",
+    "quantize_rule": "q=clamp(round_to_nearest_ties_to_even(value/scale), signed_code_min, signed_code_max)",
+    "nonfinite_rule": "nonfinite source values invalidate this quantized call; explicit CPU fallback, never silently clamp or replace",
+    "scale_dtype": "F32",
+    "calibration": "no learned parameters in first screen; offline weight maxabs and runtime per-token activation maxabs; any future calibrated scale revision changes contract_id and requires new quality/hardware correspondence"
+  },
+  "arithmetic": {
+    "product": "signed integer weight code times signed integer activation code",
+    "group_partial_sum_dtype": "signed int32",
+    "max_abs_group_partial_W4A8": 113792,
+    "max_abs_group_partial_W8A8": 2064512,
+    "overflow_rule": "accumulate one K group into int32; group bounds above include 128 valid elements and are below int32 max; never combine different-scale groups as one integer sum",
+    "group_merge_order": "for g=0..G-1 in increasing K order: term=f32(i32_partial_g); term=f32(term*w_scale[m,g]); term=f32(term*x_scale[n,g]); output=f32(output+term); no FMA",
+    "bias": "none for scoped GGML MUL_MAT; do not insert bias",
+    "output_dtype": "F32",
+    "output_semantics": "separate integer core exactness from F32 scale-and-merge tolerance; quality is judged end-to-end against original model, not against local floating-point error alone"
+  },
+  "layout": {
+    "logical_weight": "W[K,M], K contiguous within each output channel row; source strides must be checked against actual GGML tensor",
+    "logical_activation": "X[K,N], K contiguous within each token row; source strides must be checked against actual GGML tensor",
+    "logical_output": "Y[M,N] F32, M contiguous within each token row",
+    "packed_weight_order": "m-major, then g-major, then k-within-group; W4 low nibble for even local k and high nibble for odd local k",
+    "activation_code_order": "n-major, then g-major, then k-within-group",
+    "scale_order": "weight_scale[m,g] and activation_scale[n,g] are row-major F32 arrays",
+    "tail": "last K group uses valid_k=min(128,K-128*g); padded codes are zero and do not enter maxabs or partial sum; M/N tile tails write only valid elements",
+    "contiguous_dma_pool_target_bytes": 1671168,
+    "staging_rule": "bounded tile BOs; full W/X/Y tensors remain in ordinary DDR, not simultaneous contiguous CMA copies"
+  },
+  "change_control": "A change to group size, scale rule, code range, packing, merge order, or output format requires a new contract_id and rerunning corresponding quality and hardware checks. W2 is intentionally outside this first frozen contract."
+}
