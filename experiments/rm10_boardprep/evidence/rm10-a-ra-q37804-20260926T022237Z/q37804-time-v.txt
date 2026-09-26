@@ -1,0 +1,25 @@
+	Command being timed: "/usr/bin/timeout --signal=TERM --kill-after=10s 1200s /home/ubuntu/kv260-vlm-p2-cpu/rm09-static-extent-build-22d96ed06be3/bin/llama-mtmd-cli -m /home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf --mmproj /home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf --image /home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/58d543df7eab2bfc.jpg -p Answer the following question based only on the image. Give a short, direct answer.
+Question: what letter does these athlete's school likely begin with?
+Answer: -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4"
+	User time (seconds): 1656.06
+	System time (seconds): 9.46
+	Percent of CPU this job got: 317%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 8:44.42
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1864584
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 21695
+	Minor (reclaiming a frame) page faults: 460131
+	Voluntary context switches: 39720
+	Involuntary context switches: 196270
+	Swaps: 0
+	File system inputs: 845952
+	File system outputs: 280
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
