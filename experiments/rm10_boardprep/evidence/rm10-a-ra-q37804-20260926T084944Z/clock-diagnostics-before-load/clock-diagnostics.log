@@ -1,0 +1,498 @@
+diagnostics_begin_utc=2026-09-26T08:49:44Z
+hostname=kria
+boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
+kernel=Linux kria 5.15.0-1027-xilinx-zynqmp #31-Ubuntu SMP Wed Feb 21 04:33:09 UTC 2024 aarch64 aarch64 aarch64 GNU/Linux
+fclk0_driver=/sys/bus/platform/drivers/xilinx_fclk
+fclk0_of_node=/sys/firmware/devicetree/base/fclk0
+fclk0_rate_hz=99999999
+fpga_manager=operating
+starter_and_rm07_app_state_begin
+                     Accelerator          Accel_type                            Base           Base_type      #slots(PL+AIE)         Active_slot
+
+          kv260-rm07-bounded-k16            XRT_FLAT          kv260-rm07-bounded-k16            XRT_FLAT               (0+0)                  -1
+                k26-starter-kits            XRT_FLAT                k26-starter-kits            XRT_FLAT               (0+0)                  0,
+kv260-rm07-bounded-k16-pl0-187m5            XRT_FLATkv260-rm07-bounded-k16-pl0-187m5            XRT_FLAT               (0+0)                  -1
+starter_and_rm07_app_state_end
+debugfs_mount=/sys/kernel/debug debugfs rw,nosuid,nodev,noexec,relatime
+clk_summary_status=READABLE
+                                 enable  prepare  protect                                duty  hardware
+   clock                          count    count    count        rate   accuracy phase  cycle    enable
+-------------------------------------------------------------------------------------------------------
+ aux_ref_clk                          0        0        0    27000000          0     0  50000         Y
+ gt_crx_ref_clk                       0        0        0   108000000          0     0  50000         Y
+ pss_alt_ref_clk                      0        0        0           0          0     0  50000         Y
+ video_clk                            0        0        0    27000000          0     0  50000         Y
+ pss_ref_clk                          3        3        3    33333333          0     0  50000         Y
+    vpll_post_src                     0        0        0    33333333          0     0  50000         Y
+    vpll_pre_src                      0        0        0    33333333          0     0  50000         Y
+       vpll_int                       0        0        0  1559999577          0     0  50000         N
+          vpll_half                   0        0        0   779999788          0     0  50000         Y
+             vpll_int_mux             0        0        0   779999788          0     0  50000         Y
+                vpll                  0        0        0   779999788          0     0  50000         Y
+                   dp_video_ref_mux       0        0        0   779999788          0     0  50000         Y
+                      dp_video_ref_div1       0        0        0    64999983          0     0  50000         Y
+                         dp_video_ref_div2       0        0        0    64999983          0     0  50000         Y
+                            dp_video_ref       0        0        0    64999983          0     0  50000         N
+                   vpll_to_lpd        0        0        0   259999930          0     0  50000         Y
+    dpll_post_src                     0        0        0    33333333          0     0  50000         Y
+    dpll_pre_src                      0        0        0    33333333          0     0  50000         Y
+       dpll_int                       0        0        0  2133333312          0     0  50000         Y
+          dpll_half                   0        0        0  1066666656          0     0  50000         Y
+             dpll_int_mux             0        0        0  1066666656          0     0  50000         Y
+                dpll                  0        0        0  1066666656          0     0  50000         Y
+                   pcie_ref_mux       0        0        0  1066666656          0     0  50000         Y
+                      pcie_ref_div1       0        0        0    88888888          0     0  50000         Y
+                         pcie_ref       0        0        0    88888888          0     0  50000         Y
+                   sata_ref_mux       0        0        0  1066666656          0     0  50000         Y
+                      sata_ref_div1       0        0        0    88888888          0     0  50000         Y
+                         sata_ref       0        0        0    88888888          0     0  50000         Y
+                   gdma_ref_mux       0        0        0  1066666656          0     0  50000         Y
+                      gdma_ref_div1       0        0        0   533333328          0     0  50000         Y
+                         gdma_ref       0        0        0   533333328          0     0  50000         N
+                   dpll_to_lpd        0        0        0   533333328          0     0  50000         Y
+    apll_post_src                     0        0        0    33333333          0     0  50000         Y
+    apll_pre_src                      1        1        1    33333333          0     0  50000         Y
+       apll_int                       1        1        1  2666666640          0     0  50000         Y
+          apll_half                   1        1        1  1333333320          0     0  50000         Y
+             apll_int_mux             1        1        1  1333333320          0     0  50000         Y
+                apll                  1        1        1  1333333320          0     0  50000         Y
+                   dpdma_ref_mux       1        1        1  1333333320          0     0  50000         Y
+                      dpdma_ref_div1       1        1        1   444444440          0     0  50000         Y
+                         dpdma_ref       1        1        1   444444440          0     0  50000         Y
+                   acpu_mux           0        0        0  1333333320          0     0  50000         Y
+                      acpu            0        0        0  1333333320          0     0  50000         Y
+    rpll_post_src                     0        0        0    33333333          0     0  50000         Y
+    rpll_pre_src                      1        1        1    33333333          0     0  50000         Y
+       rpll_int                       1        1        1  2167603026          0     0  50000         Y
+          rpll_half                   1        1        1  1083801513          0     0  50000         Y
+             rpll_int_mux             1        1        1  1083801513          0     0  50000         Y
+                rpll                  1        1        1  1083801513          0     0  50000         Y
+                   rpll_to_fpd        1        1        1    22579199          0     0  50000         Y
+                      dp_stc_ref_mux       0        0        0    22579199          0     0  50000         Y
+                         dp_stc_ref_div1       0        0        0    22579199          0     0  50000         Y
+                            dp_stc_ref_div2       0        0        0     1128960          0     0  50000         Y
+                               dp_stc_ref       0        0        0     1128960          0     0  50000         Y
+                      dp_audio_ref_mux       1        1        1    22579199          0     0  50000         Y
+                         dp_audio_ref_div1       1        1        1    22579199          0     0  50000         Y
+                            dp_audio_ref_div2       1        1        1    22579199          0     0  50000         Y
+                               dp_audio_ref       1        1        1    22579199          0     0  50000         Y
+    iopll_post_src                    0        0        0    33333333          0     0  50000         Y
+    iopll_pre_src                     1        1        1    33333333          0     0  50000         Y
+       iopll_int                      1        1        1  2999999970          0     0  50000         Y
+          iopll_half                  1        1        1  1499999985          0     0  50000         Y
+             iopll_int_mux            1        1        1  1499999985          0     0  50000         Y
+                iopll                14       15        9  1499999985          0     0  50000         Y
+                   gem3_ref_ung_mux       1        1        0  1499999985          0     0  50000         Y
+                      gem3_ref_ung_div1       1        1        0   124999999          0     0  50000         Y
+                         gem3_ref_ung       1        1        0   124999999          0     0  50000         Y
+                            gem3_ref       2        2        0   124999999          0     0  50000         Y
+                               gem3_tx       1        1        0   124999999          0     0  50000         Y
+                   gem2_ref_ung_mux       0        0        0  1499999985          0     0  50000         Y
+                      gem2_ref_ung_div1       0        0        0    62500000          0     0  50000         Y
+                         gem2_ref_ung       0        0        0    62500000          0     0  50000         Y
+                            gem2_ref       0        0        0    62500000          0     0  50000         Y
+                               gem2_tx       0        0        0    62500000          0     0  50000         Y
+                   gem1_ref_ung_mux       0        0        0  1499999985          0     0  50000         Y
+                      gem1_ref_ung_div1       0        0        0    62500000          0     0  50000         Y
+                         gem1_ref_ung       0        0        0    62500000          0     0  50000         Y
+                            gem1_ref       0        0        0    62500000          0     0  50000         Y
+                               gem1_tx       0        0        0    62500000          0     0  50000         Y
+                   gem0_ref_ung_mux       0        0        0  1499999985          0     0  50000         Y
+                      gem0_ref_ung_div1       0        0        0    62500000          0     0  50000         Y
+                         gem0_ref_ung       0        0        0    62500000          0     0  50000         Y
+                            gem0_ref       0        0        0    62500000          0     0  50000         Y
+                               gem0_tx       0        0        0    62500000          0     0  50000         Y
+                   pl3_ref_mux        1        1        0  1499999985          0     0  50000         Y
+                      pl3_ref_div1       1        1        0    46875000          0     0  50000         Y
+                         pl3_ref_div2       1        1        0     9375000          0     0  50000         Y
+                            pl3_ref       1        1        0     9375000          0     0  50000         N
+                   pl2_ref_mux        1        1        0  1499999985          0     0  50000         Y
+                      pl2_ref_div1       1        1        0    46875000          0     0  50000         Y
+                         pl2_ref_div2       1        1        0     9375000          0     0  50000         Y
+                            pl2_ref       1        1        0     9375000          0     0  50000         N
+                   pl1_ref_mux        1        1        0  1499999985          0     0  50000         Y
+                      pl1_ref_div1       1        1        0    99999999          0     0  50000         Y
+                         pl1_ref_div2       1        1        0    99999999          0     0  50000         Y
+                            pl1_ref       1        1        0    99999999          0     0  50000         Y
+                   pl0_ref_mux        1        1        0  1499999985          0     0  50000         Y
+                      pl0_ref_div1       1        1        0    99999999          0     0  50000         Y
+                         pl0_ref_div2       1        1        0    99999999          0     0  50000         Y
+                            pl0_ref       1        1        0    99999999          0     0  50000         Y
+                   ams_ref_mux        1        1        1  1499999985          0     0  50000         Y
+                      ams_ref_div1       1        1        1    50000000          0     0  50000         Y
+                         ams_ref_div2       1        1        1    50000000          0     0  50000         Y
+                            ams_ref       1        1        1    50000000          0     0  50000         Y
+                   adma_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      adma_ref_div1       0        0        0   499999995          0     0  50000         Y
+                         adma_ref       0        0        0   499999995          0     0  50000         Y
+                   can1_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      can1_ref_div1       0        0        0    46875000          0     0  50000         Y
+                         can1_ref_div2       0        0        0    46875000          0     0  50000         Y
+                            can1_ref       0        0        0    46875000          0     0  50000         Y
+                               can1       0        0        0    46875000          0     0  50000         Y
+                   can0_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      can0_ref_div1       0        0        0    46875000          0     0  50000         Y
+                         can0_ref_div2       0        0        0    46875000          0     0  50000         Y
+                            can0_ref       0        0        0    46875000          0     0  50000         Y
+                               can0       0        0        0    46875000          0     0  50000         Y
+                   i2c1_ref_mux       0        1        1  1499999985          0     0  50000         Y
+                      i2c1_ref_div1       0        1        1    99999999          0     0  50000         Y
+                         i2c1_ref_div2       0        1        1    99999999          0     0  50000         Y
+                            i2c1_ref       0        1        1    99999999          0     0  50000         N
+                   i2c0_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      i2c0_ref_div1       0        0        0   299999997          0     0  50000         Y
+                         i2c0_ref_div2       0        0        0   299999997          0     0  50000         Y
+                            i2c0_ref       0        0        0   299999997          0     0  50000         Y
+                   nand_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      nand_ref_div1       0        0        0    46875000          0     0  50000         Y
+                         nand_ref_div2       0        0        0     9375000          0     0  50000         Y
+                            nand_ref       0        0        0     9375000          0     0  50000         N
+                   spi1_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      spi1_ref_div1       0        0        0   187499999          0     0  50000         Y
+                         spi1_ref_div2       0        0        0   187499999          0     0  50000         Y
+                            spi1_ref       0        0        0   187499999          0     0  50000         N
+                   spi0_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      spi0_ref_div1       0        0        0    62500000          0     0  50000         Y
+                         spi0_ref_div2       0        0        0    62500000          0     0  50000         Y
+                            spi0_ref       0        0        0    62500000          0     0  50000         Y
+                   uart1_ref_mux       1        1        1  1499999985          0     0  50000         Y
+                      uart1_ref_div1       1        1        1    99999999          0     0  50000         Y
+                         uart1_ref_div2       1        1        1    99999999          0     0  50000         Y
+                            uart1_ref       1        1        1    99999999          0     0  50000         Y
+                   uart0_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      uart0_ref_div1       0        0        0    62500000          0     0  50000         Y
+                         uart0_ref_div2       0        0        0    62500000          0     0  50000         Y
+                            uart0_ref       0        0        0    62500000          0     0  50000         Y
+                   sdio1_ref_mux       1        1        1  1499999985          0     0  50000         Y
+                      sdio1_ref_div1       1        1        1  1499999985          0     0  50000         Y
+                         sdio1_ref_div2       1        1        1   187499999          0     0  50000         Y
+                            sdio1_ref       1        1        1   187499999          0     0  50000         Y
+                               clk_in_sd1       0        0        0    50000000          0     0  50000         Y
+                               clk_out_sd1       0        0        0    50000000          0     0  50000         Y
+                   sdio0_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      sdio0_ref_div1       0        0        0    99999999          0     0  50000         Y
+                         sdio0_ref_div2       0        0        0    99999999          0     0  50000         Y
+                            sdio0_ref       0        0        0    99999999          0     0  50000         Y
+                   qspi_ref_mux       1        1        1  1499999985          0     0  50000         Y
+                      qspi_ref_div1       1        1        1   124999999          0     0  50000         Y
+                         qspi_ref_div2       1        1        1   124999999          0     0  50000         Y
+                            qspi_ref       2        1        1   124999999          0     0  50000         Y
+                   gem_tsu_ref_mux       1        1        1  1499999985          0     0  50000         Y
+                      gem_tsu_ref_div1       1        1        1   249999998          0     0  50000         Y
+                         gem_tsu_ref_div2       1        1        1   249999998          0     0  50000         Y
+                            gem_tsu_ref       1        1        1   249999998          0     0  50000         Y
+                               gem_tsu       1        1        0   249999998          0     0  50000         Y
+                   usb3_dual_ref_mux       1        1        1  1499999985          0     0  50000         Y
+                      usb3_dual_ref_div1       1        1        1    60000000          0     0  50000         Y
+                         usb3_dual_ref_div2       1        1        1    20000000          0     0  50000         Y
+                            usb3_dual_ref       2        2        2    20000000          0     0  50000         Y
+                   usb1_bus_ref_mux       0        0        0  1499999985          0     0  50000         Y
+                      usb1_bus_ref_div1       0        0        0   124999999          0     0  50000         Y
+                         usb1_bus_ref_div2       0        0        0   124999999          0     0  50000         Y
+                            usb1_bus_ref       0        0        0   124999999          0     0  50000         N
+                   usb0_bus_ref_mux       1        1        1  1499999985          0     0  50000         Y
+                      usb0_bus_ref_div1       1        1        1   249999998          0     0  50000         Y
+                         usb0_bus_ref_div2       1        1        1   249999998          0     0  50000         Y
+                            usb0_bus_ref       1        1        1   249999998          0     0  50000         Y
+                   lpd_lsbus_mux       1        1        1  1499999985          0     0  50000         Y
+                      lpd_lsbus_div1       1        1        1    99999999          0     0  50000         Y
+                         lpd_lsbus      10        9        1    99999999          0     0  50000         Y
+                            lpd_wdt       1        1        0    99999999          0     0  50000         Y
+                   iopll_to_fpd       1        1        0   499999995          0     0  50000         Y
+                      topsw_lsbus_mux       1        1        0   499999995          0     0  50000         Y
+                         topsw_lsbus_div1       1        1        0    99999999          0     0  50000         Y
+                            topsw_lsbus       4        4        0    99999999          0     0  50000         Y
+                               fpd_wdt       1        1        0    99999999          0     0  50000         Y
+                      gpu_ref_mux       0        0        0   499999995          0     0  50000         Y
+                         gpu_ref_div1       0        0        0   499999995          0     0  50000         Y
+                            gpu_ref       0        0        0   499999995          0     0  50000         N
+                               gpu_pp1_ref       0        0        0   499999995          0     0  50000         N
+                               gpu_pp0_ref       0        0        0   499999995          0     0  50000         N
+ si5332_0                             1        1        0   125000000          0     0  50000         Y
+ si5332_1                             0        0        0    25000000          0     0  50000         Y
+ si5332_2                             0        0        0    48000000          0     0  50000         Y
+ si5332_3                             0        0        0    24000000          0     0  50000         Y
+ si5332_4                             1        1        0    26000000          0     0  50000         Y
+ si5332_5                             1        1        0    27000000          0     0  50000         Y
+ can1_mio                             0        0        0           0          0     0  50000         Y
+ can0_mio                             0        0        0           0          0     0  50000         Y
+ gem3_rx                              1        1        0           0          0     0  50000         Y
+ gem2_rx                              0        0        0           0          0     0  50000         N
+ gem1_rx                              0        0        0           0          0     0  50000         N
+ gem0_rx                              0        0        0           0          0     0  50000         N
+device_tree_clock_properties_begin
+/sys/firmware/devicetree/base/fclk3/clocks=0x00000004 0x0000004a
+/sys/firmware/devicetree/base/fclk3/compatible=xlnx,fclk
+/sys/firmware/devicetree/base/fclk3/status=okay
+/sys/firmware/devicetree/base/fclk1/clocks=0x00000004 0x00000048
+/sys/firmware/devicetree/base/fclk1/compatible=xlnx,fclk
+/sys/firmware/devicetree/base/fclk1/status=okay
+/sys/firmware/devicetree/base/fclk2/clocks=0x00000004 0x00000049
+/sys/firmware/devicetree/base/fclk2/compatible=xlnx,fclk
+/sys/firmware/devicetree/base/fclk2/status=okay
+/sys/firmware/devicetree/base/fclk0/clocks=0x00000004 0x00000047
+/sys/firmware/devicetree/base/fclk0/compatible=xlnx,fclk
+/sys/firmware/devicetree/base/fclk0/status=okay
+/sys/firmware/devicetree/base/axi/ethernet@ff0e0000/assigned-clocks=0x00000004 0x0000002c
+/sys/firmware/devicetree/base/axi/ethernet@ff0e0000/assigned-clock-rates=0x0ee6b280
+/sys/firmware/devicetree/base/axi/mmc@ff170000/assigned-clocks=0x00000004 0x00000037
+/sys/firmware/devicetree/base/axi/mmc@ff170000/assigned-clock-rates=0x0b2cfe8b
+/sys/firmware/devicetree/base/axi/ethernet@ff0b0000/assigned-clocks=0x00000004 0x0000002c
+/sys/firmware/devicetree/base/axi/usb@ff9d0000/assigned-clocks=0x00000004 0x00000020 0x00000004 0x00000022
+/sys/firmware/devicetree/base/axi/usb@ff9d0000/assigned-clock-rates=0x0ee6b280 0x01312d00
+/sys/firmware/devicetree/base/axi/dma-controller@fd4c0000/assigned-clocks=0x00000004 0x00000014
+/sys/firmware/devicetree/base/axi/dma-controller@fd4c0000/assigned-clock-rates=0x23c34600
+/sys/firmware/devicetree/base/axi/display@fd4a0000/assigned-clocks=0x00000004 0x00000012 0x00000004 0x00000011 0x00000004 0x00000010
+/sys/firmware/devicetree/base/axi/display@fd4a0000/assigned-clock-rates=0x019bfcc0 0x017d7840 0x11e1a300
+/sys/firmware/devicetree/base/axi/ethernet@ff0c0000/assigned-clocks=0x00000004 0x0000002c
+/sys/firmware/devicetree/base/axi/usb@ff9e0000/assigned-clocks=0x00000004 0x00000021 0x00000004 0x00000022
+/sys/firmware/devicetree/base/axi/ethernet@ff0d0000/assigned-clocks=0x00000004 0x0000002c
+/sys/firmware/devicetree/base/axi/mmc@ff160000/assigned-clocks=0x00000004 0x00000036
+/sys/firmware/devicetree/base/axi/mmc@ff160000/assigned-clock-rates=0x0b2cfe8b
+device_tree_clock_properties_end
+dtc_status=PASS path=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-a-ra-q37804-20260926T084944Z/clock-diagnostics-before-load/live-device-tree.dts
+/tmp/rm10-boardprep/boardprep/collect_clock_diagnostics.sh: line 74: rg: command not found
+dmesg_status=PASS path=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-a-ra-q37804-20260926T084944Z/clock-diagnostics-before-load/dmesg.txt
+[Sat Sep 26 02:07:47 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(313942), ret: 0
+[Sat Sep 26 02:07:47 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(313942)
+[Sat Sep 26 02:22:39 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 02:22:39 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 02:22:39 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/afi0
+[Sat Sep 26 02:22:39 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/rm10_apm
+[Sat Sep 26 02:22:39 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/rm10_ffn
+[Sat Sep 26 02:22:41 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315130), ret: 0
+[Sat Sep 26 02:22:41 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315130)
+[Sat Sep 26 02:22:41 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315130), ret: 0
+[Sat Sep 26 02:22:41 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315130)
+[Sat Sep 26 02:22:41 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315130), ret: 0
+[Sat Sep 26 02:22:41 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:41 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:41 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:42 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315130)
+[Sat Sep 26 02:22:42 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315162), ret: 0
+[Sat Sep 26 02:22:42 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315162)
+[Sat Sep 26 02:22:42 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315162), ret: 0
+[Sat Sep 26 02:22:42 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315162)
+[Sat Sep 26 02:22:42 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315162), ret: 0
+[Sat Sep 26 02:22:42 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:42 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:42 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:43 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315162)
+[Sat Sep 26 02:22:43 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315190), ret: 0
+[Sat Sep 26 02:22:43 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315190)
+[Sat Sep 26 02:22:43 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315190), ret: 0
+[Sat Sep 26 02:22:43 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315190)
+[Sat Sep 26 02:22:43 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315190), ret: 0
+[Sat Sep 26 02:22:43 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:43 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:43 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:22:44 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315190)
+[Sat Sep 26 02:23:18 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315220), ret: 0
+[Sat Sep 26 02:23:18 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315220)
+[Sat Sep 26 02:23:18 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315220), ret: 0
+[Sat Sep 26 02:23:18 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315220)
+[Sat Sep 26 02:23:18 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315220), ret: 0
+[Sat Sep 26 02:23:18 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:23:18 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:23:18 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:23:48 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315692), ret: 0
+[Sat Sep 26 02:23:48 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315692)
+[Sat Sep 26 02:23:48 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315692), ret: 0
+[Sat Sep 26 02:23:48 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315692)
+[Sat Sep 26 02:23:48 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(315692), ret: 0
+[Sat Sep 26 02:23:48 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315692)
+[Sat Sep 26 02:31:28 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(315220)
+[Sat Sep 26 02:31:30 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 02:31:30 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 02:39:31 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(319011), ret: 0
+[Sat Sep 26 02:39:31 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(319011)
+[Sat Sep 26 02:39:31 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(319011), ret: 0
+[Sat Sep 26 02:39:31 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(319011)
+[Sat Sep 26 02:39:31 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(319011), ret: 0
+[Sat Sep 26 02:39:31 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(319011)
+[Sat Sep 26 02:42:29 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 02:42:29 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 02:42:29 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/afi0
+[Sat Sep 26 02:42:29 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/rm09_apm
+[Sat Sep 26 02:42:29 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/rm09_ffn
+[Sat Sep 26 02:42:49 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(320367), ret: 0
+[Sat Sep 26 02:42:49 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(320367)
+[Sat Sep 26 02:42:49 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(320367), ret: 0
+[Sat Sep 26 02:42:49 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(320367)
+[Sat Sep 26 02:42:49 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(320367), ret: 0
+[Sat Sep 26 02:42:49 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:42:49 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:42:49 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 02:51:09 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(320367)
+[Sat Sep 26 02:51:10 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 02:51:10 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 02:55:12 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(323234), ret: 0
+[Sat Sep 26 02:55:12 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(323234)
+[Sat Sep 26 02:55:12 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(323234), ret: 0
+[Sat Sep 26 02:55:12 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(323234)
+[Sat Sep 26 02:55:12 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(323234), ret: 0
+[Sat Sep 26 02:55:12 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(323234)
+[Sat Sep 26 04:22:57 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(329299), ret: 0
+[Sat Sep 26 04:22:57 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(329299)
+[Sat Sep 26 04:22:57 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(329299), ret: 0
+[Sat Sep 26 04:22:57 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(329299)
+[Sat Sep 26 04:22:57 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(329299), ret: 0
+[Sat Sep 26 04:22:57 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(329299)
+[Sat Sep 26 04:38:21 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(330396), ret: 0
+[Sat Sep 26 04:38:21 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(330396)
+[Sat Sep 26 04:38:21 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(330396), ret: 0
+[Sat Sep 26 04:38:21 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(330396)
+[Sat Sep 26 04:38:21 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(330396), ret: 0
+[Sat Sep 26 04:38:21 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(330396)
+[Sat Sep 26 04:53:57 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(331502), ret: 0
+[Sat Sep 26 04:53:57 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(331502)
+[Sat Sep 26 04:53:57 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(331502), ret: 0
+[Sat Sep 26 04:53:57 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(331502)
+[Sat Sep 26 04:53:57 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(331502), ret: 0
+[Sat Sep 26 04:53:57 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(331502)
+[Sat Sep 26 05:09:33 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(332688), ret: 0
+[Sat Sep 26 05:09:33 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(332688)
+[Sat Sep 26 05:09:33 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(332688), ret: 0
+[Sat Sep 26 05:09:33 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(332688)
+[Sat Sep 26 05:09:33 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(332688), ret: 0
+[Sat Sep 26 05:09:33 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(332688)
+[Sat Sep 26 05:25:20 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(333807), ret: 0
+[Sat Sep 26 05:25:20 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(333807)
+[Sat Sep 26 05:25:20 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(333807), ret: 0
+[Sat Sep 26 05:25:20 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(333807)
+[Sat Sep 26 05:25:20 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(333807), ret: 0
+[Sat Sep 26 05:25:20 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(333807)
+[Sat Sep 26 05:41:03 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(334922), ret: 0
+[Sat Sep 26 05:41:03 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(334922)
+[Sat Sep 26 05:41:03 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(334922), ret: 0
+[Sat Sep 26 05:41:03 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(334922)
+[Sat Sep 26 05:41:03 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(334922), ret: 0
+[Sat Sep 26 05:41:03 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(334922)
+[Sat Sep 26 05:56:24 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(336005), ret: 0
+[Sat Sep 26 05:56:24 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(336005)
+[Sat Sep 26 05:56:24 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(336005), ret: 0
+[Sat Sep 26 05:56:24 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(336005)
+[Sat Sep 26 05:56:24 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(336005), ret: 0
+[Sat Sep 26 05:56:24 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(336005)
+[Sat Sep 26 06:12:12 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(337197), ret: 0
+[Sat Sep 26 06:12:12 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(337197)
+[Sat Sep 26 06:12:12 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(337197), ret: 0
+[Sat Sep 26 06:12:12 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(337197)
+[Sat Sep 26 06:12:12 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(337197), ret: 0
+[Sat Sep 26 06:12:12 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(337197)
+[Sat Sep 26 06:27:52 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(338310), ret: 0
+[Sat Sep 26 06:27:52 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(338310)
+[Sat Sep 26 06:27:52 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(338310), ret: 0
+[Sat Sep 26 06:27:52 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(338310)
+[Sat Sep 26 06:27:52 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(338310), ret: 0
+[Sat Sep 26 06:27:52 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(338310)
+[Sat Sep 26 06:43:25 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(340769), ret: 0
+[Sat Sep 26 06:43:25 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(340769)
+[Sat Sep 26 06:43:25 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(340769), ret: 0
+[Sat Sep 26 06:43:25 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(340769)
+[Sat Sep 26 06:43:25 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(340769), ret: 0
+[Sat Sep 26 06:43:25 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(340769)
+[Sat Sep 26 06:58:56 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(341865), ret: 0
+[Sat Sep 26 06:58:56 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(341865)
+[Sat Sep 26 06:58:56 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(341865), ret: 0
+[Sat Sep 26 06:58:56 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(341865)
+[Sat Sep 26 06:58:56 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(341865), ret: 0
+[Sat Sep 26 06:58:56 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(341865)
+[Sat Sep 26 07:14:22 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(343000), ret: 0
+[Sat Sep 26 07:14:22 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(343000)
+[Sat Sep 26 07:14:22 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(343000), ret: 0
+[Sat Sep 26 07:14:22 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(343000)
+[Sat Sep 26 07:14:22 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(343000), ret: 0
+[Sat Sep 26 07:14:22 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(343000)
+[Sat Sep 26 07:29:07 2026] wlx90de80defd0b: authenticate with 7c:1e:06:87:21:80
+[Sat Sep 26 07:29:09 2026] wlx90de80defd0b: send auth to 7c:1e:06:87:21:80 (try 1/3)
+[Sat Sep 26 07:29:09 2026] wlx90de80defd0b: authenticated
+[Sat Sep 26 07:29:09 2026] wlx90de80defd0b: associate with 7c:1e:06:87:21:80 (try 1/3)
+[Sat Sep 26 07:29:09 2026] wlx90de80defd0b: RX AssocResp from 7c:1e:06:87:21:80 (capab=0x8001 status=0 aid=9)
+[Sat Sep 26 07:29:09 2026] wlx90de80defd0b: associated
+[Sat Sep 26 07:29:51 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(344113), ret: 0
+[Sat Sep 26 07:29:51 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(344113)
+[Sat Sep 26 07:29:51 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(344113), ret: 0
+[Sat Sep 26 07:29:51 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(344113)
+[Sat Sep 26 07:29:51 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(344113), ret: 0
+[Sat Sep 26 07:29:51 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(344113)
+[Sat Sep 26 07:46:05 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(345287), ret: 0
+[Sat Sep 26 07:46:05 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(345287)
+[Sat Sep 26 07:46:05 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(345287), ret: 0
+[Sat Sep 26 07:46:05 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(345287)
+[Sat Sep 26 07:46:05 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(345287), ret: 0
+[Sat Sep 26 07:46:05 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(345287)
+[Sat Sep 26 08:01:40 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(346387), ret: 0
+[Sat Sep 26 08:01:40 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(346387)
+[Sat Sep 26 08:01:40 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(346387), ret: 0
+[Sat Sep 26 08:01:40 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(346387)
+[Sat Sep 26 08:01:40 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(346387), ret: 0
+[Sat Sep 26 08:01:40 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(346387)
+[Sat Sep 26 08:16:01 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 08:16:01 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 08:17:20 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(349439), ret: 0
+[Sat Sep 26 08:17:20 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(349439)
+[Sat Sep 26 08:17:20 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(349439), ret: 0
+[Sat Sep 26 08:17:20 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(349439)
+[Sat Sep 26 08:17:20 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(349439), ret: 0
+[Sat Sep 26 08:17:20 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(349439)
+[Sat Sep 26 08:29:15 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 08:29:15 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 08:30:03 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 08:30:03 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 08:30:03 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/afi0
+[Sat Sep 26 08:30:03 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/rm10_apm
+[Sat Sep 26 08:30:03 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /__symbols__/rm10_ffn
+[Sat Sep 26 08:30:06 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353215), ret: 0
+[Sat Sep 26 08:30:06 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353215)
+[Sat Sep 26 08:30:06 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353215), ret: 0
+[Sat Sep 26 08:30:06 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353215)
+[Sat Sep 26 08:30:06 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353215), ret: 0
+[Sat Sep 26 08:30:06 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:06 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:06 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:07 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353215)
+[Sat Sep 26 08:30:07 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353247), ret: 0
+[Sat Sep 26 08:30:07 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353247)
+[Sat Sep 26 08:30:07 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353247), ret: 0
+[Sat Sep 26 08:30:07 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353247)
+[Sat Sep 26 08:30:07 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353247), ret: 0
+[Sat Sep 26 08:30:07 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:07 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:07 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:08 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353247)
+[Sat Sep 26 08:30:08 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353275), ret: 0
+[Sat Sep 26 08:30:08 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353275)
+[Sat Sep 26 08:30:08 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353275), ret: 0
+[Sat Sep 26 08:30:08 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353275)
+[Sat Sep 26 08:30:08 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353275), ret: 0
+[Sat Sep 26 08:30:08 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:08 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:08 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:09 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353275)
+[Sat Sep 26 08:30:34 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353305), ret: 0
+[Sat Sep 26 08:30:34 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353305)
+[Sat Sep 26 08:30:34 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353305), ret: 0
+[Sat Sep 26 08:30:34 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353305)
+[Sat Sep 26 08:30:34 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353305), ret: 0
+[Sat Sep 26 08:30:34 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:34 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:30:34 2026] [drm] Allocating BO from CMA for invalid or unused memory index[0]
+[Sat Sep 26 08:32:42 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353969), ret: 0
+[Sat Sep 26 08:32:42 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353969)
+[Sat Sep 26 08:32:42 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353969), ret: 0
+[Sat Sep 26 08:32:42 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353969)
+[Sat Sep 26 08:32:42 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(353969), ret: 0
+[Sat Sep 26 08:32:42 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353969)
+[Sat Sep 26 08:38:46 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(353305)
+[Sat Sep 26 08:38:48 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/firmware-name
+[Sat Sep 26 08:38:48 2026] OF: overlay: WARNING: memory leak will occur if overlay removed, property: /fpga-full/resets
+[Sat Sep 26 08:48:05 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(357797), ret: 0
+[Sat Sep 26 08:48:05 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(357797)
+[Sat Sep 26 08:48:05 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(357797), ret: 0
+[Sat Sep 26 08:48:05 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(357797)
+[Sat Sep 26 08:48:05 2026] zocl-drm axi:zyxclmm_drm: zocl_create_client: created KDS client for pid(357797), ret: 0
+[Sat Sep 26 08:48:05 2026] zocl-drm axi:zyxclmm_drm: zocl_destroy_client: client exits pid(357797)
+kernel_journal_path=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-a-ra-q37804-20260926T084944Z/clock-diagnostics-before-load/kernel-journal.txt
+diagnostics_end_utc=2026-09-26T08:49:45Z
+This collector only reads clock, device-tree, active-app, and kernel-log state.
