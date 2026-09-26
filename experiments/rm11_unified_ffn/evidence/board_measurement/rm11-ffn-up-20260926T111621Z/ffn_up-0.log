@@ -1,0 +1,7 @@
+RM11_RUN layer=ffn_up-0 K_M_N=1152_4304_1120 calls=1
+CMA before_kB=245888 allocated_kB=248036 pages_before=49243 pages_after=49355 BO_bytes=294912+147456+16384 rounded_total=458752
+BO paddr W=0x37900000 X=0x375c0000 Y=0x375b0000 HLS=/dev/uio6 APM=/dev/uio5 APM_GCC_MSB=0x00000000 LSB=0x00000000
+APM_CLOCK_CAL cycles=20007519 wall_ms=200.077 measured_MHz=99.999
+CALL=1 N=1120 tiles=35 commands=35/1190 pack_ms=206.249 xrt_sync_to_ms=4.110 xrt_sync_from_ms=3.063 control_submit_ms=2.645 hls_wait_ms=1344.704 apm_cycles=134524958 compute_cycles=134192509 stage_cycles=332449 output_unpack_ms=101.193 wall_ms=1664.147 input_bytes=356106240 output_bytes=19281920 APM_W_read=350945280 APM_X_read=5160960 APM_Y_write=19496960 APM_GBps=0.2793 GMACps=4.130 CMA_current_kB=239612 CMA_min_kB=239612
+TOTAL calls=1 N=1120 pack_ms=206.249 xrt_sync_to_ms=4.110 xrt_sync_from_ms=3.063 control_submit_ms=2.645 hls_wait_ms=1344.704 cycles=134524958 compute_cycles=134192509 stage_cycles=332449 unpack_ms=101.193 wall_ms=1664.147 input_bytes=356106240 output_bytes=19281920 APM_W_read=350945280 APM_X_read=5160960 APM_Y_write=19496960 kernel_GMACps=4.130 system_GMACps=3.337 max_abs=3.81469727e-06 RMSE=1.74861737e-07 cosine=0.999999999999570
+CMA after_release_kB=239608 pages_after_release=49355 allocated_total_bytes=458752

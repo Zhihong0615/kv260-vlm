@@ -1,0 +1,105 @@
+run_dir=/tmp/rm11-ffn-up-capture/runs/rm11-ffn-up-20260926T111621Z utc=2026-09-26T11:16:21Z boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
+app=kv260-rm11-unified-ffn bit_sha256=72dfe46fbd27cc6a3dccf1defeaceef2e2939b9d7d4f679789ceae19a3657b81 bit_bin_sha256=53894991503d8d2882dfddb1222f564994222902e03592a19ad23c7d027d7bc6 dtbo_sha256=11390e7257225582ed3c9788d03ba302327cc4927eb7b63b5a5900c8fc7fce24 shell_sha256=802dbc8b3f118313a5a74df46f56dc550a61b687dfd484fc6a8fd5ac7895c344
+first_load_authorization_sha256=53894991503d8d2882dfddb1222f564994222902e03592a19ad23c7d027d7bc6 rollback_s=4200
+bench_sha256=b5932b15be19873ca6e7d5571e7111a7f0500d93aee2e8850393e8947060ee5e identity_sha256=eaec93be87723d59f19d4d8d2e4cb3bcb94a9f44af87c695ac63ef17e06eaf5a capture_manifest_sha256=07e2bddab0daa54ec33d5872114b9ff81b3bfe67b256db9ed9ece20e9b436095
+model_sha256=8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773 mmproj_sha256=ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293 image_sha256=3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f
+snapshot=before_rm11 utc=2026-09-26T11:16:21Z
+MemAvailable:    3210216 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          262628 kB
+fclk0=99999999
+fpga_manager=operating
+rollback_timer=rm11-ffn-up-20260926T111621Z-rollback.timer timer_state=active restore_after_seconds=4200
+snapshot=before_app_unload utc=2026-09-26T11:16:21Z
+MemAvailable:    3214024 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          262628 kB
+fclk0=99999999
+fpga_manager=operating
+remove from slot 0 returns: 0 (Ok)
+kv260-rm11-unified-ffn: loaded to slot 0
+snapshot=rm11_loaded utc=2026-09-26T11:16:23Z
+MemAvailable:    3212772 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          262772 kB
+fclk0=99999999
+fpga_manager=operating
+cma_check=after_rm11_load free_kB=262772 required_kB=9824 pool_bytes=1671168
+RM11_HLS_IDENTITY dev=/dev/uio6 compatible=xlnx,vision-ffn-unified-tile-1.0,generic-uio addr=0xa0010000 size=0x10000 PASS
+RM11_APM_IDENTITY dev=/dev/uio5 compatible=generic-uio addr=0xa0000000 size=0x10000 PASS
+RM11_AXILITE_INVALID_TASK ret=-4 expected=-4 dma_pointer_used=0 PASS
+cma_check=ffn_up-0-before-DMA free_kB=262772 required_kB=9824 pool_bytes=1671168
+standalone_begin layer=ffn_up-0 K/M/N=1152/4304/1120 expected_stage_compute=35/1190 utc=2026-09-26T11:16:23Z
+RM11_RUN layer=ffn_up-0 K_M_N=1152_4304_1120 calls=1
+CMA before_kB=245888 allocated_kB=248036 pages_before=49243 pages_after=49355 BO_bytes=294912+147456+16384 rounded_total=458752
+BO paddr W=0x37900000 X=0x375c0000 Y=0x375b0000 HLS=/dev/uio6 APM=/dev/uio5 APM_GCC_MSB=0x00000000 LSB=0x00000000
+APM_CLOCK_CAL cycles=20007519 wall_ms=200.077 measured_MHz=99.999
+CALL=1 N=1120 tiles=35 commands=35/1190 pack_ms=206.249 xrt_sync_to_ms=4.110 xrt_sync_from_ms=3.063 control_submit_ms=2.645 hls_wait_ms=1344.704 apm_cycles=134524958 compute_cycles=134192509 stage_cycles=332449 output_unpack_ms=101.193 wall_ms=1664.147 input_bytes=356106240 output_bytes=19281920 APM_W_read=350945280 APM_X_read=5160960 APM_Y_write=19496960 APM_GBps=0.2793 GMACps=4.130 CMA_current_kB=239612 CMA_min_kB=239612
+TOTAL calls=1 N=1120 pack_ms=206.249 xrt_sync_to_ms=4.110 xrt_sync_from_ms=3.063 control_submit_ms=2.645 hls_wait_ms=1344.704 cycles=134524958 compute_cycles=134192509 stage_cycles=332449 unpack_ms=101.193 wall_ms=1664.147 input_bytes=356106240 output_bytes=19281920 APM_W_read=350945280 APM_X_read=5160960 APM_Y_write=19496960 kernel_GMACps=4.130 system_GMACps=3.337 max_abs=3.81469727e-06 RMSE=1.74861737e-07 cosine=0.999999999999570
+CMA after_release_kB=239608 pages_after_release=49355 allocated_total_bytes=458752
+standalone_numeric_gate=PASS layer=ffn_up-0 max_abs=3.81469727e-06 RMSE=1.74861737e-07 cosine=0.999999999999570 time_log=/tmp/rm11-ffn-up-capture/runs/rm11-ffn-up-20260926T111621Z/ffn_up-0-time-v.txt
+snapshot=ffn_up-0-after-DMA utc=2026-09-26T11:16:25Z
+MemAvailable:    3212656 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          262300 kB
+fclk0=99999999
+fpga_manager=operating
+cma_check=ffn_up-13-before-DMA free_kB=262300 required_kB=9824 pool_bytes=1671168
+standalone_begin layer=ffn_up-13 K/M/N=1152/4304/280 expected_stage_compute=9/306 utc=2026-09-26T11:16:25Z
+RM11_RUN layer=ffn_up-13 K_M_N=1152_4304_280 calls=1
+CMA before_kB=255108 allocated_kB=257440 pages_before=49355 pages_after=49467 BO_bytes=294912+147456+16384 rounded_total=458752
+BO paddr W=0x37900000 X=0x375c0000 Y=0x375b0000 HLS=/dev/uio6 APM=/dev/uio5 APM_GCC_MSB=0x00000000 LSB=0x0c76a1bc
+APM_CLOCK_CAL cycles=20007416 wall_ms=200.076 measured_MHz=99.999
+CALL=1 N=280 tiles=9 commands=9/306 pack_ms=54.135 xrt_sync_to_ms=1.071 xrt_sync_from_ms=0.827 control_submit_ms=0.683 hls_wait_ms=337.764 apm_cycles=33790416 compute_cycles=33709094 stage_cycles=81322 output_unpack_ms=25.618 wall_ms=420.664 input_bytes=91533312 output_bytes=4820480 APM_W_read=90243072 APM_X_read=1290240 APM_Y_write=4874240 APM_GBps=0.2854 GMACps=4.110 CMA_current_kB=256596 CMA_min_kB=256596
+TOTAL calls=1 N=280 pack_ms=54.135 xrt_sync_to_ms=1.071 xrt_sync_from_ms=0.827 control_submit_ms=0.683 hls_wait_ms=337.764 cycles=33790416 compute_cycles=33709094 stage_cycles=81322 unpack_ms=25.618 wall_ms=420.664 input_bytes=91533312 output_bytes=4820480 APM_W_read=90243072 APM_X_read=1290240 APM_Y_write=4874240 kernel_GMACps=4.110 system_GMACps=3.300 max_abs=1.90734863e-06 RMSE=2.03178285e-07 cosine=0.999999999999756
+CMA after_release_kB=256596 pages_after_release=49467 allocated_total_bytes=458752
+standalone_numeric_gate=PASS layer=ffn_up-13 max_abs=1.90734863e-06 RMSE=2.03178285e-07 cosine=0.999999999999756 time_log=/tmp/rm11-ffn-up-capture/runs/rm11-ffn-up-20260926T111621Z/ffn_up-13-time-v.txt
+snapshot=ffn_up-13-after-DMA utc=2026-09-26T11:16:26Z
+MemAvailable:    3217936 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          265276 kB
+fclk0=99999999
+fpga_manager=operating
+cma_check=ffn_up-26-before-DMA free_kB=265376 required_kB=9824 pool_bytes=1671168
+standalone_begin layer=ffn_up-26 K/M/N=1152/4304/280 expected_stage_compute=9/306 utc=2026-09-26T11:16:26Z
+RM11_RUN layer=ffn_up-26 K_M_N=1152_4304_280 calls=1
+CMA before_kB=257688 allocated_kB=257440 pages_before=49467 pages_after=49579 BO_bytes=294912+147456+16384 rounded_total=458752
+BO paddr W=0x37900000 X=0x375c0000 Y=0x375b0000 HLS=/dev/uio6 APM=/dev/uio5 APM_GCC_MSB=0x00000000 LSB=0x04a480af
+APM_CLOCK_CAL cycles=20007697 wall_ms=200.079 measured_MHz=99.999
+CALL=1 N=280 tiles=9 commands=9/306 pack_ms=53.541 xrt_sync_to_ms=1.107 xrt_sync_from_ms=0.881 control_submit_ms=0.684 hls_wait_ms=338.348 apm_cycles=33848789 compute_cycles=33767502 stage_cycles=81287 output_unpack_ms=25.767 wall_ms=420.911 input_bytes=91533312 output_bytes=4820480 APM_W_read=90243072 APM_X_read=1290240 APM_Y_write=4874240 APM_GBps=0.2849 GMACps=4.103 CMA_current_kB=255016 CMA_min_kB=255016
+TOTAL calls=1 N=280 pack_ms=53.541 xrt_sync_to_ms=1.107 xrt_sync_from_ms=0.881 control_submit_ms=0.684 hls_wait_ms=338.348 cycles=33848789 compute_cycles=33767502 stage_cycles=81287 unpack_ms=25.767 wall_ms=420.911 input_bytes=91533312 output_bytes=4820480 APM_W_read=90243072 APM_X_read=1290240 APM_Y_write=4874240 kernel_GMACps=4.103 system_GMACps=3.298 max_abs=6.10351562e-05 RMSE=1.8910867e-06 cosine=0.999999999999780
+CMA after_release_kB=255016 pages_after_release=49579 allocated_total_bytes=458752
+standalone_numeric_gate=PASS layer=ffn_up-26 max_abs=6.10351562e-05 RMSE=1.8910867e-06 cosine=0.999999999999780 time_log=/tmp/rm11-ffn-up-capture/runs/rm11-ffn-up-20260926T111621Z/ffn_up-26-time-v.txt
+snapshot=ffn_up-26-after-DMA utc=2026-09-26T11:16:27Z
+MemAvailable:    3216912 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          264192 kB
+fclk0=99999999
+fpga_manager=operating
+representative_call_projection calls=135 CPU_family_s=86.440139 PL_total_call_s=100.323895 PL_kernel_s=80.870240 estimated_speedup=0.8616
+snapshot=before_restore utc=2026-09-26T11:16:27Z
+MemAvailable:    3216156 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          264192 kB
+fclk0=99999999
+fpga_manager=operating
+rm11_ffn_up_standalone=PASS evidence_dir=/tmp/rm11-ffn-up-capture/runs/rm11-ffn-up-20260926T111621Z
+explicit_restore_begin utc=2026-09-26T11:16:27Z
+rm11_package_cleanup=PASS
+starter_kit_restore=PASS
+snapshot=after_restore utc=2026-09-26T11:16:28Z
+MemAvailable:    3211112 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          265352 kB
+fclk0=99999999
+fpga_manager=operating
+explicit_restore_end utc=2026-09-26T11:16:28Z
+run_exit_status=0 starter_kit_restore=PASS

@@ -1,6 +1,6 @@
 # RM11 Worker A checkpoint: shared Vision FFN
 
-Status: **A53 tensor capture and numeric gate passed; one full-system Vivado route and package are complete. The board package and guarded runner are staged and hash-verified; no new image has been loaded.**
+Status: **A53 tensor capture, board numeric gate, one shared-top route, and authorized standalone FFN-up board measurement are complete. The board restored to the starter kit; the total-call family projection is slower than CPU, so no full VLM integration is planned for this mapping.**
 
 ## A53 real tensor capture
 
@@ -46,7 +46,7 @@ At the measured board PL clock of 100 MHz, the ideal loop-product lower bound is
 
 ## Route and board gate
 
-The one full-system route uses the RM10 PS/AXI/HP0/APM board design and 100 MHz PL0 with the unified IP. The board runner measures up-0/up-13/up-26 with `35/1190`, `9/306`, and `9/306` stage/compute command counts, respectively (each stage command covers one N tile, each compute command one N-tile/M-batch pair). It compares the full output against board CPU Y and reports kernel time, full-call wall, GMAC/s, pack, XRT sync, unpack, APM DDR bytes, and restored starter-kit state. No image load is permitted until the Scheduler grants exact-hash first-load authorization.
+The one full-system route uses the RM10 PS/AXI/HP0/APM board design and 100 MHz PL0 with the unified IP. The runner measures up-0/up-13/up-26 with `35/1190`, `9/306`, and `9/306` stage/compute command counts, respectively (each stage command covers one N tile, each compute command one N-tile/M-batch pair). It compares the full output against board CPU Y and reports kernel time, full-call wall, GMAC/s, pack, XRT sync, unpack, APM DDR bytes, and restored starter-kit state. The exact-hash first load was authorized and completed for this bounded standalone measurement only.
 
 ## Routed image and bounded board procedure
 
@@ -56,6 +56,20 @@ The exported HLS component SHA-256 is `210112b2e0836ca5a1f333df2291fbd3536a1c86b
 
 The board has the package plus these pinned scripts staged under `/tmp/rm11-ffn-up-capture/`: standalone runner SHA-256 `d020e8e179057d621e42145efada5997e7609446e38c507c232d94f7afce7c5c`, restore helper SHA-256 `8820113c2bab844ab9ba9f27f92eb502b1f1dc58a7f7c2ec919d1161c26b66e2`. The preflight checks the board capture manifest, benchmark and identity binaries, starter-kit state, FCLK0 at 99,999,999 Hz, CMA headroom, and active processes. It arms a 4,200-second systemd rollback to `k26-starter-kits` before unloading the current app, probes the UIO/AXI-Lite identity, runs only the three standalone tensors, gates all outputs numerically, and explicitly restores the starter-kit. The image is not loaded until the parent Scheduler receives authorization for this exact `.bit.bin` SHA. Authorized invocation: `sudo env RM11_FIRST_LOAD_AUTHORIZED_SHA=53894991503d8d2882dfddb1222f564994222902e03592a19ad23c7d027d7bc6 bash /tmp/rm11-ffn-up-capture/run_up_standalone.sh`.
 
-In the benchmark's `output_bytes` field, bytes count valid output payload after excluding padded channels/rows. Each compute command still XRT-syncs the fixed 16 KiB Y BO; at these shapes that is 19,496,960 bytes for N=1120 and 5,013,504 bytes for N=280. The reported XRT sync-from duration and APM Y-write counter capture that actual movement. No board PL measurement has run yet, so the required FFN-up PL kernel/total-call result remains pending the exact-hash load approval.
+In the benchmark's `output_bytes` field, bytes count valid output payload after excluding padded channels/rows. Each compute command still XRT-syncs the fixed 16 KiB Y BO; at these shapes that is 19,496,960 bytes for N=1120 and 5,013,504 bytes for N=280. The reported XRT sync-from duration and APM Y-write counter capture that movement; APM W/X read and Y write counters are retained per call.
+
+## Authorized standalone FFN-up result
+
+The one authorized board run executed three calls total, one per captured layer. All three full output tensors passed the numeric gate. The raw per-call, APM, `time -v`, identity, and restore records plus SHA manifest are in `evidence/board_measurement/rm11-ffn-up-20260926T111621Z/`; its `SUMMARY.md` distinguishes actual calls from the weighted family projection.
+
+| Layer | CPU mean (RM05) | PL kernel wait | PL total-call wall | Pack | Sync to/from | Unpack | Numeric |
+|---|---:|---:|---:|---:|---:|---:|---|
+| up-0 N=1120 | 1.431124 s | 1.344704 s | 1.664147 s | 206.249 ms | 4.110 / 3.063 ms | 101.193 ms | PASS |
+| up-13 N=280 | 0.356086 s | 0.337764 s | 0.420664 s | 54.135 ms | 1.071 / 0.827 ms | 25.618 ms | PASS |
+| up-26 N=280 | 0.355858 s | 0.338348 s | 0.420911 s | 53.541 ms | 1.107 / 0.881 ms | 25.767 ms | PASS |
+
+Weighting the measured representative calls by RM05's 35×N1120 and 100×N280 request distribution gives an **estimated** FFN-up family PL kernel wait of 80.870240 s and **estimated total-call wall of 100.323895 s**, versus board-measured CPU family time of 86.440139 s. That is 13.883756 s slower (+16.06% time), with 0.8616× CPU-to-PL throughput ratio; estimated total-call throughput is 3.321 GMAC/s versus 3.855 GMAC/s CPU. The weighted boundary cost is about 12.60 s packing and 6.11 s output unpacking. This is a projection from one PL sample per layer, not an execution of the 135-call family.
+
+The kernel alone is faster than CPU for this family, but the measured total-call estimate is not. **Stop before full VLM integration and do not build a second image for up** under the current mapping. The exact loadable `.bit.bin` hash used was `53894991503d8d2882dfddb1222f564994222902e03592a19ad23c7d027d7bc6`; the runner logged the exact-hash authorization and explicit restore passed at `11:16:28Z` with `run_exit_status=0`, manager `operating`, FCLK0 `99,999,999 Hz`, package cleanup PASS, and rollback timer stopped.
 
 If total-call PL time does not beat the 86.44 s family CPU time by a material margin, stop before full VLM integration.
