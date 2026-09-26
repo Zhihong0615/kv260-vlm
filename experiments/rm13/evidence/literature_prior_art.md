@@ -1,0 +1,7 @@
+# RM13 narrow prior-art check
+
+This note checks only RepQ-ViT and the directly relevant MBQ calibration mechanism against the frozen RM13 symmetric g128 W4A8 vision-FFN screen. It records no quantization or calibration change.
+
+[RepQ-ViT](https://arxiv.org/abs/2212.08254) addresses difficult Vision Transformer activation distributions after LayerNorm and Softmax. It starts with channelwise and log-sqrt(2) quantizers, then reparameterizes them into layerwise and log2 inference quantizers. RM13 quantizes only the vision FFN matmul weights and token activations with symmetric max-abs g128 quantization; LayerNorm and Softmax remain outside scope. The frozen method therefore does not implement or duplicate RepQ-ViT’s reparameterization.
+
+[MBQ](https://arxiv.org/abs/2412.19509) accounts for different vision and language token sensitivities while calibrating reconstruction/equalization factors, using SFT-loss gradients to derive modality weights at linear-layer outputs. RM13’s targeted operators are vision-encoder FFNs and use fixed weight max-abs scales plus dynamic per-token activation max-abs scales; there is no learned reconstruction or modality-weighted calibration. This is related motivation, but a different method. Any follow-up is deferred until the pre-registered held-out W4 gate is evaluated; its result and failure pattern must guide the single permitted refinement, if one is warranted.
