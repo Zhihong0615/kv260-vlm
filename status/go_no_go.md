@@ -1,19 +1,27 @@
 # Research go/no-go
 
-> **RM10 checkpoint (2026-09-26): PAUSED at the user's request; architecture
-> decision pending.** The corrected same-precision ten-bank engine passed
-> C/RTL co-simulation, the frozen numeric gate on three real FFN-down tensors,
-> and full-system route at 100 MHz. On KV260, kernel throughput rose from the
-> RM09 static engine's approximately 3.85 to 4.76–4.78 GMAC/s. In the paired
-> QID37804 runs, the 135-call FFN-down family fell from 99.631 to 82.947 s,
-> while complete request wall was 519.39 s for RM09 static and 524.42 s for
-> RM10. The RM10 run preceded the control and had 21,695 versus 4,068 major
-> faults, so this one cold-to-warm sequence does not establish an end-to-end
-> gain or regression. Both answers were `G`, both had 135 actual PL calls and
-> 10 expected CPU fallbacks, and both restored `k26-starter-kits`. The first
-> five-bank RM10 image was invalidated before loading. See the RM10 checkpoint
-> and raw board evidence in `experiments/rm10_boardprep/evidence/`. No further
-> board work is authorized during the pause.
+> **RM10 decision (2026-09-26): `GO_RECURRENCE_ARCHITECTURE` as a measured
+> feasibility result; paper novelty remains unproven.** The corrected
+> same-precision ten-bank engine has K-loop II=1 versus the strong RM09 static
+> engine's II=5. It passed C/RTL co-simulation, the frozen numeric gate on
+> three real FFN-down tensors, and full-system route at 100 MHz. KV260 kernel
+> throughput rose from approximately 3.85 to 4.76–4.78 GMAC/s. In the most
+> comparable same-runtime QID37804 request, RM10 took **504.24 s** versus
+> **519.39 s** for static (1.030×, 15.15 s saved); the 135-call FFN-down
+> family took **83.082 s** versus **99.631 s** (1.199×). The family-only
+> substitution predicts 502.841 s, leaving a +1.399 s whole-request residual.
+> Both requests produced `G`, used 135 PL calls with 10 expected CPU fallbacks,
+> and restored `k26-starter-kits`. The RM10 request still had 5,838 versus
+> 4,068 major faults and 165,016 versus 76,840 filesystem input blocks, so
+> this one better-matched run supports a practical gain but is not a
+> population-level latency estimate. Its read-only CMA sample fell as low as
+> about 0.5 MiB with no XRT allocation failure; bounded buffers had already
+> been allocated. The prior two RM10 request walls (524.42 and 517.10 s) were
+> more cache-confounded and are retained as evidence, not averaged into the
+> matched comparison. The first five-bank image was invalidated before load.
+> Generic multi-accumulator interleaving and reduction trees are prior art;
+> no paper-method novelty is claimed from II=1 alone. See RM10 board evidence
+> in `experiments/rm10_boardprep/evidence/`.
 
 > **Latest stage decision (RM09, 2026-09-25): `NO_NOVELTY_YET`.** The strong
 > static K16 FFN-down engine now covers observed MiniCPM-V transformer extents
@@ -25,15 +33,16 @@
 > K16 datapath, and no distinct architecture mechanism has passed a strong
 > static comparison. See [RM09 milestone results](../experiments/rm09/RM09_MILESTONE_RESULTS.md).
 
-Current decision: **keep the measured static accelerator as the comparison
-baseline; P3 paper-method development remains `NO_GO_NOW` until a mechanism
-shows a numerical and end-to-end gain over it.** The RM08 decision below is a
-historical stage result, not the current novelty decision.
+Current decision: **keep RM09 static as the strong comparison baseline and
+retain RM10 recurrence decoupling as a viable architecture candidate. P3
+paper-method development remains `NO_GO_NOW` until the candidate is shown to
+be distinct from established interleaving/reduction techniques.** The RM08
+decision below is historical, not the current novelty decision.
 
 > **Historical stage decision (RM08, 2026-09-25): `GO_VLM_INTEGRATION` confirmed.** The real KV260 MiniCPM-V QID 37804 request completed in **522.34 s** with 135 actual transformer FFN-down PL calls, 10 explicit out-of-scope CPU fallbacks, unchanged answer `G`, and successful starter-kit restore. The frozen four-thread CPU-only request took 668.35 s: **1.280× end-to-end speedup**, 21.85% lower wall time. The 135 PL calls took 99.667 s versus 250.124 s CPU family time (2.510×). Amdahl predicted 517.893 s from the measured family time; actual residual was 4.45 s. This is a strong static accelerator result; a distinct architecture novelty remains unproven. See [`RM08_RESULTS.md`](../experiments/rm08/RM08_RESULTS.md).
 
-Updated: 2026-09-25
-Decision: **GO_VLM_INTEGRATION (real full request passed); P3 method novelty remains unproven**
+Historical RM08 snapshot updated: 2026-09-25
+Historical decision: **GO_VLM_INTEGRATION (real full request passed); P3 method novelty remained unproven**
 
 The sections below retain prior-stage context and must not be read as current RM08 board status. RM08 has now completed first load, standalone real-tensor benchmarking, and an actual MiniCPM-V PS+PL request. The next research decision should use the measured 4.45 s Amdahl residual and remaining vision time, with this FFN-down engine as the static baseline.
 
