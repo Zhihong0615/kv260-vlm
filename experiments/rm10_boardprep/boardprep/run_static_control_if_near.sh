@@ -48,8 +48,8 @@ candidate_driver=$candidate_dir/driver.log
 grep -Fq 'rm10_candidate_board_run=PASS' "$candidate_driver" || die "RM10 candidate failed"
 grep -Fq 'starter_kit_restore=PASS' "$candidate_driver" || die "candidate did not restore the starter app"
 candidate_wall=$(awk -F': ' '/Elapsed \(wall clock\) time/ {
-  n=split($2, t, \":\"); if(n==2) s=t[1]*60+t[2]; else if(n==3) s=t[1]*3600+t[2]*60+t[3];
-  printf \"%.2f\", s; found=1
+  n=split($2, t, ":"); if(n==2) s=t[1]*60+t[2]; else if(n==3) s=t[1]*3600+t[2]*60+t[3];
+  printf "%.2f", s; found=1
 } END { if(!found) exit 1 }' "$candidate_time_log") || die "candidate wall time cannot be read"
 if ! awk -v w="$candidate_wall" 'BEGIN { exit !(w>=496.2 && w<=548.5) }'; then
   echo "conditional_static_control=SKIP candidate_wall_s=$candidate_wall historical_s=522.34 trigger=496.2..548.5"
