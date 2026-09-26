@@ -1,5 +1,18 @@
 # Research go/no-go
 
+> **RM11 decision (2026-09-26): `NO_NEW_METHOD`.** The routed shared FFN
+> engine passed real-tensor numerical checks and restored starter-kit after
+> three KV260 standalone calls, but FFN-up total-call latency was 1.664 s
+> (N=1120) and about 0.421 s (N=280), slower than the corresponding A53 CPU
+> calls. Its representative-call 135-call projection is 100.324 s versus
+> 86.440 s BOARD_MEASURED CPU; no full VLM up integration was run. RM10's
+> down-only engine remains the strongest measured implementation: QID 37804
+> 504.24 s and matching answer, with additional QID 38299/35419 results
+> 285.53/619.70 s. Generic recurrence decoupling and shared/dual-dataflow
+> mechanisms have prior art; the measured up/down asymmetry does not yet
+> demonstrate a new shared architecture advantage. The paper-method gate
+> remains `NO_GO_NOW`. See [RM11 milestone results](../experiments/rm11/RM11_MILESTONE_RESULTS.md).
+
 > **RM10 decision (2026-09-26): `GO_RECURRENCE_ARCHITECTURE` as a measured
 > feasibility result; paper novelty remains unproven.** The corrected
 > same-precision ten-bank engine has K-loop II=1 versus the strong RM09 static
@@ -33,10 +46,10 @@
 > K16 datapath, and no distinct architecture mechanism has passed a strong
 > static comparison. See [RM09 milestone results](../experiments/rm09/RM09_MILESTONE_RESULTS.md).
 
-Current decision: **keep RM09 static as the strong comparison baseline and
-retain RM10 recurrence decoupling as a viable architecture candidate. P3
-paper-method development remains `NO_GO_NOW` until the candidate is shown to
-be distinct from established interleaving/reduction techniques.** The RM08
+Current decision: **retain RM10 FFN-down as the strongest measured KV260
+implementation and RM09 as its static control. The shared RM11 FFN-up path
+does not pass the board call-time gate; P3 paper-method development remains
+`NO_GO_NOW`.** The RM08
 decision below is historical, not the current novelty decision.
 
 > **Historical stage decision (RM08, 2026-09-25): `GO_VLM_INTEGRATION` confirmed.** The real KV260 MiniCPM-V QID 37804 request completed in **522.34 s** with 135 actual transformer FFN-down PL calls, 10 explicit out-of-scope CPU fallbacks, unchanged answer `G`, and successful starter-kit restore. The frozen four-thread CPU-only request took 668.35 s: **1.280× end-to-end speedup**, 21.85% lower wall time. The 135 PL calls took 99.667 s versus 250.124 s CPU family time (2.510×). Amdahl predicted 517.893 s from the measured family time; actual residual was 4.45 s. This is a strong static accelerator result; a distinct architecture novelty remains unproven. See [`RM08_RESULTS.md`](../experiments/rm08/RM08_RESULTS.md).
