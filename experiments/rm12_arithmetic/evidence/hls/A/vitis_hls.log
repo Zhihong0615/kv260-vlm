@@ -1,0 +1,111 @@
+
+****** Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2024.2 (64-bit)
+  **** SW Build 5238294 on Nov  8 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 26 19:58:19 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source /home/zhiro/research/kv260-vlm/tools/Xilinx/Vitis/2024.2/scripts/vitis_hls/hls.tcl -notrace
+INFO: [HLS 200-10] For user 'zhiro' on host 'zhiro-ThinkBook-16p-G5-IRX' (Linux_x86_64 version 7.0.0-34-generic) on Sat Sep 26 19:58:20 CST 2026
+INFO: [HLS 200-10] On os Ubuntu 24.04.5 LTS
+INFO: [HLS 200-10] In directory '/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic'
+WARNING: [HLS 200-2053] The vitis_hls executable is deprecated. Consider using vitis-run --mode hls --tcl
+Sourcing Tcl script '/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/scripts/run_hls.tcl'
+INFO: [HLS 200-1510] Running: open_project -reset /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project 
+INFO: [HLS 200-10] Creating and opening project '/tmp/rm12-arithmetic-A-20260926T115818Z-136428/project'.
+INFO: [HLS 200-1510] Running: set_top fp16x32_mul_a 
+INFO: [HLS 200-1510] Running: add_files /home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp -cflags -I/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source -ffp-contract=off -fno-fast-math 
+INFO: [HLS 200-10] Adding design file '/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files /home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_b.cpp -cflags -I/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source -ffp-contract=off -fno-fast-math 
+INFO: [HLS 200-10] Adding design file '/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_b.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb /home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/tb.cpp -cflags -I/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source -ffp-contract=off -fno-fast-math 
+INFO: [HLS 200-10] Adding test bench file '/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/tb.cpp' to the project
+INFO: [HLS 200-1510] Running: open_solution -reset solution1 
+INFO: [HLS 200-10] Creating and opening solution '/tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1'.
+INFO: [HLS 200-10] Cleaning up the solution database.
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1510] Running: set_part xck26-sfvc784-2LV-c 
+INFO: [HLS 200-1611] Setting target device to 'xck26-sfvc784-2LV-c'
+INFO: [HLS 200-1510] Running: create_clock -period 10.0 -name default 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1510] Running: csim_design 
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [SIM 211-4] CSIM will launch CLANG as the compiler.
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/tb.cpp in debug mode
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_b.cpp in debug mode
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp in debug mode
+   Generating csim.exe
+boundary_random_cases=2572864 mismatches=0
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-2161] Finished Command csim_design Elapsed time: 00:00:07; Allocated memory: 0.156 MB.
+INFO: [HLS 200-1510] Running: csynth_design 
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 0.04 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 310.445 MB.
+INFO: [HLS 200-10] Analyzing design file '/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_b.cpp' ... 
+INFO: [HLS 200-10] Analyzing design file '/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 3.3 seconds. CPU system time: 0.6 seconds. Elapsed time: 3.91 seconds; current allocated memory: 312.688 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 200-1995] There were 1,127 instructions in the design after the 'Compile/Link' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 140 instructions in the design after the 'Unroll/Inline (step 1)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Unroll/Inline (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Unroll/Inline (step 3)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Unroll/Inline (step 4)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Array/Struct (step 1)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Array/Struct (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Array/Struct (step 3)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Array/Struct (step 4)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Array/Struct (step 5)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Performance (step 1)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Performance (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Performance (step 3)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 111 instructions in the design after the 'Performance (step 4)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 114 instructions in the design after the 'HW Transforms (step 1)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 113 instructions in the design after the 'HW Transforms (step 2)' phase of compilation. See the Design Size Report for more details: /tmp/rm12-arithmetic-A-20260926T115818Z-136428/project/solution1/syn/report/csynth_design_size.rpt
+INFO: [HLS 214-131] Inlining function 'rm12_arith::half_to_f32_bits(ap_uint<16>)' into 'fp16x32_mul_a(ap_uint<16>, ap_uint<32>)' (/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp:5:38)
+INFO: [HLS 214-131] Inlining function 'rm12_arith::f32_to_bits(float)' into 'fp16x32_mul_a(ap_uint<16>, ap_uint<32>)' (/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp:9:12)
+INFO: [HLS 214-131] Inlining function 'rm12_arith::f32_from_bits(ap_uint<32>)' into 'fp16x32_mul_a(ap_uint<16>, ap_uint<32>)' (/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp:7:30)
+INFO: [HLS 214-186] Unrolling loop 'VITIS_LOOP_22_1' (/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/microkernel.hpp:22:26) in function 'fp16x32_mul_a' completely with a factor of 10 (/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp:3:0)
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 1.31 seconds. CPU system time: 0.21 seconds. Elapsed time: 6.34 seconds; current allocated memory: 322.250 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 322.250 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.01 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.01 seconds; current allocated memory: 322.375 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 322.391 MB.
+INFO: [XFORM 203-401] Performing if-conversion on hyperblock to (/home/zhiro/research/kv260-vlm-workers/RM12-B-arithmetic/experiments/rm12_arithmetic/source/kernel_a.cpp:10:1) in function 'fp16x32_mul_a'... converting 6 basic blocks.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 343.715 MB.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.02 seconds; current allocated memory: 343.715 MB.
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'fp16x32_mul_a' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fp16x32_mul_a' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.03 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.05 seconds; current allocated memory: 343.715 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 343.715 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fp16x32_mul_a' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'fp16x32_mul_a/weight_bits' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'fp16x32_mul_a/activation_bits' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'fp16x32_mul_a' to 'ap_ctrl_hs'.
+INFO: [RTGEN 206-100] Generating core module 'fmul_32ns_32ns_32_3_max_dsp_1': 1 instance(s).
+INFO: [RTGEN 206-100] Generating core module 'sparsemux_9_3_32_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fp16x32_mul_a'.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 343.715 MB.
+INFO: [HLS 200-111] Finished Generating all RTL models: CPU user time: 0.09 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.1 seconds; current allocated memory: 343.715 MB.
+INFO: [HLS 200-111] Finished Updating report files: CPU user time: 0.1 seconds. CPU system time: 0 seconds. Elapsed time: 0.1 seconds; current allocated memory: 343.715 MB.
+INFO: [VHDL 208-304] Generating VHDL RTL for fp16x32_mul_a.
+INFO: [VLOG 209-307] Generating Verilog RTL for fp16x32_mul_a.
+INFO: [HLS 200-789] **** Estimated Fmax: 142.53 MHz
+INFO: [HLS 200-2161] Finished Command csynth_design Elapsed time: 00:00:10; Allocated memory: 33.707 MB.
+INFO: [HLS 200-112] Total CPU user time: 14.28 seconds. Total CPU system time: 1.24 seconds. Total elapsed time: 20.17 seconds; peak allocated memory: 343.715 MB.
