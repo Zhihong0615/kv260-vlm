@@ -30,6 +30,7 @@ readonly mmproj_sha=ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5
 readonly image_sha=3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f
 readonly restore_sha=ef428ea3e9215897310cfeaa5d79a4be320005ac8bbd6655c8505f2a9abe7e23
 readonly cma_minimum_kb=9824
+readonly route_ceiling_hz=100000000
 readonly timeout_seconds=1200
 readonly rollback_seconds=4200
 die() { echo "ERROR: $*" >&2; exit 1; }
