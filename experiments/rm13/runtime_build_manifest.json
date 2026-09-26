@@ -1,0 +1,113 @@
+{
+  "build": {
+    "build_type": "Release",
+    "cmake_cache_sha256": "f21c3c8952034ec9aa06f4b0aaac7d0216252646489a8838adfec50a9e42a7d5",
+    "cmake_version": "cmake version 3.31.6",
+    "cpu_variant": "x86-64 AVX2; compiled ggml-cpu build reported -msse4.2 -mf16c -mfma -mbmi2 -mavx -mavx2",
+    "flags": {
+      "CMAKE_CXX_FLAGS": "-ffp-contract=off",
+      "CMAKE_C_FLAGS": "-ffp-contract=off",
+      "GGML_CUDA": "OFF",
+      "GGML_NATIVE": "OFF",
+      "GGML_OPENMP": "ON",
+      "LLAMA_BUILD_SERVER": "OFF",
+      "LLAMA_BUILD_TESTS": "OFF",
+      "LLAMA_BUILD_TOOLS": "ON"
+    },
+    "generator": "Ninja",
+    "ninja_version": "1.11.1.git.kitware.jobserver-1",
+    "script": "experiments/rm13/build_quantization_runtime.sh"
+  },
+  "campaign_interface": {
+    "accepted_values": [
+      "original",
+      "W8A8_up_only",
+      "W8A8_down_only",
+      "W8A8_both",
+      "W4A8_up_only",
+      "W4A8_down_only",
+      "W4A8_both"
+    ],
+    "optional_diagnostics_env": "RM13_QDIAG",
+    "other_environment": [
+      "RM13_QID",
+      "RM13_QCACHE_DIR"
+    ],
+    "required_variant_env": "RM13_QVARIANT"
+  },
+  "generation_command": {
+    "options": [
+      "-m MODEL",
+      "--mmproj MMPROJ",
+      "--image IMAGE",
+      "-p PROMPT",
+      "-t 8",
+      "-tb 8",
+      "-c 4096",
+      "-n 48",
+      "--seed 42",
+      "--temp 0",
+      "--top-p 1",
+      "--top-k 0",
+      "--device none",
+      "-ngl 0",
+      "--no-mmproj-offload",
+      "--no-warmup",
+      "--perf",
+      "-lv 4"
+    ]
+  },
+  "models": {
+    "language_model": {
+      "path": "/home/zhiro/research/kv260-vlm/models/gguf/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf",
+      "sha256": "8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773"
+    },
+    "vision_projector": {
+      "path": "/home/zhiro/research/kv260-vlm/models/gguf/mmproj-MiniCPM-V-4.6-f16.gguf",
+      "sha256": "ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293"
+    }
+  },
+  "pilot": {
+    "purpose": "dev only, QID 37804; not final_test",
+    "summary": "experiments/rm13/evidence/dev_pilot/pilot_summary.json"
+  },
+  "runtime_artifacts": {
+    "libggml-base.so.0.24.0": {
+      "path": "work/llama.cpp-rm13/build-rm13/bin/libggml-base.so.0.24.0",
+      "sha256": "ba819f00c240c9f1c6419ef785fd27c2cad3dec4c63b214b9cee6d4327e4f31f"
+    },
+    "libggml-cpu.so.0.24.0": {
+      "path": "work/llama.cpp-rm13/build-rm13/bin/libggml-cpu.so.0.24.0",
+      "sha256": "9ac4811cccd421dcbd08e7b9b78cf31fd3c69f2dcb5e4fe20705e3ff7c1f218b"
+    },
+    "libggml.so.0.24.0": {
+      "path": "work/llama.cpp-rm13/build-rm13/bin/libggml.so.0.24.0",
+      "sha256": "17b2aed7aa8f38412d0e70a929bcc00cd439ad271a49d1c5555f2aa406615a57"
+    },
+    "libllama-common.so.0.4.1": {
+      "path": "work/llama.cpp-rm13/build-rm13/bin/libllama-common.so.0.4.1",
+      "sha256": "407e15d43089852c4cc0583f910cb3128d86b2db752fc6933a4d5f52f2ebce47"
+    },
+    "libllama.so.0.4.1": {
+      "path": "work/llama.cpp-rm13/build-rm13/bin/libllama.so.0.4.1",
+      "sha256": "3a9ab9181c99e428cd1af9432785c70c477ee2ee908a90147f858bcab63697d7"
+    },
+    "libmtmd.so.0.4.1": {
+      "path": "work/llama.cpp-rm13/build-rm13/bin/libmtmd.so.0.4.1",
+      "sha256": "9a6c2378a9b7caa6d62706d367b7f45359c6e3c9e12099d3435b16c956edb3c4"
+    },
+    "llama-mtmd-cli": {
+      "path": "work/llama.cpp-rm13/build-rm13/bin/llama-mtmd-cli",
+      "sha256": "44dfe61a953ec51f91f2bf4724353c9beab5c31c356022956ec972b54d94f6f3"
+    }
+  },
+  "runtime_id": "rm13-qsim-host-v1",
+  "source": {
+    "commit": "7ab4ee7baad2d920464cbacfad4f4b07cf111fd2",
+    "patched_file": "ggml/src/ggml-cpu/ggml-cpu.c",
+    "patched_file_sha256": "081a85833010121183d29026f26ad16c93f97ff0c877413177b3fa09596421f6",
+    "repository": "https://github.com/ggml-org/llama.cpp",
+    "tracked_patch": "experiments/rm13/quantization_runtime.patch",
+    "tracked_patch_sha256": "e94296dc132b8aecc3617913835f1751f8d5dac5603fe9b0ea52284196638e10"
+  }
+}

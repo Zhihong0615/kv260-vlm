@@ -1,0 +1,552 @@
+diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
+index 8bb0ff7..0ad324c 100644
+--- a/ggml/src/ggml-cpu/ggml-cpu.c
++++ b/ggml/src/ggml-cpu/ggml-cpu.c
+@@ -38,6 +38,9 @@
+ #if defined(__gnu_linux__)
+ #include <syscall.h>
+ #endif
++#if defined(__AVX2__)
++#include <immintrin.h>
++#endif
+ 
+ #ifdef GGML_USE_OPENMP
+ #include <omp.h>
+@@ -1252,6 +1255,526 @@ static void ggml_compute_forward_mul_mat_one_chunk(
+     }
+ }
+ 
++// RM13 quality-screen CPU implementation. It is enabled only by an explicit
++// RM13_QVARIANT and applies to named F16W/F32X vision FFN matmuls. Weight codes
++// and their fixed F32 scales are cached from the original F16 tensor; A8 codes
++// and scales are recomputed for each input token and K group.
++#define RM13_GROUP_SIZE 128
++#define RM13_MAX_K 4304
++#define RM13_MAX_GROUPS ((RM13_MAX_K + RM13_GROUP_SIZE - 1) / RM13_GROUP_SIZE)
++#define RM13_MAX_WEIGHT_CACHE 64
++
++struct rm13_weight_cache_entry {
++    const void * source;
++    int64_t k;
++    int64_t m;
++    int bits;
++    int groups;
++    uint64_t fingerprint;
++    size_t code_bytes;
++    uint8_t * codes;
++    float * scales;
++    const char * cache_status;
++};
++
++struct rm13_weight_cache_header {
++    char magic[8];
++    uint32_t version;
++    uint32_t bits;
++    uint32_t group_size;
++    uint32_t groups;
++    int64_t k;
++    int64_t m;
++    uint64_t source_fingerprint;
++};
++
++static struct rm13_weight_cache_entry rm13_weight_cache[RM13_MAX_WEIGHT_CACHE];
++static int rm13_weight_cache_count = 0;
++static atomic_flag rm13_cache_guard = ATOMIC_FLAG_INIT;
++static float * rm13_reference_y = NULL;
++static size_t rm13_reference_y_count = 0;
++
++static void rm13_lock(void) {
++    while (atomic_flag_test_and_set(&rm13_cache_guard)) {
++    }
++}
++
++static void rm13_unlock(void) {
++    atomic_flag_clear(&rm13_cache_guard);
++}
++
++static int32_t rm13_round_ties_even(float value) {
++    const float magnitude = fabsf(value);
++    const float integral = floorf(magnitude);
++    const float fraction = magnitude - integral;
++    int32_t rounded = (int32_t) integral;
++    if (fraction > 0.5f || (fraction == 0.5f && (rounded & 1))) {
++        ++rounded;
++    }
++    return signbit(value) ? -rounded : rounded;
++}
++
++static uint64_t rm13_fingerprint(const void * data, size_t size) {
++    const uint8_t * bytes = (const uint8_t *) data;
++    uint64_t hash = UINT64_C(14695981039346656037);
++    for (size_t i = 0; i < size; ++i) {
++        hash ^= bytes[i];
++        hash *= UINT64_C(1099511628211);
++    }
++    return hash;
++}
++
++static int rm13_cache_file_path(char * path, size_t path_size,
++                                const char * cache_dir, const char * name, int bits) {
++    if (cache_dir == NULL || cache_dir[0] == '\0') {
++        return 0;
++    }
++    if (mkdir(cache_dir, 0775) != 0 && errno != EEXIST) {
++        return 0;
++    }
++    const int count = snprintf(path, path_size, "%s/%s_w%d_g128.bin", cache_dir, name, bits);
++    return count > 0 && (size_t) count < path_size;
++}
++
++static int rm13_load_weight_cache_file(
++        const char * path, int bits, int64_t k, int64_t m, int groups,
++        uint64_t fingerprint, uint8_t * codes, size_t code_bytes, float * scales) {
++    FILE * file = fopen(path, "rb");
++    if (file == NULL) {
++        return 0;
++    }
++    const size_t expected_size = sizeof(struct rm13_weight_cache_header) +
++        (size_t) m * (size_t) groups * sizeof(float) + code_bytes;
++    if (fseek(file, 0, SEEK_END) != 0 || ftell(file) != (long) expected_size ||
++        fseek(file, 0, SEEK_SET) != 0) {
++        fclose(file);
++        return 0;
++    }
++    struct rm13_weight_cache_header header;
++    const int header_ok = fread(&header, sizeof(header), 1, file) == 1 &&
++        memcmp(header.magic, "RM13WQ1", 7) == 0 && header.version == 1 &&
++        header.bits == (uint32_t) bits && header.group_size == RM13_GROUP_SIZE &&
++        header.groups == (uint32_t) groups && header.k == k && header.m == m &&
++        header.source_fingerprint == fingerprint;
++    const int payload_ok = header_ok &&
++        fread(scales, sizeof(float), (size_t) m * (size_t) groups, file) == (size_t) m * (size_t) groups &&
++        fread(codes, 1, code_bytes, file) == code_bytes;
++    fclose(file);
++    return payload_ok;
++}
++
++static void rm13_write_weight_cache_file(
++        const char * path, int bits, int64_t k, int64_t m, int groups,
++        uint64_t fingerprint, const uint8_t * codes, size_t code_bytes, const float * scales) {
++    char temporary[1024];
++    const int count = snprintf(temporary, sizeof(temporary), "%s.tmp.%ld", path, (long) getpid());
++    if (count <= 0 || (size_t) count >= sizeof(temporary)) {
++        return;
++    }
++    FILE * file = fopen(temporary, "wb");
++    if (file == NULL) {
++        return;
++    }
++    struct rm13_weight_cache_header header = {
++        .magic = "RM13WQ1",
++        .version = 1,
++        .bits = (uint32_t) bits,
++        .group_size = RM13_GROUP_SIZE,
++        .groups = (uint32_t) groups,
++        .k = k,
++        .m = m,
++        .source_fingerprint = fingerprint,
++    };
++    const int ok = fwrite(&header, sizeof(header), 1, file) == 1 &&
++        fwrite(scales, sizeof(float), (size_t) m * (size_t) groups, file) == (size_t) m * (size_t) groups &&
++        fwrite(codes, 1, code_bytes, file) == code_bytes;
++    if (fclose(file) != 0 || !ok) {
++        remove(temporary);
++        return;
++    }
++    if (rename(temporary, path) != 0) {
++        remove(temporary);
++    }
++}
++
++static struct rm13_weight_cache_entry * rm13_get_quantized_weights(
++        const struct ggml_tensor * weight, const struct ggml_tensor * dst,
++        int bits, int * nonfinite, const char ** cache_status) {
++    const int64_t k = weight->ne[0];
++    const int64_t m = weight->ne[1];
++    const int groups = (int) ((k + RM13_GROUP_SIZE - 1) / RM13_GROUP_SIZE);
++    const size_t bytes_per_group = RM13_GROUP_SIZE / 2;
++    const size_t code_bytes = bits == 4 ? (size_t) m * (size_t) groups * bytes_per_group : (size_t) m * (size_t) k;
++    const size_t weight_bytes = (size_t) k * (size_t) m * sizeof(ggml_fp16_t);
++    const uint64_t fingerprint = rm13_fingerprint(weight->data, weight_bytes);
++
++    rm13_lock();
++    for (int i = 0; i < rm13_weight_cache_count; ++i) {
++        struct rm13_weight_cache_entry * entry = &rm13_weight_cache[i];
++        if (entry->source == weight->data && entry->k == k && entry->m == m && entry->bits == bits &&
++            entry->fingerprint == fingerprint) {
++            *cache_status = "ram_hit";
++            rm13_unlock();
++            return entry;
++        }
++    }
++    if (rm13_weight_cache_count >= RM13_MAX_WEIGHT_CACHE) {
++        rm13_unlock();
++        return NULL;
++    }
++
++    uint8_t * codes = (uint8_t *) calloc(code_bytes, 1);
++    float * scales = (float *) malloc((size_t) m * (size_t) groups * sizeof(float));
++    if (codes == NULL || scales == NULL) {
++        free(codes);
++        free(scales);
++        rm13_unlock();
++        return NULL;
++    }
++    const ggml_fp16_t * source = (const ggml_fp16_t *) weight->data;
++    for (int64_t row = 0; row < m; ++row) {
++        for (int group = 0; group < groups; ++group) {
++            const int64_t start = (int64_t) group * RM13_GROUP_SIZE;
++            const int valid = (int) MIN((int64_t) RM13_GROUP_SIZE, k - start);
++            float maximum = 0.0f;
++            for (int local_k = 0; local_k < valid; ++local_k) {
++                const float value = ggml_fp16_to_fp32(source[row * k + start + local_k]);
++                if (!isfinite(value)) {
++                    *nonfinite = 1;
++                    free(codes);
++                    free(scales);
++                    rm13_unlock();
++                    return NULL;
++                }
++                maximum = fmaxf(maximum, fabsf(value));
++            }
++            const float scale = maximum == 0.0f ? 1.0f : maximum / (bits == 4 ? 7.0f : 127.0f);
++            scales[(size_t) row * groups + group] = scale;
++            for (int local_k = 0; local_k < valid; ++local_k) {
++                const float value = ggml_fp16_to_fp32(source[row * k + start + local_k]);
++                int32_t q = rm13_round_ties_even(value / scale);
++                const int low = bits == 4 ? -7 : -127;
++                const int high = bits == 4 ? 7 : 127;
++                if (q < low) q = low;
++                if (q > high) q = high;
++                if (bits == 8) {
++                    codes[(size_t) row * (size_t) k + (size_t) start + (size_t) local_k] = (uint8_t) (int8_t) q;
++                } else {
++                    const size_t offset = ((size_t) row * groups + (size_t) group) * bytes_per_group + (size_t) local_k / 2;
++                    const uint8_t nibble = (uint8_t) q & 0x0f;
++                    codes[offset] |= (uint8_t) (nibble << ((local_k & 1) * 4));
++                }
++            }
++        }
++    }
++
++    char cache_path[1024];
++    const char * cache_dir = getenv("RM13_QCACHE_DIR");
++    const int have_path = rm13_cache_file_path(cache_path, sizeof(cache_path), cache_dir, dst->name, bits);
++    int loaded = 0;
++    if (have_path) {
++        loaded = rm13_load_weight_cache_file(cache_path, bits, k, m, groups,
++                                             fingerprint, codes, code_bytes, scales);
++        if (!loaded) {
++            rm13_write_weight_cache_file(cache_path, bits, k, m, groups,
++                                         fingerprint, codes, code_bytes, scales);
++        }
++    }
++    struct rm13_weight_cache_entry * entry = &rm13_weight_cache[rm13_weight_cache_count++];
++    entry->source = weight->data;
++    entry->k = k;
++    entry->m = m;
++    entry->bits = bits;
++    entry->groups = groups;
++    entry->fingerprint = fingerprint;
++    entry->code_bytes = code_bytes;
++    entry->codes = codes;
++    entry->scales = scales;
++    entry->cache_status = loaded ? "disk_hit" : (have_path ? "disk_generated" : "ram_generated");
++    *cache_status = entry->cache_status;
++    rm13_unlock();
++    return entry;
++}
++
++static int32_t rm13_group_partial(
++        const struct rm13_weight_cache_entry * qweight, int bits,
++        int64_t row, int group, int64_t k, const int8_t * x_codes, int valid) {
++    int32_t partial = 0;
++    const size_t bytes_per_group = RM13_GROUP_SIZE / 2;
++#if defined(__AVX2__)
++    __m256i acc = _mm256_setzero_si256();
++    const __m128i nibble_mask_128 = _mm_set1_epi8(0x0f);
++    const __m128i sign_bit_128 = _mm_set1_epi8(0x08);
++    const __m128i sign_sub_128 = _mm_set1_epi8(0x08);
++    for (int local_k = 0; local_k < valid; local_k += 16) {
++        __m128i w8;
++        if (bits == 8) {
++            w8 = _mm_loadu_si128((const __m128i *) (
++                qweight->codes + (size_t) row * (size_t) k +
++                (size_t) group * RM13_GROUP_SIZE + (size_t) local_k));
++        } else {
++            const size_t offset = ((size_t) row * (size_t) qweight->groups + (size_t) group) * bytes_per_group + (size_t) local_k / 2;
++            const __m128i packed = _mm_loadl_epi64((const __m128i *) (qweight->codes + offset));
++            const __m128i low = _mm_and_si128(packed, nibble_mask_128);
++            const __m128i high = _mm_and_si128(_mm_srli_epi16(packed, 4), nibble_mask_128);
++            w8 = _mm_unpacklo_epi8(low, high);
++            w8 = _mm_sub_epi8(_mm_xor_si128(w8, sign_bit_128), sign_sub_128);
++        }
++        const __m128i x8 = _mm_loadu_si128((const __m128i *) (x_codes + (int64_t) group * RM13_GROUP_SIZE + local_k));
++        const __m256i w16 = _mm256_cvtepi8_epi16(w8);
++        const __m256i x16 = _mm256_cvtepi8_epi16(x8);
++        const __m256i products = _mm256_madd_epi16(w16, x16);
++        acc = _mm256_add_epi32(acc, products);
++    }
++    int32_t lanes[8];
++    _mm256_storeu_si256((__m256i *) lanes, acc);
++    for (int lane = 0; lane < 8; ++lane) {
++        partial += lanes[lane];
++    }
++#else
++    for (int local_k = 0; local_k < valid; ++local_k) {
++        int32_t qw;
++        if (bits == 8) {
++            qw = (int8_t) qweight->codes[(size_t) row * (size_t) k +
++                                         (size_t) group * RM13_GROUP_SIZE + (size_t) local_k];
++        } else {
++            const size_t offset = ((size_t) row * (size_t) qweight->groups + (size_t) group) * bytes_per_group + (size_t) local_k / 2;
++            const uint8_t nibble = (qweight->codes[offset] >> ((local_k & 1) * 4)) & 0x0f;
++            qw = (nibble & 0x08) ? (int32_t) nibble - 16 : (int32_t) nibble;
++        }
++        partial += qw * (int32_t) x_codes[(int64_t) group * RM13_GROUP_SIZE + local_k];
++    }
++#endif
++    return partial;
++}
++
++static int rm13_variant_bits_and_scope(const char * variant, int * bits, int * scope) {
++    if (strcmp(variant, "W8A8_up_only") == 0) {
++        *bits = 8; *scope = 1;
++    } else if (strcmp(variant, "W8A8_down_only") == 0) {
++        *bits = 8; *scope = 2;
++    } else if (strcmp(variant, "W8A8_both") == 0) {
++        *bits = 8; *scope = 3;
++    } else if (strcmp(variant, "W4A8_up_only") == 0) {
++        *bits = 4; *scope = 1;
++    } else if (strcmp(variant, "W4A8_down_only") == 0) {
++        *bits = 4; *scope = 2;
++    } else if (strcmp(variant, "W4A8_both") == 0) {
++        *bits = 4; *scope = 3;
++    } else if (strcmp(variant, "original") == 0) {
++        *bits = 0; *scope = 0;
++    } else {
++        return 0;
++    }
++    return 1;
++}
++
++static int rm13_layer_for_node(const struct ggml_tensor * dst, int * is_up) {
++    const char * name = dst->name;
++    const char * suffix = NULL;
++    if (strncmp(name, "ffn_up-", 7) == 0) {
++        *is_up = 1;
++        suffix = name + 7;
++    } else if (strncmp(name, "ffn_down-", 9) == 0) {
++        *is_up = 0;
++        suffix = name + 9;
++    } else {
++        return -1;
++    }
++    char * end = NULL;
++    const long layer = strtol(suffix, &end, 10);
++    if (end == suffix || *end != '\0' || layer < 0 || layer > 26) {
++        return -1;
++    }
++    char canonical[32];
++    snprintf(canonical, sizeof(canonical), "%s%ld", *is_up ? "ffn_up-" : "ffn_down-", layer);
++    return strcmp(canonical, name) == 0 ? (int) layer : -1;
++}
++
++static int ggml_rm13_try_qsim(const struct ggml_compute_params * params, struct ggml_tensor * dst) {
++    const char * variant = getenv("RM13_QVARIANT");
++    if (variant == NULL || variant[0] == '\0') {
++        return 0;
++    }
++    int bits = 0;
++    int scope = 0;
++    if (!rm13_variant_bits_and_scope(variant, &bits, &scope)) {
++        GGML_ABORT("RM13_QVARIANT is not a registered quality-screen configuration: %s", variant);
++    }
++    if (bits == 0) {
++        return 0;
++    }
++    int is_up = 0;
++    const int layer = rm13_layer_for_node(dst, &is_up);
++    if (layer < 0 || !(scope & (is_up ? 1 : 2))) {
++        return 0;
++    }
++
++    const struct ggml_tensor * weight = dst->src[0];
++    const struct ggml_tensor * activation = dst->src[1];
++    const int64_t k = weight->ne[0];
++    const int64_t m = weight->ne[1];
++    const int64_t n = activation->ne[1];
++    const int expected = is_up ? (k == 1152 && m == 4304) : (k == 4304 && m == 1152);
++    const int shape_ok = expected && n > 0 && weight->ne[2] == 1 && weight->ne[3] == 1 &&
++        activation->ne[0] == k && activation->ne[2] == 1 && activation->ne[3] == 1 &&
++        dst->ne[0] == m && dst->ne[1] == n && dst->ne[2] == 1 && dst->ne[3] == 1 &&
++        weight->type == GGML_TYPE_F16 && activation->type == GGML_TYPE_F32 && dst->type == GGML_TYPE_F32 &&
++        ggml_is_contiguous(weight) && ggml_is_contiguous(activation) && ggml_is_contiguous(dst) &&
++        weight->nb[0] == sizeof(ggml_fp16_t) && weight->nb[1] == (size_t) k * sizeof(ggml_fp16_t) &&
++        activation->nb[0] == sizeof(float) && activation->nb[1] == (size_t) k * sizeof(float) &&
++        dst->nb[0] == sizeof(float) && dst->nb[1] == (size_t) m * sizeof(float);
++    if (!shape_ok) {
++        if (params->ith == 0) {
++            const char * qid = getenv("RM13_QID");
++            fprintf(stderr, "RM13_QSIM_FALLBACK qid=%s variant=%s op=%s reason=unsupported_shape K=%" PRId64 " M=%" PRId64 " N=%" PRId64 "\n",
++                    qid == NULL ? "unknown" : qid, variant, dst->name, k, m, n);
++        }
++        return 0;
++    }
++
++    const float * x = (const float *) activation->data;
++    const size_t x_count = (size_t) k * (size_t) n;
++    for (size_t i = 0; i < x_count; ++i) {
++        if (!isfinite(x[i])) {
++            if (params->ith == 0) {
++                const char * qid = getenv("RM13_QID");
++                fprintf(stderr, "RM13_QSIM_FALLBACK qid=%s variant=%s op=%s reason=nonfinite_activation\n",
++                        qid == NULL ? "unknown" : qid, variant, dst->name);
++            }
++            return 0;
++        }
++    }
++
++    int nonfinite_weight = 0;
++    const char * cache_status = "unknown";
++    struct rm13_weight_cache_entry * qweight = rm13_get_quantized_weights(
++        weight, dst, bits, &nonfinite_weight, &cache_status
++    );
++    if (qweight == NULL) {
++        if (params->ith == 0) {
++            const char * qid = getenv("RM13_QID");
++            fprintf(stderr, "RM13_QSIM_FALLBACK qid=%s variant=%s op=%s reason=%s\n",
++                    qid == NULL ? "unknown" : qid, variant, dst->name,
++                    nonfinite_weight ? "nonfinite_weight" : "quantized_weight_cache_unavailable");
++        }
++        return 0;
++    }
++
++    const int groups = qweight->groups;
++    const char * diagnostic_env = getenv("RM13_QDIAG");
++    int diagnostic = diagnostic_env != NULL && strcmp(diagnostic_env, "1") == 0 &&
++        (layer == 0 || layer == 13 || layer == 26);
++    float * ref_y = NULL;
++    if (diagnostic) {
++        rm13_lock();
++        const size_t ref_count = (size_t) m * (size_t) n;
++        if (ref_count > rm13_reference_y_count) {
++            float * resized = (float *) realloc(rm13_reference_y, ref_count * sizeof(float));
++            if (resized != NULL) {
++                rm13_reference_y = resized;
++                rm13_reference_y_count = ref_count;
++            }
++        }
++        ref_y = rm13_reference_y_count >= ref_count ? rm13_reference_y : NULL;
++        rm13_unlock();
++        if (ref_y == NULL) {
++            if (params->ith == 0) {
++                fprintf(stderr, "RM13_QSIM_DIAG_UNAVAILABLE variant=%s op=%s; continuing with quantized path\n",
++                        variant, dst->name);
++            }
++            diagnostic = 0;
++        }
++    }
++
++    const int64_t n_start = n * params->ith / params->nth;
++    const int64_t n_end = n * (params->ith + 1) / params->nth;
++    const ggml_fp16_t * original_w = (const ggml_fp16_t *) weight->data;
++    float * y = (float *) dst->data;
++    int8_t x_codes[RM13_MAX_K];
++    float x_scales[RM13_MAX_GROUPS];
++    for (int64_t token = n_start; token < n_end; ++token) {
++        const float * x_row = x + (size_t) token * (size_t) k;
++        for (int group = 0; group < groups; ++group) {
++            const int64_t start = (int64_t) group * RM13_GROUP_SIZE;
++            const int valid = (int) MIN((int64_t) RM13_GROUP_SIZE, k - start);
++            float maximum = 0.0f;
++            for (int local_k = 0; local_k < valid; ++local_k) {
++                maximum = fmaxf(maximum, fabsf(x_row[start + local_k]));
++            }
++            const float scale = maximum == 0.0f ? 1.0f : maximum / 127.0f;
++            x_scales[group] = scale;
++            for (int local_k = 0; local_k < valid; ++local_k) {
++                int32_t q = rm13_round_ties_even(x_row[start + local_k] / scale);
++                if (q < -127) q = -127;
++                if (q > 127) q = 127;
++                x_codes[start + local_k] = (int8_t) q;
++            }
++        }
++
++        for (int64_t row = 0; row < m; ++row) {
++            volatile float output = 0.0f;
++            volatile float reference = 0.0f;
++            for (int group = 0; group < groups; ++group) {
++                const int64_t start = (int64_t) group * RM13_GROUP_SIZE;
++                const int valid = (int) MIN((int64_t) RM13_GROUP_SIZE, k - start);
++                const int32_t partial = rm13_group_partial(qweight, bits, row, group, k, x_codes, valid);
++                if (diagnostic) {
++                    for (int local_k = 0; local_k < valid; ++local_k) {
++                        const int64_t index = start + local_k;
++                        volatile float product = ggml_fp16_to_fp32(original_w[row * k + index]) * x_row[index];
++                        reference = reference + product;
++                    }
++                }
++                volatile float term = (float) partial;
++                term = term * qweight->scales[(size_t) row * groups + group];
++                term = term * x_scales[group];
++                output = output + term;
++            }
++            const size_t out_index = (size_t) token * (size_t) m + (size_t) row;
++            y[out_index] = output;
++            if (diagnostic) {
++                ref_y[out_index] = reference;
++            }
++        }
++    }
++
++    if (diagnostic) {
++        ggml_barrier(params->threadpool);
++        if (params->ith == 0) {
++            double sum_sq_error = 0.0;
++            double sum_sq_ref = 0.0;
++            double sum_sq_out = 0.0;
++            double dot = 0.0;
++            double max_abs = 0.0;
++            const size_t count = (size_t) m * (size_t) n;
++            for (size_t i = 0; i < count; ++i) {
++                const double a = y[i];
++                const double b = ref_y[i];
++                const double difference = a - b;
++                const double absolute = fabs(difference);
++                if (absolute > max_abs) max_abs = absolute;
++                sum_sq_error += difference * difference;
++                sum_sq_ref += b * b;
++                sum_sq_out += a * a;
++                dot += a * b;
++            }
++            const double denominator = sqrt(sum_sq_ref * sum_sq_out);
++            const double cosine = denominator == 0.0 ? (sum_sq_ref == sum_sq_out ? 1.0 : 0.0) : dot / denominator;
++            const char * qid = getenv("RM13_QID");
++            fprintf(stderr, "RM13_QSIM_DIAG qid=%s variant=%s op=%s layer=%d K=%" PRId64 " M=%" PRId64 " N=%" PRId64 " reference=scalar_k_order maxabs=%.9g rmse=%.9g cosine=%.15g\n",
++                    qid == NULL ? "unknown" : qid, variant, dst->name, layer, k, m, n,
++                    max_abs, sqrt(sum_sq_error / (double) count), cosine);
++        }
++    }
++    if (params->ith == 0) {
++        fprintf(stderr, "RM13_QSIM_APPLIED qid=%s variant=%s op=%s bits=%d K=%" PRId64 " M=%" PRId64 " N=%" PRId64 " groups=%d group_size=%d cache=%s\n",
++                getenv("RM13_QID") == NULL ? "unknown" : getenv("RM13_QID"),
++                variant, dst->name, bits, k, m, n, groups, RM13_GROUP_SIZE, cache_status);
++    }
++    return 1;
++}
++
+ void ggml_compute_forward_mul_mat(
+         const struct ggml_compute_params * params,
+               struct ggml_tensor * dst) {
+@@ -1259,6 +1782,10 @@ void ggml_compute_forward_mul_mat(
+     const struct ggml_tensor * src0 = dst->src[0];
+     const struct ggml_tensor * src1 = dst->src[1];
+ 
++    if (ggml_rm13_try_qsim(params, dst)) {
++        return;
++    }
++
+     const int32_t hint = ggml_get_op_params_i32(dst, 1);
+     if (hint == GGML_HINT_SRC0_IS_HADAMARD && !params->use_ref) {
+         ggml_compute_forward_fwht(params, dst);
