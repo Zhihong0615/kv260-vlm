@@ -1,5 +1,5 @@
 diff --git a/ggml/src/ggml-cpu/ggml-cpu.c b/ggml/src/ggml-cpu/ggml-cpu.c
-index 8bb0ff7..0ad324c 100644
+index 8bb0ff7..097cb61 100644
 --- a/ggml/src/ggml-cpu/ggml-cpu.c
 +++ b/ggml/src/ggml-cpu/ggml-cpu.c
 @@ -38,6 +38,9 @@
@@ -377,7 +377,7 @@ index 8bb0ff7..0ad324c 100644
 +    const int64_t m = weight->ne[1];
 +    const int64_t n = activation->ne[1];
 +    const int expected = is_up ? (k == 1152 && m == 4304) : (k == 4304 && m == 1152);
-+    const int shape_ok = expected && n > 0 && weight->ne[2] == 1 && weight->ne[3] == 1 &&
++    const int shape_ok = expected && (n == 280 || n == 1120) && weight->ne[2] == 1 && weight->ne[3] == 1 &&
 +        activation->ne[0] == k && activation->ne[2] == 1 && activation->ne[3] == 1 &&
 +        dst->ne[0] == m && dst->ne[1] == n && dst->ne[2] == 1 && dst->ne[3] == 1 &&
 +        weight->type == GGML_TYPE_F16 && activation->type == GGML_TYPE_F32 && dst->type == GGML_TYPE_F32 &&

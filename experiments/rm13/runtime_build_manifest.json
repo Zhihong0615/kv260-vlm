@@ -78,7 +78,7 @@
     },
     "libggml-cpu.so.0.24.0": {
       "path": "work/llama.cpp-rm13/build-rm13/bin/libggml-cpu.so.0.24.0",
-      "sha256": "9ac4811cccd421dcbd08e7b9b78cf31fd3c69f2dcb5e4fe20705e3ff7c1f218b"
+      "sha256": "00c207ecbf5cc160fc40d0664a7d54ca0fd1d05fd409a4db8be2a22eed5546b9"
     },
     "libggml.so.0.24.0": {
       "path": "work/llama.cpp-rm13/build-rm13/bin/libggml.so.0.24.0",
@@ -105,9 +105,9 @@
   "source": {
     "commit": "7ab4ee7baad2d920464cbacfad4f4b07cf111fd2",
     "patched_file": "ggml/src/ggml-cpu/ggml-cpu.c",
-    "patched_file_sha256": "081a85833010121183d29026f26ad16c93f97ff0c877413177b3fa09596421f6",
+    "patched_file_sha256": "f9efcc80ccef45404b7549757c0eb3b16f6f876e2f912b065eefd89031affdc1",
     "repository": "https://github.com/ggml-org/llama.cpp",
     "tracked_patch": "experiments/rm13/quantization_runtime.patch",
-    "tracked_patch_sha256": "e94296dc132b8aecc3617913835f1751f8d5dac5603fe9b0ea52284196638e10"
+    "tracked_patch_sha256": "1a1079fe3d20726fffac25a81e7968a25fa945275976f306e64befd6b7595566"
   }
 }
