@@ -29,6 +29,14 @@ export RM13_HLS_PROJECT="$hls_project"
 export RM13_IP_OUTPUT="$ip_repo"
 "$vitis_hls_bin" -f "$repo_root/scripts/rm13/export_ip.tcl" \
   -l "$run_root/export_ip.log"
+if [[ ! -f "$ip_repo/component.xml" && -f "$ip_repo/export.zip" ]]; then
+  # Vitis HLS 2024.2 writes export.zip instead of unpacking the IP catalog.
+  unzip -oq "$ip_repo/export.zip" -d "$ip_repo"
+fi
+if [[ ! -f "$ip_repo/component.xml" ]]; then
+  echo "HLS export did not produce component.xml (expected component.xml or export.zip)" >&2
+  exit 2
+fi
 for bundle in w ws x y; do
   if ! rg -q "m_axi_gmem_${bundle}" "$ip_repo/component.xml"; then
     echo "exported RM13 IP is missing m_axi_gmem_${bundle}" >&2
