@@ -13,20 +13,69 @@
   ],
   "image_id": "58d543df7eab2bfc",
   "local_operator_diagnostics": {
-    "K": 1152,
-    "M": 4304,
-    "cosine": 0.998580920063825,
-    "layer": 0,
-    "maxabs": 0.217628419,
-    "method": "Offline one-token replay of frozen W4A8 group quantization on captured QID 37804 ffn_up-0 real F16 weight and F32 activation; compare F32 dequantized output against RM11 original F32 output capture. Source FNV fingerprint matched runtime-generated cache. Diagnostic only; not a VQA gate. Captured activations/output were available for layer 0 only; layers 13 and 26 are unavailable in that capture.",
-    "op": "ffn_up-0",
-    "qid": 37804,
+    "method": "Offline one-token replay of the frozen W4A8 group quantization on real RM11 F16 weights/F32 activations; compare F32 output against the original CPU capture. FNV64 weight fingerprint matched the runtime-generated cache. Diagnostic only; not a VQA gate. The diagnostics cover first-token outputs for early/mid/late up layers.",
+    "operators": [
+      {
+        "K": 1152,
+        "M": 4304,
+        "captured_N": 1120,
+        "cosine": 0.99858085153736,
+        "layer": 0,
+        "maxabs": 0.217579752,
+        "op": "ffn_up-0",
+        "qid": 37804,
+        "reference": "RM11 board-capture CPU original F32 output, first token",
+        "rmse": 0.0361352087,
+        "sampled_tokens": 1,
+        "source_files_sha256": {
+          "activation.f32": "67694f913a045603c18971a4bb9312b6c23df7a336b567bf4f94a0b33d08b41b",
+          "output.f32": "611eed125bd52f30c1430aae410900d92a2e6adae45e570248e49860d43a5548",
+          "weight.f16": "c9987b77337c39c44a2b97606985c7376fae8db641b28e35010fb3bb7942f0b7"
+        },
+        "source_fingerprint_matches_runtime_weight_cache": true
+      },
+      {
+        "K": 1152,
+        "M": 4304,
+        "captured_N": 280,
+        "cosine": 0.995073313058719,
+        "layer": 13,
+        "maxabs": 0.304861546,
+        "op": "ffn_up-13",
+        "qid": 37804,
+        "reference": "RM11 board-capture CPU original F32 output, first token",
+        "rmse": 0.0760938038,
+        "sampled_tokens": 1,
+        "source_files_sha256": {
+          "activation.f32": "797b221fb111503c121be724e8855ac2f77285aa8ac7f18ab55ea87fd3806f34",
+          "output.f32": "b8fa7964d47ce617a07b8539be9518ee0397b6f691a30248c61781979bd32b95",
+          "weight.f16": "d8bafc42c2fc728f6322050bbb887b3676f6407629f83f89f9f2e7a9de017608"
+        },
+        "source_fingerprint_matches_runtime_weight_cache": true
+      },
+      {
+        "K": 1152,
+        "M": 4304,
+        "captured_N": 280,
+        "cosine": 0.997714993474165,
+        "layer": 26,
+        "maxabs": 2.10592866,
+        "op": "ffn_up-26",
+        "qid": 37804,
+        "reference": "RM11 board-capture CPU original F32 output, first token",
+        "rmse": 0.454048874,
+        "sampled_tokens": 1,
+        "source_files_sha256": {
+          "activation.f32": "b342c3ccdf4b018b4741198a07c4c398606fa5a4c33e26e011a88cc480f72ae6",
+          "output.f32": "7af380bc0d0f6cfd99c2085ef40d8c73adc2355213cb9536596e9e251603594f",
+          "weight.f16": "c9a34ed10a4e8a4351185ef453bd78dae01c92d0dac5cfe2d48bff4f388f656f"
+        },
+        "source_fingerprint_matches_runtime_weight_cache": true
+      }
+    ],
     "record": "experiments/rm13/evidence/dev_pilot/quantization_diagnostics.txt",
-    "rmse": 0.0361341029,
-    "sampled_tokens": 1,
     "source": "experiments/rm13/diagnose_pilot_quantization.c",
-    "source_fingerprint_match": true,
-    "source_sha256": "2d51fe8583da554f57c7bb9c9cdaef52a41b1fea964ab59f7349f53faeb5c476"
+    "source_sha256": "f7b6382470d7c1a700c2d354fcc2d9ef57adeeb346c4535514062d6a6e28caa1"
   },
   "max_rss_kib": null,
   "max_rss_note": "not captured for the manually timed pilot; the append-only runner is asked to record max RSS in its 2-QID smoke and campaign provenance",
