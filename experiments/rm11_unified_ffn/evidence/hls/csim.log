@@ -1,0 +1,10 @@
+INFO: [SIM 2] *************** CSIM start ***************
+INFO: [SIM 4] CSIM will launch CLANG as the compiler.
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/source/tb_unified.cpp in debug mode
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/source/vision_ffn_unified.cpp in debug mode
+   Generating csim.exe
+case PASS active_K=4304 active_M=1152 m_base=1024 valid_rows=128
+case PASS active_K=1152 active_M=4304 m_base=4224 valid_rows=80
+RM11 unified HLS C-sim PASS
+INFO: [SIM 1] CSim done with 0 errors.
+INFO: [SIM 3] *************** CSIM finish ***************

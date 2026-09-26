@@ -1,0 +1,46 @@
+{
+  "binary": "/tmp/rm11-ffn-up-capture-build/llama-mtmd-optrace",
+  "binary_sha256": "4dc5075f5e88f5a2ace0a875d9433da5550e8a1047613d38f3bd7a67c2752b93",
+  "generated_source_sha256": "b8b72ba3384fa663d54c3b294cc644a51f88ec786354e5a8d0fbf1198b0c223d",
+  "upstream_source": "tools/mtmd/mtmd-cli.cpp",
+  "upstream_source_sha256": "92694f41553d76165428deddc11e5100da9bce79f66fd4918b4972bb9e6959bb",
+  "runtime_commit": "7ab4ee7baad2d920464cbacfad4f4b07cf111fd2",
+  "linked_libraries": [
+    {
+      "name": "libllama-common.so.0.4.1",
+      "sha256": "e7a0797aa91d43d6b010f6d391fa62d6a85529e0eb603f79c89b78c8be204454"
+    },
+    {
+      "name": "libmtmd.so.0.4.1",
+      "sha256": "73d06ee75f93f52791402821678317a700b87a8b24cb65a3271b892367451357"
+    },
+    {
+      "name": "libllama-common-base.a",
+      "sha256": "6b4cdd507ecfcb0b153c47f3debeb734058886f5e40922074f50f8af135830b1"
+    },
+    {
+      "name": "libllama.so.0.4.1",
+      "sha256": "ebcdff96fb31ca956f666654dce63e9a3c04dd438bebd5ace6a1411a311eadfd"
+    },
+    {
+      "name": "libggml.so.0.24.0",
+      "sha256": "45d122c3e81e11525f6cbe06f0cf3f0e5286daa187a0cc05dec4bdbbcfb42438"
+    },
+    {
+      "name": "libggml-cpu.so.0.24.0",
+      "sha256": "c4d38f26735b3f5759bcb1984f141cc62a64824c39613c7f1d6f8eb5c75b598b"
+    },
+    {
+      "name": "libggml-base.so.0.24.0",
+      "sha256": "4639a6078f8c22c8bf51b21d77ee4a58815a57f53a561e37ddfc5aef1e1e5b23"
+    }
+  ],
+  "build_method": "project-local source copy with exact-signature tensor capture; upstream files unchanged; compile flags from pinned compile_commands.json; existing pinned runtime libraries",
+  "capture_contract": "capture first occurrence of ffn_up-0/-13/-26 from the real QID37804 CPU vision graph; require F16 W [1152,4304], F32 X [1152,N], F32 Y [4304,N], rank-2 contiguous layouts, exact strides and matching ffn_inp_normed-N input; expected N=1120 for layer 0 and N=280 for layers 13/26",
+  "capture_names": [
+    "ffn_up-0",
+    "ffn_up-13",
+    "ffn_up-26"
+  ],
+  "source": "scripts/rm11/build_ffn_up_capture_cli.py"
+}

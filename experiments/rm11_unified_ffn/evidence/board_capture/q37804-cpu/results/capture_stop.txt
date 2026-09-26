@@ -1,0 +1,3 @@
+capture_callbacks=3
+full_request=stopped_after_target_captures
+cli_pid=367755

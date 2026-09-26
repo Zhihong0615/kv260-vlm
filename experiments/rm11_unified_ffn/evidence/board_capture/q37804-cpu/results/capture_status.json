@@ -1,0 +1,9 @@
+{
+  "capture_status": "all_target_tensors_captured",
+  "target_callbacks": ["ffn_up-0", "ffn_up-13", "ffn_up-26"],
+  "full_request_status": "stopped_after_target_captures",
+  "reason": "board CPU time was stopped after all requested real W/X/Y payloads were present; frozen full Q37804 CPU correctness run is retained separately",
+  "board_restore": "starter kit, fpga_manager operating, 100 MHz before CPU-only capture",
+  "device": "CPU only; --device none -ngl 0",
+  "optrace": "not emitted before stop"
+}

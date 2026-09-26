@@ -12,6 +12,8 @@ models/gguf/
 /vendor/
 experiments/rm03_hls_mapping/reports/
 experiments/rm10_route/build/
+experiments/rm11_unified_ffn/build/
+experiments/rm11_unified_ffn/package/kv260-rm11-unified-ffn/*.bif
 env/hls_smoke_test/build/
 env/vivado_smoke_test/build/
 fpga/vivado/*/runs/
@@ -27,6 +29,13 @@ logs/raw/
 *.jou
 *.str
 *.log
+!experiments/rm11_unified_ffn/evidence/**/*.log
+experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/SHA256SUMS
+experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/tensors/*.f16
+experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/tensors/*.f32
+experiments/rm11_unified_ffn/evidence/host_capture/SHA256SUMS
+experiments/rm11_unified_ffn/evidence/host_capture/q37804_optrace.jsonl
+experiments/rm11_unified_ffn/evidence/host_capture/tensors/
 !env/ssh_test.log
 !env/hls_smoke_test/evidence/*.log
 !env/vivado_smoke_test/evidence/*.log

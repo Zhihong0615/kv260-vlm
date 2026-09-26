@@ -1,0 +1,23 @@
+	Command being timed: "/tmp/rm11-host-ffn-up-capture-20260926/llama-mtmd-optrace -m /home/zhiro/research/kv260-vlm/models/gguf/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf --mmproj /home/zhiro/research/kv260-vlm/models/gguf/mmproj-MiniCPM-V-4.6-f16.gguf --image /home/zhiro/research/kv260-vlm/datasets/textvqa_v0.5.1_dev_50_seed20260923/images/58d543df7eab2bfc.jpg -p Answer the following question based only on the image. Give a short, direct answer.\nQuestion: what letter does these athlete's school likely begin with?\nAnswer: -t 4 -tb 4 -c 4096 -n 48 --seed 42 --temp 0 --top-p 1 --top-k 0 --device none -ngl 0 --no-mmproj-offload --no-warmup --perf -lv 4"
+	User time (seconds): 79.58
+	System time (seconds): 0.73
+	Percent of CPU this job got: 368%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:21.80
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2092152
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 4
+	Minor (reclaiming a frame) page faults: 420331
+	Voluntary context switches: 51357
+	Involuntary context switches: 1430
+	Swaps: 0
+	File system inputs: 984
+	File system outputs: 155424
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

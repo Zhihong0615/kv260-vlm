@@ -1,0 +1,2 @@
+bitstream=/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper.bit
+xsa=/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.xsa

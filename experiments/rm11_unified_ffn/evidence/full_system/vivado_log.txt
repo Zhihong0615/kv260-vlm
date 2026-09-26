@@ -1,0 +1,1699 @@
+#-----------------------------------------------------------
+# Vivado v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Sat Sep 26 17:48:04 2026
+# Process ID         : 53516
+# Current directory  : /home/zhiro/research/kv260-vlm-workers/RM11-A-unified
+# Command line       : vivado -mode batch -source /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/scripts/rm11/full_system.tcl -log /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/vivado.log -journal /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/vivado.jou
+# Log file           : /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/vivado.log
+# Journal file       : /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/vivado.jou
+# Running On         : zhiro-ThinkBook-16p-G5-IRX
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 24.04.5 LTS
+# Processor Detail   : Intel(R) Core(TM) i7-14650HX
+# CPU Frequency      : 1381.063 MHz
+# CPU Physical cores : 16
+# CPU Logical cores  : 24
+# Host memory        : 33337 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 41927 MB
+# Available Virtual  : 33086 MB
+#-----------------------------------------------------------
+source /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/scripts/rm11/full_system.tcl
+# set root [file normalize $::env(RM11_REPO_ROOT)]
+# set out_dir [file normalize $::env(RM11_SYSTEM_ROOT)]
+# set base_dir [file normalize $::env(RM11_BASE_KV260_DIR)]
+# set ip_repo [file normalize $::env(RM11_IP_REPO)]
+# set proj_name kv260_rm11_unified_ffn
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:2.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/2.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.3 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.3/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:2.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/2.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.0/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.1/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+# set board_part [get_board_parts "*:kv260_som:*" -latest_file_version]
+# if {$board_part eq ""} { error "No KV260 board part found in Vivado device database" }
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:2.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/2.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190:part0:3.3 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/production/3.3/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.0/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.1/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_newl:part0:1.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190_newl/production/1.2/board.xml as part xcvc1902-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:2.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/2.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180:part0:3.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/production/3.2/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.0/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_newl:part0:1.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180_newl/production/1.1/board.xml as part xcvm1802-vsva2197-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.0 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.0/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.1 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.1/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120:part0:1.2 available at /home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/production/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s specified in board_part file is either invalid or not available
+# set part_name [get_property PART_NAME [get_board_parts $board_part]]
+# if {$part_name ne "xck26-sfvc784-2LV-c"} { error "Unexpected KV260 part: $part_name" }
+# if {![file exists [file join $ip_repo component.xml]]} { error "RM11 HLS IP component.xml missing: $ip_repo" }
+# file mkdir $out_dir
+# create_project -force $proj_name $out_dir -part $part_name
+# set_property board_part $board_part [current_project]
+# set_property board_connections {som240_1_connector xilinx.com:kv260_carrier:som240_1_connector:1.3} [current_project]
+# set_property ip_repo_paths [list $ip_repo] [current_project]
+# update_ip_catalog
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/artifacts/ip_repo'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/ip'.
+# import_files -fileset constrs_1 [file join $base_dir xdc default.xdc]
+# set design_name $proj_name
+# set script_folder [file join $base_dir scripts]
+# set proj_dir $out_dir
+# set bd_tcl_dir [file join $base_dir scripts]
+# create_bd_design kv260_rm11_unified_ffn
+Wrote  : </home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/sources_1/bd/kv260_rm11_unified_ffn/kv260_rm11_unified_ffn.bd> 
+# current_bd_design $proj_name
+# source [file join $base_dir scripts config_bd.tcl]
+## proc create_root_design { parentCell } {
+## 
+##   variable script_folder
+##   variable design_name
+## 
+##   if { $parentCell eq "" } {
+##      set parentCell [get_bd_cells /]
+##   }
+## 
+##   # Get object for parentCell
+##   set parentObj [get_bd_cells $parentCell]
+##   if { $parentObj == "" } {
+##      catch {common::send_gid_msg -ssname BD::TCL -id 2090 -severity "ERROR" "Unable to find parent cell <$parentCell>!"}
+##      return
+##   }
+## 
+##   # Make sure parentObj is hier blk
+##   set parentType [get_property TYPE $parentObj]
+##   if { $parentType ne "hier" } {
+##      catch {common::send_gid_msg -ssname BD::TCL -id 2091 -severity "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
+##      return
+##   }
+## 
+##   # Save current instance; Restore later
+##   set oldCurInst [current_bd_instance .]
+## 
+##   # Set parent object as current
+##   current_bd_instance $parentObj
+## 
+## 
+##   # Create interface ports
+## 
+##   # Create ports
+##   set fan_en_b [ create_bd_port -dir O -from 0 -to 0 fan_en_b ]
+## 
+##   # Create instance: xlslice_0, and set properties
+##   set xlslice_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlslice xlslice_0 ]
+##   set_property -dict [ list \
+##    CONFIG.DIN_FROM {2} \
+##    CONFIG.DIN_TO {2} \
+##    CONFIG.DIN_WIDTH {3} \
+##    CONFIG.DOUT_WIDTH {1} \
+##  ] $xlslice_0
+##  
+## set ::PS_INST zynq_ultra_ps_e_0
+## set zynq_ultra_ps_e_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:zynq_ultra_ps_e zynq_ultra_ps_e_0 ] 
+## 
+##  apply_bd_automation -rule xilinx.com:bd_rule:zynq_ultra_ps_e -config {apply_board_preset "1"} [get_bd_cells zynq_ultra_ps_e_0] 
+## 
+## set_property -dict [ list \
+## CONFIG.PSU__TTC0__WAVEOUT__ENABLE {1} \
+## CONFIG.PSU__TTC0__WAVEOUT__IO {EMIO} \
+## CONFIG.PSU__USE__M_AXI_GP0  {0} \
+## CONFIG.PSU__USE__M_AXI_GP1  {0} \
+## CONFIG.PSU__USE__M_AXI_GP2  {0} \
+## CONFIG.PSU__USE__S_AXI_ACE  {0} \
+## CONFIG.PSU__USE__S_AXI_ACP  {0} \
+## CONFIG.PSU__USE__S_AXI_GP0  {0} \
+## CONFIG.PSU__USE__S_AXI_GP1  {0} \
+## CONFIG.PSU__USE__S_AXI_GP2  {0} \
+## CONFIG.PSU__USE__S_AXI_GP3  {0} \
+## CONFIG.PSU__USE__S_AXI_GP4  {0} \
+## CONFIG.PSU__USE__S_AXI_GP5  {0} \
+## CONFIG.PSU__USE__S_AXI_GP6  {0} \
+## ] [get_bd_cells zynq_ultra_ps_e_0] 
+## 
+## # Create port connections
+##   connect_bd_net -net xlslice_0_Dout [get_bd_ports fan_en_b] [get_bd_pins xlslice_0/Dout]
+##   connect_bd_net -net zynq_ultra_ps_e_0_emio_ttc0_wave_o [get_bd_pins xlslice_0/Din] [get_bd_pins zynq_ultra_ps_e_0/emio_ttc0_wave_o]
+## 
+## # Restore current instance
+##   current_bd_instance $oldCurInst
+## 
+##   validate_bd_design
+##   save_bd_design
+## }
+## create_root_design ""
+INFO: [BD 5-1043] It is recommended to use inline hdl version xilinx.com:inline_hdl:ilslice:1.0 for the IP type xilinx.com:ip:xlslice:1.0 for improved performance and reduced disk space. IPs with VLNV xilinx.com:ip:xlslice:1.0 may be deprecated in future releases. More information on inline hdl IP is available in UG994 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+Wrote  : </home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/sources_1/bd/kv260_rm11_unified_ffn/kv260_rm11_unified_ffn.bd> 
+# source [file join $root experiments rm11_unified_ffn system add_unified_bd.tcl]
+## set ps [get_bd_cells zynq_ultra_ps_e_0]
+## set_property -dict [list \
+##   CONFIG.PSU__USE__M_AXI_GP0 {1} \
+##   CONFIG.PSU__USE__S_AXI_GP2 {1} \
+##   CONFIG.PSU__CRL_APB__PL0_REF_CTRL__FREQMHZ {100.000} \
+##   CONFIG.PSU__MAXIGP0__DATA_WIDTH {32} \
+## ] $ps
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+## set vision [create_bd_cell -type ip -vlnv xilinx.com:hls:vision_ffn_unified_tile:1.0 vision_ffn_unified_tile_0]
+## set data_sc [create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 axi_smc_data]
+## set_property -dict [list CONFIG.NUM_SI {3} CONFIG.NUM_MI {1}] $data_sc
+## set ctrl_sc [create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 axi_smc_control]
+## set_property -dict [list CONFIG.NUM_SI {1} CONFIG.NUM_MI {2}] $ctrl_sc
+## set apm [create_bd_cell -type ip -vlnv xilinx.com:ip:axi_perf_mon:5.0 axi_perf_mon_0]
+## set_property -dict [list \
+##   CONFIG.C_NUM_MONITOR_SLOTS {3} CONFIG.C_ENABLE_ADVANCED {1} \
+##   CONFIG.C_ENABLE_EVENT_COUNT {1} CONFIG.C_ENABLE_PROFILE {0} \
+##   CONFIG.C_NUM_OF_COUNTERS {8} \
+##   CONFIG.C_SLOT_0_AXI_PROTOCOL {AXI4} CONFIG.C_SLOT_1_AXI_PROTOCOL {AXI4} \
+##   CONFIG.C_SLOT_2_AXI_PROTOCOL {AXI4}] $apm
+## connect_bd_intf_net [get_bd_intf_pins $ps/M_AXI_HPM0_FPD] [get_bd_intf_pins $ctrl_sc/S00_AXI]
+## connect_bd_intf_net [get_bd_intf_pins $ctrl_sc/M00_AXI] [get_bd_intf_pins $vision/s_axi_control]
+## connect_bd_intf_net [get_bd_intf_pins $ctrl_sc/M01_AXI] [get_bd_intf_pins $apm/S_AXI]
+## connect_bd_intf_net [get_bd_intf_pins $vision/m_axi_gmem_w] [get_bd_intf_pins $data_sc/S00_AXI]
+## connect_bd_intf_net [get_bd_intf_pins $vision/m_axi_gmem_x] [get_bd_intf_pins $data_sc/S01_AXI]
+## connect_bd_intf_net [get_bd_intf_pins $vision/m_axi_gmem_y] [get_bd_intf_pins $data_sc/S02_AXI]
+## connect_bd_intf_net [get_bd_intf_pins $data_sc/M00_AXI] [get_bd_intf_pins $ps/S_AXI_HP0_FPD]
+## connect_bd_intf_net [get_bd_intf_pins $vision/m_axi_gmem_w] [get_bd_intf_pins $apm/SLOT_0_AXI]
+## connect_bd_intf_net [get_bd_intf_pins $vision/m_axi_gmem_x] [get_bd_intf_pins $apm/SLOT_1_AXI]
+## connect_bd_intf_net [get_bd_intf_pins $vision/m_axi_gmem_y] [get_bd_intf_pins $apm/SLOT_2_AXI]
+## foreach pin [list $vision/ap_clk $data_sc/aclk $ctrl_sc/aclk $apm/core_aclk \
+##   $apm/s_axi_aclk $apm/slot_0_axi_aclk $apm/slot_1_axi_aclk \
+##   $apm/slot_2_axi_aclk $ps/maxihpm0_fpd_aclk $ps/saxihp0_fpd_aclk] {
+##   connect_bd_net [get_bd_pins $ps/pl_clk0] [get_bd_pins $pin]
+## }
+## foreach pin [list $vision/ap_rst_n $data_sc/aresetn $ctrl_sc/aresetn $apm/core_aresetn \
+##   $apm/s_axi_aresetn $apm/slot_0_axi_aresetn $apm/slot_1_axi_aresetn \
+##   $apm/slot_2_axi_aresetn] {
+##   connect_bd_net [get_bd_pins $ps/pl_resetn0] [get_bd_pins $pin]
+## }
+## assign_bd_address
+INFO: [BD 41-3093] Triggering Legacy Auto Assign Algorithm
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_DDR_HIGH' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_w' at <0x8_0000_0000 [ 32G ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_DDR_HIGH' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_x' at <0x8_0000_0000 [ 32G ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_DDR_HIGH' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_y' at <0x8_0000_0000 [ 32G ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_DDR_LOW' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_w' at <0x0000_0000 [ 2G ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_DDR_LOW' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_x' at <0x0000_0000 [ 2G ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_DDR_LOW' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_y' at <0x0000_0000 [ 2G ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_QSPI' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_w' at <0xC000_0000 [ 512M ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_QSPI' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_x' at <0xC000_0000 [ 512M ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_QSPI' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_y' at <0xC000_0000 [ 512M ]>.
+Slave segment '/axi_perf_mon_0/S_AXI/Reg' is being assigned into address space '/zynq_ultra_ps_e_0/Data' at <0xA000_0000 [ 64K ]>.
+Slave segment '/vision_ffn_unified_tile_0/s_axi_control/Reg' is being assigned into address space '/zynq_ultra_ps_e_0/Data' at <0xA001_0000 [ 64K ]>.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_w' at <0xFF00_0000 [ 16M ]>.
+WARNING: [BD 41-1051] Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM' with 'register' usage does not match address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_w' with 'memory' usage so will be excluded from this address space. Please use the 'include_bd_addr_seg' command to override this precaution if required.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_w.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_x' at <0xFF00_0000 [ 16M ]>.
+WARNING: [BD 41-1051] Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM' with 'register' usage does not match address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_x' with 'memory' usage so will be excluded from this address space. Please use the 'include_bd_addr_seg' command to override this precaution if required.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_x.
+Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM' is being assigned into address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_y' at <0xFF00_0000 [ 16M ]>.
+WARNING: [BD 41-1051] Slave segment '/zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM' with 'register' usage does not match address space '/vision_ffn_unified_tile_0/Data_m_axi_gmem_y' with 'memory' usage so will be excluded from this address space. Please use the 'include_bd_addr_seg' command to override this precaution if required.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_y.
+## validate_bd_design
+WARNING: [BD 41-1629] Slave segment </zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM> is excluded from all addressing paths.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_w.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_x.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_y.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_w.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_x.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_y.
+INFO: [PSU-1]  DP_AUDIO clock source: RPLL is also being used by other peripheral clocks. Their outputs may get impacted if any driver changes DP_AUDIO PLL source to support runtime audio change 
+INFO: [BD 5-943] Reserving offset range <0xA001_0000 [ 64K ]> from slave interface '/axi_smc_control/S00_AXI' to master interface '/axi_smc_control/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0xA000_0000 [ 64K ]> from slave interface '/axi_smc_control/S00_AXI' to master interface '/axi_smc_control/M01_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] kv260_rm11_unified_ffn_axi_smc_control_0: SmartConnect kv260_rm11_unified_ffn_axi_smc_control_0 is in Low-Area Mode.
+WARNING: [xilinx.com:ip:smartconnect:1.0-1] kv260_rm11_unified_ffn_axi_smc_control_0: IP kv260_rm11_unified_ffn_axi_smc_control_0 is configured in Low-area mode as all propagated traffic is low-bandwidth (AXI4LITE). SI S00_AXI has property HAS_BURST == 1. WRAP bursts are not supported in Low-area mode and will result in DECERR if received.
+WARNING: [xilinx.com:ip:smartconnect:1.0-1] kv260_rm11_unified_ffn_axi_smc_control_0: If WRAP transactions are required then turn off Low-area mode using ADVANCED_PROPERTIES. Execute following: set_property CONFIG.ADVANCED_PROPERTIES {__experimental_features__ {disable_low_area_mode 1}} [get_bd_cells /kv260_rm11_unified_ffn_axi_smc_control_0]
+INFO: [Ipptcl 7-1463] No Compatible Board Interface found. Board Tab not created in customize GUI
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_smc_data/S00_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0xC000_0000 [ 512M ]> from slave interface '/axi_smc_data/S00_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x8_0000_0000 [ 32G ]> from slave interface '/axi_smc_data/S00_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_smc_data/S01_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0xC000_0000 [ 512M ]> from slave interface '/axi_smc_data/S01_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x8_0000_0000 [ 32G ]> from slave interface '/axi_smc_data/S01_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 2G ]> from slave interface '/axi_smc_data/S02_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0xC000_0000 [ 512M ]> from slave interface '/axi_smc_data/S02_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x8_0000_0000 [ 32G ]> from slave interface '/axi_smc_data/S02_AXI' to master interface '/axi_smc_data/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] kv260_rm11_unified_ffn_axi_smc_data_0: SmartConnect kv260_rm11_unified_ffn_axi_smc_data_0 is in High-performance Mode.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_w.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_x.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_y.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_w.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_x.
+Excluding slave segment /zynq_ultra_ps_e_0/SAXIGP2/HP0_LPS_OCM from address space /vision_ffn_unified_tile_0/Data_m_axi_gmem_y.
+CRITICAL WARNING: [BD 41-1348] Reset pin /vision_ffn_unified_tile_0/ap_rst_n (associated clock /vision_ffn_unified_tile_0/ap_clk) is connected to asynchronous reset source /zynq_ultra_ps_e_0/pl_resetn0.
+This may prevent design from meeting timing. Please add Processor System Reset module to create a reset that is synchronous to the associated clock source /zynq_ultra_ps_e_0/pl_clk0.
+CRITICAL WARNING: [BD 41-1348] Reset pin /axi_perf_mon_0/s_axi_aresetn (associated clock /axi_perf_mon_0/s_axi_aclk) is connected to asynchronous reset source /zynq_ultra_ps_e_0/pl_resetn0.
+This may prevent design from meeting timing. Please add Processor System Reset module to create a reset that is synchronous to the associated clock source /zynq_ultra_ps_e_0/pl_clk0.
+CRITICAL WARNING: [BD 41-1348] Reset pin /axi_perf_mon_0/slot_0_axi_aresetn (associated clock /axi_perf_mon_0/slot_0_axi_aclk) is connected to asynchronous reset source /zynq_ultra_ps_e_0/pl_resetn0.
+This may prevent design from meeting timing. Please add Processor System Reset module to create a reset that is synchronous to the associated clock source /zynq_ultra_ps_e_0/pl_clk0.
+CRITICAL WARNING: [BD 41-1348] Reset pin /axi_perf_mon_0/slot_1_axi_aresetn (associated clock /axi_perf_mon_0/slot_1_axi_aclk) is connected to asynchronous reset source /zynq_ultra_ps_e_0/pl_resetn0.
+This may prevent design from meeting timing. Please add Processor System Reset module to create a reset that is synchronous to the associated clock source /zynq_ultra_ps_e_0/pl_clk0.
+CRITICAL WARNING: [BD 41-1348] Reset pin /axi_perf_mon_0/slot_2_axi_aresetn (associated clock /axi_perf_mon_0/slot_2_axi_aclk) is connected to asynchronous reset source /zynq_ultra_ps_e_0/pl_resetn0.
+This may prevent design from meeting timing. Please add Processor System Reset module to create a reset that is synchronous to the associated clock source /zynq_ultra_ps_e_0/pl_clk0.
+CRITICAL WARNING: [BD 41-1348] Reset pin /axi_perf_mon_0/core_aresetn (associated clock /axi_perf_mon_0/core_aclk) is connected to asynchronous reset source /zynq_ultra_ps_e_0/pl_resetn0.
+This may prevent design from meeting timing. Please add Processor System Reset module to create a reset that is synchronous to the associated clock source /zynq_ultra_ps_e_0/pl_clk0.
+WARNING: [BD 41-237] Bus Interface property AWUSER_WIDTH does not match between /zynq_ultra_ps_e_0/S_AXI_HP0_FPD(1) and /axi_smc_data/M00_AXI(0)
+WARNING: [BD 41-237] Bus Interface property ARUSER_WIDTH does not match between /zynq_ultra_ps_e_0/S_AXI_HP0_FPD(1) and /axi_smc_data/M00_AXI(0)
+## save_bd_design
+Wrote  : </home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/sources_1/bd/kv260_rm11_unified_ffn/kv260_rm11_unified_ffn.bd> 
+# set bd_file [get_files $out_dir/${proj_name}.srcs/sources_1/bd/$proj_name/${proj_name}.bd]
+# generate_target all $bd_file
+INFO: [BD 41-1662] The design 'kv260_rm11_unified_ffn.bd' is already validated. Therefore parameter propagation will not be re-run.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_smc_data/S00_AXI_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_w_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_0_axi_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_w_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_0_axi_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_w_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_smc_data/S01_AXI_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_x_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_1_axi_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_x_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_1_axi_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_x_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_smc_data/S02_AXI_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_y_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_2_axi_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_y_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_2_axi_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_y_ARLOCK'(2) - Only lower order bits will be connected.
+Verilog Output written to : /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_smc_data/S00_AXI_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_w_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_0_axi_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_w_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_0_axi_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_w_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_smc_data/S01_AXI_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_x_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_1_axi_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_x_ARLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_1_axi_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_x_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_smc_data/S02_AXI_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_y_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_2_axi_awlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_y_AWLOCK'(2) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/axi_perf_mon_0/slot_2_axi_arlock'(1) to pin: '/vision_ffn_unified_tile_0/m_axi_gmem_y_ARLOCK'(2) - Only lower order bits will be connected.
+Verilog Output written to : /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/sim/kv260_rm11_unified_ffn.v
+Verilog Output written to : /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/hdl/kv260_rm11_unified_ffn_wrapper.v
+INFO: [BD 41-1029] Generation completed for the IP Integrator block xlslice_0 .
+INFO: [xilinx.com:ip:zynq_ultra_ps_e:3.5-0] kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0: 
+Changes in your design (including the PCW configuration settings) are not automatically exported from Vivado to Amd's SDK, Petalinux or Yocto.
+This is by design to avoid disrupting existing embedded development efforts. To have any changes of your design taking effect in the embedded software flow please export your
+design by going through Vivado's main menu, click on File, then Export finally select Export Hardware, please ensure you click on the Include BitStream option.
+The auto-generated HDF file is all you need to import in Amd's SDK, Petalinux or Yocto for your changes to be reflected in the Embedded Software Flow.
+For more information, please consult PG201, section: Exporting PCW Settings to Embedded Software Flows
+INFO: [PSU-0] Address Range of DDR (0x7ff00000 to 0x7fffffff) is reserved by PMU for internal purpose.
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI_HPM0_FPD'. A default connection has been created.
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'S_AXI_HP0_FPD'. A default connection has been created.
+INFO: [BD 41-1029] Generation completed for the IP Integrator block zynq_ultra_ps_e_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block vision_ffn_unified_tile_0 .
+Exporting to file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/bd_0/hw_handoff/kv260_rm11_unified_ffn_axi_smc_data_0.hwh
+Generated Hardware Definition File /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/bd_0/synth/kv260_rm11_unified_ffn_axi_smc_data_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_smc_data .
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_ar_node/s_sc_payld'(168) to pin: '/s00_nodes/S_SC_AR_payld'(164) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_aw_node/s_sc_payld'(168) to pin: '/s00_nodes/S_SC_AW_payld'(164) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_r_node/s_sc_payld'(55) to pin: '/m00_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_b_node/s_sc_payld'(9) to pin: '/m00_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_r_node/s_sc_payld'(55) to pin: '/m01_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_b_node/s_sc_payld'(9) to pin: '/m01_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_r_payld'(53) to pin: '/s00_nodes/M_SC_R_payld'(55) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_b_payld'(7) to pin: '/s00_nodes/M_SC_B_payld'(9) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_ar_payld'(164) to pin: '/m00_nodes/M_SC_AR_payld'(168) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_aw_payld'(164) to pin: '/m00_nodes/M_SC_AW_payld'(168) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_ar_payld'(164) to pin: '/m01_nodes/M_SC_AR_payld'(168) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_aw_payld'(164) to pin: '/m01_nodes/M_SC_AW_payld'(168) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_ar_node/s_sc_payld'(168) to pin: '/s00_nodes/S_SC_AR_payld'(164) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_nodes/s00_aw_node/s_sc_payld'(168) to pin: '/s00_nodes/S_SC_AW_payld'(164) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_r_node/s_sc_payld'(55) to pin: '/m00_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_nodes/m00_b_node/s_sc_payld'(9) to pin: '/m00_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_r_node/s_sc_payld'(55) to pin: '/m01_nodes/S_SC_R_payld'(53) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_nodes/m01_b_node/s_sc_payld'(9) to pin: '/m01_nodes/S_SC_B_payld'(7) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_r_payld'(53) to pin: '/s00_nodes/M_SC_R_payld'(55) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/s00_axi2sc/s_sc_b_payld'(7) to pin: '/s00_nodes/M_SC_B_payld'(9) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_ar_payld'(164) to pin: '/m00_nodes/M_SC_AR_payld'(168) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m00_sc2axi/s_sc_aw_payld'(164) to pin: '/m00_nodes/M_SC_AW_payld'(168) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_ar_payld'(164) to pin: '/m01_nodes/M_SC_AR_payld'(168) - Only lower order bits will be connected.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/m01_sc2axi/s_sc_aw_payld'(164) to pin: '/m01_nodes/M_SC_AW_payld'(168) - Only lower order bits will be connected.
+Exporting to file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/bd_0/hw_handoff/kv260_rm11_unified_ffn_axi_smc_control_0.hwh
+Generated Hardware Definition File /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/bd_0/synth/kv260_rm11_unified_ffn_axi_smc_control_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_smc_control .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_perf_mon_0 .
+Exporting to file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/hw_handoff/kv260_rm11_unified_ffn.hwh
+Generated Hardware Definition File /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.hwdef
+generate_target: Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 1798.719 ; gain = 88.844 ; free physical = 10517 ; free virtual = 30852
+# make_wrapper -files $bd_file -top
+# import_files -force -norecurse $out_dir/${proj_name}.srcs/sources_1/bd/$proj_name/hdl/${proj_name}_wrapper.v
+INFO: [Project 1-1716] Could not find the wrapper file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/sources_1/bd/kv260_rm11_unified_ffn/hdl/kv260_rm11_unified_ffn_wrapper.v, checking in project .gen location instead.
+INFO: [Vivado 12-12391] Found file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/hdl/kv260_rm11_unified_ffn_wrapper.v, importing it to Project
+# update_compile_order
+# set_property top ${proj_name}_wrapper [current_fileset]
+# set_property synth_checkpoint_mode Hierarchical $bd_file
+# set_property platform.board_id $proj_name [current_project]
+# set_property platform.extensible false [current_project]
+# set_property platform.name $proj_name [current_project]
+# set_property platform.vendor xilinx [current_project]
+# set_property platform.version 1.0 [current_project]
+# launch_runs synth_1 -jobs 8
+INFO: [IP_Flow 19-6930] IPCACHE: runCacheChecks() number of threads = 8
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP kv260_rm11_unified_ffn_axi_perf_mon_0_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP kv260_rm11_unified_ffn_axi_smc_control_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP kv260_rm11_unified_ffn_axi_smc_data_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0
+INFO: [IP_Flow 19-8020] IPCACHE: runCacheChecks() calling threadPool finishWork()
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: kv260_rm11_unified_ffn_axi_perf_mon_0_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: kv260_rm11_unified_ffn_axi_smc_control_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: kv260_rm11_unified_ffn_axi_smc_data_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Sat Sep 26 17:48:38 2026] Launched kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0_synth_1, kv260_rm11_unified_ffn_axi_perf_mon_0_0_synth_1, kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0_synth_1, kv260_rm11_unified_ffn_axi_smc_data_0_synth_1, kv260_rm11_unified_ffn_axi_smc_control_0_synth_1...
+Run output will be captured here:
+kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0_synth_1: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0_synth_1/runme.log
+kv260_rm11_unified_ffn_axi_perf_mon_0_0_synth_1: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/kv260_rm11_unified_ffn_axi_perf_mon_0_0_synth_1/runme.log
+kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0_synth_1: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0_synth_1/runme.log
+kv260_rm11_unified_ffn_axi_smc_data_0_synth_1: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/kv260_rm11_unified_ffn_axi_smc_data_0_synth_1/runme.log
+kv260_rm11_unified_ffn_axi_smc_control_0_synth_1: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/kv260_rm11_unified_ffn_axi_smc_control_0_synth_1/runme.log
+[Sat Sep 26 17:48:38 2026] Launched synth_1...
+Run output will be captured here: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/runme.log
+# wait_on_run synth_1
+[Sat Sep 26 17:48:38 2026] Waiting for synth_1 to finish...
+
+*** Running vivado
+    with args -log kv260_rm11_unified_ffn_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source kv260_rm11_unified_ffn_wrapper.tcl
+
+
+****** Vivado v2024.2 (64-bit)
+  **** SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 26 17:53:31 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source kv260_rm11_unified_ffn_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/artifacts/ip_repo'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/ip'.
+INFO: [Project 1-5578] Found utility IPs instantiated in block design /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/sources_1/bd/kv260_rm11_unified_ffn/kv260_rm11_unified_ffn.bd which have equivalent inline hdl with improved performance and reduced diskspace.
+It is recommended to migrate these utility IPs to inline hdl  using the command upgrade_project -migrate_to_inline_hdl.  The utility IPs may be deprecated in future releases.
+More information on inline hdl is available in UG994. 
+Command: synth_design -top kv260_rm11_unified_ffn_wrapper -part xck26-sfvc784-2LV-c
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xck26'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xck26'
+INFO: [Device 21-403] Loading part xck26-sfvc784-2LV-c
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 57783
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2582.961 ; gain = 127.688 ; free physical = 11701 ; free virtual = 28928
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn_wrapper' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/sources_1/imports/hdl/kv260_rm11_unified_ffn_wrapper.v:13]
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:13]
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn_axi_perf_mon_0_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_axi_perf_mon_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn_axi_perf_mon_0_0' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_axi_perf_mon_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'interrupt' of module 'kv260_rm11_unified_ffn_axi_perf_mon_0_0' is unconnected for instance 'axi_perf_mon_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:221]
+WARNING: [Synth 8-7023] instance 'axi_perf_mon_0' of module 'kv260_rm11_unified_ffn_axi_perf_mon_0_0' has 135 connections declared, but only 134 given [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:221]
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn_axi_smc_control_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_axi_smc_control_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn_axi_smc_control_0' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_axi_smc_control_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'M00_AXI_awprot' of module 'kv260_rm11_unified_ffn_axi_smc_control_0' is unconnected for instance 'axi_smc_control' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:356]
+WARNING: [Synth 8-7071] port 'M00_AXI_arprot' of module 'kv260_rm11_unified_ffn_axi_smc_control_0' is unconnected for instance 'axi_smc_control' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:356]
+WARNING: [Synth 8-7071] port 'M01_AXI_awprot' of module 'kv260_rm11_unified_ffn_axi_smc_control_0' is unconnected for instance 'axi_smc_control' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:356]
+WARNING: [Synth 8-7071] port 'M01_AXI_arprot' of module 'kv260_rm11_unified_ffn_axi_smc_control_0' is unconnected for instance 'axi_smc_control' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:356]
+WARNING: [Synth 8-7023] instance 'axi_smc_control' of module 'kv260_rm11_unified_ffn_axi_smc_control_0' has 79 connections declared, but only 75 given [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:356]
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn_axi_smc_data_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_axi_smc_data_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn_axi_smc_data_0' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_axi_smc_data_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'interrupt' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_w_ARREGION' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_w_AWQOS' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_w_AWREGION' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_w_WID' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_x_ARREGION' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_x_AWQOS' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_x_AWREGION' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_x_WID' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_y_ARQOS' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_y_ARREGION' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_y_AWREGION' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7071] port 'm_axi_gmem_y_WID' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' is unconnected for instance 'vision_ffn_unified_tile_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+WARNING: [Synth 8-7023] instance 'vision_ffn_unified_tile_0' of module 'kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0' has 140 connections declared, but only 127 given [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:522]
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn_xlslice_0_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_xlslice_0_0/synth/kv260_rm11_unified_ffn_xlslice_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'xlslice_v1_0_4_xlslice' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ipshared/a97c/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'xlslice_v1_0_4_xlslice' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ipshared/a97c/hdl/xlslice_v1_0_vl_rfs.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn_xlslice_0_0' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_xlslice_0_0/synth/kv260_rm11_unified_ffn_xlslice_0_0.v:53]
+INFO: [Synth 8-6157] synthesizing module 'kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/.Xil/Vivado-57646-zhiro-ThinkBook-16p-G5-IRX/realtime/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'saxigp2_bid' of module 'kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:653]
+WARNING: [Synth 8-7071] port 'saxigp2_rid' of module 'kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:653]
+WARNING: [Synth 8-7071] port 'pl_clk1' of module 'kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0' is unconnected for instance 'zynq_ultra_ps_e_0' [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:653]
+WARNING: [Synth 8-7023] instance 'zynq_ultra_ps_e_0' of module 'kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0' has 85 connections declared, but only 82 given [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:653]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/synth/kv260_rm11_unified_ffn.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'kv260_rm11_unified_ffn_wrapper' (0#1) [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/sources_1/imports/hdl/kv260_rm11_unified_ffn_wrapper.v:13]
+WARNING: [Synth 8-7129] Port Din[1] in module xlslice_v1_0_4_xlslice is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Din[0] in module xlslice_v1_0_4_xlslice is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2663.930 ; gain = 208.656 ; free physical = 11614 ; free virtual = 28846
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2666.898 ; gain = 211.625 ; free physical = 11614 ; free virtual = 28845
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2666.898 ; gain = 211.625 ; free physical = 11614 ; free virtual = 28845
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2666.898 ; gain = 0.000 ; free physical = 11614 ; free virtual = 28845
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/zynq_ultra_ps_e_0'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/zynq_ultra_ps_e_0'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/vision_ffn_unified_tile_0'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/vision_ffn_unified_tile_0'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/kv260_rm11_unified_ffn_axi_smc_data_0/kv260_rm11_unified_ffn_axi_smc_data_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/kv260_rm11_unified_ffn_axi_smc_data_0/kv260_rm11_unified_ffn_axi_smc_data_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/kv260_rm11_unified_ffn_axi_smc_control_0/kv260_rm11_unified_ffn_axi_smc_control_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/kv260_rm11_unified_ffn_axi_smc_control_0/kv260_rm11_unified_ffn_axi_smc_control_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_perf_mon_0'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0_in_context.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_perf_mon_0'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/constrs_1/imports/xdc/default.xdc]
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/constrs_1/imports/xdc/default.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/constrs_1/imports/xdc/default.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/kv260_rm11_unified_ffn_wrapper_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/kv260_rm11_unified_ffn_wrapper_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2714.551 ; gain = 0.000 ; free physical = 11650 ; free virtual = 28881
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2714.551 ; gain = 0.000 ; free physical = 11650 ; free virtual = 28881
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2714.551 ; gain = 259.277 ; free physical = 11686 ; free virtual = 28916
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xck26-sfvc784-2LV-c
+INFO: [Synth 8-6742] Reading net delay rules and data
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2722.555 ; gain = 267.281 ; free physical = 11686 ; free virtual = 28917
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property KEEP_HIERARCHY = SOFT for kv260_rm11_unified_ffn_i. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for kv260_rm11_unified_ffn_i/xlslice_0. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for kv260_rm11_unified_ffn_i/zynq_ultra_ps_e_0. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for kv260_rm11_unified_ffn_i/vision_ffn_unified_tile_0. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for kv260_rm11_unified_ffn_i/axi_smc_data. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for kv260_rm11_unified_ffn_i/axi_smc_control. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for kv260_rm11_unified_ffn_i/axi_perf_mon_0. (constraint file  auto generated constraint).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2722.555 ; gain = 267.281 ; free physical = 11686 ; free virtual = 28917
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2722.555 ; gain = 267.281 ; free physical = 11681 ; free virtual = 28913
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 1248 (col length:96)
+BRAMs: 288 (col length: RAMB18 96 RAMB36 48)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port Din[1] in module kv260_rm11_unified_ffn_xlslice_0_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port Din[0] in module kv260_rm11_unified_ffn_xlslice_0_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:12 . Memory (MB): peak = 2722.555 ; gain = 267.281 ; free physical = 11674 ; free virtual = 28911
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:18 ; elapsed = 00:00:18 . Memory (MB): peak = 3360.340 ; gain = 905.066 ; free physical = 11145 ; free virtual = 28384
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:18 ; elapsed = 00:00:18 . Memory (MB): peak = 3360.340 ; gain = 905.066 ; free physical = 11145 ; free virtual = 28384
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:18 ; elapsed = 00:00:18 . Memory (MB): peak = 3372.348 ; gain = 917.074 ; free physical = 11130 ; free virtual = 28368
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11008 ; free virtual = 28246
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11008 ; free virtual = 28246
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11007 ; free virtual = 28245
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11008 ; free virtual = 28246
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11008 ; free virtual = 28246
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11008 ; free virtual = 28246
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+---------------------------------------------------+----------+
+|      |BlackBox name                                      |Instances |
++------+---------------------------------------------------+----------+
+|1     |kv260_rm11_unified_ffn_axi_perf_mon_0_0            |         1|
+|2     |kv260_rm11_unified_ffn_axi_smc_control_0           |         1|
+|3     |kv260_rm11_unified_ffn_axi_smc_data_0              |         1|
+|4     |kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0 |         1|
+|5     |kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0         |         1|
++------+---------------------------------------------------+----------+
+
+Report Cell Usage: 
++------+-------------------------------------------------+------+
+|      |Cell                                             |Count |
++------+-------------------------------------------------+------+
+|1     |kv260_rm11_unified_ffn_axi_perf_mon_0            |     1|
+|2     |kv260_rm11_unified_ffn_axi_smc_control           |     1|
+|3     |kv260_rm11_unified_ffn_axi_smc_data              |     1|
+|4     |kv260_rm11_unified_ffn_vision_ffn_unified_tile_0 |     1|
+|5     |kv260_rm11_unified_ffn_zynq_ultra_ps_e_0         |     1|
+|6     |OBUF                                             |     1|
++------+-------------------------------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:20 ; elapsed = 00:00:20 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11008 ; free virtual = 28246
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 3 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:16 ; elapsed = 00:00:16 . Memory (MB): peak = 3533.160 ; gain = 1030.234 ; free physical = 11008 ; free virtual = 28246
+Synthesis Optimization Complete : Time (s): cpu = 00:00:20 ; elapsed = 00:00:21 . Memory (MB): peak = 3533.160 ; gain = 1077.887 ; free physical = 11008 ; free virtual = 28246
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3533.160 ; gain = 0.000 ; free physical = 11173 ; free virtual = 28411
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3533.160 ; gain = 0.000 ; free physical = 11187 ; free virtual = 28422
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 9131e78b
+INFO: [Common 17-83] Releasing license: Synthesis
+36 Infos, 30 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:27 ; elapsed = 00:00:26 . Memory (MB): peak = 3533.160 ; gain = 2073.684 ; free physical = 11187 ; free virtual = 28422
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 2877.561; main = 2652.621; forked = 266.192
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 4448.824; main = 3506.352; forked = 942.473
+Write ShapeDB Complete: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3533.160 ; gain = 0.000 ; free physical = 11187 ; free virtual = 28422
+INFO: [Common 17-1381] The checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/synth_1/kv260_rm11_unified_ffn_wrapper.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file kv260_rm11_unified_ffn_wrapper_utilization_synth.rpt -pb kv260_rm11_unified_ffn_wrapper_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sat Sep 26 17:54:07 2026...
+[Sat Sep 26 17:54:18 2026] synth_1 finished
+wait_on_runs: Time (s): cpu = 00:13:55 ; elapsed = 00:05:40 . Memory (MB): peak = 1958.797 ; gain = 0.000 ; free physical = 13600 ; free virtual = 30833
+# set synth_status [get_property STATUS [get_runs synth_1]]
+# if {![string match "*Complete*" $synth_status]} { error "synth_1 did not complete: $synth_status" }
+# launch_runs impl_1 -to_step write_bitstream -jobs 8
+[Sat Sep 26 17:54:20 2026] Launched impl_1...
+Run output will be captured here: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/runme.log
+# wait_on_run impl_1
+[Sat Sep 26 17:54:20 2026] Waiting for impl_1 to finish...
+
+*** Running vivado
+    with args -log kv260_rm11_unified_ffn_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source kv260_rm11_unified_ffn_wrapper.tcl -notrace
+
+
+****** Vivado v2024.2 (64-bit)
+  **** SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 26 17:54:21 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source kv260_rm11_unified_ffn_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/artifacts/ip_repo'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/ip'.
+Command: link_design -top kv260_rm11_unified_ffn_wrapper -part xck26-sfvc784-2LV-c
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Device 21-403] Loading part xck26-sfvc784-2LV-c
+INFO: [Project 1-454] Reading design checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.dcp' for cell 'kv260_rm11_unified_ffn_i/axi_perf_mon_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/kv260_rm11_unified_ffn_axi_smc_control_0.dcp' for cell 'kv260_rm11_unified_ffn_i/axi_smc_control'
+INFO: [Project 1-454] Reading design checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/kv260_rm11_unified_ffn_axi_smc_data_0.dcp' for cell 'kv260_rm11_unified_ffn_i/axi_smc_data'
+INFO: [Project 1-454] Reading design checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0/kv260_rm11_unified_ffn_vision_ffn_unified_tile_0_0.dcp' for cell 'kv260_rm11_unified_ffn_i/vision_ffn_unified_tile_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0.dcp' for cell 'kv260_rm11_unified_ffn_i/zynq_ultra_ps_e_0'
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 2434.965 ; gain = 0.000 ; free physical = 12154 ; free virtual = 29385
+INFO: [Netlist 29-17] Analyzing 3381 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2024.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0.xdc] for cell 'kv260_rm11_unified_ffn_i/zynq_ultra_ps_e_0/inst'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0/kv260_rm11_unified_ffn_zynq_ultra_ps_e_0_0.xdc] for cell 'kv260_rm11_unified_ffn_i/zynq_ultra_ps_e_0/inst'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/bd_0/ip/ip_1/bd_8364_psr_aclk_0_board.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/bd_0/ip/ip_1/bd_8364_psr_aclk_0_board.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/bd_0/ip/ip_1/bd_8364_psr_aclk_0.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/bd_0/ip/ip_1/bd_8364_psr_aclk_0.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/smartconnect.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data/inst'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_data_0/smartconnect.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_data/inst'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/bd_0/ip/ip_1/bd_bc79_psr_aclk_0_board.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/bd_0/ip/ip_1/bd_bc79_psr_aclk_0_board.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/bd_0/ip/ip_1/bd_bc79_psr_aclk_0.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/bd_0/ip/ip_1/bd_bc79_psr_aclk_0.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/smartconnect.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control/inst'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_smc_control_0/smartconnect.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_smc_control/inst'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst'
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:69]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:73]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:77]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:81]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:85]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:89]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:93]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:97]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:101]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:105]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:109]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:113]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:117]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:120]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:123]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:126]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:129]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:132]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-13' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:135]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:139]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:142]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:145]
+WARNING: [Vivado_Tcl 4-919] Waiver ID 'CDC-1' -from list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:148]
+WARNING: [Vivado_Tcl 4-919] Waiver ID 'CDC-1' -from list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:151]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-13' -to list should not be empty. [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc:154]
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst'
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/constrs_1/imports/xdc/default.xdc]
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.srcs/constrs_1/imports/xdc/default.xdc]
+Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0_clocks.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst'
+Finished Parsing XDC File [/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.gen/sources_1/bd/kv260_rm11_unified_ffn/ip/kv260_rm11_unified_ffn_axi_perf_mon_0_0/kv260_rm11_unified_ffn_axi_perf_mon_0_0_clocks.xdc] for cell 'kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst'
+INFO: [Project 1-1714] 127 XPM XDC files have been applied to the design.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Project 1-1687] 39 scoped IP constraints or related sub-commands were skipped due to synthesis logic optimizations usually triggered by constant connectivity or unconnected output pins. To review the skipped constraints and messages, run the command 'set_param netlist.IPMsgFiltering false' before opening the design.
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3973.496 ; gain = 0.000 ; free physical = 10839 ; free virtual = 28071
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 553 instances were transformed.
+  DSP48E1 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 320 instances
+  DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 9 instances
+  RAM16X1D => RAM32X1D (RAMD32(x2)): 1 instance 
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 21 instances
+  RAM32M16 => RAM32M16 (RAMD32(x14), RAMS32(x2)): 190 instances
+  RAM32X1D => RAM32X1D (RAMD32(x2)): 12 instances
+
+17 Infos, 25 Warnings, 0 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+link_design: Time (s): cpu = 00:01:08 ; elapsed = 00:00:42 . Memory (MB): peak = 3973.496 ; gain = 2484.008 ; free physical = 10839 ; free virtual = 28072
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xck26'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:00.65 . Memory (MB): peak = 3973.496 ; gain = 0.000 ; free physical = 10834 ; free virtual = 28068
+
+Starting Cache Timing Information Task
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Ending Cache Timing Information Task | Checksum: 222eddd9b
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:04 . Memory (MB): peak = 3973.496 ; gain = 0.000 ; free physical = 10820 ; free virtual = 28050
+
+Starting Logic Optimization Task
+
+Phase 1 Initialization
+
+Phase 1.1 Core Generation And Design Setup
+Phase 1.1 Core Generation And Design Setup | Checksum: 222eddd9b
+
+Time (s): cpu = 00:00:00.21 ; elapsed = 00:00:00.22 . Memory (MB): peak = 4258.480 ; gain = 0.000 ; free physical = 10549 ; free virtual = 27781
+
+Phase 1.2 Setup Constraints And Sort Netlist
+Phase 1.2 Setup Constraints And Sort Netlist | Checksum: 222eddd9b
+
+Time (s): cpu = 00:00:00.25 ; elapsed = 00:00:00.26 . Memory (MB): peak = 4258.480 ; gain = 0.000 ; free physical = 10549 ; free virtual = 27782
+Phase 1 Initialization | Checksum: 222eddd9b
+
+Time (s): cpu = 00:00:00.26 ; elapsed = 00:00:00.26 . Memory (MB): peak = 4258.480 ; gain = 0.000 ; free physical = 10549 ; free virtual = 27782
+
+Phase 2 Timer Update And Timing Data Collection
+
+Phase 2.1 Timer Update
+Phase 2.1 Timer Update | Checksum: 222eddd9b
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:02 . Memory (MB): peak = 4258.480 ; gain = 0.000 ; free physical = 10551 ; free virtual = 27785
+
+Phase 2.2 Timing Data Collection
+Phase 2.2 Timing Data Collection | Checksum: 222eddd9b
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:02 . Memory (MB): peak = 4322.480 ; gain = 64.000 ; free physical = 10512 ; free virtual = 27745
+Phase 2 Timer Update And Timing Data Collection | Checksum: 222eddd9b
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:02 . Memory (MB): peak = 4322.480 ; gain = 64.000 ; free physical = 10512 ; free virtual = 27745
+
+Phase 3 Retarget
+INFO: [Opt 31-1851] Number of loadless carry chains removed were: 0
+INFO: [Opt 31-1834] Total Chains To Be Transformed Were: 0 AND Number of Transformed insts Created are: 0
+INFO: [Opt 31-1566] Pulled 5 inverters resulting in an inversion of 15 pins
+INFO: [Opt 31-138] Pushed 188 inverter(s) to 7809 load pin(s).
+INFO: [Opt 31-49] Retargeted 0 cell(s).
+Phase 3 Retarget | Checksum: 229272ce0
+
+Time (s): cpu = 00:00:13 ; elapsed = 00:00:05 . Memory (MB): peak = 4322.480 ; gain = 64.000 ; free physical = 10519 ; free virtual = 27753
+Retarget | Checksum: 229272ce0
+INFO: [Opt 31-389] Phase Retarget created 1885 cells and removed 2633 cells
+INFO: [Opt 31-1021] In phase Retarget, 128 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 4 Constant propagation
+INFO: [Opt 31-138] Pushed 3 inverter(s) to 3 load pin(s).
+Phase 4 Constant propagation | Checksum: 19b81dd2a
+
+Time (s): cpu = 00:00:14 ; elapsed = 00:00:06 . Memory (MB): peak = 4322.480 ; gain = 64.000 ; free physical = 10523 ; free virtual = 27756
+Constant propagation | Checksum: 19b81dd2a
+INFO: [Opt 31-389] Phase Constant propagation created 1068 cells and removed 3147 cells
+INFO: [Opt 31-1021] In phase Constant propagation, 128 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 5 Sweep
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.04 . Memory (MB): peak = 4322.480 ; gain = 0.000 ; free physical = 10520 ; free virtual = 27753
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.03 . Memory (MB): peak = 4322.480 ; gain = 0.000 ; free physical = 10521 ; free virtual = 27753
+Phase 5 Sweep | Checksum: 204988d64
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:08 . Memory (MB): peak = 4322.480 ; gain = 64.000 ; free physical = 10521 ; free virtual = 27755
+Sweep | Checksum: 204988d64
+INFO: [Opt 31-389] Phase Sweep created 0 cells and removed 1719 cells
+INFO: [Opt 31-1021] In phase Sweep, 162 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 6 BUFG optimization
+INFO: [Opt 31-1077] Phase BUFG optimization inserted 0 global clock buffer(s) for CLOCK_LOW_FANOUT.
+Phase 6 BUFG optimization | Checksum: 204988d64
+
+Time (s): cpu = 00:00:20 ; elapsed = 00:00:09 . Memory (MB): peak = 4354.496 ; gain = 96.016 ; free physical = 10514 ; free virtual = 27748
+BUFG optimization | Checksum: 204988d64
+INFO: [Opt 31-662] Phase BUFG optimization created 0 cells of which 0 are BUFGs and removed 0 cells.
+
+Phase 7 Shift Register Optimization
+INFO: [Opt 31-1064] SRL Remap converted 0 SRLs to 0 registers and converted 0 registers of register chains to 0 SRLs
+Phase 7 Shift Register Optimization | Checksum: 23b0dc966
+
+Time (s): cpu = 00:00:20 ; elapsed = 00:00:10 . Memory (MB): peak = 4354.496 ; gain = 96.016 ; free physical = 10513 ; free virtual = 27748
+Shift Register Optimization | Checksum: 23b0dc966
+INFO: [Opt 31-389] Phase Shift Register Optimization created 1 cells and removed 0 cells
+
+Phase 8 Post Processing Netlist
+INFO: [Opt 31-1566] Pulled 4 inverters resulting in an inversion of 7 pins
+Phase 8 Post Processing Netlist | Checksum: 200fae5c4
+
+Time (s): cpu = 00:00:21 ; elapsed = 00:00:10 . Memory (MB): peak = 4354.496 ; gain = 96.016 ; free physical = 10514 ; free virtual = 27749
+Post Processing Netlist | Checksum: 200fae5c4
+INFO: [Opt 31-389] Phase Post Processing Netlist created 0 cells and removed 4 cells
+INFO: [Opt 31-1021] In phase Post Processing Netlist, 143 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 9 Finalization
+
+Phase 9.1 Finalizing Design Cores and Updating Shapes
+Phase 9.1 Finalizing Design Cores and Updating Shapes | Checksum: 27f45e88a
+
+Time (s): cpu = 00:00:22 ; elapsed = 00:00:12 . Memory (MB): peak = 4354.496 ; gain = 96.016 ; free physical = 10509 ; free virtual = 27749
+
+Phase 9.2 Verifying Netlist Connectivity
+
+Starting Connectivity Check Task
+
+Time (s): cpu = 00:00:00.14 ; elapsed = 00:00:00.14 . Memory (MB): peak = 4354.496 ; gain = 0.000 ; free physical = 10507 ; free virtual = 27748
+Phase 9.2 Verifying Netlist Connectivity | Checksum: 27f45e88a
+
+Time (s): cpu = 00:00:23 ; elapsed = 00:00:12 . Memory (MB): peak = 4354.496 ; gain = 96.016 ; free physical = 10507 ; free virtual = 27748
+Phase 9 Finalization | Checksum: 27f45e88a
+
+Time (s): cpu = 00:00:23 ; elapsed = 00:00:12 . Memory (MB): peak = 4354.496 ; gain = 96.016 ; free physical = 10507 ; free virtual = 27748
+Opt_design Change Summary
+=========================
+
+
+-------------------------------------------------------------------------------------------------------------------------
+|  Phase                        |  #Cells created  |  #Cells Removed  |  #Constrained objects preventing optimizations  |
+-------------------------------------------------------------------------------------------------------------------------
+|  Retarget                     |            1885  |            2633  |                                            128  |
+|  Constant propagation         |            1068  |            3147  |                                            128  |
+|  Sweep                        |               0  |            1719  |                                            162  |
+|  BUFG optimization            |               0  |               0  |                                              0  |
+|  Shift Register Optimization  |               1  |               0  |                                              0  |
+|  Post Processing Netlist      |               0  |               4  |                                            143  |
+-------------------------------------------------------------------------------------------------------------------------
+
+
+Ending Logic Optimization Task | Checksum: 27f45e88a
+
+Time (s): cpu = 00:00:23 ; elapsed = 00:00:12 . Memory (MB): peak = 4354.496 ; gain = 96.016 ; free physical = 10507 ; free virtual = 27748
+
+Starting Power Optimization Task
+INFO: [Pwropt 34-132] Skipping clock gating for clocks with a period < 2.00 ns.
+INFO: [Pwropt 34-9] Applying IDT optimizations ...
+INFO: [Pwropt 34-10] Applying ODC optimizations ...
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+
+
+Starting PowerOpt Patch Enables Task
+INFO: [Pwropt 34-162] WRITE_MODE attribute of 0 BRAM(s) out of a total of 27 has been updated to save power. Run report_power_opt to get a complete listing of the BRAMs updated.
+INFO: [Pwropt 34-201] Structural ODC has moved 0 WE to EN ports
+Number of BRAM Ports augmented: 0 newly gated: 6 Total Ports: 54
+Ending PowerOpt Patch Enables Task | Checksum: 2c60080f3
+
+Time (s): cpu = 00:00:00.3 ; elapsed = 00:00:00.31 . Memory (MB): peak = 5118.348 ; gain = 0.000 ; free physical = 9826 ; free virtual = 27076
+Ending Power Optimization Task | Checksum: 2c60080f3
+
+Time (s): cpu = 00:00:52 ; elapsed = 00:00:12 . Memory (MB): peak = 5118.348 ; gain = 763.852 ; free physical = 9826 ; free virtual = 27076
+
+Starting Final Cleanup Task
+Ending Final Cleanup Task | Checksum: 2c60080f3
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 5118.348 ; gain = 0.000 ; free physical = 9826 ; free virtual = 27076
+
+Starting Netlist Obfuscation Task
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 5118.348 ; gain = 0.000 ; free physical = 9826 ; free virtual = 27076
+Ending Netlist Obfuscation Task | Checksum: 304698d0b
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 5118.348 ; gain = 0.000 ; free physical = 9826 ; free virtual = 27076
+INFO: [Common 17-83] Releasing license: Implementation
+50 Infos, 25 Warnings, 0 Critical Warnings and 0 Errors encountered.
+opt_design completed successfully
+opt_design: Time (s): cpu = 00:01:36 ; elapsed = 00:00:30 . Memory (MB): peak = 5118.348 ; gain = 1144.852 ; free physical = 9827 ; free virtual = 27077
+INFO: [Vivado 12-24828] Executing command : report_drc -file kv260_rm11_unified_ffn_wrapper_drc_opted.rpt -pb kv260_rm11_unified_ffn_wrapper_drc_opted.pb -rpx kv260_rm11_unified_ffn_wrapper_drc_opted.rpx
+Command: report_drc -file kv260_rm11_unified_ffn_wrapper_drc_opted.rpt -pb kv260_rm11_unified_ffn_wrapper_drc_opted.pb -rpx kv260_rm11_unified_ffn_wrapper_drc_opted.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper_drc_opted.rpt.
+report_drc completed successfully
+report_drc: Time (s): cpu = 00:01:05 ; elapsed = 00:00:20 . Memory (MB): peak = 5296.727 ; gain = 178.379 ; free physical = 9375 ; free virtual = 26757
+generate_parallel_reports: Time (s): cpu = 00:01:05 ; elapsed = 00:00:20 . Memory (MB): peak = 5296.727 ; gain = 178.379 ; free physical = 9375 ; free virtual = 26757
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Wrote PlaceDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9373 ; free virtual = 26755
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9373 ; free virtual = 26755
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.37 ; elapsed = 00:00:00.08 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9357 ; free virtual = 26752
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.4 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9316 ; free virtual = 26745
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9315 ; free virtual = 26744
+Wrote Device Cache: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.01 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9308 ; free virtual = 26741
+Write Physdb Complete: Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.42 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9308 ; free virtual = 26741
+INFO: [Common 17-1381] The checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper_opt.dcp' has been generated.
+Command: place_design
+Attempting to get a license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-83] Releasing license: Implementation
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 8 CPUs
+
+Starting Placer Task
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.02 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9351 ; free virtual = 26764
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: 21681947e
+
+Time (s): cpu = 00:00:00.07 ; elapsed = 00:00:00.06 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9351 ; free virtual = 26764
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9351 ; free virtual = 26764
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: 10792b538
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:05 . Memory (MB): peak = 5296.727 ; gain = 0.000 ; free physical = 9333 ; free virtual = 26748
+
+Phase 1.3 Build Placer Netlist Model
+Phase 1.3 Build Placer Netlist Model | Checksum: 17d41151a
+
+Time (s): cpu = 00:00:54 ; elapsed = 00:00:21 . Memory (MB): peak = 5485.547 ; gain = 188.820 ; free physical = 9088 ; free virtual = 26509
+
+Phase 1.4 Constrain Clocks/Macros
+Phase 1.4 Constrain Clocks/Macros | Checksum: 17d41151a
+
+Time (s): cpu = 00:00:54 ; elapsed = 00:00:22 . Memory (MB): peak = 5485.547 ; gain = 188.820 ; free physical = 9090 ; free virtual = 26511
+Phase 1 Placer Initialization | Checksum: 17d41151a
+
+Time (s): cpu = 00:00:55 ; elapsed = 00:00:22 . Memory (MB): peak = 5485.547 ; gain = 188.820 ; free physical = 9090 ; free virtual = 26511
+
+Phase 2 Global Placement
+
+Phase 2.1 Floorplanning
+
+Phase 2.1.1 Partition Driven Placement
+
+Phase 2.1.1.1 PBP: Partition Driven Placement
+Phase 2.1.1.1 PBP: Partition Driven Placement | Checksum: 15bc94d90
+
+Time (s): cpu = 00:02:10 ; elapsed = 00:00:49 . Memory (MB): peak = 5565.586 ; gain = 268.859 ; free physical = 9100 ; free virtual = 26525
+
+Phase 2.1.1.2 PBP: Clock Region Placement
+INFO: [Place 30-3162] Check ILP status : ILP-based clock placer completed successfully.
+Phase 2.1.1.2 PBP: Clock Region Placement | Checksum: 15bc94d90
+
+Time (s): cpu = 00:02:11 ; elapsed = 00:00:50 . Memory (MB): peak = 5565.586 ; gain = 268.859 ; free physical = 9096 ; free virtual = 26525
+
+Phase 2.1.1.3 PBP: Compute Congestion
+Phase 2.1.1.3 PBP: Compute Congestion | Checksum: 15bc94d90
+
+Time (s): cpu = 00:02:28 ; elapsed = 00:00:54 . Memory (MB): peak = 5714.570 ; gain = 417.844 ; free physical = 8481 ; free virtual = 26336
+
+Phase 2.1.1.4 PBP: UpdateTiming
+Phase 2.1.1.4 PBP: UpdateTiming | Checksum: 19fa399ba
+
+Time (s): cpu = 00:02:35 ; elapsed = 00:00:58 . Memory (MB): peak = 5746.586 ; gain = 449.859 ; free physical = 8474 ; free virtual = 26329
+
+Phase 2.1.1.5 PBP: Add part constraints
+Phase 2.1.1.5 PBP: Add part constraints | Checksum: 19fa399ba
+
+Time (s): cpu = 00:02:36 ; elapsed = 00:00:58 . Memory (MB): peak = 5746.586 ; gain = 449.859 ; free physical = 8474 ; free virtual = 26329
+Phase 2.1.1 Partition Driven Placement | Checksum: 19fa399ba
+
+Time (s): cpu = 00:02:36 ; elapsed = 00:00:58 . Memory (MB): peak = 5746.586 ; gain = 449.859 ; free physical = 8474 ; free virtual = 26330
+Phase 2.1 Floorplanning | Checksum: 130f5ef0f
+
+Time (s): cpu = 00:02:36 ; elapsed = 00:00:58 . Memory (MB): peak = 5746.586 ; gain = 449.859 ; free physical = 8474 ; free virtual = 26330
+
+Phase 2.2 Update Timing before SLR Path Opt
+Phase 2.2 Update Timing before SLR Path Opt | Checksum: 130f5ef0f
+
+Time (s): cpu = 00:02:36 ; elapsed = 00:00:58 . Memory (MB): peak = 5746.586 ; gain = 449.859 ; free physical = 8475 ; free virtual = 26330
+
+Phase 2.3 Post-Processing in Floorplanning
+Phase 2.3 Post-Processing in Floorplanning | Checksum: 130f5ef0f
+
+Time (s): cpu = 00:02:36 ; elapsed = 00:00:58 . Memory (MB): peak = 5746.586 ; gain = 449.859 ; free physical = 8475 ; free virtual = 26330
+
+Phase 2.4 Global Place Phase1
+Phase 2.4 Global Place Phase1 | Checksum: 15db4baef
+
+Time (s): cpu = 00:04:28 ; elapsed = 00:01:40 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8348 ; free virtual = 26206
+
+Phase 2.5 Global Place Phase2
+
+Phase 2.5.1 UpdateTiming Before Physical Synthesis
+Phase 2.5.1 UpdateTiming Before Physical Synthesis | Checksum: 17df0d54e
+
+Time (s): cpu = 00:04:39 ; elapsed = 00:01:43 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8353 ; free virtual = 26210
+
+Phase 2.5.2 Physical Synthesis In Placer
+INFO: [Physopt 32-1035] Found 0 LUTNM shape to break, 7166 LUT instances to create LUTNM shape
+INFO: [Physopt 32-1044] Break lutnm for timing: one critical 0, two critical 0, total 0, new lutff created 0
+INFO: [Physopt 32-1138] End 1 Pass. Optimized 3429 nets or LUTs. Breaked 0 LUT, combined 3429 existing LUTs and moved 0 existing LUT
+INFO: [Physopt 32-1030] Pass 1. Identified 58 candidate driver sets for equivalent driver rewiring.
+INFO: [Physopt 32-661] Optimized 54 nets.  Re-placed 331 instances.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 54 nets or cells. Created 0 new cell, deleted 1 existing cell and moved 331 existing cells
+Netlist sorting complete. Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.15 . Memory (MB): peak = 5890.590 ; gain = 0.000 ; free physical = 8350 ; free virtual = 26209
+INFO: [Physopt 32-65] No nets found for high-fanout optimization.
+INFO: [Physopt 32-232] Optimized 0 net. Created 0 new instance.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-670] No setup violation found.  DSP Register Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  Shift Register to Pipeline Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  Shift Register Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  BRAM Register Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  URAM Register Optimization was not performed.
+INFO: [Physopt 32-949] No candidate nets found for dynamic/static region interface net replication
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 5890.590 ; gain = 0.000 ; free physical = 8351 ; free virtual = 26208
+
+Summary of Physical Synthesis Optimizations
+============================================
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  Optimization                                     |  Added Cells  |  Removed Cells  |  Optimized Cells/Nets  |  Dont Touch  |  Iterations  |  Elapsed   |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  LUT Combining                                    |            0  |           3429  |                  3429  |           0  |           1  |  00:00:02  |
+|  Retime                                           |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Equivalent Driver Rewiring                       |            0  |              1  |                    54  |           0  |           1  |  00:00:03  |
+|  Very High Fanout                                 |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  DSP Register                                     |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Shift Register to Pipeline                       |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Shift Register                                   |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  BRAM Register                                    |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  URAM Register                                    |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Dynamic/Static Region Interface Net Replication  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Total                                            |            0  |           3430  |                  3483  |           0  |           5  |  00:00:05  |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Phase 2.5.2 Physical Synthesis In Placer | Checksum: 16dc0e921
+
+Time (s): cpu = 00:04:51 ; elapsed = 00:01:52 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8346 ; free virtual = 26206
+Phase 2.5 Global Place Phase2 | Checksum: 1371cbf6b
+
+Time (s): cpu = 00:05:14 ; elapsed = 00:01:59 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8337 ; free virtual = 26198
+Phase 2 Global Placement | Checksum: 1371cbf6b
+
+Time (s): cpu = 00:05:14 ; elapsed = 00:01:59 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8336 ; free virtual = 26197
+
+Phase 3 Detail Placement
+
+Phase 3.1 Commit Multi Column Macros
+Phase 3.1 Commit Multi Column Macros | Checksum: 195793203
+
+Time (s): cpu = 00:05:39 ; elapsed = 00:02:07 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8366 ; free virtual = 26212
+
+Phase 3.2 Commit Most Macros & LUTRAMs
+Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: 253291631
+
+Time (s): cpu = 00:05:50 ; elapsed = 00:02:10 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8356 ; free virtual = 26203
+
+Phase 3.3 Small Shape DP
+
+Phase 3.3.1 Small Shape Clustering
+Phase 3.3.1 Small Shape Clustering | Checksum: 27b275549
+
+Time (s): cpu = 00:06:03 ; elapsed = 00:02:14 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8369 ; free virtual = 26216
+
+Phase 3.3.2 Slice Area Swap
+
+Phase 3.3.2.1 Slice Area Swap Initial
+Phase 3.3.2.1 Slice Area Swap Initial | Checksum: 250575857
+
+Time (s): cpu = 00:06:06 ; elapsed = 00:02:17 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8360 ; free virtual = 26212
+Phase 3.3.2 Slice Area Swap | Checksum: 250575857
+
+Time (s): cpu = 00:06:07 ; elapsed = 00:02:17 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8360 ; free virtual = 26212
+Phase 3.3 Small Shape DP | Checksum: 21cd849ef
+
+Time (s): cpu = 00:06:24 ; elapsed = 00:02:22 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8374 ; free virtual = 26224
+
+Phase 3.4 Re-assign LUT pins
+Phase 3.4 Re-assign LUT pins | Checksum: 1a93ccafe
+
+Time (s): cpu = 00:06:27 ; elapsed = 00:02:25 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8368 ; free virtual = 26220
+
+Phase 3.5 Pipeline Register Optimization
+Phase 3.5 Pipeline Register Optimization | Checksum: 1edf9de22
+
+Time (s): cpu = 00:06:28 ; elapsed = 00:02:25 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8368 ; free virtual = 26220
+Phase 3 Detail Placement | Checksum: 1edf9de22
+
+Time (s): cpu = 00:06:29 ; elapsed = 00:02:25 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8368 ; free virtual = 26219
+
+Phase 4 Post Placement Optimization and Clean-Up
+
+Phase 4.1 Post Commit Optimization
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+
+Phase 4.1.1 Post Placement Optimization
+Post Placement Optimization Initialization | Checksum: 148f510d1
+
+Phase 4.1.1.1 BUFG Insertion
+
+Starting Physical Synthesis Task
+
+Phase 1 Physical Synthesis Initialization
+INFO: [Physopt 32-721] Multithreading enabled for phys_opt_design using a maximum of 8 CPUs
+INFO: [Physopt 32-619] Estimated Timing Summary | WNS=4.563 | TNS=0.000 |
+Phase 1 Physical Synthesis Initialization | Checksum: a097ba4c
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:01 . Memory (MB): peak = 5890.590 ; gain = 0.000 ; free physical = 8377 ; free virtual = 26229
+INFO: [Place 46-35] Processed net kv260_rm11_unified_ffn_i/vision_ffn_unified_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_309/grp_p_anonymous_namespace_compute_weight_batch_Pipeline_VITIS_LOOP_168_9_fu_1502/flow_control_loop_pipe_sequential_init_U/SR[0], inserted BUFG to drive 5150 loads.
+INFO: [Place 46-35] Processed net kv260_rm11_unified_ffn_i/vision_ffn_unified_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_309/ap_CS_fsm_state24, inserted BUFG to drive 1024 loads.
+INFO: [Place 46-45] Replicated bufg driver kv260_rm11_unified_ffn_i/vision_ffn_unified_tile_0/inst/grp_p_anonymous_namespace_compute_weight_batch_fu_309/ap_CS_fsm_reg[23]_replica
+INFO: [Place 46-56] BUFG insertion identified 2 candidate nets. Inserted BUFG: 2, Replicated BUFG Driver: 1, Skipped due to Placement/Routing Conflicts: 0, Skipped due to Timing Degradation: 0, Skipped due to netlist editing failed: 0.
+Ending Physical Synthesis Task | Checksum: 219be83b1
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:04 . Memory (MB): peak = 5890.590 ; gain = 0.000 ; free physical = 8368 ; free virtual = 26218
+Phase 4.1.1.1 BUFG Insertion | Checksum: 255602f14
+
+Time (s): cpu = 00:08:16 ; elapsed = 00:02:54 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8366 ; free virtual = 26218
+
+Phase 4.1.1.2 Post Placement Timing Optimization
+INFO: [Place 30-746] Post Placement Timing Summary WNS=4.563. For the most accurate timing information please run report_timing.
+Phase 4.1.1.2 Post Placement Timing Optimization | Checksum: 25f848b9d
+
+Time (s): cpu = 00:08:18 ; elapsed = 00:02:55 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8366 ; free virtual = 26218
+
+Time (s): cpu = 00:08:18 ; elapsed = 00:02:55 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8366 ; free virtual = 26218
+Phase 4.1 Post Commit Optimization | Checksum: 25f848b9d
+
+Time (s): cpu = 00:08:18 ; elapsed = 00:02:55 . Memory (MB): peak = 5890.590 ; gain = 593.863 ; free physical = 8367 ; free virtual = 26219
+Netlist sorting complete. Time (s): cpu = 00:00:00.1 ; elapsed = 00:00:00.1 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8281 ; free virtual = 26132
+
+Phase 4.2 Post Placement Cleanup
+Phase 4.2 Post Placement Cleanup | Checksum: 25b331056
+
+Time (s): cpu = 00:08:39 ; elapsed = 00:03:03 . Memory (MB): peak = 5935.570 ; gain = 638.844 ; free physical = 8273 ; free virtual = 26125
+
+Phase 4.3 Placer Reporting
+
+Phase 4.3.1 Print Estimated Congestion
+INFO: [Place 30-612] Post-Placement Estimated Congestion 
+ ________________________________________________________________________
+|           | Global Congestion | Long Congestion   | Short Congestion  |
+| Direction | Region Size       | Region Size       | Region Size       |
+|___________|___________________|___________________|___________________|
+|      North|                1x1|                1x1|                4x4|
+|___________|___________________|___________________|___________________|
+|      South|                1x1|                2x2|                2x2|
+|___________|___________________|___________________|___________________|
+|       East|                1x1|                1x1|                4x4|
+|___________|___________________|___________________|___________________|
+|       West|                1x1|                1x1|                4x4|
+|___________|___________________|___________________|___________________|
+
+Phase 4.3.1 Print Estimated Congestion | Checksum: 25b331056
+
+Time (s): cpu = 00:08:40 ; elapsed = 00:03:03 . Memory (MB): peak = 5935.570 ; gain = 638.844 ; free physical = 8274 ; free virtual = 26127
+Phase 4.3 Placer Reporting | Checksum: 25b331056
+
+Time (s): cpu = 00:08:41 ; elapsed = 00:03:03 . Memory (MB): peak = 5935.570 ; gain = 638.844 ; free physical = 8276 ; free virtual = 26128
+
+Phase 4.4 Final Placement Cleanup
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8276 ; free virtual = 26128
+
+Time (s): cpu = 00:08:41 ; elapsed = 00:03:03 . Memory (MB): peak = 5935.570 ; gain = 638.844 ; free physical = 8276 ; free virtual = 26128
+Phase 4 Post Placement Optimization and Clean-Up | Checksum: 279b0b1e2
+
+Time (s): cpu = 00:08:42 ; elapsed = 00:03:03 . Memory (MB): peak = 5935.570 ; gain = 638.844 ; free physical = 8275 ; free virtual = 26128
+Ending Placer Task | Checksum: 1b02f1258
+
+Time (s): cpu = 00:08:43 ; elapsed = 00:03:04 . Memory (MB): peak = 5935.570 ; gain = 638.844 ; free physical = 8275 ; free virtual = 26127
+92 Infos, 25 Warnings, 0 Critical Warnings and 0 Errors encountered.
+place_design completed successfully
+place_design: Time (s): cpu = 00:08:55 ; elapsed = 00:03:06 . Memory (MB): peak = 5935.570 ; gain = 638.844 ; free physical = 8275 ; free virtual = 26127
+INFO: [Vivado 12-24838] Running report commands "report_control_sets, report_io, report_utilization" in parallel.
+Running report generation with 3 threads.
+INFO: [Vivado 12-24828] Executing command : report_io -file kv260_rm11_unified_ffn_wrapper_io_placed.rpt
+report_io: Time (s): cpu = 00:00:00.48 ; elapsed = 00:00:00.24 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8268 ; free virtual = 26120
+INFO: [Vivado 12-24828] Executing command : report_control_sets -verbose -file kv260_rm11_unified_ffn_wrapper_control_sets_placed.rpt
+report_control_sets: Time (s): cpu = 00:00:00.61 ; elapsed = 00:00:00.38 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8262 ; free virtual = 26114
+INFO: [Vivado 12-24828] Executing command : report_utilization -file kv260_rm11_unified_ffn_wrapper_utilization_placed.rpt -pb kv260_rm11_unified_ffn_wrapper_utilization_placed.pb
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.28 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8222 ; free virtual = 26107
+Wrote PlaceDB: Time (s): cpu = 00:00:14 ; elapsed = 00:00:05 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8079 ; free virtual = 26084
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8079 ; free virtual = 26084
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.4 ; elapsed = 00:00:00.4 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8075 ; free virtual = 26083
+Wrote Netlist Cache: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.09 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8067 ; free virtual = 26087
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8064 ; free virtual = 26087
+Write Physdb Complete: Time (s): cpu = 00:00:14 ; elapsed = 00:00:05 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8064 ; free virtual = 26087
+INFO: [Common 17-1381] The checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper_placed.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:29 ; elapsed = 00:00:11 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8216 ; free virtual = 26109
+Command: phys_opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xck26'
+
+Starting Initial Update Timing Task
+
+Time (s): cpu = 00:00:46 ; elapsed = 00:00:11 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8187 ; free virtual = 26105
+INFO: [Vivado_Tcl 4-2279] Estimated Timing Summary | WNS= 4.572 | TNS= 0.000 | 
+INFO: [Vivado_Tcl 4-383] Design worst setup slack (WNS) is greater than or equal to 0.000 ns. All physical synthesis setup optimizations will be skipped.
+INFO: [Vivado_Tcl 4-232] No setup violation found. The netlist was not modified.
+INFO: [Common 17-83] Releasing license: Implementation
+103 Infos, 25 Warnings, 0 Critical Warnings and 0 Errors encountered.
+phys_opt_design completed successfully
+phys_opt_design: Time (s): cpu = 00:00:46 ; elapsed = 00:00:12 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8187 ; free virtual = 26105
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.27 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8143 ; free virtual = 26097
+Wrote PlaceDB: Time (s): cpu = 00:00:14 ; elapsed = 00:00:05 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8051 ; free virtual = 26098
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8051 ; free virtual = 26098
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.42 ; elapsed = 00:00:00.43 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8054 ; free virtual = 26102
+Wrote Netlist Cache: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.08 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8038 ; free virtual = 26098
+Wrote Device Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8038 ; free virtual = 26101
+Write Physdb Complete: Time (s): cpu = 00:00:14 ; elapsed = 00:00:05 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8038 ; free virtual = 26101
+INFO: [Common 17-1381] The checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper_physopt.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:17 ; elapsed = 00:00:08 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8158 ; free virtual = 26089
+Command: route_design
+Attempting to get a license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xck26'
+
+
+Starting Routing Task
+INFO: [Route 35-254] Multithreading enabled for route_design using a maximum of 8 CPUs
+
+Phase 1 Build RT Design
+Checksum: PlaceDB: b8cd8256 ConstDB: 0 ShapeSum: 359b84fd RouteDB: c1c60b05
+Nodegraph reading from file.  Time (s): cpu = 00:00:00.54 ; elapsed = 00:00:00.57 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8149 ; free virtual = 26084
+Post Restoration Checksum: NetGraph: cfa65a0b | NumContArr: 29f3a13e | Constraints: c8e0539a | Timing: c2a8fa9d
+Phase 1 Build RT Design | Checksum: 285234980
+
+Time (s): cpu = 00:00:47 ; elapsed = 00:00:08 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8131 ; free virtual = 26090
+
+Phase 2 Router Initialization
+
+Phase 2.1 Fix Topology Constraints
+Phase 2.1 Fix Topology Constraints | Checksum: 285234980
+
+Time (s): cpu = 00:00:47 ; elapsed = 00:00:08 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8132 ; free virtual = 26091
+
+Phase 2.2 Pre Route Cleanup
+Phase 2.2 Pre Route Cleanup | Checksum: 285234980
+
+Time (s): cpu = 00:00:48 ; elapsed = 00:00:08 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8132 ; free virtual = 26091
+
+Phase 2.3 Global Clock Net Routing
+ Number of Nodes with overlaps = 0
+Phase 2.3 Global Clock Net Routing | Checksum: 242e07ddb
+
+Time (s): cpu = 00:00:52 ; elapsed = 00:00:10 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8170 ; free virtual = 26109
+
+Phase 2.4 Update Timing
+Phase 2.4 Update Timing | Checksum: 239f8608f
+
+Time (s): cpu = 00:01:14 ; elapsed = 00:00:15 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8179 ; free virtual = 26114
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=4.735  | TNS=0.000  | WHS=-0.087 | THS=-152.928|
+
+
+Phase 2.5 Update Timing for Bus Skew
+
+Phase 2.5.1 Update Timing
+Phase 2.5.1 Update Timing | Checksum: 1f19071a3
+
+Time (s): cpu = 00:02:34 ; elapsed = 00:00:31 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8182 ; free virtual = 26120
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=4.735  | TNS=0.000  | WHS=-0.092 | THS=-10.023|
+
+Phase 2.5 Update Timing for Bus Skew | Checksum: 1f19071a3
+
+Time (s): cpu = 00:02:34 ; elapsed = 00:00:31 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8182 ; free virtual = 26120
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 0 %
+  Global Horizontal Routing Utilization  = 0 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 102840
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 89240
+  Number of Partially Routed Nets     = 13600
+  Number of Node Overlaps             = 0
+
+Phase 2 Router Initialization | Checksum: 2394d2294
+
+Time (s): cpu = 00:02:38 ; elapsed = 00:00:32 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8184 ; free virtual = 26120
+
+Phase 3 Global Routing
+Phase 3 Global Routing | Checksum: 2394d2294
+
+Time (s): cpu = 00:02:38 ; elapsed = 00:00:32 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8184 ; free virtual = 26120
+
+Phase 4 Initial Routing
+
+Phase 4.1 Initial Net Routing Pass
+Phase 4.1 Initial Net Routing Pass | Checksum: 1e3f6152a
+
+Time (s): cpu = 00:03:03 ; elapsed = 00:00:39 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8190 ; free virtual = 26126
+Phase 4 Initial Routing | Checksum: 277e60be2
+
+Time (s): cpu = 00:03:05 ; elapsed = 00:00:39 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8189 ; free virtual = 26126
+
+Phase 5 Rip-up And Reroute
+
+Phase 5.1 Global Iteration 0
+ Number of Nodes with overlaps = 21424
+ Number of Nodes with overlaps = 1524
+ Number of Nodes with overlaps = 159
+ Number of Nodes with overlaps = 11
+ Number of Nodes with overlaps = 6
+ Number of Nodes with overlaps = 3
+ Number of Nodes with overlaps = 2
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.158  | TNS=0.000  | WHS=-0.049 | THS=-1.695 |
+
+Phase 5.1 Global Iteration 0 | Checksum: 217e94fc5
+
+Time (s): cpu = 00:06:42 ; elapsed = 00:01:55 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8123 ; free virtual = 26155
+
+Phase 5.2 Global Iteration 1
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.158  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 5.2 Global Iteration 1 | Checksum: 2a0af0ab2
+
+Time (s): cpu = 00:06:59 ; elapsed = 00:01:58 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8135 ; free virtual = 26167
+Phase 5 Rip-up And Reroute | Checksum: 2a0af0ab2
+
+Time (s): cpu = 00:07:00 ; elapsed = 00:01:58 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8135 ; free virtual = 26167
+
+Phase 6 Delay and Skew Optimization
+
+Phase 6.1 Delay CleanUp
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.158  | TNS=0.000  | WHS=0.010  | THS=0.000  |
+
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.158  | TNS=0.000  | WHS=0.010  | THS=0.000  |
+
+Phase 6.1 Delay CleanUp | Checksum: 2f0657157
+
+Time (s): cpu = 00:07:30 ; elapsed = 00:02:04 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8120 ; free virtual = 26152
+
+Phase 6.2 Clock Skew Optimization
+Phase 6.2 Clock Skew Optimization | Checksum: 2f0657157
+
+Time (s): cpu = 00:07:30 ; elapsed = 00:02:04 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8119 ; free virtual = 26151
+Phase 6 Delay and Skew Optimization | Checksum: 2f0657157
+
+Time (s): cpu = 00:07:30 ; elapsed = 00:02:04 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8120 ; free virtual = 26152
+
+Phase 7 Post Hold Fix
+
+Phase 7.1 Hold Fix Iter
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.158  | TNS=0.000  | WHS=0.010  | THS=0.000  |
+
+Phase 7.1 Hold Fix Iter | Checksum: 2681affb6
+
+Time (s): cpu = 00:07:53 ; elapsed = 00:02:08 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8154 ; free virtual = 26161
+Phase 7 Post Hold Fix | Checksum: 2681affb6
+
+Time (s): cpu = 00:07:53 ; elapsed = 00:02:08 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8153 ; free virtual = 26161
+
+Phase 8 Route finalize
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 14.4123 %
+  Global Horizontal Routing Utilization  = 13.9396 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 0
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 0
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 8 Route finalize | Checksum: 2681affb6
+
+Time (s): cpu = 00:07:55 ; elapsed = 00:02:09 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8157 ; free virtual = 26163
+
+Phase 9 Verifying routed nets
+
+ Verification completed successfully
+Phase 9 Verifying routed nets | Checksum: 2681affb6
+
+Time (s): cpu = 00:07:56 ; elapsed = 00:02:09 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8157 ; free virtual = 26163
+
+Phase 10 Depositing Routes
+Phase 10 Depositing Routes | Checksum: 2681affb6
+
+Time (s): cpu = 00:08:04 ; elapsed = 00:02:13 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8150 ; free virtual = 26155
+
+Phase 11 Resolve XTalk
+Phase 11 Resolve XTalk | Checksum: 2681affb6
+
+Time (s): cpu = 00:08:04 ; elapsed = 00:02:13 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8149 ; free virtual = 26154
+
+Phase 12 Post Process Routing
+Phase 12 Post Process Routing | Checksum: 2681affb6
+
+Time (s): cpu = 00:08:05 ; elapsed = 00:02:13 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8147 ; free virtual = 26155
+
+Phase 13 Post Router Timing
+INFO: [Route 35-57] Estimated Timing Summary | WNS=3.158  | TNS=0.000  | WHS=0.010  | THS=0.000  |
+
+INFO: [Route 35-327] The final timing numbers are based on the router estimated timing analysis. For a complete and accurate timing signoff, please run report_timing_summary.
+Phase 13 Post Router Timing | Checksum: 2681affb6
+
+Time (s): cpu = 00:08:06 ; elapsed = 00:02:13 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8148 ; free virtual = 26156
+Total Elapsed time in route_design: 133.39 secs
+
+Phase 14 Post-Route Event Processing
+Phase 14 Post-Route Event Processing | Checksum: 17dd50000
+
+Time (s): cpu = 00:08:07 ; elapsed = 00:02:14 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8151 ; free virtual = 26159
+INFO: [Route 35-16] Router Completed Successfully
+Ending Routing Task | Checksum: 17dd50000
+
+Time (s): cpu = 00:08:09 ; elapsed = 00:02:14 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8150 ; free virtual = 26158
+
+Routing Is Done.
+INFO: [Common 17-83] Releasing license: Implementation
+118 Infos, 25 Warnings, 0 Critical Warnings and 0 Errors encountered.
+route_design completed successfully
+route_design: Time (s): cpu = 00:08:09 ; elapsed = 00:02:15 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8152 ; free virtual = 26160
+INFO: [Vivado 12-24828] Executing command : report_drc -file kv260_rm11_unified_ffn_wrapper_drc_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_drc_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_drc_routed.rpx
+Command: report_drc -file kv260_rm11_unified_ffn_wrapper_drc_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_drc_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_drc_routed.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper_drc_routed.rpt.
+report_drc completed successfully
+report_drc: Time (s): cpu = 00:01:16 ; elapsed = 00:00:13 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8137 ; free virtual = 26170
+INFO: [Vivado 12-24828] Executing command : report_methodology -file kv260_rm11_unified_ffn_wrapper_methodology_drc_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_methodology_drc_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_methodology_drc_routed.rpx
+Command: report_methodology -file kv260_rm11_unified_ffn_wrapper_methodology_drc_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_methodology_drc_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_methodology_drc_routed.rpx
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-133] Running Methodology with 8 threads
+INFO: [Vivado_Tcl 2-1520] The results of Report Methodology are in file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper_methodology_drc_routed.rpt.
+report_methodology completed successfully
+report_methodology: Time (s): cpu = 00:00:59 ; elapsed = 00:00:11 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8160 ; free virtual = 26172
+INFO: [Vivado 12-24828] Executing command : report_timing_summary -max_paths 10 -report_unconstrained -file kv260_rm11_unified_ffn_wrapper_timing_summary_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_timing_summary_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_timing_summary_routed.rpx -warn_on_violation 
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -2LV, Temperature grade: C, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+WARNING: [Timing 38-436] There are set_bus_skew constraint(s) in this design. Please run report_bus_skew to ensure that bus skew requirements are met.
+report_timing_summary: Time (s): cpu = 00:00:38 ; elapsed = 00:00:09 . Memory (MB): peak = 5935.570 ; gain = 0.000 ; free physical = 8112 ; free virtual = 26146
+INFO: [Vivado 12-24838] Running report commands "report_bus_skew, report_incremental_reuse, report_route_status" in parallel.
+Running report generation with 3 threads.
+INFO: [Vivado 12-24828] Executing command : report_incremental_reuse -file kv260_rm11_unified_ffn_wrapper_incremental_reuse_routed.rpt
+INFO: [Vivado_Tcl 4-1062] Incremental flow is disabled. No incremental reuse Info to report.
+INFO: [Vivado 12-24828] Executing command : report_bus_skew -warn_on_violation -file kv260_rm11_unified_ffn_wrapper_bus_skew_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_bus_skew_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_bus_skew_routed.rpx
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -2LV, Temperature grade: C, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [Vivado 12-24828] Executing command : report_route_status -file kv260_rm11_unified_ffn_wrapper_route_status.rpt -pb kv260_rm11_unified_ffn_wrapper_route_status.pb
+INFO: [Vivado 12-24828] Executing command : report_power -file kv260_rm11_unified_ffn_wrapper_power_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_power_summary_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_power_routed.rpx
+Command: report_power -file kv260_rm11_unified_ffn_wrapper_power_routed.rpt -pb kv260_rm11_unified_ffn_wrapper_power_summary_routed.pb -rpx kv260_rm11_unified_ffn_wrapper_power_routed.rpx
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+WARNING: [Power 33-332] Found switching activity that implies high-fanout reset nets being asserted for excessive periods of time which may result in inaccurate power analysis.
+Resolution: To review and fix problems, please run Power Constraints Advisor in the GUI from Tools > Power Constraints Advisor or run report_power with the -advisory option to generate a text report.
+138 Infos, 27 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+report_power: Time (s): cpu = 00:00:34 ; elapsed = 00:00:12 . Memory (MB): peak = 5991.598 ; gain = 56.027 ; free physical = 8065 ; free virtual = 26102
+INFO: [Vivado 12-24828] Executing command : report_clock_utilization -file kv260_rm11_unified_ffn_wrapper_clock_utilization_routed.rpt
+report_clock_utilization: Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 8033 ; free virtual = 26095
+generate_parallel_reports: Time (s): cpu = 00:03:33 ; elapsed = 00:00:52 . Memory (MB): peak = 5991.598 ; gain = 56.027 ; free physical = 8033 ; free virtual = 26095
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.25 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 7990 ; free virtual = 26089
+Wrote PlaceDB: Time (s): cpu = 00:00:13 ; elapsed = 00:00:05 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 7912 ; free virtual = 26104
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 7912 ; free virtual = 26104
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 7881 ; free virtual = 26092
+Wrote Netlist Cache: Time (s): cpu = 00:00:00.1 ; elapsed = 00:00:00.11 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 7866 ; free virtual = 26090
+Wrote Device Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 7859 ; free virtual = 26085
+Write Physdb Complete: Time (s): cpu = 00:00:15 ; elapsed = 00:00:06 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 7859 ; free virtual = 26085
+INFO: [Common 17-1381] The checkpoint '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.runs/impl_1/kv260_rm11_unified_ffn_wrapper_routed.dcp' has been generated.
+write_checkpoint: Time (s): cpu = 00:00:18 ; elapsed = 00:00:09 . Memory (MB): peak = 5991.598 ; gain = 0.000 ; free physical = 8029 ; free virtual = 26111
+
+WARNING::74 - Unsupported FPGA device name 'xck26-sfvc784-2LV-c'. Verify that the specified device is a valid customer supported device.
+-p xck26-sfvc784-2LV-c
+   ^
+
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_w_node/inst/inst_mi_handler/gen_normal_area.gen_fifo_req.inst_fifo_req/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_w_node/inst/inst_mi_handler/gen_normal_area.gen_fifo_req.inst_fifo_req/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_aw_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s02_nodes/s02_aw_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s01_nodes/s01_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s01_nodes/s01_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s01_nodes/s01_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s01_nodes/s01_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s01_nodes/s01_ar_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s01_nodes/s01_ar_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s00_nodes/s00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s00_nodes/s00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s00_nodes/s00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s00_nodes/s00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/s00_nodes/s00_ar_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/s00_nodes/s00_ar_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_w_node/inst/inst_si_handler/gen_si_handler.gen_request_fifos.gen_req_fifo[2].inst_req_fifo/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_w_node/inst/inst_si_handler/gen_si_handler.gen_request_fifos.gen_req_fifo[2].inst_req_fifo/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_w_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[1].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_r_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_r_node/inst/inst_mi_handler/gen_normal_area.gen_fifo_req.inst_fifo_req/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_r_node/inst/inst_mi_handler/gen_normal_area.gen_fifo_req.inst_fifo_req/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_b_node/inst/inst_mi_handler/gen_normal_area.gen_fifo_req.inst_fifo_req/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_b_node/inst/inst_mi_handler/gen_normal_area.gen_fifo_req.inst_fifo_req/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_aw_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_aw_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_ar_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_smc_data/inst/m00_nodes/m00_ar_node/inst/inst_mi_handler/gen_normal_area.inst_fifo_node_payld/gen_xpm_memory_fifo.inst_fifo/gen_mem_rep[0].inst_xpm_memory/xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/mon_fifo_ext_event0_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/mon_fifo_ext_event0_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT2.mon_fifo_ext_event2_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst block.
+INFO: [Memdata 28-167] Found XPM memory block kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT1.mon_fifo_ext_event1_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst with a P_MEMORY_PRIMITIVE property set to distributed. A value of block is required. You will not be able to use the updatemem program to update the bitstream with new data for the kv260_rm11_unified_ffn_i/axi_perf_mon_0/inst/GEN_Advanced_Mode.adavnced_mode_inst/GEN_SLOT1.mon_fifo_ext_event1_inst/USE_MON_FIFO.async_fifo_inst/XPM_ASYNC.inst/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst block.
+Command: write_bitstream -force kv260_rm11_unified_ffn_wrapper.bit
+Attempting to get a license for feature 'Implementation' and/or device 'xck26'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xck26'
+Running DRC as a precondition to command write_bitstream
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado 12-3199] DRC finished with 0 Errors
+INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
+INFO: [Designutils 20-2272] Running write_bitstream with 8 threads.
+Loading data files...
+Loading site data...
+Loading route data...
+Processing options...
+Creating bitmap...
+Creating bitstream...
+Bitstream compression saved 13296896 bits.
+Writing bitstream ./kv260_rm11_unified_ffn_wrapper.bit...
+INFO: [Vivado 12-1842] Bitgen Completed Successfully.
+INFO: [Project 1-1876] WebTalk data collection is mandatory when using a ULT device. To see the specific WebTalk data collected for your design, open the usage_statistics_webtalk.html or usage_statistics_webtalk.xml file in the implementation directory.
+INFO: [Common 17-83] Releasing license: Implementation
+172 Infos, 27 Warnings, 0 Critical Warnings and 0 Errors encountered.
+write_bitstream completed successfully
+write_bitstream: Time (s): cpu = 00:00:59 ; elapsed = 00:00:33 . Memory (MB): peak = 6207.594 ; gain = 175.977 ; free physical = 7733 ; free virtual = 25825
+INFO: [Common 17-206] Exiting Vivado at Sat Sep 26 18:03:36 2026...
+[Sat Sep 26 18:03:42 2026] impl_1 finished
+wait_on_runs: Time (s): cpu = 00:00:01 ; elapsed = 00:09:22 . Memory (MB): peak = 1958.797 ; gain = 0.000 ; free physical = 12742 ; free virtual = 30836
+# set impl_status [get_property STATUS [get_runs impl_1]]
+# if {![string match "*Complete*" $impl_status]} { error "impl_1 did not complete through bitgen: $impl_status" }
+# open_run impl_1
+INFO: [Device 21-403] Loading part xck26-sfvc784-2LV-c
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:01 . Memory (MB): peak = 2714.852 ; gain = 0.000 ; free physical = 11886 ; free virtual = 29978
+INFO: [Netlist 29-17] Analyzing 3324 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 1 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2024.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Read ShapeDB Complete: Time (s): cpu = 00:00:00.2 ; elapsed = 00:00:00.21 . Memory (MB): peak = 3007.562 ; gain = 40.781 ; free physical = 11568 ; free virtual = 29663
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Project 1-853] Binary constraint restore complete.
+INFO: [Designutils 20-5722] Start Reading Physical Databases.
+Reading placement.
+Read Netlist Cache: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.09 . Memory (MB): peak = 3769.395 ; gain = 0.000 ; free physical = 10909 ; free virtual = 29005
+Reading placer database...
+Read Device Cache: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.03 . Memory (MB): peak = 3769.395 ; gain = 0.000 ; free physical = 10909 ; free virtual = 29004
+Read PlaceDB: Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 3813.824 ; gain = 44.430 ; free physical = 10871 ; free virtual = 28968
+Read PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3813.824 ; gain = 0.000 ; free physical = 10871 ; free virtual = 28968
+Reading routing.
+Read RouteStorage: Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 4342.738 ; gain = 528.914 ; free physical = 10381 ; free virtual = 28449
+Read Physdb Files: Time (s): cpu = 00:00:10 ; elapsed = 00:00:09 . Memory (MB): peak = 4342.738 ; gain = 573.344 ; free physical = 10380 ; free virtual = 28448
+Restored from archive | CPU: 10.260000 secs | Memory: 548.346657 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:10 ; elapsed = 00:00:09 . Memory (MB): peak = 4342.738 ; gain = 573.344 ; free physical = 10376 ; free virtual = 28445
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 4342.738 ; gain = 0.000 ; free physical = 10373 ; free virtual = 28443
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 547 instances were transformed.
+  DSP48E1 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 320 instances
+  DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 9 instances
+  RAM16X1D => RAM32X1D (RAMD32(x2)): 1 instance 
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 19 instances
+  RAM32M16 => RAM32M16 (RAMD32(x14), RAMS32(x2)): 186 instances
+  RAM32X1D => RAM32X1D (RAMD32(x2)): 12 instances
+
+open_run: Time (s): cpu = 00:00:38 ; elapsed = 00:00:31 . Memory (MB): peak = 4342.738 ; gain = 2383.941 ; free physical = 10373 ; free virtual = 28442
+# report_timing_summary -delay_type max -report_unconstrained -file [file join $out_dir timing_post_route_setup.rpt]
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -2LV, Temperature grade: C, Delay Type: max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+WARNING: [Timing 38-436] There are set_bus_skew constraint(s) in this design. Please run report_bus_skew to ensure that bus skew requirements are met.
+report_timing_summary: Time (s): cpu = 00:00:35 ; elapsed = 00:00:08 . Memory (MB): peak = 4614.934 ; gain = 272.195 ; free physical = 10072 ; free virtual = 28141
+# report_timing_summary -delay_type min -report_unconstrained -file [file join $out_dir timing_post_route_hold.rpt]
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -2LV, Temperature grade: C, Delay Type: min.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+WARNING: [Timing 38-436] There are set_bus_skew constraint(s) in this design. Please run report_bus_skew to ensure that bus skew requirements are met.
+# report_timing -delay_type max -max_paths 20 -nworst 2 -path_type full_clock_expanded -file [file join $out_dir critical_paths_post_route.rpt]
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -2LV, Temperature grade: C, Delay Type: max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [Timing 38-78] ReportTimingParams: -max_paths 20 -nworst 2 -delay_type max -sort_by slack.
+# report_utilization -file [file join $out_dir utilization_post_route.rpt]
+# report_clock_utilization -file [file join $out_dir clock_utilization_post_route.rpt]
+report_clock_utilization: Time (s): cpu = 00:00:17 ; elapsed = 00:00:08 . Memory (MB): peak = 4773.277 ; gain = 150.344 ; free physical = 9936 ; free virtual = 28007
+# report_route_status -file [file join $out_dir route_status.rpt]
+# report_drc -file [file join $out_dir drc_post_route.rpt]
+Command: report_drc -file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/drc_post_route.rpt
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/drc_post_route.rpt.
+report_drc completed successfully
+# report_methodology -file [file join $out_dir methodology_post_route.rpt]
+Command: report_methodology -file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/methodology_post_route.rpt
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-133] Running Methodology with 8 threads
+INFO: [Vivado_Tcl 2-1520] The results of Report Methodology are in file /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/methodology_post_route.rpt.
+report_methodology completed successfully
+report_methodology: Time (s): cpu = 00:00:59 ; elapsed = 00:00:11 . Memory (MB): peak = 4958.895 ; gain = 0.000 ; free physical = 9763 ; free virtual = 27852
+# report_design_analysis -congestion -file [file join $out_dir congestion_post_route.rpt]
+# write_hw_platform -fixed -include_bit -force -file [file join $out_dir kv260_rm11_unified_ffn.xsa]
+INFO: [Project 1-1918] Creating Hardware Platform: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.xsa ...
+INFO: [Project 1-1943] The Hardware Platform can be used for Hardware
+INFO: [Project 1-1941] Successfully created Hardware Platform: /home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.xsa
+INFO: [Hsi 55-2053] elapsed time for repository (/home/zhiro/research/kv260-vlm/tools/Xilinx/Vivado/2024.2/data/embeddedsw) loading 0 seconds
+write_hw_platform: Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 5054.922 ; gain = 40.000 ; free physical = 9700 ; free virtual = 27795
+# validate_hw_platform -verbose [file join $out_dir kv260_rm11_unified_ffn.xsa]
+INFO: [Vivado 12-12082] Found metadata file: xsa.json
+INFO: [Vivado 12-6078] Validating platform properties...
+INFO: [Vivado 12-6076] Validating fixed platform...
+INFO: [Vivado 12-5958] Found a sysdef.xml file in the fixed Hardware Platform.
+INFO: [Vivado 12-6077] Validating platform files...
+INFO: [Vivado 12-6067] Found file 'kv260_rm11_unified_ffn.bit' of type 'FULL_BIT' in the Hardware Platform.
+INFO: [Vivado 12-6066] Finished running validate_hw_platform for file: '/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/build/full_system/kv260_rm11_unified_ffn.xsa'
+# exit
+INFO: [Common 17-206] Exiting Vivado at Sat Sep 26 18:04:56 2026...
