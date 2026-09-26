@@ -1,0 +1,86 @@
+{
+  "gate_id": "rm13-textvqa-quality-v1",
+  "status": "pre_registered_before_final_outputs",
+  "split_manifest": "experiments/rm13/quality_split_manifest.json",
+  "primary_comparison": "paired per-question original versus quantized output on the frozen 200-question final_test split",
+  "configurations": [
+    "original",
+    "W8A8_up_only",
+    "W8A8_down_only",
+    "W8A8_both",
+    "W4A8_up_only",
+    "W4A8_down_only",
+    "W4A8_both"
+  ],
+  "generation": {
+    "model": {
+      "path": "/home/zhiro/research/kv260-vlm/models/gguf/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf",
+      "sha256": "8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773",
+      "rule": "unchanged across configurations; do not modify or re-download"
+    },
+    "vision_projector": {
+      "path": "/home/zhiro/research/kv260-vlm/models/gguf/mmproj-MiniCPM-V-4.6-f16.gguf",
+      "sha256": "ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293",
+      "rule": "F16 vision source weights; unchanged artifact across configurations"
+    },
+    "temperature": 0,
+    "max_generated_tokens": 48,
+    "seed": 42,
+    "sampling": {"top_p": 1, "top_k": 0},
+    "threads": {"compute": 8, "batch": 8},
+    "context_tokens": 4096,
+    "device": "CPU only, no GPU layers, no mmproj offload, no warmup",
+    "prompt_template": "Answer the following question based only on the image. Give a short, direct answer.\nQuestion: {question}\nAnswer:",
+    "quantized_operators": "vision transformer FFN up/down only; other operators and language path unchanged"
+  },
+  "scoring": {
+    "metric": "official TextVQA soft accuracy",
+    "implementation": "MMF TextVQAAccuracyEvaluator and EvalAIAnswerProcessor vendored in experiments/rm13/vendor/m4c_evaluators.py",
+    "vendored_source_path": "experiments/rm13/vendor/m4c_evaluators.py",
+    "vendored_source_sha256": "e10a99e15c4658f8d0d83a05cc536c835922e701171fce0016718bec021b8c0a",
+    "upstream_source": "https://github.com/facebookresearch/mmf/blob/b0ffc7fba39f210f833c127362146aec01a2f259/mmf/utils/m4c_evaluators.py",
+    "upstream_commit": "b0ffc7fba39f210f833c127362146aec01a2f259",
+    "reference_answers": 10,
+    "consensus_rule": "leave-one-out TextVQA consensus, min(1, matching references / 3), after EvalAI normalization",
+    "failed_or_unparsed_answer": "score as empty string and count as a hard failure",
+    "paired_delta": "mean(quantized per-QID score - original per-QID score); percentage-point thresholds use absolute accuracy units"
+  },
+  "bootstrap": {
+    "unit": "question/image pair; resample paired per-QID deltas with replacement",
+    "replicates": 20000,
+    "seed": 20260926,
+    "interval": "two-sided percentile 95% interval, empirical 2.5th and 97.5th percentiles"
+  },
+  "quality_budget": {
+    "primary_W4A8_both": {
+      "max_allowed_mean_accuracy_drop": 0.02,
+      "minimum_bootstrap_95_percent_interval_lower_bound": -0.05,
+      "interpretation": "pass only if both the point-drop and lower-bound criteria pass; otherwise fail or remain inconclusive as reported"
+    },
+    "reference_W8A8_both": {
+      "max_allowed_mean_accuracy_drop": 0.01,
+      "minimum_bootstrap_95_percent_interval_lower_bound": -0.03,
+      "interpretation": "pass only if both the point-drop and lower-bound criteria pass; otherwise fail or remain inconclusive as reported"
+    },
+    "scope_only_variants": "diagnostic; report paired score and CI without independent promotion gates"
+  },
+  "hard_failures": {
+    "criterion": "no additional quantization-caused process failures or prediction-parse failures compared with the paired original outputs",
+    "comparison_unit": "same QID",
+    "local_operator_error_metrics": "diagnostic only; maxabs, RMSE, cosine are not a quality pass/fail gate"
+  },
+  "output_review": {
+    "retain_all_raw_outputs_and_metrics": true,
+    "report_all_final_qids_with_changed_normalized_answer_or_changed_soft_score": true,
+    "representative_failure_review": "inspect every new hard failure and every W4A8-both QID whose score drops by at least 0.3; categorize no-output/parser, repetition/noise, OCR/perception, or semantic error and preserve original/quantized text",
+    "unusual_output_flags": [
+      "empty_or_whitespace-only answer",
+      "answer shorter than 2 visible characters",
+      "parser failure or non-zero process exit",
+      "three repeats of an identical token sequence of at least 3 tokens",
+      "generated token count reaches the 48-token cap"
+    ],
+    "vision_embedding_or_logits": "capture and compare final vision embeddings or logits if the pinned runtime exposes them; otherwise explicitly report unavailable and retain per-operator F32 output diagnostics"
+  },
+  "scope": "This is a held-out TextVQA validation screen on the frozen sample, not evidence of an exact population accuracy loss or official test-set result."
+}
