@@ -1,5 +1,20 @@
 # Research go/no-go
 
+> **RM10 checkpoint (2026-09-26): PAUSED at the user's request; architecture
+> decision pending.** The corrected same-precision ten-bank engine passed
+> C/RTL co-simulation, the frozen numeric gate on three real FFN-down tensors,
+> and full-system route at 100 MHz. On KV260, kernel throughput rose from the
+> RM09 static engine's approximately 3.85 to 4.76–4.78 GMAC/s. In the paired
+> QID37804 runs, the 135-call FFN-down family fell from 99.631 to 82.947 s,
+> while complete request wall was 519.39 s for RM09 static and 524.42 s for
+> RM10. The RM10 run preceded the control and had 21,695 versus 4,068 major
+> faults, so this one cold-to-warm sequence does not establish an end-to-end
+> gain or regression. Both answers were `G`, both had 135 actual PL calls and
+> 10 expected CPU fallbacks, and both restored `k26-starter-kits`. The first
+> five-bank RM10 image was invalidated before loading. See the RM10 checkpoint
+> and raw board evidence in `experiments/rm10_boardprep/evidence/`. No further
+> board work is authorized during the pause.
+
 > **Latest stage decision (RM09, 2026-09-25): `NO_NOVELTY_YET`.** The strong
 > static K16 FFN-down engine now covers observed MiniCPM-V transformer extents
 > on one 100 MHz KV260 bitstream. Three complete requests have real PL calls
