@@ -6,7 +6,13 @@ Run directory on `kria`: `/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-rm09-static-q3
 
 The same RM09 CLI/library, model, mmproj, image, prompt, decode parameters, PL dispatch settings, and 100 MHz FCLK were used as in the RM10 candidate run. Static app `.bit.bin` SHA-256 was `819b088199ac4346c1eb9b7bb65ade42afe8f95eaeec02cca4bc6bdd2bb0d87b`; DTBO SHA-256 was `85fd0a2e2186886d8d52178c0934ba51585c37c28e5dd54a1c5536f2e506521e`.
 
-The request returned `G`, exited 0, and passed the frozen trace checks: 145 total operations, 135 PL calls (35 at N=1120 and 100 at N=280), and 10 expected CPU fallbacks (five ViT merger, five MM down); all 27 numbered layers ran five times on PL. `/usr/bin/time -v` wall was **519.39 s** (`8:39.39`); model performance summary total time was 512.835 s. The corrected static-control runner SHA-256 was `cf79d13ad7f36178a21c494daf1c905922c3d9e0e0b22de694be071fea94f8fe` (commit `7a1d1a32148c00dfccff784c5542e0a3186b9c37`).
+The request returned `G`, exited 0, and passed the frozen trace checks: 145 total operations, 135 PL calls (35 at N=1120 and 100 at N=280), and 10 expected CPU fallbacks (five ViT merger, five MM down); all 27 numbered layers ran five times on PL. `/usr/bin/time -v` wall was **519.39 s** (`8:39.39`); model performance summary total time was 512.835 s.
+
+## Script provenance correction
+
+The committed `run_static_control_if_near.sh` at commit `7a1d1a32148c00dfccff784c5542e0a3186b9c37` has SHA-256 `cf79d13ad7dfc6ee204bac485b3a844f0f306c48ff14e01f2cc788baeb252a74`, verified from the committed blob with `git show <commit>:experiments/rm10_boardprep/boardprep/run_static_control_if_near.sh | sha256sum`. The previously recorded runner SHA (`cf79d13ad7f36178a21c494daf1c905922c3d9e0e0b22de694be071fea94f8fe`) was a transcription error and is corrected here.
+
+This is a **source-manifest correction**, not measured board-run identity: the remote checksum manifest covers the run outputs, and `driver.log` does not record the launcher script SHA. The available evidence therefore identifies the corrected committed source, but does not establish that the bytes staged and invoked on the board were identical to that committed blob.
 
 | Measure | RM10 candidate | RM09 static control | Candidate minus static |
 |---|---:|---:|---:|
