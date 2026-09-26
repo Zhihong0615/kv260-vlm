@@ -30,6 +30,7 @@ logs/raw/
 *.str
 *.log
 !experiments/rm11_unified_ffn/evidence/**/*.log
+!experiments/rm13/hardware/evidence/**/*.log
 experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/SHA256SUMS
 experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/tensors/*.f16
 experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/tensors/*.f32
