@@ -1,25 +1,21 @@
 # KV260 VLM
 
-在 AMD Kria KV260 上建立可复现的多模态问答推理与性能评测基线。项目使用 MiniCPM-V 4.6、固定版本的 `llama.cpp` 和 TextVQA 开发样本，覆盖模型产物校验、主机 CPU 评测、板端运行前检、结果回传及性能分析。当前默认分支保留 RM02 CPU 基线；后续分支已完成实验性 PS+PL 端到端推理。最新研究进展见 [RM13 集成分支](https://github.com/Zhihong0615/kv260-vlm/tree/codex/rm13-integration)，完整请求结果见 [RM11 里程碑汇总](https://github.com/Zhihong0615/kv260-vlm/blob/codex/rm13-integration/experiments/rm11/RM11_MILESTONE_RESULTS.md)。
+本项目研究 MiniCPM-V 4.6 在 AMD Kria KV260 上的推理路径：从 CPU 基线、视觉 FFN-down 的 FPGA 实现，到真实 PS+PL 多模态请求的板端验证。报告保留原始运行记录、输入与构建哈希、对照条件及失败边界；这是一项研究工程，不是已上线的推理服务。
 
-## 系统组成
+> **分支导航：**当前 GitHub 默认分支 [`codex/rm02-a-cpu-baseline`](https://github.com/Zhihong0615/kv260-vlm/tree/codex/rm02-a-cpu-baseline) 是 **RM02 CPU 基线快照**，不是项目最新进展。后续板端 PS+PL 集成与研究记录请从 [`codex/rm13-integration`](https://github.com/Zhihong0615/kv260-vlm/tree/codex/rm13-integration) 阅读。下列报告链接固定到该集成分支当前提交 `5674df3`，避免默认分支上的相对路径指向旧文件。
 
-| 模块 | 内容 |
-| --- | --- |
-| 模型与环境 | [`scripts/build_model_artifacts.sh`](scripts/build_model_artifacts.sh)、[`models/manifests/`](models/manifests/) 和 [`env/`](env/) 固定模型、量化产物、运行时版本及校验信息。 |
-| 推理与评测 | [`scripts/run_board_cpu_p2_textvqa.py`](scripts/run_board_cpu_p2_textvqa.py)、[`scripts/board_cpu_preflight_remote.py`](scripts/board_cpu_preflight_remote.py)、[`scripts/parse_board_textvqa_pilot.py`](scripts/parse_board_textvqa_pilot.py) 负责有界板端请求、资源检查和结果解析。 |
-| 证据与回归 | [`experiments/`](experiments/) 保存实验报告与可追溯记录；[`tests/`](tests/) 包含解析、资源门控和运行编排的契约测试。 |
+## 板端结果与后续阶段
 
-## 已验证结果
+| 阶段 | 已核验的进展 | 报告 |
+| --- | --- | --- |
+| RM02 · CPU 基线 | 三个冻结 TextVQA 请求在 KV260 四核 Cortex-A53 上完成 CPU-only 推理；作为早期板端对照，不代表后续 PL 结果。 | [RM02 CPU 板端基线](https://github.com/Zhihong0615/kv260-vlm/blob/432519e15dd78982d3d9bcc15c0b0b6b62d62a1c/experiments/RM02_A_CPU_BOARD_BASELINE.md) |
+| RM08 · 首次 PS+PL 集成 | QID 37804 完成真实 MiniCPM-V 请求，135 次视觉 Transformer FFN-down 调用在 PL 执行、10 次超出范围的 merger 调用回退 CPU；**522.34 秒**，冻结四线程 CPU-only 对照 **668.35 秒**，请求级 **1.280×**。 | [RM08 板端结果](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm08/RM08_RESULTS.md) |
+| RM09 · 扩展形状覆盖 | 同一运行时的 QID 38299 / 35419 CPU-only 与 PS+PL 配对请求分别为 **368.51→299.14 秒**、**822.35→652.32 秒**；编号 FFN-down 调用在 PL 执行，答案匹配。每个请求只测一次。 | [RM09 里程碑](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm09/RM09_MILESTONE_RESULTS.md) |
+| RM10 · 最佳已测完整请求 | 十 bank 递归解耦 FFN-down 引擎在 QID 37804 完整请求达到 **504.24 秒**，对照 RM09 静态实现 **519.39 秒**（快 **2.92%**）；135 次编号 FFN-down 调用在 PL 执行，答案 `G`。这是已测最佳完整请求，但运行顺序和缓存状态仍影响单次墙钟对照。另两个请求的 RM10 结果为 285.53 / 619.70 秒。 | [RM10 完整请求原始结果](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm10_boardprep/evidence/rm10-a-ra-q37804-20260926T084944Z/RESULTS.md) · [跨请求汇总](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm11_post_rm10_profile/RM11_POST_RM10_PROFILE.md) |
+| RM11 · 共享 FFN 探索 | 共享 FFN-up/down 位流完成路由，并在真实张量的三次独立板端 FFN-up 调用中通过数值检查；完整调用时间慢于先前 A53 CPU 参考，因此**未做 FFN-up 完整 VLM 请求**，保留 RM10 FFN-down 路线。 | [RM11 里程碑](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm11/RM11_MILESTONE_RESULTS.md) |
+| RM12 · 算术密度门控 | F16×F32 专用乘法的独立算术实验通过所列数值比较，但 LUT 代价不满足扩阵门控；**没有**完整阵列布线、新板卡镜像或新 VLM 请求，结论是继续采用 RM10。 | [RM12 结果](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm12/RM12_RESULTS.md) |
+| RM13 · 质量评测准备 | 固定了 W8A8/W4A8 视觉 FFN 量化契约与 TextVQA 验证划分、评分及通过阈值；当前记录是**预注册协议**，没有可据此宣称的量化后质量或板端性能提升。 | [量化契约](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm13/quantization_contract.json) · [质量门控](https://github.com/Zhihong0615/kv260-vlm/blob/5674df3b86adc954b1c503795b8ac5ed6788c0f2/experiments/rm13/quality_gate.json) |
 
-- **主机 CPU 基线：**TextVQA 50 个开发样本均产生可解析输出；MMF soft accuracy 为 **0.644**，单样本新进程总耗时中位数 **8.558 秒**、P95 **12.548 秒**。配置为 x86 主机、8 线程、Q4_K_M 语言模型和 F16 视觉投影。这是小规模开发集结果，不能作为 KV260 性能或泛化精度。详见[主机工作负载报告](experiments/derived/minicpmv_hardware_relevant_workload_profile_b01.md)。
-- **KV260 CPU 推理：**3 个不同的冻结 TextVQA 请求在四核 Cortex-A53 板卡上端到端完成，使用 2 线程、`--device none -ngl 0`。三个请求的板端总耗时分别约为 **670、1233、1486 秒**；其中两条与主机输出完全一致，一条输出不同。结果、失败尝试及边界见[板端 CPU 基线报告](experiments/RM02_A_CPU_BOARD_BASELINE.md)。
-- **线程实验：**对同一请求分别使用 1、2、4 线程，板端 CLI 耗时为 **2290.97、1233.11、659.28 秒**，1→4 线程为 **3.48×**。2 线程结果复用上述基线；每个线程设置只有一次观测，不能推断整体吞吐或稳定加速比。详见[线程实验报告](experiments/RM03_Q37804_THREAD_SWEEP.md)。
+## 如何阅读结果
 
-- **后续 PS+PL 集成：**在 RM10 的两个同运行时配对请求中，纯 CPU→PS+PL 的完整请求耗时分别为 **368.51→285.53 秒**和 **822.35→619.70 秒**（约 1.29× / 1.33×）。实验报告与适用范围见[最新分支的 RM11 汇总](https://github.com/Zhihong0615/kv260-vlm/blob/codex/rm13-integration/experiments/rm11/RM11_MILESTONE_RESULTS.md)。
-
-## 复现与使用边界
-
-从 [`env/model_conversion.md`](env/model_conversion.md) 和 [`env/llama_cpp_build.md`](env/llama_cpp_build.md) 查看固定版本与主机准备记录，再阅读上述实验报告、运行前检脚本和契约测试。模型权重、完整数据集和板卡环境需要自行准备；仓库中的报告可以用于检查参数、输入哈希、测试口径及结果限制。
-
-板端运行需要获得设备使用权限，并通过当次的资源、进程、输入哈希与恢复条件检查。请勿把报告中的单次实验数字解释为生产服务指标。本项目尚未提供公开推理 API 或持续运行服务；PS+PL 的板端结果是实验性请求，不代表产品吞吐或泛化性能。
+优先阅读[最新集成分支](https://github.com/Zhihong0615/kv260-vlm/tree/codex/rm13-integration)及上表的阶段报告。RM08/09/10 是 KV260 上真实完成的 PS+PL 请求；RM11/12/13 是后续不同门控阶段，不能视作连续提升的完整请求版本。板端运行使用冻结输入、模型及运行环境；这些小样本和单次观测不能推出通用吞吐、稳定延迟、正式 TextVQA 测试集精度或论文方法新颖性。仓库没有公开推理 API 或持续运行的产品服务。
