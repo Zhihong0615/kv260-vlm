@@ -13,7 +13,7 @@
   ],
   "image_id": "58d543df7eab2bfc",
   "local_operator_diagnostics": {
-    "method": "Offline one-token replay of the frozen W4A8 group quantization on real RM11 F16 weights/F32 activations; compare F32 output against the original CPU capture. FNV64 weight fingerprint matched the runtime-generated cache. Diagnostic only; not a VQA gate. The diagnostics cover first-token outputs for early/mid/late up layers.",
+    "method": "Offline one-token replay of the frozen W4A8 group quantization on real RM11 F16 weights/F32 activations; compare F32 output against the original CPU capture. FNV64 weight fingerprint matched the runtime-generated cache. Diagnostic only; not a VQA gate. The diagnostics cover first-token outputs for early/mid/late up layers. Down-layer source tensors were copied read-only from the existing RM08 board capture; no board files or state were changed.",
     "operators": [
       {
         "K": 1152,
@@ -69,6 +69,66 @@
           "activation.f32": "b342c3ccdf4b018b4741198a07c4c398606fa5a4c33e26e011a88cc480f72ae6",
           "output.f32": "7af380bc0d0f6cfd99c2085ef40d8c73adc2355213cb9536596e9e251603594f",
           "weight.f16": "c9a34ed10a4e8a4351185ef453bd78dae01c92d0dac5cfe2d48bff4f388f656f"
+        },
+        "source_fingerprint_matches_runtime_weight_cache": true
+      },
+      {
+        "K": 4304,
+        "M": 1152,
+        "capture_source": "read-only copy from kria:/tmp/rm08-deploy/tensors",
+        "captured_N": 1120,
+        "cosine": 0.999001874725436,
+        "layer": 0,
+        "maxabs": 0.157533467,
+        "op": "ffn_down-0",
+        "qid": 37804,
+        "reference": "RM08 original CPU tensor capture, first token",
+        "rmse": 0.0253023283,
+        "sampled_tokens": 1,
+        "source_files_sha256": {
+          "activation.f32": "80dfa4a1d48dfa3519ae173eb551bdd22822f075e25d0a5373ace96b6cb12305",
+          "output.f32": "cabb0c46016184dc66a44177fdc9c209816c864db975fce9b1f064ca5da6c9fe",
+          "weight.f16": "b2e5111fdd29185654baf47e5437e322ec9433ec58f75921b2a82e2bb2117676"
+        },
+        "source_fingerprint_matches_runtime_weight_cache": true
+      },
+      {
+        "K": 4304,
+        "M": 1152,
+        "capture_source": "read-only copy from kria:/tmp/rm08-deploy/tensors",
+        "captured_N": 280,
+        "cosine": 0.993841780881639,
+        "layer": 13,
+        "maxabs": 0.105013214,
+        "op": "ffn_down-13",
+        "qid": 37804,
+        "reference": "RM08 original CPU tensor capture, first token",
+        "rmse": 0.0256675336,
+        "sampled_tokens": 1,
+        "source_files_sha256": {
+          "activation.f32": "0bc7cc1b61f1e7f1267d9b406fdc4d760f76054c0ee0c78f5dd7e537b2d6013b",
+          "output.f32": "39efbf7ee3633615bf173e66df3052f7ca141f634699f4eefe9e7c1447c264b7",
+          "weight.f16": "38311e9e31a292f0dd1f1e955e051ec3d1d97f9543a2decebd47e78ec7b55ce2"
+        },
+        "source_fingerprint_matches_runtime_weight_cache": true
+      },
+      {
+        "K": 4304,
+        "M": 1152,
+        "capture_source": "read-only copy from kria:/tmp/rm08-deploy/tensors",
+        "captured_N": 280,
+        "cosine": 0.996445132137641,
+        "layer": 26,
+        "maxabs": 1.101017,
+        "op": "ffn_down-26",
+        "qid": 37804,
+        "reference": "RM08 original CPU tensor capture, first token",
+        "rmse": 0.241560161,
+        "sampled_tokens": 1,
+        "source_files_sha256": {
+          "activation.f32": "9446e8651a947fe10690632fdf41bb30450417983aac272f89dba0609838a520",
+          "output.f32": "9a1285c2fb62e5e5075b2681275b73291e65d8c6cccd07620b2a8e84de9a6473",
+          "weight.f16": "6bf29d68d60baef712bd9435ecc57476ab2e5f7ef480fbe63b61e7d7e82d04d7"
         },
         "source_fingerprint_matches_runtime_weight_cache": true
       }
