@@ -1,0 +1,64 @@
+2026-09-26T08:14:56+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:14:56+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:14:56+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: rocess_dfx_req():61 Socket 5 closed by client
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 kv260-rm07-bounded-k16 : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/k26-starter-kits already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 k26-starter-kits : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 kv260-rm07-bounded-k16-pl0-187m5 : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> process_dfx_req():61 Socket 5 closed by client
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 kv260-rm07-bounded-k16 : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/k26-starter-kits already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 k26-starter-kits : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 kv260-rm07-bounded-k16-pl0-187m5 : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> process_dfx_req():61 Socket 5 closed by client
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 kv260-rm07-bounded-k16 : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/k26-starter-kits already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 k26-starter-kits : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 kv260-rm07-bounded-k16-pl0-187m5 : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> process_dfx_req():61 Socket 5 closed by client
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 kv260-rm07-bounded-k16 : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/k26-starter-kits already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design k26-starter-kits
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> parse_packages():636 k26-starter-kits : XRT_FLAT
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> acell_dir_add():832 Found dir /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> add_base_design():710 Base design /lib/firmware/xilinx/kv260-rm07-bounded-k16-pl0-187m5 already exists
+2026-09-26T08:14:57+0000 kria dfx-mgrd[922]: DFX-MGRD> findBaseDesign():51 Found base design kv260-rm07-bounded-k16-pl0-187m5
+2026-09-26T08:14:58+0000 kria dfx-mgrd[922]: DFX-MGRD> parsDFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: Invalid argument
+2026-09-26T08:14:59+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:load_accelerator():290 Check the supported type of base/accel: No such file or directory
+2026-09-26T08:16:01+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:remove_accelerator():334 No Accel or invalid slot 0: No such file or directory
+2026-09-26T08:16:02+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:16:02+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:16:02+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
+2026-09-26T08:16:02+0000 kria dfx-mgrd[922]: DFX-MGRD> ERROR:add_to_watch():554 no room to add more watch: No such file or directory
