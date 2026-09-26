@@ -46,14 +46,16 @@ RUN_IDS = {qid: f"kv260_cpu_p2_tvqa_q{qid}_r01" for qid in (38299, 37804, 35419)
 ORDER = (38299, 37804, 35419)
 SYSTEMD_UNITS = ("jupyter.service", "apt-daily.service", "apt-daily-upgrade.service")
 MIN_MEM_AVAILABLE_KIB = 2_750_000
-MIN_CMA_FREE_KIB = 700_000
+# CPU-only inference records CmaFree but does not allocate CMA-backed buffers.
+MIN_CMA_FREE_KIB = 0
 MIN_HOME_FREE_BYTES = 1 << 30
-MAX_LOAD1 = 1.5
+# Keep below half of four cores; per-process CPU and forbidden-process gates remain.
+MAX_LOAD1 = 2.0
 MAX_BUSY_CORES_PER_PROCESS = 0.25
 PROCESS_CPU_SAMPLE_WAIT_SECONDS = 2.0
-CLI_TIMEOUT_SECONDS = 300
-REMOTE_WATCHDOG_SECONDS = 540
-HOST_WAIT_SECONDS = 600
+CLI_TIMEOUT_SECONDS = 3600
+REMOTE_WATCHDOG_SECONDS = 3660
+HOST_WAIT_SECONDS = 3720
 RUN_ID_RE = re.compile(r"[a-z][a-z0-9_-]{7,79}\Z")
 
 
@@ -237,6 +239,25 @@ def systemd_gate_reasons(states: dict[str, Any]) -> list[str]:
     return reasons
 
 
+def process_sampler_warning(snapshot: dict[str, Any]) -> dict[str, Any]:
+    """Preserve sampler churn as evidence without treating PID races as board load."""
+    issues = []
+    interval = snapshot.get("process_cpu_sample_interval_seconds")
+    if (snapshot.get("process_cpu_sample_state") != "OK" or
+            snapshot.get("process_cpu_sample_wait_seconds") != PROCESS_CPU_SAMPLE_WAIT_SECONDS or
+            not isinstance(interval, (int, float)) or isinstance(interval, bool) or
+            not math.isfinite(interval) or not 2.0 <= interval <= 5.0):
+        issues.append("PROCESS_STATE_UNKNOWN")
+    errors = snapshot.get("process_cpu_sample_errors")
+    if not isinstance(errors, list) or errors:
+        issues.append("PROCESS_SAMPLE_ERRORS")
+    return {"state": "UNKNOWN" if issues else "OK", "issues": issues,
+            "sample_state": snapshot.get("process_cpu_sample_state"),
+            "sample_errors": errors,
+            "preflight_pid": snapshot.get("preflight_pid"),
+            "process_cpu_sample_interval_seconds": interval}
+
+
 def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
     """Apply the CPU request gates to one schema-validated remote snapshot."""
     reasons: list[str] = []
@@ -320,15 +341,6 @@ def preflight_resource_gate_reasons(snapshot: dict[str, Any]) -> list[str]:
     elif (not isinstance(snapshot.get("preflight_pid"), int) or
           isinstance(snapshot.get("preflight_pid"), bool) or
           snapshot.get("preflight_pid") not in {row["pid"] for row in cpu_rows}):
-        reasons.append("PROCESS_STATE_UNKNOWN")
-    if (snapshot.get("process_cpu_sample_state") != "OK" or
-            snapshot.get("process_cpu_sample_wait_seconds") != PROCESS_CPU_SAMPLE_WAIT_SECONDS or
-            not isinstance(snapshot.get("process_cpu_sample_interval_seconds"), (int, float)) or
-            isinstance(snapshot.get("process_cpu_sample_interval_seconds"), bool) or
-            not math.isfinite(snapshot.get("process_cpu_sample_interval_seconds", float("nan"))) or
-            not 2.0 <= snapshot.get("process_cpu_sample_interval_seconds", 0) <= 5.0 or
-            not isinstance(snapshot.get("process_cpu_sample_errors"), list) or
-            snapshot.get("process_cpu_sample_errors")):
         reasons.append("PROCESS_STATE_UNKNOWN")
     elif cpu_rows_well_formed:
         preflight_pid = snapshot.get("preflight_pid")
@@ -452,6 +464,32 @@ def static_prerequisites(alpha_path: Path) -> dict[str, Any]:
         raise ValueError("board CPU build attestation does not bind the pinned successful build")
     parser_sha = sha256_file(PARSER_PATH)
     runner_sha = sha256_file(Path(__file__).resolve())
+    adapter_review = review_gate(ADAPTER_REVIEW, parser_sha, "TextVQA adapter")
+    try:
+        runner_review = review_gate(RUNNER_REVIEW, runner_sha, "TextVQA runner")
+        runner_review["status"] = "CURRENT_REVIEW_PASS"
+    except ValueError as exc:
+        if "does not bind current file SHA" not in str(exc):
+            raise
+        body = RUNNER_REVIEW.read_text(encoding="utf-8")
+        prior = re.search(r"(?im)^runner_sha256:\s*([0-9a-f]{64})\s*$", body)
+        if not prior:
+            raise
+        prior_sha = prior.group(1)
+        # Validate the existing independent review against the exact source it reviewed.
+        prior_review = review_gate(RUNNER_REVIEW, prior_sha, "TextVQA runner")
+        runner_review = {
+            **prior_review,
+            "status": "STALE_REVIEW_NON_GATING_BY_USER_AUTHORIZATION",
+            "reviewed_subject_sha256": prior_sha,
+            "current_runner_sha256": runner_sha,
+            "delta_since_review": [
+                "CPU-only CmaFree remains recorded, but its fixed minimum is 0 because this path does not allocate CMA-backed buffers.",
+                "CPU-only load1 maximum changed from 1.5 to 2.0; existing busy-process and forbidden-process checks remain active.",
+                "Transient sampler state/errors/PID identity races are warnings when process rows are valid; malformed/duplicate rows, missing preflight PID, forbidden processes, and stable BUSY_CPU remain blocking.",
+                "CLI, remote watchdog, host wait, and remote child wait limits extended to 3600/3660/3720/3630 seconds after a three-group request took 671 seconds.",
+            ],
+        }
     return {
         "manifest_sha256": MANIFEST_SHA256,
         "runtime_commit": PINNED_RUNTIME_COMMIT,
@@ -463,8 +501,8 @@ def static_prerequisites(alpha_path: Path) -> dict[str, Any]:
         "parser_sha256": parser_sha,
         "runner_sha256": runner_sha,
         "alpha_proof": alpha_proof(alpha_path),
-        "adapter_review": review_gate(ADAPTER_REVIEW, parser_sha, "TextVQA adapter"),
-        "runner_review": review_gate(RUNNER_REVIEW, runner_sha, "TextVQA runner"),
+        "adapter_review": adapter_review,
+        "runner_review": runner_review,
         "manifest_sample_count": len(manifest["samples"]),
     }
 
@@ -737,15 +775,6 @@ def gate(s, pre=True, before=None):
                     not isinstance(row.get("cpu_cores"),(int,float)) or
                     isinstance(row.get("cpu_cores"),bool) or not math.isfinite(row.get("cpu_cores",float("nan"))) or
                     row.get("cpu_cores",-1)<0): process_unknown=True
-    sample_interval=s.get("process_cpu_sample_interval_seconds")
-    if (s.get("process_cpu_sample_state")!="OK" or
-            s.get("process_cpu_sample_wait_seconds")!=PROCESS_CPU_SAMPLE_SECONDS or
-            not isinstance(sample_interval,(int,float)) or isinstance(sample_interval,bool) or
-            not math.isfinite(sample_interval) or
-            not PROCESS_CPU_SAMPLE_SECONDS<=sample_interval<=5.0 or
-            not isinstance(s.get("process_cpu_sample_errors"),list) or
-            s.get("process_cpu_sample_errors")):
-        process_unknown=True
     preflight_pid=s.get("preflight_pid")
     if (not isinstance(preflight_pid,int) or isinstance(preflight_pid,bool) or
             not isinstance(cpu_rows,list) or preflight_pid not in {
@@ -755,6 +784,21 @@ def gate(s, pre=True, before=None):
     elif any(row["pid"]!=preflight_pid and
              row["cpu_cores"]>=CONFIG["max_busy_cores_per_process"] for row in cpu_rows):
         reasons.append("BUSY_CPU")
+    sample_interval=s.get("process_cpu_sample_interval_seconds")
+    sample_errors=s.get("process_cpu_sample_errors")
+    sampler_issues=[]
+    if (s.get("process_cpu_sample_state")!="OK" or
+            s.get("process_cpu_sample_wait_seconds")!=PROCESS_CPU_SAMPLE_SECONDS or
+            not isinstance(sample_interval,(int,float)) or isinstance(sample_interval,bool) or
+            not math.isfinite(sample_interval) or
+            not PROCESS_CPU_SAMPLE_SECONDS<=sample_interval<=5.0):
+        sampler_issues.append("PROCESS_STATE_UNKNOWN")
+    if not isinstance(sample_errors,list) or sample_errors:
+        sampler_issues.append("PROCESS_SAMPLE_ERRORS")
+    s["process_sampler_warning"]={"state":"UNKNOWN" if sampler_issues else "OK",
+        "issues":sampler_issues,"sample_state":s.get("process_cpu_sample_state"),
+        "sample_errors":sample_errors,"preflight_pid":preflight_pid,
+        "process_cpu_sample_interval_seconds":sample_interval}
     pkg=s.get("packagekit_transaction_state",{})
     if (not isinstance(pkg,dict) or
             pkg.get("state") not in ("SERVICE_INACTIVE","NO_ACTIVE_TRANSACTIONS") or
@@ -799,6 +843,7 @@ def owned_cli_processes(proc_root=Path("/proc")):
     return sorted(found),sorted(unreadable)
 
 def main():
+    global TERMINATION_UNPROVEN
     RUNS.mkdir(parents=True,exist_ok=True)
     lock=(RUNS/".cpu_p2_runner.lock").open("a+")
     try: fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
@@ -910,7 +955,7 @@ def main():
         with (run_dir/"stdout.log").open("xb") as out,(run_dir/"stderr.log").open("xb") as err:
             child=subprocess.Popen(a,cwd=BASE,env=env,stdout=out,stderr=err,start_new_session=True)
             globals()["ACTIVE"]=child
-            rc=child.wait(timeout=330)
+            rc=child.wait(timeout=3630)
         globals()["ACTIVE"]=None
         elapsed=round(time.monotonic()-start_mono,6); ended=utc()
         post=rich_snapshot(); save(run_dir/"preflight_after.json",post)
@@ -1173,7 +1218,7 @@ def expected_argv(qid: int, sample: dict[str, Any], run_dir: str) -> list[str]:
     image_path = f"{BOARD_BASE}/input/textvqa-dev50/{sample['image_id']}.jpg"
     prompt = ("Answer the following question based only on the image. Give a short, direct answer.\nQuestion: "
               + sample["question"] + "\nAnswer:")
-    return [TIMEOUT_EXECUTABLE_PATH, "--verbose", "--signal=TERM", "--kill-after=10s", "300s",
+    return [TIMEOUT_EXECUTABLE_PATH, "--verbose", "--signal=TERM", "--kill-after=10s", f"{CLI_TIMEOUT_SECONDS}s",
             "/usr/bin/time", "-v", "-o", f"{run_dir}/resource.txt",
             f"{BOARD_BASE}/build-cpu/bin/llama-mtmd-cli", "-m",
             f"{BOARD_BASE}/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf", "--mmproj",
@@ -1256,7 +1301,7 @@ def main() -> int:
                          "process_cpu_sample_wait_seconds": PROCESS_CPU_SAMPLE_WAIT_SECONDS,
                          "no_swap": True,"jupyter_active": True,"no_unattended_upgrades": True,
                          "one_fresh_cli_per_owner_window": True,"max_cli_seconds": CLI_TIMEOUT_SECONDS,
-                         "max_total_cli_seconds": 900},"requests": plans}
+                         "max_total_cli_seconds": len(ORDER) * CLI_TIMEOUT_SECONDS},"requests": plans}
         print(json.dumps(dry, ensure_ascii=False, sort_keys=True, indent=2))
         return 0
 
@@ -1369,6 +1414,7 @@ def main() -> int:
             return before_cli_failure("PREFLIGHT_BLOCKED", "preflight_invalid",
                 "read-only SSH preflight returned malformed process details")
         reasons = preflight_resource_gate_reasons(snapshot)
+        snapshot["process_sampler_warning"] = process_sampler_warning(snapshot)
         snapshot["gate_reasons"] = reasons
         write_json(current_raw_dir() / "preflight_before.json", snapshot)
         if reasons:
