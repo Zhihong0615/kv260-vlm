@@ -1,0 +1,3 @@
+8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773  /home/ubuntu/kv260-vlm-p2-cpu/input/MiniCPM-V-4.6-Q4_K_M-no-nextn.gguf
+ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293  /home/ubuntu/kv260-vlm-p2-cpu/input/mmproj-MiniCPM-V-4.6-f16.gguf
+3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f  /home/ubuntu/kv260-vlm-p2-cpu/input/textvqa-dev50/58d543df7eab2bfc.jpg

@@ -1,0 +1,42 @@
+{
+  "binary": "/tmp/rm11-ffn-up-capture/llama-mtmd-optrace",
+  "binary_sha256": "aa834d3fad33d0b028b4decea9c9586b8b3bee291936dc9dfaad61b540226f1c",
+  "generated_source_sha256": "b8b72ba3384fa663d54c3b294cc644a51f88ec786354e5a8d0fbf1198b0c223d",
+  "staged_upstream_source_sha256": "92694f41553d76165428deddc11e5100da9bce79f66fd4918b4972bb9e6959bb",
+  "runtime_commit_for_hash_pinned_source": "7ab4ee7baad2d920464cbacfad4f4b07cf111fd2",
+  "capture_names": [
+    "ffn_up-0",
+    "ffn_up-13",
+    "ffn_up-26"
+  ],
+  "linked_libraries": [
+    {
+      "name": "libllama-common.so.0.4.1",
+      "sha256": "f8c0f4f4bd0e639787d06a82ac3c64193b8a0236a3117410eacf8bdaa2516647"
+    },
+    {
+      "name": "libmtmd.so.0.4.1",
+      "sha256": "a5d06aec490c6ebd3ed303397b457aaffa80f0de2c18d445c1fd225aa6cae867"
+    },
+    {
+      "name": "libllama-common-base.a",
+      "sha256": "27973f2e0e2e27a3c49346bbffb6b74a5f45f7211bd3c3c1e49b60343293b6a7"
+    },
+    {
+      "name": "libllama.so.0.4.1",
+      "sha256": "3a576120af7ec43f40588c65f3e27593be214f21e373551c9577a2ba804a4512"
+    },
+    {
+      "name": "libggml.so.0.24.0",
+      "sha256": "1c005a4709d6b2405c8e9544301c56c542aa475f6f1cf874050b43fd6e0b3483"
+    },
+    {
+      "name": "libggml-cpu.so.0.24.0",
+      "sha256": "99c858fde3897fc5ff190c069a72a94019a57652e51b3cebae4ef114d20690e0"
+    },
+    {
+      "name": "libggml-base.so.0.24.0",
+      "sha256": "9ea567e9cafd81403a691c6264a34865b0549c5114b7e29bcc7f99df11057721"
+    }
+  ]
+}
