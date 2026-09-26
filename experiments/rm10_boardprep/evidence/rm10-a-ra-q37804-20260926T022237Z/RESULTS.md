@@ -30,7 +30,7 @@ Five multimodal batch-encoding intervals sum to **429.287 s**; five image-decode
 
 ## Comparison and Amdahl estimate
 
-The frozen QID 37804 PS+PL result carried in RM09 is the earlier RM08 run: 522.34 s, 135 PL calls, and answer `G`. Its CLI/library hashes (`73e4c882…` / `7351973a…`) differ from this run's RM09 CLI/library (`6a45ea36…` / `b44c7714…`), so the request-time comparison is cross-build. RM10 is **2.08 s (0.398%) slower** than that historical PS+PL result. Against the earlier 668.35 s CPU-only request, this is 1.274× / 21.535% lower wall time, also cross-build. The same-runtime static control trigger is met, but this handoff does not claim a paired static result; the control runner is staged separately.
+The frozen QID 37804 PS+PL result carried in RM09 is the earlier RM08 run: 522.34 s, 135 PL calls, and answer `G`. Its CLI/library hashes (`73e4c882…` / `7351973a…`) differ from this run's RM09 CLI/library (`6a45ea36…` / `b44c7714…`), so that historical comparison is cross-build. Against the earlier 668.35 s CPU-only request, this is 1.274× / 21.535% lower wall time, also cross-build. A paired same-runtime RM09 static control later measured 519.39 s; see the sibling [paired-control results](../rm10-rm09-static-q37804-20260926T024229Z/RESULTS.md). Candidate ran cold and the paired control ran warm, so paired end-to-end evidence is `END_TO_END_INCONCLUSIVE`.
 
 The RM10 integrated family wall is 16.719701 s (16.776%) below the historical RM08 family wall of 99.666547 s; kernel time is 16.691078 s (19.286%) below its 86.546193 s. The historical multimodal encoding total was 451.963 s, versus 429.287 s here.
 

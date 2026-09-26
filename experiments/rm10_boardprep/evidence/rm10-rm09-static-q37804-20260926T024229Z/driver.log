@@ -1,0 +1,44 @@
+run_dir=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-rm09-static-q37804-20260926T024229Z candidate_dir=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-a-ra-q37804-20260926T022237Z candidate_wall_s=524.42
+static_baseline=RM09 app_bit_bin_sha256=819b088199ac4346c1eb9b7bb65ade42afe8f95eaeec02cca4bc6bdd2bb0d87b dtbo_sha256=85fd0a2e2186886d8d52178c0934ba51585c37c28e5dd54a1c5536f2e506521e
+runtime=RM09 CLI_sha256=6a45ea3647b1db19d06408441729681d19966af569040e4577b1410b803d7254 CPU_library_sha256=b44c771488d7fa63e73d1ddf0f15427f1943000fc969d4fe4cd42102e1c777b7
+model_sha256=8795741e15ae9ebb1244806da59bcc791453a00c21e9b8075c98fb0827829773 mmproj_sha256=ede8c22756385623c0ddd84512183bc71490f98fa2eda2983a8b7de557e5c293 image_sha256=3b62a66c20953428d08575fd4ab6caf98c80d942aaae0311a73d2b6c4cdf861f
+snapshot=before_load utc=2026-09-26T02:42:29Z
+MemAvailable:    3238360 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          494916 kB
+fpga_manager=operating
+fclk0=99999999
+rollback_timer=rm10-rm09-static-20260926T024229Z-rollback.timer restore_after_seconds=4200
+remove from slot 0 returns: 0 (Ok)
+kv260-rm09-static-extent: loaded to slot 0
+snapshot=static_baseline_loaded utc=2026-09-26T02:42:30Z
+MemAvailable:    3246852 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          499456 kB
+fpga_manager=operating
+fclk0=99999999
+snapshot=after_q37804 utc=2026-09-26T02:51:10Z
+MemAvailable:    3244820 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          604736 kB
+fpga_manager=operating
+fclk0=99999999
+snapshot=before_restore utc=2026-09-26T02:51:10Z
+MemAvailable:    3244808 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          604812 kB
+fpga_manager=operating
+fclk0=99999999
+same_runtime_static_q37804_control=PASS candidate_wall_s=524.42 run_dir=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-rm09-static-q37804-20260926T024229Z trace=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-rm09-static-q37804-20260926T024229Z/q37804-pl-trace.txt time_log=/home/ubuntu/kv260-vlm-p2-cpu/runs/rm10-rm09-static-q37804-20260926T024229Z/q37804-time-v.txt
+snapshot=after_restore utc=2026-09-26T02:51:11Z
+MemAvailable:    3257592 kB
+SwapFree:              0 kB
+CmaTotal:        1024000 kB
+CmaFree:          615660 kB
+fpga_manager=operating
+fclk0=99999999
+run_exit_status=0 starter_kit_restore=PASS
