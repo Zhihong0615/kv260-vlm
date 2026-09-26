@@ -5,7 +5,9 @@
 > three KV260 standalone calls, but FFN-up total-call latency was 1.664 s
 > (N=1120) and about 0.421 s (N=280), slower than the corresponding A53 CPU
 > calls. Its representative-call 135-call projection is 100.324 s versus
-> 86.440 s BOARD_MEASURED CPU; no full VLM up integration was run. RM10's
+> 86.440 s BOARD_MEASURED CPU from an earlier instrumented build; this is a
+> feasibility screen, not a same-binary paired speedup. No full VLM up
+> integration was run. RM10's
 > down-only engine remains the strongest measured implementation: QID 37804
 > 504.24 s and matching answer, with additional QID 38299/35419 results
 > 285.53/619.70 s. Generic recurrence decoupling and shared/dual-dataflow

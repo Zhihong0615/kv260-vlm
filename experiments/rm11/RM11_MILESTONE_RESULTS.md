@@ -3,13 +3,16 @@
 Decision: **`NO_NEW_METHOD`**. Freeze the RM10 recurrence-decoupled FFN-down
 engine as the strongest demonstrated MiniCPM-V/KV260 system. The RM11 shared
 engine is numerically correct and routed, but its measured FFN-up calls are
-slower than A53. No full-request FFN-up integration was run after that negative
+slower than the earlier board A53 timing reference. No full-request FFN-up integration was run after that negative
 standalone gate. This does not invalidate the measured RM10 FFN-down gain.
 
 ## Board evidence
 
 QID 37804 uses four Cortex-A53 threads and five media groups. RM05 measured
-the CPU family times with selected-node callbacks. The RM11 numbers below are
+the CPU family times with selected-node callbacks in an earlier instrumented
+runtime build. They are board measurements, but not same-binary paired calls;
+the CPU/PL comparison is a feasibility screen, not a controlled speedup
+estimate. The RM11 numbers below are
 three **real captured tensor single calls** on KV260 at measured 99.999 MHz,
 not a 135-call replay. The 135-call figure is a representative-call projection
 using the observed 35 early and 100 later FFN-up calls.
@@ -46,6 +49,7 @@ The BOARD_MEASURED CPU FFN-up family took `86.440139 s`. The fixed shared
 mapping is therefore projected to be **16.1% slower** for FFN-up at the call
 boundary (`CPU/PL = 0.8616x`), despite passing the numeric gate. A full RM11
 VLM request would be a speculative test of a losing component; it was not run.
+This screen does not prove that every separately tuned FFN-up mapping loses.
 
 ## Coverage, controls, and complete requests
 
