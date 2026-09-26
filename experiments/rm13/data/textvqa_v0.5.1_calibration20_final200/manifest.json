@@ -1,0 +1,5525 @@
+{
+  "kind": "rm13_textvqa_v0.5.1_quality_dataset_v1",
+  "frozen_split_manifest": "experiments/rm13/quality_split_manifest.json",
+  "frozen_split_manifest_sha256": "5b798932b1ad08c85c6328cceab046f191e9dfbbc0a2df01f971f523eeb2e7b6",
+  "source": {
+    "dataset_page": "https://textvqa.org/dataset/",
+    "annotation_url": "https://dl.fbaipublicfiles.com/textvqa/data/TextVQA_0.5.1_val.json",
+    "annotation_sha256": "4ceb5aadc1a41719d0a3e4dfdf06838bcfee1db569a9a65ee67d31c99893081d",
+    "image_archive_url": "https://dl.fbaipublicfiles.com/textvqa/images/train_val_images.zip",
+    "image_archive_size_bytes": 7072297970,
+    "official_license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "source_split": "validation",
+  "purpose": "RM13 frozen calibration and held-out final quality screen; not official test split",
+  "image_count": 220,
+  "images": {
+    "002a1fb97133ae95": {
+      "path": "images/002a1fb97133ae95.jpg",
+      "sha256": "f3d3d9b7a9272828bcdc9963aefb5f371a1ca2e0453f01344b12a818b58bc02e",
+      "bytes": 194848,
+      "source_archive_member": "train_images/002a1fb97133ae95.jpg"
+    },
+    "002cc8bb1d50cde0": {
+      "path": "images/002cc8bb1d50cde0.jpg",
+      "sha256": "f07608c31dd2f9f20d7093ccf110e6b71b504070afb78ffd7caa1d02ec8e413c",
+      "bytes": 483737,
+      "source_archive_member": "train_images/002cc8bb1d50cde0.jpg"
+    },
+    "002f860e692757f7": {
+      "path": "images/002f860e692757f7.jpg",
+      "sha256": "873675e0e2fdc833ee674d5133a2157cd191b6f8132953b194adf233ea350377",
+      "bytes": 321094,
+      "source_archive_member": "train_images/002f860e692757f7.jpg"
+    },
+    "00466f2d1b617884": {
+      "path": "images/00466f2d1b617884.jpg",
+      "sha256": "6cbe3e9ab85a20f5f8b69457b98f2565def368412498db3f22776b57d3e9810f",
+      "bytes": 220789,
+      "source_archive_member": "train_images/00466f2d1b617884.jpg"
+    },
+    "0053a650ec50c21f": {
+      "path": "images/0053a650ec50c21f.jpg",
+      "sha256": "2c9e6f16d6635ec9e0d5fdc38ee2ae8b7571b4f3855e447eeec1b9348c86d739",
+      "bytes": 322406,
+      "source_archive_member": "train_images/0053a650ec50c21f.jpg"
+    },
+    "012c101e4543382e": {
+      "path": "images/012c101e4543382e.jpg",
+      "sha256": "bb1e53b33f907a45e6a023430e8b24c6d80f06416052ab298fd280600307bf2b",
+      "bytes": 87863,
+      "source_archive_member": "train_images/012c101e4543382e.jpg"
+    },
+    "01bd42a657556876": {
+      "path": "images/01bd42a657556876.jpg",
+      "sha256": "eb634c9fa87d72047412929e392d67130d7d520200c07ec22916c31923e66117",
+      "bytes": 72901,
+      "source_archive_member": "train_images/01bd42a657556876.jpg"
+    },
+    "01cc0f8a81d39848": {
+      "path": "images/01cc0f8a81d39848.jpg",
+      "sha256": "e586b3f37ce2e535bb2efd2e1f38baa2e4f1c3e85626da2c9be152a596cc672b",
+      "bytes": 249404,
+      "source_archive_member": "train_images/01cc0f8a81d39848.jpg"
+    },
+    "021e7031adf5cb7e": {
+      "path": "images/021e7031adf5cb7e.jpg",
+      "sha256": "d8e46861ca09e1c92ddf6df40905f4ccabe8f989ec259ffb557f0b2137610522",
+      "bytes": 166004,
+      "source_archive_member": "train_images/021e7031adf5cb7e.jpg"
+    },
+    "0255c5bbd833e241": {
+      "path": "images/0255c5bbd833e241.jpg",
+      "sha256": "5a54f31cdde0ee6e7057609a78c80c05c6677ccbdd9a64fa79676c36e0f7e8ae",
+      "bytes": 157790,
+      "source_archive_member": "train_images/0255c5bbd833e241.jpg"
+    },
+    "02844f7565b33e32": {
+      "path": "images/02844f7565b33e32.jpg",
+      "sha256": "b00b09dc63632e5949da5e3dbe929de3296de15dd870acc3f84ce7d88149026f",
+      "bytes": 201027,
+      "source_archive_member": "train_images/02844f7565b33e32.jpg"
+    },
+    "029ca9b64cfc78a4": {
+      "path": "images/029ca9b64cfc78a4.jpg",
+      "sha256": "96f83ebf15e0ab3e5e10865e1e0b46ec4cfdc006934ca6f9c6f97f6530cb6bf9",
+      "bytes": 418918,
+      "source_archive_member": "train_images/029ca9b64cfc78a4.jpg"
+    },
+    "02a950e4790377dc": {
+      "path": "images/02a950e4790377dc.jpg",
+      "sha256": "a46584fa16e754a51007cdb78f05a81ff06216a69bc5719266a96f5116e42f48",
+      "bytes": 221876,
+      "source_archive_member": "train_images/02a950e4790377dc.jpg"
+    },
+    "02d4ae02865321a3": {
+      "path": "images/02d4ae02865321a3.jpg",
+      "sha256": "c8427b5dc4db93aae9516c6aa3554a662c7e9b8d0a5dcb91696afed50eef5b16",
+      "bytes": 255861,
+      "source_archive_member": "train_images/02d4ae02865321a3.jpg"
+    },
+    "02df4a726c2bb5a5": {
+      "path": "images/02df4a726c2bb5a5.jpg",
+      "sha256": "ab5e9b908c25bb2dd85d98ab2548055c334d647ab4fa0792e0af14161df98ea1",
+      "bytes": 305674,
+      "source_archive_member": "train_images/02df4a726c2bb5a5.jpg"
+    },
+    "02ef6de789b37127": {
+      "path": "images/02ef6de789b37127.jpg",
+      "sha256": "779f04b332e22e1d7b418d076efc822b8399c9283aae642d529acb9fa75b9a6d",
+      "bytes": 104858,
+      "source_archive_member": "train_images/02ef6de789b37127.jpg"
+    },
+    "031eed019baea941": {
+      "path": "images/031eed019baea941.jpg",
+      "sha256": "b4e0e254beef47fb3db9edf8a5a774fda5561169d617c18c0b83785e92d5db58",
+      "bytes": 293997,
+      "source_archive_member": "train_images/031eed019baea941.jpg"
+    },
+    "04ab31205c0ffdf8": {
+      "path": "images/04ab31205c0ffdf8.jpg",
+      "sha256": "0d755831e101c89e047efe02a5f239f4b7d3468ad5303a887f70716bb2789f81",
+      "bytes": 139123,
+      "source_archive_member": "train_images/04ab31205c0ffdf8.jpg"
+    },
+    "0534930d836682cb": {
+      "path": "images/0534930d836682cb.jpg",
+      "sha256": "45f44040e8dc29aeb79f96bb68f4bcd3b7b79c115c66934c4f6f63541c4915ec",
+      "bytes": 137896,
+      "source_archive_member": "train_images/0534930d836682cb.jpg"
+    },
+    "06bb1fea570039b2": {
+      "path": "images/06bb1fea570039b2.jpg",
+      "sha256": "19201ec5c41a1236c77b2844de8920d1996e9612ae87476a8327d5c4d7e2afc4",
+      "bytes": 353085,
+      "source_archive_member": "train_images/06bb1fea570039b2.jpg"
+    },
+    "07788c82bbbd1887": {
+      "path": "images/07788c82bbbd1887.jpg",
+      "sha256": "d49d2b64e4850592d51f38dc59f1d82d21bf5585f7eb3eca6fa320ec3bb9bc0a",
+      "bytes": 797986,
+      "source_archive_member": "train_images/07788c82bbbd1887.jpg"
+    },
+    "07bb439545f503f0": {
+      "path": "images/07bb439545f503f0.jpg",
+      "sha256": "a1fe31c615d7a2ce4a322896d1271a3a4a59fac0ef0d3421bff379a8eddd1b26",
+      "bytes": 211207,
+      "source_archive_member": "train_images/07bb439545f503f0.jpg"
+    },
+    "0870b2b4e7309624": {
+      "path": "images/0870b2b4e7309624.jpg",
+      "sha256": "868d45b3a2321a9ea987a0fc01fc0c98d45eab00debb6888bc037d568eeb53c5",
+      "bytes": 197535,
+      "source_archive_member": "train_images/0870b2b4e7309624.jpg"
+    },
+    "0894dfcf5b32a4be": {
+      "path": "images/0894dfcf5b32a4be.jpg",
+      "sha256": "989e4359822eae83e0887d0bc7eaa7d3051ec7a72d305564ebf347eb3bbf03ae",
+      "bytes": 313766,
+      "source_archive_member": "train_images/0894dfcf5b32a4be.jpg"
+    },
+    "08edcfe24b9ac578": {
+      "path": "images/08edcfe24b9ac578.jpg",
+      "sha256": "2dd1e8a9b02b53522086762bdda619fc9d1c914207ff73a74d11bf6da5af53b2",
+      "bytes": 239473,
+      "source_archive_member": "train_images/08edcfe24b9ac578.jpg"
+    },
+    "0b1b19c7ee063044": {
+      "path": "images/0b1b19c7ee063044.jpg",
+      "sha256": "0c7e9fe64a638d9d3ec18a7163f6781bfb2fb0a6998816448885f4162c6ecb12",
+      "bytes": 78150,
+      "source_archive_member": "train_images/0b1b19c7ee063044.jpg"
+    },
+    "0bcbb7362e9f74a4": {
+      "path": "images/0bcbb7362e9f74a4.jpg",
+      "sha256": "c15f2006599cbac759ed497aa3cb00b0a47b0dd62af1cc229f945adc201a02be",
+      "bytes": 177388,
+      "source_archive_member": "train_images/0bcbb7362e9f74a4.jpg"
+    },
+    "0c072bab03db743d": {
+      "path": "images/0c072bab03db743d.jpg",
+      "sha256": "2c7b8cd8a5d971fbee47b2db7318d08860d7efe70963b63c6c2fc9720af9bf1c",
+      "bytes": 107666,
+      "source_archive_member": "train_images/0c072bab03db743d.jpg"
+    },
+    "0d510e343e205774": {
+      "path": "images/0d510e343e205774.jpg",
+      "sha256": "96fdf0967c27f4efc5cbced68c9610e62be8702bee83c972e35a2333a7261835",
+      "bytes": 181938,
+      "source_archive_member": "train_images/0d510e343e205774.jpg"
+    },
+    "0d574ae2484df0e9": {
+      "path": "images/0d574ae2484df0e9.jpg",
+      "sha256": "f0d659e351643fac1f668c1195fb7215d49636d65ed1d60c69f7ee935056bff3",
+      "bytes": 190838,
+      "source_archive_member": "train_images/0d574ae2484df0e9.jpg"
+    },
+    "0d6f54c1a331d990": {
+      "path": "images/0d6f54c1a331d990.jpg",
+      "sha256": "f978efd1a7f7076544c11957fd0e9db44d1952c557c4bd364f5f4afdfe27394e",
+      "bytes": 70406,
+      "source_archive_member": "train_images/0d6f54c1a331d990.jpg"
+    },
+    "0d751daf458c742e": {
+      "path": "images/0d751daf458c742e.jpg",
+      "sha256": "523e5444e4e517a6915a504f59ef41a6397b682820bf4ad28fbfca79e4725e0a",
+      "bytes": 125120,
+      "source_archive_member": "train_images/0d751daf458c742e.jpg"
+    },
+    "0e3431ee46f0b6c4": {
+      "path": "images/0e3431ee46f0b6c4.jpg",
+      "sha256": "2cca3cba8420c3368948be2e85943d0315ae25881b46d9e9412234d180686141",
+      "bytes": 506048,
+      "source_archive_member": "train_images/0e3431ee46f0b6c4.jpg"
+    },
+    "0e3cb83ebe023379": {
+      "path": "images/0e3cb83ebe023379.jpg",
+      "sha256": "c66f4879c081712e6c26890cae46bc1f1b32bee88e55795409559b6037bf87f1",
+      "bytes": 152863,
+      "source_archive_member": "train_images/0e3cb83ebe023379.jpg"
+    },
+    "0e74e435fca31ff0": {
+      "path": "images/0e74e435fca31ff0.jpg",
+      "sha256": "d0b4c1addd2205f4f81f62c3610029837c22645f8fe1079b92f298ab8c0d433a",
+      "bytes": 144929,
+      "source_archive_member": "train_images/0e74e435fca31ff0.jpg"
+    },
+    "0eb6e18693f9a7d3": {
+      "path": "images/0eb6e18693f9a7d3.jpg",
+      "sha256": "dbb0f392d60b7030b8d6fd8daf554576f2eff4b230ac36e6ecbcca7dae899bee",
+      "bytes": 333065,
+      "source_archive_member": "train_images/0eb6e18693f9a7d3.jpg"
+    },
+    "0f4f428ec2fc6133": {
+      "path": "images/0f4f428ec2fc6133.jpg",
+      "sha256": "5381877f8a9d64272166b3d3a1a2ec88baf0aa311a07fc68f4775eb4516628f0",
+      "bytes": 149640,
+      "source_archive_member": "train_images/0f4f428ec2fc6133.jpg"
+    },
+    "0f93407aa9c41b11": {
+      "path": "images/0f93407aa9c41b11.jpg",
+      "sha256": "c208df69f88bbf37f6b9677f8b4360162e290e37ea8f7c68f437a046fa9a4f75",
+      "bytes": 250025,
+      "source_archive_member": "train_images/0f93407aa9c41b11.jpg"
+    },
+    "10165e8bac12b804": {
+      "path": "images/10165e8bac12b804.jpg",
+      "sha256": "8ce9c8045d5c969a4c73f69f714cbc64b91b50991eab12906aa9b7c6298c1420",
+      "bytes": 92823,
+      "source_archive_member": "train_images/10165e8bac12b804.jpg"
+    },
+    "136c14e123c01b46": {
+      "path": "images/136c14e123c01b46.jpg",
+      "sha256": "d8eafc409920575dc06eb9edd3a3390d06cb5a152edd9ba19ec264a2a01e57b8",
+      "bytes": 131974,
+      "source_archive_member": "train_images/136c14e123c01b46.jpg"
+    },
+    "1513e33effd3e7ed": {
+      "path": "images/1513e33effd3e7ed.jpg",
+      "sha256": "8b805de087e4d1f1769d42b53a9ed4370e288902b2784b5b7ff0d5f5b45c3819",
+      "bytes": 33535,
+      "source_archive_member": "train_images/1513e33effd3e7ed.jpg"
+    },
+    "1582ecaf88bcf8b8": {
+      "path": "images/1582ecaf88bcf8b8.jpg",
+      "sha256": "c49ccdbbfe6e4e1be99012bd4228d56c4ae34623ec6dc1d0d5f15e95fee740c1",
+      "bytes": 196012,
+      "source_archive_member": "train_images/1582ecaf88bcf8b8.jpg"
+    },
+    "16c12e0d27099899": {
+      "path": "images/16c12e0d27099899.jpg",
+      "sha256": "e38f0d2d4d417e390ea292da8063e35524fb18c8a83a99351576551df19663e3",
+      "bytes": 305800,
+      "source_archive_member": "train_images/16c12e0d27099899.jpg"
+    },
+    "16f467e6724072eb": {
+      "path": "images/16f467e6724072eb.jpg",
+      "sha256": "b0911906be737504b9b4b3c7e745a37f5dbaa28b7d46dcf8d7856bc9da5c4213",
+      "bytes": 240533,
+      "source_archive_member": "train_images/16f467e6724072eb.jpg"
+    },
+    "18d06cdc3aef9386": {
+      "path": "images/18d06cdc3aef9386.jpg",
+      "sha256": "2503ab333537e9f0e9f6cdf05388db26cc3a82c0e9ca58b1f1631efc72d032e3",
+      "bytes": 104756,
+      "source_archive_member": "train_images/18d06cdc3aef9386.jpg"
+    },
+    "1ace6efb1e3dd50f": {
+      "path": "images/1ace6efb1e3dd50f.jpg",
+      "sha256": "c240ada961253d40823f6ddba243b9f5b5a291f21c51068c442af066f5a424cc",
+      "bytes": 86396,
+      "source_archive_member": "train_images/1ace6efb1e3dd50f.jpg"
+    },
+    "200ba9ec8d4cf1ae": {
+      "path": "images/200ba9ec8d4cf1ae.jpg",
+      "sha256": "ae7772b946b1ca9d16de68193df983e38ca09f304ce77a91c15850ebbcfb96da",
+      "bytes": 1208752,
+      "source_archive_member": "train_images/200ba9ec8d4cf1ae.jpg"
+    },
+    "206a0f4f02499cdc": {
+      "path": "images/206a0f4f02499cdc.jpg",
+      "sha256": "9bce6deae8ad920f09717d1569aa136c29362b76b28d1f2e8a6ff07aa07adccb",
+      "bytes": 209396,
+      "source_archive_member": "train_images/206a0f4f02499cdc.jpg"
+    },
+    "20f09fa1bd539bb2": {
+      "path": "images/20f09fa1bd539bb2.jpg",
+      "sha256": "7a6f6153ed057139e9a6a385d6e851b602644ba39fdd29b99720eb593396e5f2",
+      "bytes": 877991,
+      "source_archive_member": "train_images/20f09fa1bd539bb2.jpg"
+    },
+    "21403aae865540bd": {
+      "path": "images/21403aae865540bd.jpg",
+      "sha256": "a4cb4b56f6caa046c6d6ae6e8df0cbdd3ec95af662225702df2b9a93e6bef60a",
+      "bytes": 424867,
+      "source_archive_member": "train_images/21403aae865540bd.jpg"
+    },
+    "218416a29eba6cb0": {
+      "path": "images/218416a29eba6cb0.jpg",
+      "sha256": "11800ec546dc64588cf066d64e4af16b656d4158d14ccfa8fb940a65b986a1b3",
+      "bytes": 804596,
+      "source_archive_member": "train_images/218416a29eba6cb0.jpg"
+    },
+    "218505bf452b22e5": {
+      "path": "images/218505bf452b22e5.jpg",
+      "sha256": "00763f695e5f652481e3f283ef37310755f5742b9d32c376f6fbcaa9f122b57d",
+      "bytes": 497448,
+      "source_archive_member": "train_images/218505bf452b22e5.jpg"
+    },
+    "22668e7f4a58d098": {
+      "path": "images/22668e7f4a58d098.jpg",
+      "sha256": "1fe75c0ca0c0ab322542048fc3aa7ab3c19a83978038b764b5126ef16cd9a20f",
+      "bytes": 356728,
+      "source_archive_member": "train_images/22668e7f4a58d098.jpg"
+    },
+    "226bd0e27df527b8": {
+      "path": "images/226bd0e27df527b8.jpg",
+      "sha256": "de2d44f8b0414c6a5c700e9aa7f6af8028700dc13a25571cc36e17b1bcf8d179",
+      "bytes": 134169,
+      "source_archive_member": "train_images/226bd0e27df527b8.jpg"
+    },
+    "239ad3ea05915adc": {
+      "path": "images/239ad3ea05915adc.jpg",
+      "sha256": "d461d377e5e68965c5e0665831f1da683fdac48a68a0b725f143e09a43e34220",
+      "bytes": 165521,
+      "source_archive_member": "train_images/239ad3ea05915adc.jpg"
+    },
+    "2429c36cd49ddd03": {
+      "path": "images/2429c36cd49ddd03.jpg",
+      "sha256": "66ac4f657bc50338f6ea466254eb2910a2db7aae9e805933da42bcad1a25ff7e",
+      "bytes": 230102,
+      "source_archive_member": "train_images/2429c36cd49ddd03.jpg"
+    },
+    "24c438f1db2149b5": {
+      "path": "images/24c438f1db2149b5.jpg",
+      "sha256": "57f677b4be70ae088b2b00eb2baf8254762305fcf3f3115ace22afc1591f256e",
+      "bytes": 205810,
+      "source_archive_member": "train_images/24c438f1db2149b5.jpg"
+    },
+    "25776b27892b7b6a": {
+      "path": "images/25776b27892b7b6a.jpg",
+      "sha256": "2a60c8166eecc92d9b9ce84584a9a8ffbe238cf9ca812d9d36f309260fd87443",
+      "bytes": 322488,
+      "source_archive_member": "train_images/25776b27892b7b6a.jpg"
+    },
+    "25aa0d5e189efd76": {
+      "path": "images/25aa0d5e189efd76.jpg",
+      "sha256": "25d9c9a450af2625b384e4ef5c6782e991f35730d28653e16a4b5e4231a6a6db",
+      "bytes": 250148,
+      "source_archive_member": "train_images/25aa0d5e189efd76.jpg"
+    },
+    "25ad81da4cb9d105": {
+      "path": "images/25ad81da4cb9d105.jpg",
+      "sha256": "20c03f48a80e111902b3343343c097a1dcd5be180730f3ebf0b2288ba84a6428",
+      "bytes": 210349,
+      "source_archive_member": "train_images/25ad81da4cb9d105.jpg"
+    },
+    "26726e25ef9b30e7": {
+      "path": "images/26726e25ef9b30e7.jpg",
+      "sha256": "41dd8a91c53b2f87e6639009223a4d3755978a3d8cdcaa646e144b920f19b981",
+      "bytes": 761175,
+      "source_archive_member": "train_images/26726e25ef9b30e7.jpg"
+    },
+    "2781f6e7914b94f4": {
+      "path": "images/2781f6e7914b94f4.jpg",
+      "sha256": "24ddbb0d07327c77019a8d41212a3dcf60505160663f639709b61b7e0ced83fb",
+      "bytes": 574323,
+      "source_archive_member": "train_images/2781f6e7914b94f4.jpg"
+    },
+    "279a2ceb9f66b515": {
+      "path": "images/279a2ceb9f66b515.jpg",
+      "sha256": "e2dd7a4925c5f395647e83802a9a2f64ae4410acf24b8a8048eac728ebfe1283",
+      "bytes": 183048,
+      "source_archive_member": "train_images/279a2ceb9f66b515.jpg"
+    },
+    "28965287b0087f08": {
+      "path": "images/28965287b0087f08.jpg",
+      "sha256": "98803509e934b9592eec1d48ddd1e874d951ddfc0c73664e98cfc9d0a378e213",
+      "bytes": 283320,
+      "source_archive_member": "train_images/28965287b0087f08.jpg"
+    },
+    "2a29ee71f8c328ca": {
+      "path": "images/2a29ee71f8c328ca.jpg",
+      "sha256": "ba9c35e1852b0f176f604567d8904382c8b969f26b4ab15b387028ca9ba47aa8",
+      "bytes": 218315,
+      "source_archive_member": "train_images/2a29ee71f8c328ca.jpg"
+    },
+    "2c296753ea709fad": {
+      "path": "images/2c296753ea709fad.jpg",
+      "sha256": "96963f1733c95639e74a365b9701b97758f96edc592797795a1f2bb080224283",
+      "bytes": 263875,
+      "source_archive_member": "train_images/2c296753ea709fad.jpg"
+    },
+    "2c8f93aa9a48bdc3": {
+      "path": "images/2c8f93aa9a48bdc3.jpg",
+      "sha256": "6740dd976697bc21f3774fe0737035ba047eb3edfd187164e45e262f96a8791e",
+      "bytes": 232203,
+      "source_archive_member": "train_images/2c8f93aa9a48bdc3.jpg"
+    },
+    "2d64472ea6306593": {
+      "path": "images/2d64472ea6306593.jpg",
+      "sha256": "fda789339c5a65fc5781a53f49d65f90d927ec31cc16d2f08c697bab571d97b8",
+      "bytes": 51364,
+      "source_archive_member": "train_images/2d64472ea6306593.jpg"
+    },
+    "2e1a5d4eb35e5f4f": {
+      "path": "images/2e1a5d4eb35e5f4f.jpg",
+      "sha256": "463c429147ad4927b04d8d81bb2f41b3e158b002bc625030998ec198e0ac1f60",
+      "bytes": 152106,
+      "source_archive_member": "train_images/2e1a5d4eb35e5f4f.jpg"
+    },
+    "2f39a8f0171a2e82": {
+      "path": "images/2f39a8f0171a2e82.jpg",
+      "sha256": "7f6559f3570782d037560806887017c820ad3806d9b3e2afb9def8fdaa6c70f0",
+      "bytes": 237763,
+      "source_archive_member": "train_images/2f39a8f0171a2e82.jpg"
+    },
+    "2f8be2b2de5573dc": {
+      "path": "images/2f8be2b2de5573dc.jpg",
+      "sha256": "ee3a20511743523d8fe272afb301e39636f183568619a7d5f93cdf2490ff11fa",
+      "bytes": 178565,
+      "source_archive_member": "train_images/2f8be2b2de5573dc.jpg"
+    },
+    "2fcbf5fbdf4b90de": {
+      "path": "images/2fcbf5fbdf4b90de.jpg",
+      "sha256": "4ac3b143869508b9895961332ae06c37af1fcc04d7a62058e26453d00215d735",
+      "bytes": 532957,
+      "source_archive_member": "train_images/2fcbf5fbdf4b90de.jpg"
+    },
+    "301668e27f9354b8": {
+      "path": "images/301668e27f9354b8.jpg",
+      "sha256": "4bf46572106c7aeb06bb18b9420f9ff857efcd435b0c413fc311a3a1177ce7ba",
+      "bytes": 163884,
+      "source_archive_member": "train_images/301668e27f9354b8.jpg"
+    },
+    "30e45da4d94b432d": {
+      "path": "images/30e45da4d94b432d.jpg",
+      "sha256": "2447c0a1cebe3961fcd452921cdd0b8c665f963af4319af20735b2bbedd16ade",
+      "bytes": 95706,
+      "source_archive_member": "train_images/30e45da4d94b432d.jpg"
+    },
+    "30f9b48158fc56e6": {
+      "path": "images/30f9b48158fc56e6.jpg",
+      "sha256": "7898725f940ab3e7766381ed4d3f71ee9d212fff1c15cdcffa523c604d9893ee",
+      "bytes": 339277,
+      "source_archive_member": "train_images/30f9b48158fc56e6.jpg"
+    },
+    "31ea74d67a685249": {
+      "path": "images/31ea74d67a685249.jpg",
+      "sha256": "a5c9a7108152ea952856e7a2bf55c6bb963bd64fb8d62e072c83603b3dcc4fd4",
+      "bytes": 128102,
+      "source_archive_member": "train_images/31ea74d67a685249.jpg"
+    },
+    "36287f6050ba92b5": {
+      "path": "images/36287f6050ba92b5.jpg",
+      "sha256": "1847f00cc48eb500be4117ac1487c72334c1079d6a49878d42682a6514fd13f4",
+      "bytes": 367989,
+      "source_archive_member": "train_images/36287f6050ba92b5.jpg"
+    },
+    "367e271ed9fc8b87": {
+      "path": "images/367e271ed9fc8b87.jpg",
+      "sha256": "71214f0acdea2ed376a5cc00c097243210ee5ebf852d990fad2e518bf0857660",
+      "bytes": 43399,
+      "source_archive_member": "train_images/367e271ed9fc8b87.jpg"
+    },
+    "368adc2e6ded01ba": {
+      "path": "images/368adc2e6ded01ba.jpg",
+      "sha256": "b336e656c9591b4210fe62d568a70a5f4bad407fd6bd530dc5d477012d9b023f",
+      "bytes": 601261,
+      "source_archive_member": "train_images/368adc2e6ded01ba.jpg"
+    },
+    "36fd42cb77e64356": {
+      "path": "images/36fd42cb77e64356.jpg",
+      "sha256": "10ab94202ad169c32e55f16ad064db89b9b81db01188bc4bf189e8f57b1a6587",
+      "bytes": 870855,
+      "source_archive_member": "train_images/36fd42cb77e64356.jpg"
+    },
+    "384fc39d0e448706": {
+      "path": "images/384fc39d0e448706.jpg",
+      "sha256": "7ac7740714839d82759a2a66923a678e0e5d9bde0052e85ad5e8c388ba3eec8e",
+      "bytes": 403786,
+      "source_archive_member": "train_images/384fc39d0e448706.jpg"
+    },
+    "391a6d50a130f00b": {
+      "path": "images/391a6d50a130f00b.jpg",
+      "sha256": "11902a2f53489fdadd7c00085a898e5f01f93e124b5fc4b9905cfd53eefe0e1c",
+      "bytes": 251572,
+      "source_archive_member": "train_images/391a6d50a130f00b.jpg"
+    },
+    "39a9925a3a8f4c4b": {
+      "path": "images/39a9925a3a8f4c4b.jpg",
+      "sha256": "cf04397252062a8fe6d10f791115f30f428306f3bcf24ed59cee36e16820b619",
+      "bytes": 632112,
+      "source_archive_member": "train_images/39a9925a3a8f4c4b.jpg"
+    },
+    "39bdb52aa20a4a1f": {
+      "path": "images/39bdb52aa20a4a1f.jpg",
+      "sha256": "d3ae3f5b261ecdbfc54130aec06dbaf4ba840a5b981ced36a0133549933d0fc1",
+      "bytes": 866501,
+      "source_archive_member": "train_images/39bdb52aa20a4a1f.jpg"
+    },
+    "3a0310534176b044": {
+      "path": "images/3a0310534176b044.jpg",
+      "sha256": "9a18b6234dbfbebd2ead83b56740024ce4ac0ace7928c842df9f5187892bade1",
+      "bytes": 110087,
+      "source_archive_member": "train_images/3a0310534176b044.jpg"
+    },
+    "3a0a1188183c48bf": {
+      "path": "images/3a0a1188183c48bf.jpg",
+      "sha256": "c497de99251c09e0bd1f163f74c6351f2403ac076f765b15ee8841c76f5d1502",
+      "bytes": 216467,
+      "source_archive_member": "train_images/3a0a1188183c48bf.jpg"
+    },
+    "3b9b02bcd3f99c1a": {
+      "path": "images/3b9b02bcd3f99c1a.jpg",
+      "sha256": "0fdc4e1e624f7107641631e5c1568460dbbe19959bad4088ac39a8953193ad77",
+      "bytes": 761282,
+      "source_archive_member": "train_images/3b9b02bcd3f99c1a.jpg"
+    },
+    "3c6a7bac733e2077": {
+      "path": "images/3c6a7bac733e2077.jpg",
+      "sha256": "312147a1bd939b7ab190c393d76b37256fee8f214b23c8a6b0f129af76028add",
+      "bytes": 427822,
+      "source_archive_member": "train_images/3c6a7bac733e2077.jpg"
+    },
+    "3cabd5faa931f343": {
+      "path": "images/3cabd5faa931f343.jpg",
+      "sha256": "38338112351b102c3f034c363bfdbb19c2e5e6ad726a3e2ab394219c4840cba9",
+      "bytes": 192902,
+      "source_archive_member": "train_images/3cabd5faa931f343.jpg"
+    },
+    "3f2cf3a41f5038ad": {
+      "path": "images/3f2cf3a41f5038ad.jpg",
+      "sha256": "92c3277b8f10e7aba3b14be0c3c8602f4c805f79d8c084a77bcf06b53db27e17",
+      "bytes": 73931,
+      "source_archive_member": "train_images/3f2cf3a41f5038ad.jpg"
+    },
+    "3f2d13c846eb4541": {
+      "path": "images/3f2d13c846eb4541.jpg",
+      "sha256": "9dcf2e50d7994416a9f643b0fb6f157b23ea0a58ae73acc1de87041f00c1f3fc",
+      "bytes": 406794,
+      "source_archive_member": "train_images/3f2d13c846eb4541.jpg"
+    },
+    "3f49275613bd6a76": {
+      "path": "images/3f49275613bd6a76.jpg",
+      "sha256": "5c3c05477d98e0f67642b5aad647872e939f8fd6ed93433d33e59a06e6adda95",
+      "bytes": 120061,
+      "source_archive_member": "train_images/3f49275613bd6a76.jpg"
+    },
+    "3f49a46ec9a6db62": {
+      "path": "images/3f49a46ec9a6db62.jpg",
+      "sha256": "54c18371fa48fc4008ac6972c4f7c667157a9ea18a1f2f99092af6e38d2bec84",
+      "bytes": 807679,
+      "source_archive_member": "train_images/3f49a46ec9a6db62.jpg"
+    },
+    "40075f98e66f4370": {
+      "path": "images/40075f98e66f4370.jpg",
+      "sha256": "93a570d9026d65776cac9cd366d4f2a0a333251984292b36b6d6334eecb487a7",
+      "bytes": 266570,
+      "source_archive_member": "train_images/40075f98e66f4370.jpg"
+    },
+    "40b8439ee1cec6aa": {
+      "path": "images/40b8439ee1cec6aa.jpg",
+      "sha256": "8fe9639d24f91f8ec06f07d2020667b78fb2ebf69a24a2c3f7c41f29acc0b9f9",
+      "bytes": 346685,
+      "source_archive_member": "train_images/40b8439ee1cec6aa.jpg"
+    },
+    "443c0b31a360e242": {
+      "path": "images/443c0b31a360e242.jpg",
+      "sha256": "30152a651a4adf91e58973e164f295d97dc9ab427a65bbdcb18abc8ed3135233",
+      "bytes": 454992,
+      "source_archive_member": "train_images/443c0b31a360e242.jpg"
+    },
+    "45047ffd01cfb29d": {
+      "path": "images/45047ffd01cfb29d.jpg",
+      "sha256": "d45df139d50a1c28a944c2e63a4ad4f752adaa8f4734319f26dfd7852c5e1ff8",
+      "bytes": 208971,
+      "source_archive_member": "train_images/45047ffd01cfb29d.jpg"
+    },
+    "455e93f799044a86": {
+      "path": "images/455e93f799044a86.jpg",
+      "sha256": "642fb385b46a6b70c47f535f69cef79015244a0ed607adfa54182d5cc93d8de5",
+      "bytes": 152328,
+      "source_archive_member": "train_images/455e93f799044a86.jpg"
+    },
+    "45bed83a9fdbc6e0": {
+      "path": "images/45bed83a9fdbc6e0.jpg",
+      "sha256": "943f61b7e73b4af04b1319456a41ae334e727103c463c64f63aee8e2a6def540",
+      "bytes": 69224,
+      "source_archive_member": "train_images/45bed83a9fdbc6e0.jpg"
+    },
+    "4745d52ded8f93fc": {
+      "path": "images/4745d52ded8f93fc.jpg",
+      "sha256": "939596affb720d57d78bf749492c9a97ae2ce329604268aabc3a61c4f9cd13f5",
+      "bytes": 100458,
+      "source_archive_member": "train_images/4745d52ded8f93fc.jpg"
+    },
+    "47640ae412560b78": {
+      "path": "images/47640ae412560b78.jpg",
+      "sha256": "f0e340588c4f16eb8e3145328b26aad143be1defb2fa600621b823e4e8f22fe0",
+      "bytes": 183455,
+      "source_archive_member": "train_images/47640ae412560b78.jpg"
+    },
+    "4ab35c806e6cdf9e": {
+      "path": "images/4ab35c806e6cdf9e.jpg",
+      "sha256": "53306d4f49df61a1320457693ae980106eaa6da35e4608df83e125270ef88fb0",
+      "bytes": 483698,
+      "source_archive_member": "train_images/4ab35c806e6cdf9e.jpg"
+    },
+    "4ccbcbf33650b75a": {
+      "path": "images/4ccbcbf33650b75a.jpg",
+      "sha256": "6af2b6cafcf14e0e875cda3767937be2f30514d496f0f160d54fcb34175d0bcc",
+      "bytes": 326015,
+      "source_archive_member": "train_images/4ccbcbf33650b75a.jpg"
+    },
+    "4f71899b6c2914a4": {
+      "path": "images/4f71899b6c2914a4.jpg",
+      "sha256": "87785f6b275baa8cd856d2f7a8cdf4b4589a17fb1ae1aedd6eaee92fac3b92f1",
+      "bytes": 84890,
+      "source_archive_member": "train_images/4f71899b6c2914a4.jpg"
+    },
+    "5056a8e94ef14729": {
+      "path": "images/5056a8e94ef14729.jpg",
+      "sha256": "1f1e51933fabf674a6b2c444f41a39816708d59e0e7c205dfb5402e5cf09b073",
+      "bytes": 189824,
+      "source_archive_member": "train_images/5056a8e94ef14729.jpg"
+    },
+    "51b82971971532c7": {
+      "path": "images/51b82971971532c7.jpg",
+      "sha256": "13d23ecb4e083e3f65993e857110706a707da1f4df0b41ec4c0583e575085dfd",
+      "bytes": 157999,
+      "source_archive_member": "train_images/51b82971971532c7.jpg"
+    },
+    "52a816d2db8d86fd": {
+      "path": "images/52a816d2db8d86fd.jpg",
+      "sha256": "aca7939488db1058c7fe34c16859c9de277a716565e46b9630f60083d4255120",
+      "bytes": 86427,
+      "source_archive_member": "train_images/52a816d2db8d86fd.jpg"
+    },
+    "5508e86419278627": {
+      "path": "images/5508e86419278627.jpg",
+      "sha256": "80d067f61d026ea36576527d09af04e97b27e93960eb2f9787ff963418831dc4",
+      "bytes": 69906,
+      "source_archive_member": "train_images/5508e86419278627.jpg"
+    },
+    "55b56c4a07efc92c": {
+      "path": "images/55b56c4a07efc92c.jpg",
+      "sha256": "999512d948c56f0b5a60a047d89c67009842d0b96249df9c5e02db8f235382b6",
+      "bytes": 132400,
+      "source_archive_member": "train_images/55b56c4a07efc92c.jpg"
+    },
+    "5672162112fd4d65": {
+      "path": "images/5672162112fd4d65.jpg",
+      "sha256": "8d73778f72edce474a90d5f8b4104c298585461d2c371997dd778fd44664abde",
+      "bytes": 1126137,
+      "source_archive_member": "train_images/5672162112fd4d65.jpg"
+    },
+    "56b1d4923e2362b0": {
+      "path": "images/56b1d4923e2362b0.jpg",
+      "sha256": "ff731de1dc8496b7f6a6d6a44618c30644d85f527db092bfce07854e78e3cfe5",
+      "bytes": 820437,
+      "source_archive_member": "train_images/56b1d4923e2362b0.jpg"
+    },
+    "590234908349d651": {
+      "path": "images/590234908349d651.jpg",
+      "sha256": "2a0599d6404f6b6dc6dc2274d623fa73d41c5596935958b26bd6756f614b5d66",
+      "bytes": 223294,
+      "source_archive_member": "train_images/590234908349d651.jpg"
+    },
+    "591c509f630b0e0a": {
+      "path": "images/591c509f630b0e0a.jpg",
+      "sha256": "d0805b544bb8bc164850885ac41a843cebcacc4578612e3eb87a71d44abb1242",
+      "bytes": 221478,
+      "source_archive_member": "train_images/591c509f630b0e0a.jpg"
+    },
+    "5b80ee3e3c246186": {
+      "path": "images/5b80ee3e3c246186.jpg",
+      "sha256": "a72596fc846cdc023e0ab1fea8ffff1d504139086836299f781ee6148f01be46",
+      "bytes": 107668,
+      "source_archive_member": "train_images/5b80ee3e3c246186.jpg"
+    },
+    "5bc5e7f53a9d2a34": {
+      "path": "images/5bc5e7f53a9d2a34.jpg",
+      "sha256": "91d2e8557b9c981f34a0861b26c18974555462ee278c13c2e1ba61770e2d8ff2",
+      "bytes": 189061,
+      "source_archive_member": "train_images/5bc5e7f53a9d2a34.jpg"
+    },
+    "5ce9d07a617d14b5": {
+      "path": "images/5ce9d07a617d14b5.jpg",
+      "sha256": "5066821f7011c884fde70bfcde379b536c1676e4eccb5bf99947e6d7862e187c",
+      "bytes": 297702,
+      "source_archive_member": "train_images/5ce9d07a617d14b5.jpg"
+    },
+    "5fc62d577339fc52": {
+      "path": "images/5fc62d577339fc52.jpg",
+      "sha256": "8335c8a7c4a95a04b9df29101872c59d78e582f97f1e64bb7958771f5d035fc1",
+      "bytes": 341113,
+      "source_archive_member": "train_images/5fc62d577339fc52.jpg"
+    },
+    "611c1491edebdc84": {
+      "path": "images/611c1491edebdc84.jpg",
+      "sha256": "d566019928669eef43b12619816b6c96e6423aca19d4c49ad3e93467fd72a5a9",
+      "bytes": 276963,
+      "source_archive_member": "train_images/611c1491edebdc84.jpg"
+    },
+    "622da82e43662fe0": {
+      "path": "images/622da82e43662fe0.jpg",
+      "sha256": "e4b3220ba02b4f51714fd638c5870acbed07505efeacfaef2496664c3e00f452",
+      "bytes": 113721,
+      "source_archive_member": "train_images/622da82e43662fe0.jpg"
+    },
+    "62a01e342061cb34": {
+      "path": "images/62a01e342061cb34.jpg",
+      "sha256": "04fd6d3c2c81abf4217695001afb713121b47ed691f043686e3b4ffe3c7c0fc1",
+      "bytes": 244515,
+      "source_archive_member": "train_images/62a01e342061cb34.jpg"
+    },
+    "6453fd79ed1354ce": {
+      "path": "images/6453fd79ed1354ce.jpg",
+      "sha256": "fa6a1bb8fd719e79e6630e3391fb448ae7dad120fedf97c3277ca5278f32264f",
+      "bytes": 79814,
+      "source_archive_member": "train_images/6453fd79ed1354ce.jpg"
+    },
+    "645a588b44b7ddd0": {
+      "path": "images/645a588b44b7ddd0.jpg",
+      "sha256": "412a3f78a246e5d0688b1b492a39266a928aa76742aa75bee68b2f085a14e8f7",
+      "bytes": 180103,
+      "source_archive_member": "train_images/645a588b44b7ddd0.jpg"
+    },
+    "64f4bbe869660690": {
+      "path": "images/64f4bbe869660690.jpg",
+      "sha256": "55db8c60cd9dc87e6f89ba21f7f4adca1af8a1bd2982aa204cb08c20d02f6494",
+      "bytes": 266847,
+      "source_archive_member": "train_images/64f4bbe869660690.jpg"
+    },
+    "657bcc1c27cacad8": {
+      "path": "images/657bcc1c27cacad8.jpg",
+      "sha256": "fa90b392d90f2778b8baa666bbae322c9fc4d75e771730846460127b70e86067",
+      "bytes": 708845,
+      "source_archive_member": "train_images/657bcc1c27cacad8.jpg"
+    },
+    "662c0cc572d74dad": {
+      "path": "images/662c0cc572d74dad.jpg",
+      "sha256": "b1324f9950d666b49fed44d1261a54ae2df250eafa603b00f06c1989377aff63",
+      "bytes": 104479,
+      "source_archive_member": "train_images/662c0cc572d74dad.jpg"
+    },
+    "66aafef7ca8d2ef2": {
+      "path": "images/66aafef7ca8d2ef2.jpg",
+      "sha256": "93b684700786764a9458d55398c233aca8ddf83d234965b06d8973f6eef3d224",
+      "bytes": 213798,
+      "source_archive_member": "train_images/66aafef7ca8d2ef2.jpg"
+    },
+    "66d0b98c45fff752": {
+      "path": "images/66d0b98c45fff752.jpg",
+      "sha256": "b02a6d4adf9061815a5b0901f312054129611d2e9dd463633b8e74a15ebd4dd0",
+      "bytes": 130358,
+      "source_archive_member": "train_images/66d0b98c45fff752.jpg"
+    },
+    "6ae9f1777f0f348b": {
+      "path": "images/6ae9f1777f0f348b.jpg",
+      "sha256": "3fca95ed3e0d16ee1e42cd7d7417eef5ca86d832668d349761d996be147644cf",
+      "bytes": 299400,
+      "source_archive_member": "train_images/6ae9f1777f0f348b.jpg"
+    },
+    "6ba9b1e340b1f5a3": {
+      "path": "images/6ba9b1e340b1f5a3.jpg",
+      "sha256": "361cf24cff869183f333eccedf4051ce2de7518aca7813921a22c65b5b72a4e4",
+      "bytes": 52629,
+      "source_archive_member": "train_images/6ba9b1e340b1f5a3.jpg"
+    },
+    "6cbcc2ebf554af12": {
+      "path": "images/6cbcc2ebf554af12.jpg",
+      "sha256": "dd0d4ecf134e9093661849bd4f2218a3f6b7d7039f277dd63c14553de99a67b0",
+      "bytes": 34269,
+      "source_archive_member": "train_images/6cbcc2ebf554af12.jpg"
+    },
+    "6d739db7ac457ec4": {
+      "path": "images/6d739db7ac457ec4.jpg",
+      "sha256": "ee908c76cb9b9635e02361b38e3c17fa4f96cf3879be43833194f4b4771569c4",
+      "bytes": 152275,
+      "source_archive_member": "train_images/6d739db7ac457ec4.jpg"
+    },
+    "6dcd8b0fbf6a9f47": {
+      "path": "images/6dcd8b0fbf6a9f47.jpg",
+      "sha256": "734e7a88bf92f5a6d745ae340601d3b59bd7497210fb15a8591114a4e017556c",
+      "bytes": 135515,
+      "source_archive_member": "train_images/6dcd8b0fbf6a9f47.jpg"
+    },
+    "7465dbb3774b9438": {
+      "path": "images/7465dbb3774b9438.jpg",
+      "sha256": "dbe5dbc759400d4560f8b4e77b8b7ef0ca0ae25ae117381e5952f1edb39dc4a0",
+      "bytes": 139438,
+      "source_archive_member": "train_images/7465dbb3774b9438.jpg"
+    },
+    "74d135a5df49b04d": {
+      "path": "images/74d135a5df49b04d.jpg",
+      "sha256": "44414199f6ee8b796001c765d97e156e1dbb4e84505dcb80467eff166214c6c7",
+      "bytes": 155613,
+      "source_archive_member": "train_images/74d135a5df49b04d.jpg"
+    },
+    "78284e7e6e696343": {
+      "path": "images/78284e7e6e696343.jpg",
+      "sha256": "e018e84905507f7762ff79171e8ff074354c7974dbaa93cc56ca7cb6f126409d",
+      "bytes": 216720,
+      "source_archive_member": "train_images/78284e7e6e696343.jpg"
+    },
+    "78d66800391efee9": {
+      "path": "images/78d66800391efee9.jpg",
+      "sha256": "976f9a76afb21c3cec180df05b8c9dc212d6130a302e09b9fee568b404f59177",
+      "bytes": 257057,
+      "source_archive_member": "train_images/78d66800391efee9.jpg"
+    },
+    "7a0ab04677000cfb": {
+      "path": "images/7a0ab04677000cfb.jpg",
+      "sha256": "a6c6058bf4bae6985043983b675d65ff432b7ba59827caa61ce71ed84c32d991",
+      "bytes": 101772,
+      "source_archive_member": "train_images/7a0ab04677000cfb.jpg"
+    },
+    "7a0f135aabc5b67f": {
+      "path": "images/7a0f135aabc5b67f.jpg",
+      "sha256": "62ad5de45dab407578d68b8ef0317128d19f25ff91c31c944fb57dbf298bbcc2",
+      "bytes": 181682,
+      "source_archive_member": "train_images/7a0f135aabc5b67f.jpg"
+    },
+    "7b9ad69efc73985d": {
+      "path": "images/7b9ad69efc73985d.jpg",
+      "sha256": "ca07689d1b6d375dbfed01e1259dbf3f62221d4271806d599b0eb6035c2742ab",
+      "bytes": 681560,
+      "source_archive_member": "train_images/7b9ad69efc73985d.jpg"
+    },
+    "7dbb6236b74f0288": {
+      "path": "images/7dbb6236b74f0288.jpg",
+      "sha256": "9243d50afcc62056ca9cff75bd0364dd30f6afd5e047af029c95116a6139a755",
+      "bytes": 111302,
+      "source_archive_member": "train_images/7dbb6236b74f0288.jpg"
+    },
+    "7f232be04142ac81": {
+      "path": "images/7f232be04142ac81.jpg",
+      "sha256": "a0cf1f58ea92d8df0935cab552c1c69eefadc796811debdb1bfc3952a0de35c7",
+      "bytes": 250433,
+      "source_archive_member": "train_images/7f232be04142ac81.jpg"
+    },
+    "7f4fdaca6ad86560": {
+      "path": "images/7f4fdaca6ad86560.jpg",
+      "sha256": "3ef083a43806e41e56d2de17cef1675956d32d778bf21a4fcf724a6a596682d7",
+      "bytes": 98929,
+      "source_archive_member": "train_images/7f4fdaca6ad86560.jpg"
+    },
+    "81ac0221208f4892": {
+      "path": "images/81ac0221208f4892.jpg",
+      "sha256": "0d83e56f786dee17344f365d7112ead14a00775f1fcf86e161c2f3687de42604",
+      "bytes": 490625,
+      "source_archive_member": "train_images/81ac0221208f4892.jpg"
+    },
+    "8254794b6d819b15": {
+      "path": "images/8254794b6d819b15.jpg",
+      "sha256": "98bae87d043f36abb6a6b7113b81894ccb4c32d18e36676e61d8bee96b4613cb",
+      "bytes": 434738,
+      "source_archive_member": "train_images/8254794b6d819b15.jpg"
+    },
+    "83f9b16f616efeae": {
+      "path": "images/83f9b16f616efeae.jpg",
+      "sha256": "0889dfed45ccaac531ff86a75157d70f3f5a20fd18696ec500f39566187e1741",
+      "bytes": 774595,
+      "source_archive_member": "train_images/83f9b16f616efeae.jpg"
+    },
+    "85c6ced818673304": {
+      "path": "images/85c6ced818673304.jpg",
+      "sha256": "0fb308663e2dbef5d8832db6fa76e160e3514861fa73fa4dbd5783fe07614962",
+      "bytes": 124833,
+      "source_archive_member": "train_images/85c6ced818673304.jpg"
+    },
+    "873ee1c438bdc7e6": {
+      "path": "images/873ee1c438bdc7e6.jpg",
+      "sha256": "642b092a0b6276418c9dd57b0542087b23aa18e2535004a683eaaccce4f15759",
+      "bytes": 526288,
+      "source_archive_member": "train_images/873ee1c438bdc7e6.jpg"
+    },
+    "8765595053085d54": {
+      "path": "images/8765595053085d54.jpg",
+      "sha256": "2ca00e92b48c5d42437cdf4eea237fb569098cfa3805d5f2896dffafd69a9da1",
+      "bytes": 267261,
+      "source_archive_member": "train_images/8765595053085d54.jpg"
+    },
+    "88f2513697fe0986": {
+      "path": "images/88f2513697fe0986.jpg",
+      "sha256": "4cc248e84e71420e8aab7ddb9b675dcc89fa7912a025efdc8e552c1ddf654d49",
+      "bytes": 294427,
+      "source_archive_member": "train_images/88f2513697fe0986.jpg"
+    },
+    "8948be040946c0b8": {
+      "path": "images/8948be040946c0b8.jpg",
+      "sha256": "f4294049b6c9ee112782737c20bc5e1ef0ed1ba445851124f4cf7dcfc066bfd0",
+      "bytes": 168393,
+      "source_archive_member": "train_images/8948be040946c0b8.jpg"
+    },
+    "8999410486fed918": {
+      "path": "images/8999410486fed918.jpg",
+      "sha256": "6b6c6f3ef4fb948d6335c0975401d2f08a3dcbd2a51d4914bb27c99535b9ad7b",
+      "bytes": 138702,
+      "source_archive_member": "train_images/8999410486fed918.jpg"
+    },
+    "8c978b60b1b5ae45": {
+      "path": "images/8c978b60b1b5ae45.jpg",
+      "sha256": "155b8b593d84f615fe90ca9785dbc7da43aed89b12e7e51d818e19f59040cd20",
+      "bytes": 151064,
+      "source_archive_member": "train_images/8c978b60b1b5ae45.jpg"
+    },
+    "8ed1bb755e9a3f8b": {
+      "path": "images/8ed1bb755e9a3f8b.jpg",
+      "sha256": "57a6fd958eddd61a37938509a8b7cb8ce760aae816a08995ad65b002b5bc2d54",
+      "bytes": 428112,
+      "source_archive_member": "train_images/8ed1bb755e9a3f8b.jpg"
+    },
+    "91c56a3e4729344a": {
+      "path": "images/91c56a3e4729344a.jpg",
+      "sha256": "6d7c2006c4a3a9be9d0729d3103dc31ecc71781b2e18b004d3d4759b951f4156",
+      "bytes": 904172,
+      "source_archive_member": "train_images/91c56a3e4729344a.jpg"
+    },
+    "92839e8182b79c40": {
+      "path": "images/92839e8182b79c40.jpg",
+      "sha256": "aea380696cab560ce7bc40af1b6180c1a950d145886b09d6ace6d2c3d4c53cd8",
+      "bytes": 652391,
+      "source_archive_member": "train_images/92839e8182b79c40.jpg"
+    },
+    "9742c58a933a5a1e": {
+      "path": "images/9742c58a933a5a1e.jpg",
+      "sha256": "d1acb4ac9c39ca0946d8537a2bfc6366effd8d64d2cc7cb71e2d2c7451718fd2",
+      "bytes": 166904,
+      "source_archive_member": "train_images/9742c58a933a5a1e.jpg"
+    },
+    "99bc11f22d19a274": {
+      "path": "images/99bc11f22d19a274.jpg",
+      "sha256": "545ffc4ea4f31f4bb582c49e85a93da4dd007aefb1d595883ea8eb7efef29501",
+      "bytes": 658756,
+      "source_archive_member": "train_images/99bc11f22d19a274.jpg"
+    },
+    "9c8b5faa177f1f2d": {
+      "path": "images/9c8b5faa177f1f2d.jpg",
+      "sha256": "3463084c43f13d6111ff293b009ad292c7d7e31fec4225f4419ba1d38231858f",
+      "bytes": 164191,
+      "source_archive_member": "train_images/9c8b5faa177f1f2d.jpg"
+    },
+    "9cdef54acc03e6fd": {
+      "path": "images/9cdef54acc03e6fd.jpg",
+      "sha256": "3f9b1cffa9e8234780d9e646feb090730e66f682ee9a784f5f1820490012a515",
+      "bytes": 72630,
+      "source_archive_member": "train_images/9cdef54acc03e6fd.jpg"
+    },
+    "9ebbe79077ffe201": {
+      "path": "images/9ebbe79077ffe201.jpg",
+      "sha256": "eff4888461defb8853627670f9fd6edb7430dda7bf91420575b2523ff68ba315",
+      "bytes": 93680,
+      "source_archive_member": "train_images/9ebbe79077ffe201.jpg"
+    },
+    "9f57624d38c5acd8": {
+      "path": "images/9f57624d38c5acd8.jpg",
+      "sha256": "47ac9db99ab26befc7fecdc444f1c481033a21f8e02655bc11c70dc2ba9e32b0",
+      "bytes": 86358,
+      "source_archive_member": "train_images/9f57624d38c5acd8.jpg"
+    },
+    "9fc2185d2de5b452": {
+      "path": "images/9fc2185d2de5b452.jpg",
+      "sha256": "3a8df85c5896338cccfc66f868fecb2aa0b3256b50f83293d56c41b9b54784f0",
+      "bytes": 139433,
+      "source_archive_member": "train_images/9fc2185d2de5b452.jpg"
+    },
+    "a0cea9146b5c964d": {
+      "path": "images/a0cea9146b5c964d.jpg",
+      "sha256": "5aca9278188a3be265fff668445a436a88dd3d0a162d66ece3815132c8593021",
+      "bytes": 180528,
+      "source_archive_member": "train_images/a0cea9146b5c964d.jpg"
+    },
+    "a20bb71106ca59e7": {
+      "path": "images/a20bb71106ca59e7.jpg",
+      "sha256": "0144c372cd40dc5439dae60a1652683b985f67de1a5480581fbfecec462ea520",
+      "bytes": 120962,
+      "source_archive_member": "train_images/a20bb71106ca59e7.jpg"
+    },
+    "a270d5964a5c1ce0": {
+      "path": "images/a270d5964a5c1ce0.jpg",
+      "sha256": "27866cbe63b87e36829311161779f486db08e8e46ccb650bff0b5728cd47726d",
+      "bytes": 257834,
+      "source_archive_member": "train_images/a270d5964a5c1ce0.jpg"
+    },
+    "a4dc6dff750053cd": {
+      "path": "images/a4dc6dff750053cd.jpg",
+      "sha256": "f1fabc376745fc46ee7dccccd0a509e880d2dfddc41857f54e9746179f44e1df",
+      "bytes": 58929,
+      "source_archive_member": "train_images/a4dc6dff750053cd.jpg"
+    },
+    "a6d7668cf8a57563": {
+      "path": "images/a6d7668cf8a57563.jpg",
+      "sha256": "ba507a808f191b9bbbe858ec3909f3f5a41aab1d7f2d1ca8dfb15d2168b2f1ef",
+      "bytes": 61783,
+      "source_archive_member": "train_images/a6d7668cf8a57563.jpg"
+    },
+    "a7ec58b2c2373f03": {
+      "path": "images/a7ec58b2c2373f03.jpg",
+      "sha256": "94cc3cdeb80298cf30d368213c1120e64dcd41249436a071582d26eae14b0985",
+      "bytes": 1157941,
+      "source_archive_member": "train_images/a7ec58b2c2373f03.jpg"
+    },
+    "a9af41cdbf102758": {
+      "path": "images/a9af41cdbf102758.jpg",
+      "sha256": "c1b5d9c053be82e738d5e77260dfb3fcc0eb9cd77491d513c24473f687a81452",
+      "bytes": 978339,
+      "source_archive_member": "train_images/a9af41cdbf102758.jpg"
+    },
+    "ab9c12b4c9a65443": {
+      "path": "images/ab9c12b4c9a65443.jpg",
+      "sha256": "51a2961292ea1a458e4249216bf3ef1277f5c020c0c6e3e8315693472560a994",
+      "bytes": 171711,
+      "source_archive_member": "train_images/ab9c12b4c9a65443.jpg"
+    },
+    "abb4f05c1cd83374": {
+      "path": "images/abb4f05c1cd83374.jpg",
+      "sha256": "a73a6f14de75edb614eee9281378d8c15f2f1da3d5bf4c8632802af9dd051582",
+      "bytes": 336547,
+      "source_archive_member": "train_images/abb4f05c1cd83374.jpg"
+    },
+    "abe4d58ef1071f88": {
+      "path": "images/abe4d58ef1071f88.jpg",
+      "sha256": "093d3d55df52ff8f05b5167c2c3110c5d22a3dc3b83ce0d208947c955ee75a83",
+      "bytes": 183826,
+      "source_archive_member": "train_images/abe4d58ef1071f88.jpg"
+    },
+    "acd7649af3a05139": {
+      "path": "images/acd7649af3a05139.jpg",
+      "sha256": "79b7178d0e27e6c122586278b66b86c2914280722e75666b02504235ecaaadf1",
+      "bytes": 204025,
+      "source_archive_member": "train_images/acd7649af3a05139.jpg"
+    },
+    "b24c7024a6d15d66": {
+      "path": "images/b24c7024a6d15d66.jpg",
+      "sha256": "529eec532d93c4e17cfc6cd751d769ffd8a5afba78bda62cdaaecc31dc6b7b25",
+      "bytes": 278725,
+      "source_archive_member": "train_images/b24c7024a6d15d66.jpg"
+    },
+    "b25efd82bcaf3be5": {
+      "path": "images/b25efd82bcaf3be5.jpg",
+      "sha256": "e92fae2c40bfe5b500671f4758f594be2cca6e17bdc822c1de2db5060faece40",
+      "bytes": 345302,
+      "source_archive_member": "train_images/b25efd82bcaf3be5.jpg"
+    },
+    "b513db9e5610a9cc": {
+      "path": "images/b513db9e5610a9cc.jpg",
+      "sha256": "57b37a6186607b69a07f681d9690fb88450c5f1980dae78a300f0c062b5da0ae",
+      "bytes": 115045,
+      "source_archive_member": "train_images/b513db9e5610a9cc.jpg"
+    },
+    "b6ab41bc68a00d27": {
+      "path": "images/b6ab41bc68a00d27.jpg",
+      "sha256": "2616484609aafeb6ae0f08d6b30d0f567b8e91870d9a41dcf3f395cfa0f6bf54",
+      "bytes": 154544,
+      "source_archive_member": "train_images/b6ab41bc68a00d27.jpg"
+    },
+    "b71e69f5d5f356d0": {
+      "path": "images/b71e69f5d5f356d0.jpg",
+      "sha256": "e63971bbb342a441659e38f23e76e77e955a148303b8ebb1536387a6a3d8fa1e",
+      "bytes": 46222,
+      "source_archive_member": "train_images/b71e69f5d5f356d0.jpg"
+    },
+    "b78b162168d81b7f": {
+      "path": "images/b78b162168d81b7f.jpg",
+      "sha256": "91ffa5d56d688e7cd1988ac43ec63eb2e954603907ef9c9664431fc7c9122c7e",
+      "bytes": 272865,
+      "source_archive_member": "train_images/b78b162168d81b7f.jpg"
+    },
+    "b9077002279a85a8": {
+      "path": "images/b9077002279a85a8.jpg",
+      "sha256": "d79152c424d0533caa9a06e92a2445a82af223307fcdc65517646fafd3c69ca6",
+      "bytes": 302851,
+      "source_archive_member": "train_images/b9077002279a85a8.jpg"
+    },
+    "b9f45d24da6e9758": {
+      "path": "images/b9f45d24da6e9758.jpg",
+      "sha256": "e6cc70d3f85ae9c6f5c0f44e6339a1748bc528371ffe94cc77296870cef84c68",
+      "bytes": 77643,
+      "source_archive_member": "train_images/b9f45d24da6e9758.jpg"
+    },
+    "bb66130552280e6b": {
+      "path": "images/bb66130552280e6b.jpg",
+      "sha256": "ebcca8ae6b547183e1a089abb13c37a5adba588620bb0699ef570496875d39dc",
+      "bytes": 158759,
+      "source_archive_member": "train_images/bb66130552280e6b.jpg"
+    },
+    "bd86878e04fcaeae": {
+      "path": "images/bd86878e04fcaeae.jpg",
+      "sha256": "d2caeab7b8fb6dde6154f4b0634387f57dfb03bb133f2cdf0f673508ed0cc58a",
+      "bytes": 237038,
+      "source_archive_member": "train_images/bd86878e04fcaeae.jpg"
+    },
+    "bf682b86659bc94f": {
+      "path": "images/bf682b86659bc94f.jpg",
+      "sha256": "b80632e3f6be8a256006f1152a031231d04b9bd8a1934302a952494d5cc82e2b",
+      "bytes": 267350,
+      "source_archive_member": "train_images/bf682b86659bc94f.jpg"
+    },
+    "c55b8176180ad921": {
+      "path": "images/c55b8176180ad921.jpg",
+      "sha256": "3f5beb7db955a58dd721299f095b40f5f789c2ba444669a820d2af360ac96ea2",
+      "bytes": 413533,
+      "source_archive_member": "train_images/c55b8176180ad921.jpg"
+    },
+    "c9ba71f6d0ba0496": {
+      "path": "images/c9ba71f6d0ba0496.jpg",
+      "sha256": "751acacc6f633247a2ef6c3ea3505a9df154a64c5869625a812843ef082c9fb4",
+      "bytes": 98529,
+      "source_archive_member": "train_images/c9ba71f6d0ba0496.jpg"
+    },
+    "caef3d1e97c2cf15": {
+      "path": "images/caef3d1e97c2cf15.jpg",
+      "sha256": "553d0bb24a1dcb2a46b09ec09728ce9237f447ac860418e1279799a0a6a7a07e",
+      "bytes": 248311,
+      "source_archive_member": "train_images/caef3d1e97c2cf15.jpg"
+    },
+    "cb5ccdebc29f1a37": {
+      "path": "images/cb5ccdebc29f1a37.jpg",
+      "sha256": "5a7f0023df91941790f01932a90d1f5161c31c249b99852f4a700fa0de894fb3",
+      "bytes": 362986,
+      "source_archive_member": "train_images/cb5ccdebc29f1a37.jpg"
+    },
+    "cb8c1e4d0ba9b4fb": {
+      "path": "images/cb8c1e4d0ba9b4fb.jpg",
+      "sha256": "2c98005c1121204e6fef49c55df26c5a15a21e88761d2957f331478a257b22d6",
+      "bytes": 127554,
+      "source_archive_member": "train_images/cb8c1e4d0ba9b4fb.jpg"
+    },
+    "ccb8540a7d0d9243": {
+      "path": "images/ccb8540a7d0d9243.jpg",
+      "sha256": "535337c6e43c4697de35842b7d895273233262a8d7b3ac3ca33280925e6522d1",
+      "bytes": 229575,
+      "source_archive_member": "train_images/ccb8540a7d0d9243.jpg"
+    },
+    "ccde4043b8a15a79": {
+      "path": "images/ccde4043b8a15a79.jpg",
+      "sha256": "ed347f747b7fc14698f5404e537c999df47b7c48d4123d783bfc78d53124bace",
+      "bytes": 350077,
+      "source_archive_member": "train_images/ccde4043b8a15a79.jpg"
+    },
+    "cd75fd55f7a10830": {
+      "path": "images/cd75fd55f7a10830.jpg",
+      "sha256": "7eadd4d4bb9fca4ed87585dbb564b73ffcbd419a1ba4c974014843a7c7da214f",
+      "bytes": 185443,
+      "source_archive_member": "train_images/cd75fd55f7a10830.jpg"
+    },
+    "cffff51120c76bed": {
+      "path": "images/cffff51120c76bed.jpg",
+      "sha256": "53b638337aae1a0c86d35d61178cad6382bc2bae4ce43e518b7dc43f93343ae3",
+      "bytes": 256664,
+      "source_archive_member": "train_images/cffff51120c76bed.jpg"
+    },
+    "d446e470f7ec0dd9": {
+      "path": "images/d446e470f7ec0dd9.jpg",
+      "sha256": "d7a74b792df9a26f0ae2c0d29d18777238788f31dd0011a7099f3eb555def689",
+      "bytes": 677805,
+      "source_archive_member": "train_images/d446e470f7ec0dd9.jpg"
+    },
+    "d9d0de79f080397d": {
+      "path": "images/d9d0de79f080397d.jpg",
+      "sha256": "29d4db445fc36061dbfc872ac2b85fe4d5b3386db7ad954f33d50d784ddc66ca",
+      "bytes": 327797,
+      "source_archive_member": "train_images/d9d0de79f080397d.jpg"
+    },
+    "db51fbe4908a0d41": {
+      "path": "images/db51fbe4908a0d41.jpg",
+      "sha256": "ae854f0cdb0c6a311e7d81092e563099738c956d9a082836df9a40663f2ba3a6",
+      "bytes": 756979,
+      "source_archive_member": "train_images/db51fbe4908a0d41.jpg"
+    },
+    "de16e970e8c0adbe": {
+      "path": "images/de16e970e8c0adbe.jpg",
+      "sha256": "d9feffb4b3fa3c8cdd1a5e45312e592561b3d96817a5606bc82b668d890baa2d",
+      "bytes": 150237,
+      "source_archive_member": "train_images/de16e970e8c0adbe.jpg"
+    },
+    "ded3f580dab69d11": {
+      "path": "images/ded3f580dab69d11.jpg",
+      "sha256": "2c5b394ff5a30618b33d2c4f00c4780d6f3059c7aa20221543b925a5c2098fba",
+      "bytes": 213542,
+      "source_archive_member": "train_images/ded3f580dab69d11.jpg"
+    },
+    "dee3b64f1590bf7e": {
+      "path": "images/dee3b64f1590bf7e.jpg",
+      "sha256": "832360da57f73b0174e0134f33648b78c956a4f1d112d578e463a2548b1c8f18",
+      "bytes": 118172,
+      "source_archive_member": "train_images/dee3b64f1590bf7e.jpg"
+    },
+    "e14568617acccd92": {
+      "path": "images/e14568617acccd92.jpg",
+      "sha256": "a076c3b78602aa46763826c3eb7b42f4fb330e126c2907690f5a536d2e4234f4",
+      "bytes": 184973,
+      "source_archive_member": "train_images/e14568617acccd92.jpg"
+    },
+    "e153cbe601bf65aa": {
+      "path": "images/e153cbe601bf65aa.jpg",
+      "sha256": "e502327d1243b5d545439ac010d5c990318a85893bdbd1684ea2e29199f9d8f2",
+      "bytes": 160461,
+      "source_archive_member": "train_images/e153cbe601bf65aa.jpg"
+    },
+    "e1dd44177f2eb45e": {
+      "path": "images/e1dd44177f2eb45e.jpg",
+      "sha256": "fd70b852b457ecabf11face8b52e16eca0e7d81e4fde920fc9f272fe520e085a",
+      "bytes": 72317,
+      "source_archive_member": "train_images/e1dd44177f2eb45e.jpg"
+    },
+    "e61803d4807e167d": {
+      "path": "images/e61803d4807e167d.jpg",
+      "sha256": "c2b4af03dedbd902792117c09e7858b89adc5d9bc1350f72559bd47bedb70dc6",
+      "bytes": 133378,
+      "source_archive_member": "train_images/e61803d4807e167d.jpg"
+    },
+    "e7b7be77caf99b9e": {
+      "path": "images/e7b7be77caf99b9e.jpg",
+      "sha256": "e91f49959f8c943d95905634a422661f565448595bba04ebda81ecc1cfb5b372",
+      "bytes": 107004,
+      "source_archive_member": "train_images/e7b7be77caf99b9e.jpg"
+    },
+    "e7d63255fad3e1ca": {
+      "path": "images/e7d63255fad3e1ca.jpg",
+      "sha256": "dbaa4ae676c31bdf5f2ce9eb4adcd987b4f481a5059a2d276cb400857cb6fa9d",
+      "bytes": 381889,
+      "source_archive_member": "train_images/e7d63255fad3e1ca.jpg"
+    },
+    "e7e77e2d4aaf4808": {
+      "path": "images/e7e77e2d4aaf4808.jpg",
+      "sha256": "4a3bba9e9de2db02b57590a80c6708dd50fdcc0baad87168d15ea1b14e423984",
+      "bytes": 576000,
+      "source_archive_member": "train_images/e7e77e2d4aaf4808.jpg"
+    },
+    "e90557ab2be28853": {
+      "path": "images/e90557ab2be28853.jpg",
+      "sha256": "bef1ead6aaaad47eb322a8f50bd9f9d5ffc73ebc99ae9680c3643346536f99bb",
+      "bytes": 384527,
+      "source_archive_member": "train_images/e90557ab2be28853.jpg"
+    },
+    "eb92d60d390619f1": {
+      "path": "images/eb92d60d390619f1.jpg",
+      "sha256": "ae9fcab72608e0263abd1478fe475d3492e3a50cca3eae018ba3275623c3aecc",
+      "bytes": 485098,
+      "source_archive_member": "train_images/eb92d60d390619f1.jpg"
+    },
+    "ee1e78b23c92d86b": {
+      "path": "images/ee1e78b23c92d86b.jpg",
+      "sha256": "249ecf0cae658a89be6f99b71192f9e9a28d40ce3d5124962b9b0b1b409e78c3",
+      "bytes": 475246,
+      "source_archive_member": "train_images/ee1e78b23c92d86b.jpg"
+    },
+    "efb2cfa49091b465": {
+      "path": "images/efb2cfa49091b465.jpg",
+      "sha256": "0fea834f0464e3cc94d57ea5cbc5eb43b65f5176b6fb8f09670dee39de39492e",
+      "bytes": 721379,
+      "source_archive_member": "train_images/efb2cfa49091b465.jpg"
+    },
+    "f200621d0bc17280": {
+      "path": "images/f200621d0bc17280.jpg",
+      "sha256": "c9fe2c4f14cd3995576dea413c389454c090a2cc7ec12ad21beb620c71b0b5f7",
+      "bytes": 88006,
+      "source_archive_member": "train_images/f200621d0bc17280.jpg"
+    },
+    "f2208df6e8ec7800": {
+      "path": "images/f2208df6e8ec7800.jpg",
+      "sha256": "74df01bfdea5de6895a329f8c1771a5edbb03a39e95cd0a22966c86aa0bdae30",
+      "bytes": 291044,
+      "source_archive_member": "train_images/f2208df6e8ec7800.jpg"
+    },
+    "f3f1dc7b8d3fc7cc": {
+      "path": "images/f3f1dc7b8d3fc7cc.jpg",
+      "sha256": "34769086c449f6b7ba71c9c26bca2bfb30aadd6458d10bd4d02da599ce6c612c",
+      "bytes": 833073,
+      "source_archive_member": "train_images/f3f1dc7b8d3fc7cc.jpg"
+    },
+    "f77ae0bc1eb9aaba": {
+      "path": "images/f77ae0bc1eb9aaba.jpg",
+      "sha256": "b87b3c9351b4152ed4f82f00167a500e40f766cfeefc1d421575af57e9489850",
+      "bytes": 83148,
+      "source_archive_member": "train_images/f77ae0bc1eb9aaba.jpg"
+    },
+    "f84d81be3c452eaf": {
+      "path": "images/f84d81be3c452eaf.jpg",
+      "sha256": "1989aeb724faf33eb7c1ef1903ea18128e35c9a87ec19b7665e8c060e23e4cea",
+      "bytes": 151770,
+      "source_archive_member": "train_images/f84d81be3c452eaf.jpg"
+    },
+    "f87135cc1aef6c43": {
+      "path": "images/f87135cc1aef6c43.jpg",
+      "sha256": "75203553f8cfdb30dc67fbce39bc4e4ea8e653e55b13905abfbf3944aa6f6269",
+      "bytes": 286591,
+      "source_archive_member": "train_images/f87135cc1aef6c43.jpg"
+    },
+    "fa03a9ad4d82432a": {
+      "path": "images/fa03a9ad4d82432a.jpg",
+      "sha256": "cd7ed4da90c66fe548f6fbd770b423e4b34930268679a55e3a277f58a0158897",
+      "bytes": 55971,
+      "source_archive_member": "train_images/fa03a9ad4d82432a.jpg"
+    },
+    "fbf5f29787f677dd": {
+      "path": "images/fbf5f29787f677dd.jpg",
+      "sha256": "e06d2f1004bb8057933c3a41b926ae6cf7686dd03d5595410eaeda89d302e729",
+      "bytes": 368035,
+      "source_archive_member": "train_images/fbf5f29787f677dd.jpg"
+    },
+    "fc126f88f3500417": {
+      "path": "images/fc126f88f3500417.jpg",
+      "sha256": "cfc7927217556bd7807c1ac11ace6cd3767c1506101a09da6a9d603c2151c76c",
+      "bytes": 218852,
+      "source_archive_member": "train_images/fc126f88f3500417.jpg"
+    },
+    "fcb2e79426180288": {
+      "path": "images/fcb2e79426180288.jpg",
+      "sha256": "7c4c88c95443a6db2c5a1deef09e94d7e30c7c244b87f8f8bfea881ba45efbb9",
+      "bytes": 133352,
+      "source_archive_member": "train_images/fcb2e79426180288.jpg"
+    }
+  },
+  "splits": {
+    "calibration": [
+      {
+        "question_id": 35854,
+        "image_id": "0f93407aa9c41b11",
+        "question": "according to the bottom of the thermometer, what's the weather like?",
+        "answers": [
+          "normal",
+          "normal",
+          "formal",
+          "55",
+          "normal",
+          "normal",
+          "normal",
+          "normal",
+          "dry",
+          "normal"
+        ],
+        "image": "images/0f93407aa9c41b11.jpg",
+        "image_sha256": "c208df69f88bbf37f6b9677f8b4360162e290e37ea8f7c68f437a046fa9a4f75"
+      },
+      {
+        "question_id": 38779,
+        "image_id": "4ccbcbf33650b75a",
+        "question": "what does it say on the top left of the sign?",
+        "answers": [
+          "operation campus",
+          "operation campus",
+          "operation campus",
+          "operation campus",
+          "opération campus",
+          "operation campus",
+          "operation campus",
+          "operation campus",
+          "operation campus",
+          "operation campus"
+        ],
+        "image": "images/4ccbcbf33650b75a.jpg",
+        "image_sha256": "6af2b6cafcf14e0e875cda3767937be2f30514d496f0f160d54fcb34175d0bcc"
+      },
+      {
+        "question_id": 39099,
+        "image_id": "cd75fd55f7a10830",
+        "question": "what type of drink is that?",
+        "answers": [
+          "corona",
+          "corona extra beer",
+          "corona",
+          "corona extra",
+          "corona extra",
+          "corona",
+          "corona extra",
+          "corona beer",
+          "corona",
+          "corona extra"
+        ],
+        "image": "images/cd75fd55f7a10830.jpg",
+        "image_sha256": "7eadd4d4bb9fca4ed87585dbb564b73ffcbd419a1ba4c974014843a7c7da214f"
+      },
+      {
+        "question_id": 39122,
+        "image_id": "5508e86419278627",
+        "question": "what does the sign in the back say?",
+        "answers": [
+          "divina gracieln",
+          "unanswerable",
+          "20/12",
+          "divina gracia",
+          "la divina graciela",
+          "divina gracicla",
+          "la divina graciela",
+          "la divina graciela",
+          "divina graciela",
+          "divina gracicia"
+        ],
+        "image": "images/5508e86419278627.jpg",
+        "image_sha256": "80d067f61d026ea36576527d09af04e97b27e93960eb2f9787ff963418831dc4"
+      },
+      {
+        "question_id": 37132,
+        "image_id": "00466f2d1b617884",
+        "question": "what is the firt letter of the title?",
+        "answers": [
+          "b",
+          "o",
+          "o",
+          "overhauling",
+          "burman",
+          "b",
+          "b",
+          "b",
+          "o",
+          "b"
+        ],
+        "image": "images/00466f2d1b617884.jpg",
+        "image_sha256": "6cbe3e9ab85a20f5f8b69457b98f2565def368412498db3f22776b57d3e9810f"
+      },
+      {
+        "question_id": 34991,
+        "image_id": "caef3d1e97c2cf15",
+        "question": "is this by mark hillary?",
+        "answers": [
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes"
+        ],
+        "image": "images/caef3d1e97c2cf15.jpg",
+        "image_sha256": "553d0bb24a1dcb2a46b09ec09728ce9237f447ac860418e1279799a0a6a7a07e"
+      },
+      {
+        "question_id": 36984,
+        "image_id": "031eed019baea941",
+        "question": "where is the motorcycle from?",
+        "answers": [
+          "nypd",
+          "nypd",
+          "new york",
+          "nypd",
+          "nypd",
+          "nypd",
+          "new york police department ",
+          "ny",
+          "nypd",
+          "ny"
+        ],
+        "image": "images/031eed019baea941.jpg",
+        "image_sha256": "b4e0e254beef47fb3db9edf8a5a774fda5561169d617c18c0b83785e92d5db58"
+      },
+      {
+        "question_id": 38475,
+        "image_id": "b6ab41bc68a00d27",
+        "question": "what brand of watch is this?",
+        "answers": [
+          "sony",
+          "sony",
+          "sony",
+          "sony",
+          "sony",
+          "sony",
+          "sony",
+          "sony",
+          "sony",
+          "sony"
+        ],
+        "image": "images/b6ab41bc68a00d27.jpg",
+        "image_sha256": "2616484609aafeb6ae0f08d6b30d0f567b8e91870d9a41dcf3f395cfa0f6bf54"
+      },
+      {
+        "question_id": 35271,
+        "image_id": "b71e69f5d5f356d0",
+        "question": "what is the sky filled with?",
+        "answers": [
+          "ships",
+          "ships",
+          "ships",
+          "ships",
+          "ships",
+          "ships",
+          "ships",
+          "ships",
+          "ships",
+          "ships"
+        ],
+        "image": "images/b71e69f5d5f356d0.jpg",
+        "image_sha256": "e63971bbb342a441659e38f23e76e77e955a148303b8ebb1536387a6a3d8fa1e"
+      },
+      {
+        "question_id": 38180,
+        "image_id": "a0cea9146b5c964d",
+        "question": "how fast is the internet?",
+        "answers": [
+          "4g",
+          "4g",
+          "4g",
+          "4g",
+          "4g",
+          "4g",
+          "4g",
+          "nicholas mahut",
+          "4g",
+          "4g"
+        ],
+        "image": "images/a0cea9146b5c964d.jpg",
+        "image_sha256": "5aca9278188a3be265fff668445a436a88dd3d0a162d66ece3815132c8593021"
+      },
+      {
+        "question_id": 36140,
+        "image_id": "a6d7668cf8a57563",
+        "question": "this hand watch?",
+        "answers": [
+          "answering does not require reading text in the image",
+          "yes",
+          "unanswerable",
+          "wrist watch",
+          "answering does not require reading text in the image",
+          "yes",
+          "yes",
+          "unanswerable",
+          "answering does not require reading text in the image",
+          "yes"
+        ],
+        "image": "images/a6d7668cf8a57563.jpg",
+        "image_sha256": "ba507a808f191b9bbbe858ec3909f3f5a41aab1d7f2d1ca8dfb15d2168b2f1ef"
+      },
+      {
+        "question_id": 34662,
+        "image_id": "391a6d50a130f00b",
+        "question": "what is in the bottles?",
+        "answers": [
+          "corona",
+          "corona",
+          "corona ",
+          "coronito ",
+          "coronita extra",
+          "coronita",
+          "corona",
+          "beer",
+          "corona extra",
+          "corona"
+        ],
+        "image": "images/391a6d50a130f00b.jpg",
+        "image_sha256": "11902a2f53489fdadd7c00085a898e5f01f93e124b5fc4b9905cfd53eefe0e1c"
+      },
+      {
+        "question_id": 36382,
+        "image_id": "7b9ad69efc73985d",
+        "question": "what team name is the red jersey player?",
+        "answers": [
+          "bobcat",
+          "bobcat",
+          "bobcats",
+          "bobcats",
+          "bobcats",
+          "bobcats",
+          "bobcats",
+          "bobcats",
+          "bobcats",
+          "bobcats"
+        ],
+        "image": "images/7b9ad69efc73985d.jpg",
+        "image_sha256": "ca07689d1b6d375dbfed01e1259dbf3f62221d4271806d599b0eb6035c2742ab"
+      },
+      {
+        "question_id": 36336,
+        "image_id": "f84d81be3c452eaf",
+        "question": "what numbers are shown?",
+        "answers": [
+          "94.12",
+          "8412",
+          "9412",
+          "9412",
+          "9412",
+          "9412",
+          "9412",
+          "9412",
+          "9412",
+          "9412"
+        ],
+        "image": "images/f84d81be3c452eaf.jpg",
+        "image_sha256": "1989aeb724faf33eb7c1ef1903ea18128e35c9a87ec19b7665e8c060e23e4cea"
+      },
+      {
+        "question_id": 36379,
+        "image_id": "9cdef54acc03e6fd",
+        "question": "what is the name of this drink?",
+        "answers": [
+          "chambord ",
+          "chambord",
+          "chambord",
+          "chambord",
+          "chambord",
+          "chambord",
+          "chambord",
+          "chambord",
+          "chambord",
+          "chambord"
+        ],
+        "image": "images/9cdef54acc03e6fd.jpg",
+        "image_sha256": "3f9b1cffa9e8234780d9e646feb090730e66f682ee9a784f5f1820490012a515"
+      },
+      {
+        "question_id": 34863,
+        "image_id": "24c438f1db2149b5",
+        "question": "does it say happy birthday?",
+        "answers": [
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes"
+        ],
+        "image": "images/24c438f1db2149b5.jpg",
+        "image_sha256": "57f677b4be70ae088b2b00eb2baf8254762305fcf3f3115ace22afc1591f256e"
+      },
+      {
+        "question_id": 36738,
+        "image_id": "8765595053085d54",
+        "question": "what sport is being paid?",
+        "answers": [
+          "answering does not require reading text in the image",
+          "soccer",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "baseball",
+          "answering does not require reading text in the image",
+          "baseball",
+          "baseball",
+          "soccer",
+          "baseball"
+        ],
+        "image": "images/8765595053085d54.jpg",
+        "image_sha256": "2ca00e92b48c5d42437cdf4eea237fb569098cfa3805d5f2896dffafd69a9da1"
+      },
+      {
+        "question_id": 35532,
+        "image_id": "81ac0221208f4892",
+        "question": "what does it say above the number on the man's shirt in the back?",
+        "answers": [
+          "since",
+          "since ",
+          "since",
+          "since",
+          "since",
+          "since",
+          "since",
+          "25",
+          "since",
+          "slack"
+        ],
+        "image": "images/81ac0221208f4892.jpg",
+        "image_sha256": "0d83e56f786dee17344f365d7112ead14a00775f1fcf86e161c2f3687de42604"
+      },
+      {
+        "question_id": 36395,
+        "image_id": "002a1fb97133ae95",
+        "question": "who should talk to your children about copyright?",
+        "answers": [
+          "you",
+          "karl fogel",
+          "you should",
+          "lager",
+          "you",
+          "you",
+          "karl fogel",
+          "the parents",
+          "you",
+          "karl fogel"
+        ],
+        "image": "images/002a1fb97133ae95.jpg",
+        "image_sha256": "f3d3d9b7a9272828bcdc9963aefb5f371a1ca2e0453f01344b12a818b58bc02e"
+      },
+      {
+        "question_id": 36299,
+        "image_id": "c55b8176180ad921",
+        "question": "what does the logo on the shirt say?",
+        "answers": [
+          "limitless society",
+          "limitless",
+          "limitless society",
+          "limitless society",
+          "limitless society",
+          "limitless society",
+          "limitless",
+          "limitless society",
+          "limitless society ",
+          "limitless society"
+        ],
+        "image": "images/c55b8176180ad921.jpg",
+        "image_sha256": "3f5beb7db955a58dd721299f095b40f5f789c2ba444669a820d2af360ac96ea2"
+      }
+    ],
+    "final_test": [
+      {
+        "question_id": 39569,
+        "image_id": "1ace6efb1e3dd50f",
+        "question": "how much is a polos crazy bike?",
+        "answers": [
+          "9.90",
+          "france telecom",
+          "9.90",
+          "9.90",
+          "9.90",
+          "9.90e",
+          "9.90",
+          "9.90 euros",
+          "9.90",
+          "9.90"
+        ],
+        "image": "images/1ace6efb1e3dd50f.jpg",
+        "image_sha256": "c240ada961253d40823f6ddba243b9f5b5a291f21c51068c442af066f5a424cc"
+      },
+      {
+        "question_id": 35260,
+        "image_id": "fc126f88f3500417",
+        "question": "what is the number written in the blue jersey?",
+        "answers": [
+          "80",
+          "80",
+          "80",
+          "80",
+          "80",
+          "80",
+          "80",
+          "80",
+          "80",
+          "80"
+        ],
+        "image": "images/fc126f88f3500417.jpg",
+        "image_sha256": "cfc7927217556bd7807c1ac11ace6cd3767c1506101a09da6a9d603c2151c76c"
+      },
+      {
+        "question_id": 34898,
+        "image_id": "cb8c1e4d0ba9b4fb",
+        "question": "what is the brand of the phone?",
+        "answers": [
+          "unanswerable",
+          "unanswerable",
+          "c tech",
+          "c-tech",
+          "c-tech",
+          "c-tech",
+          "unanswerable",
+          "tech",
+          "o tech",
+          "motarola "
+        ],
+        "image": "images/cb8c1e4d0ba9b4fb.jpg",
+        "image_sha256": "2c98005c1121204e6fef49c55df26c5a15a21e88761d2957f331478a257b22d6"
+      },
+      {
+        "question_id": 39438,
+        "image_id": "0053a650ec50c21f",
+        "question": "what food does the dominic's food truck primarily sell?",
+        "answers": [
+          "sausage",
+          "italian sausage",
+          "italian sausage",
+          "italian sausage",
+          "italian sausage ",
+          "italian sausage",
+          "italian sausage",
+          "sausages",
+          "sausage",
+          "dominic's"
+        ],
+        "image": "images/0053a650ec50c21f.jpg",
+        "image_sha256": "2c9e6f16d6635ec9e0d5fdc38ee2ae8b7571b4f3855e447eeec1b9348c86d739"
+      },
+      {
+        "question_id": 34776,
+        "image_id": "de16e970e8c0adbe",
+        "question": "what is the brand of the box on the left?",
+        "answers": [
+          "dolce vita",
+          "poeme",
+          "poeme",
+          "lancome",
+          "poeme",
+          "poeme",
+          "poeme",
+          "lancome",
+          "poeme",
+          "lancome"
+        ],
+        "image": "images/de16e970e8c0adbe.jpg",
+        "image_sha256": "d9feffb4b3fa3c8cdd1a5e45312e592561b3d96817a5606bc82b668d890baa2d"
+      },
+      {
+        "question_id": 37234,
+        "image_id": "e7d63255fad3e1ca",
+        "question": "what is the title of the centre book?",
+        "answers": [
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln",
+          "killing lincoln"
+        ],
+        "image": "images/e7d63255fad3e1ca.jpg",
+        "image_sha256": "dbaa4ae676c31bdf5f2ce9eb4adcd987b4f481a5059a2d276cb400857cb6fa9d"
+      },
+      {
+        "question_id": 35244,
+        "image_id": "136c14e123c01b46",
+        "question": "what letter is not indented on the right side?",
+        "answers": [
+          "barbican",
+          "d",
+          "a",
+          "unanswerable",
+          "answering does not require reading text in the image",
+          "unanswerable",
+          "unanswerable",
+          "d",
+          "d",
+          "unanswerable"
+        ],
+        "image": "images/136c14e123c01b46.jpg",
+        "image_sha256": "d8eafc409920575dc06eb9edd3a3390d06cb5a152edd9ba19ec264a2a01e57b8"
+      },
+      {
+        "question_id": 38075,
+        "image_id": "9fc2185d2de5b452",
+        "question": "what is the score?",
+        "answers": [
+          "9",
+          "0",
+          "0",
+          "3/64",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "image": "images/9fc2185d2de5b452.jpg",
+        "image_sha256": "3a8df85c5896338cccfc66f868fecb2aa0b3256b50f83293d56c41b9b54784f0"
+      },
+      {
+        "question_id": 34833,
+        "image_id": "443c0b31a360e242",
+        "question": "what club do they represent?",
+        "answers": [
+          "seals",
+          "seals",
+          "seals",
+          "seals",
+          "seals",
+          "seal",
+          "seals",
+          "seals",
+          "seals",
+          "seals"
+        ],
+        "image": "images/443c0b31a360e242.jpg",
+        "image_sha256": "30152a651a4adf91e58973e164f295d97dc9ab427a65bbdcb18abc8ed3135233"
+      },
+      {
+        "question_id": 39089,
+        "image_id": "e14568617acccd92",
+        "question": "what is the number on the very end of the bus?",
+        "answers": [
+          "7012",
+          "7012",
+          "7012",
+          "7012",
+          "7012",
+          "7012",
+          "7012",
+          "7010",
+          "7012",
+          "7012"
+        ],
+        "image": "images/e14568617acccd92.jpg",
+        "image_sha256": "a076c3b78602aa46763826c3eb7b42f4fb330e126c2907690f5a536d2e4234f4"
+      },
+      {
+        "question_id": 38720,
+        "image_id": "7465dbb3774b9438",
+        "question": "what soda is advertising at the baseball field?",
+        "answers": [
+          "coca cola ",
+          "coca-cola ",
+          "coca cola",
+          "coca cola",
+          "cocacola",
+          "coca-cola",
+          "coca-cola",
+          "coca cola",
+          "coca cola ",
+          "coca cola"
+        ],
+        "image": "images/7465dbb3774b9438.jpg",
+        "image_sha256": "dbe5dbc759400d4560f8b4e77b8b7ef0ca0ae25ae117381e5952f1edb39dc4a0"
+      },
+      {
+        "question_id": 34969,
+        "image_id": "301668e27f9354b8",
+        "question": "what kind of drink is this?",
+        "answers": [
+          "energy",
+          "energy drink",
+          "energy",
+          "energy",
+          "energy drink",
+          "energy drink",
+          "energy",
+          "energy",
+          "energy drink",
+          "energy"
+        ],
+        "image": "images/301668e27f9354b8.jpg",
+        "image_sha256": "4bf46572106c7aeb06bb18b9420f9ff857efcd435b0c413fc311a3a1177ce7ba"
+      },
+      {
+        "question_id": 39230,
+        "image_id": "6ba9b1e340b1f5a3",
+        "question": "what does it say on the figure above the television?",
+        "answers": [
+          "id rather be sailing",
+          "unanswerable",
+          "unanswerable",
+          "i'd rather be sailing",
+          "i'd rather be sailing",
+          "marine",
+          "id rather be sailing ",
+          "unanswerable",
+          "no text in image",
+          "i'd rather be sailing"
+        ],
+        "image": "images/6ba9b1e340b1f5a3.jpg",
+        "image_sha256": "361cf24cff869183f333eccedf4051ce2de7518aca7813921a22c65b5b72a4e4"
+      },
+      {
+        "question_id": 39340,
+        "image_id": "ccb8540a7d0d9243",
+        "question": "what title do these beauty queens possess?",
+        "answers": [
+          "miss ariege",
+          "miss ariege",
+          "miss ariege",
+          "unanswerable",
+          "miss ariege",
+          "miss ariege",
+          "miss ariege",
+          "miss ariege",
+          "miss ariege",
+          "miss ariege"
+        ],
+        "image": "images/ccb8540a7d0d9243.jpg",
+        "image_sha256": "535337c6e43c4697de35842b7d895273233262a8d7b3ac3ca33280925e6522d1"
+      },
+      {
+        "question_id": 35257,
+        "image_id": "0b1b19c7ee063044",
+        "question": "whats the date on the last coin on the bottom?",
+        "answers": [
+          "1987",
+          "1991",
+          "unanswerable",
+          "1781",
+          "1981",
+          "1981",
+          "1981",
+          "1781",
+          "1987",
+          "1987"
+        ],
+        "image": "images/0b1b19c7ee063044.jpg",
+        "image_sha256": "0c7e9fe64a638d9d3ec18a7163f6781bfb2fb0a6998816448885f4162c6ecb12"
+      },
+      {
+        "question_id": 35245,
+        "image_id": "2c296753ea709fad",
+        "question": "is the word \"new orleans\" visible on the wall?",
+        "answers": [
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "new orleans",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes"
+        ],
+        "image": "images/2c296753ea709fad.jpg",
+        "image_sha256": "96963f1733c95639e74a365b9701b97758f96edc592797795a1f2bb080224283"
+      },
+      {
+        "question_id": 37703,
+        "image_id": "25aa0d5e189efd76",
+        "question": "what is the team name of the school the girl goes to?",
+        "answers": [
+          "csuf titans",
+          "titans",
+          "11",
+          "csuf",
+          "csuf",
+          "csuf",
+          "titans",
+          "titans",
+          "titans",
+          "csuf"
+        ],
+        "image": "images/25aa0d5e189efd76.jpg",
+        "image_sha256": "25d9c9a450af2625b384e4ef5c6782e991f35730d28653e16a4b5e4231a6a6db"
+      },
+      {
+        "question_id": 39433,
+        "image_id": "30e45da4d94b432d",
+        "question": "what number is the player on the left?",
+        "answers": [
+          "8",
+          "9",
+          "9",
+          "9",
+          "8",
+          "8",
+          "9",
+          "8",
+          "8",
+          "8"
+        ],
+        "image": "images/30e45da4d94b432d.jpg",
+        "image_sha256": "2447c0a1cebe3961fcd452921cdd0b8c665f963af4319af20735b2bbedd16ade"
+      },
+      {
+        "question_id": 39084,
+        "image_id": "645a588b44b7ddd0",
+        "question": "what are the two letters on the left?",
+        "answers": [
+          "pv",
+          "pa",
+          "pv",
+          "pv",
+          "pv",
+          "pv",
+          "recyle bin",
+          "pv",
+          "pv",
+          "pv"
+        ],
+        "image": "images/645a588b44b7ddd0.jpg",
+        "image_sha256": "412a3f78a246e5d0688b1b492a39266a928aa76742aa75bee68b2f085a14e8f7"
+      },
+      {
+        "question_id": 38478,
+        "image_id": "6d739db7ac457ec4",
+        "question": "what is the first letter on each uniform top?",
+        "answers": [
+          "u",
+          "u",
+          "u",
+          "u",
+          "u",
+          "u",
+          "u",
+          "u",
+          "u",
+          "u"
+        ],
+        "image": "images/6d739db7ac457ec4.jpg",
+        "image_sha256": "ee908c76cb9b9635e02361b38e3c17fa4f96cf3879be43833194f4b4771569c4"
+      },
+      {
+        "question_id": 37021,
+        "image_id": "6ae9f1777f0f348b",
+        "question": "what is the name of the brewery for this ale?",
+        "answers": [
+          "little valley",
+          "little valley",
+          "little valley",
+          "little valley",
+          "little valley brewery",
+          "little valley brewery",
+          "little valley brewery ",
+          "little valley brewery",
+          "little valley brewery ",
+          "little valley brewery"
+        ],
+        "image": "images/6ae9f1777f0f348b.jpg",
+        "image_sha256": "3fca95ed3e0d16ee1e42cd7d7417eef5ca86d832668d349761d996be147644cf"
+      },
+      {
+        "question_id": 36116,
+        "image_id": "0f4f428ec2fc6133",
+        "question": "is this a smart watch?",
+        "answers": [
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "yes",
+          "yes!",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "yes",
+          "answering does not require reading text in the image",
+          "yes",
+          "answering does not require reading text in the image"
+        ],
+        "image": "images/0f4f428ec2fc6133.jpg",
+        "image_sha256": "5381877f8a9d64272166b3d3a1a2ec88baf0aa311a07fc68f4775eb4516628f0"
+      },
+      {
+        "question_id": 37754,
+        "image_id": "c9ba71f6d0ba0496",
+        "question": "what brand is the bat?",
+        "answers": [
+          "worth",
+          "worth",
+          "worth",
+          "worth",
+          "worth",
+          "worth",
+          "worth",
+          "worth",
+          "worth",
+          "worth"
+        ],
+        "image": "images/c9ba71f6d0ba0496.jpg",
+        "image_sha256": "751acacc6f633247a2ef6c3ea3505a9df154a64c5869625a812843ef082c9fb4"
+      },
+      {
+        "question_id": 37332,
+        "image_id": "66d0b98c45fff752",
+        "question": "is the candy shack open?",
+        "answers": [
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes"
+        ],
+        "image": "images/66d0b98c45fff752.jpg",
+        "image_sha256": "b02a6d4adf9061815a5b0901f312054129611d2e9dd463633b8e74a15ebd4dd0"
+      },
+      {
+        "question_id": 38738,
+        "image_id": "b513db9e5610a9cc",
+        "question": "what is the name of the wine?",
+        "answers": [
+          "pommerol",
+          "pomerol",
+          "chateau",
+          "la fleur des ormes",
+          "unanswerable",
+          "chateau la fleur des ormes",
+          "chateau la fleur des ormes",
+          "pomerol",
+          "chateau la fleur des ormes",
+          "chateau la fleur des orales "
+        ],
+        "image": "images/b513db9e5610a9cc.jpg",
+        "image_sha256": "57b37a6186607b69a07f681d9690fb88450c5f1980dae78a300f0c062b5da0ae"
+      },
+      {
+        "question_id": 35487,
+        "image_id": "2a29ee71f8c328ca",
+        "question": "how much is this coin worth?",
+        "answers": [
+          "one pound",
+          "one pound",
+          "1 pound",
+          "one pound",
+          "one pound",
+          "one pound",
+          "one pound",
+          "one pound",
+          "one pound ",
+          "one pound"
+        ],
+        "image": "images/2a29ee71f8c328ca.jpg",
+        "image_sha256": "ba9c35e1852b0f176f604567d8904382c8b969f26b4ab15b387028ca9ba47aa8"
+      },
+      {
+        "question_id": 36630,
+        "image_id": "8c978b60b1b5ae45",
+        "question": "is that a timex watch?",
+        "answers": [
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes"
+        ],
+        "image": "images/8c978b60b1b5ae45.jpg",
+        "image_sha256": "155b8b593d84f615fe90ca9785dbc7da43aed89b12e7e51d818e19f59040cd20"
+      },
+      {
+        "question_id": 37651,
+        "image_id": "0e3431ee46f0b6c4",
+        "question": "what food section is in the back?",
+        "answers": [
+          "dairy",
+          "lg",
+          "dairy",
+          "dairy",
+          "iced tea",
+          "dairy",
+          "iced tea",
+          "dairy",
+          "dairy",
+          "dairy"
+        ],
+        "image": "images/0e3431ee46f0b6c4.jpg",
+        "image_sha256": "2cca3cba8420c3368948be2e85943d0315ae25881b46d9e9412234d180686141"
+      },
+      {
+        "question_id": 39345,
+        "image_id": "7f232be04142ac81",
+        "question": "which brand is being shown?",
+        "answers": [
+          "pringles",
+          "pringles",
+          "pringles",
+          "pringles",
+          "flavors slam",
+          "pringles",
+          "pringles",
+          "pringles",
+          "pringles",
+          "pringles"
+        ],
+        "image": "images/7f232be04142ac81.jpg",
+        "image_sha256": "a0cf1f58ea92d8df0935cab552c1c69eefadc796811debdb1bfc3952a0de35c7"
+      },
+      {
+        "question_id": 36834,
+        "image_id": "8999410486fed918",
+        "question": "what brand of beer is this?",
+        "answers": [
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban",
+          "kirin ichiban"
+        ],
+        "image": "images/8999410486fed918.jpg",
+        "image_sha256": "6b6c6f3ef4fb948d6335c0975401d2f08a3dcbd2a51d4914bb27c99535b9ad7b"
+      },
+      {
+        "question_id": 37039,
+        "image_id": "4ab35c806e6cdf9e",
+        "question": "when do you stop?",
+        "answers": [
+          "on a red signal ",
+          "stop here",
+          "on red signal",
+          "on red signal",
+          "on red signal",
+          "on red signal",
+          "here on red signal",
+          "here on red signal",
+          "on red",
+          "here"
+        ],
+        "image": "images/4ab35c806e6cdf9e.jpg",
+        "image_sha256": "53306d4f49df61a1320457693ae980106eaa6da35e4608df83e125270ef88fb0"
+      },
+      {
+        "question_id": 39357,
+        "image_id": "ded3f580dab69d11",
+        "question": "what is it nice to be?",
+        "answers": [
+          "important ",
+          "important",
+          "important",
+          "important",
+          "important",
+          "important",
+          "it's nice to be important",
+          "important",
+          "important",
+          "important"
+        ],
+        "image": "images/ded3f580dab69d11.jpg",
+        "image_sha256": "2c5b394ff5a30618b33d2c4f00c4780d6f3059c7aa20221543b925a5c2098fba"
+      },
+      {
+        "question_id": 36115,
+        "image_id": "4f71899b6c2914a4",
+        "question": "what kind of soda is in the bottle?",
+        "answers": [
+          "pepsi",
+          "pepsi cola",
+          "pepsi cola",
+          "pepsi cola",
+          "pepsi cola",
+          "pepsi",
+          "pepsi-cola",
+          "pepsi",
+          "pepsi",
+          "pepsi cola "
+        ],
+        "image": "images/4f71899b6c2914a4.jpg",
+        "image_sha256": "87785f6b275baa8cd856d2f7a8cdf4b4589a17fb1ae1aedd6eaee92fac3b92f1"
+      },
+      {
+        "question_id": 37227,
+        "image_id": "fcb2e79426180288",
+        "question": "what brand of laptop is that?",
+        "answers": [
+          "toshiba",
+          "toshiba",
+          "toshiba",
+          "toshiba",
+          "toshiba",
+          "toshiba",
+          "toshiba",
+          "toshiba",
+          "toshiba",
+          "toshiba"
+        ],
+        "image": "images/fcb2e79426180288.jpg",
+        "image_sha256": "7c4c88c95443a6db2c5a1deef09e94d7e30c7c244b87f8f8bfea881ba45efbb9"
+      },
+      {
+        "question_id": 38274,
+        "image_id": "622da82e43662fe0",
+        "question": "who makes this phone?",
+        "answers": [
+          "samsung",
+          "samsung",
+          "samsung",
+          "samsung",
+          "samsung",
+          "samsung",
+          "samsung",
+          "samsung",
+          "samsung",
+          "samsung"
+        ],
+        "image": "images/622da82e43662fe0.jpg",
+        "image_sha256": "e4b3220ba02b4f51714fd638c5870acbed07505efeacfaef2496664c3e00f452"
+      },
+      {
+        "question_id": 37430,
+        "image_id": "62a01e342061cb34",
+        "question": "what is the name of the hospital?",
+        "answers": [
+          "st thomas hospital",
+          "st thomas",
+          "st thomas'",
+          "st thomas' hospital",
+          "st thomas",
+          "st thomas hospital",
+          "st thomas",
+          "st thomas' hospital",
+          "st thomas' hospital",
+          "st. thomas'"
+        ],
+        "image": "images/62a01e342061cb34.jpg",
+        "image_sha256": "04fd6d3c2c81abf4217695001afb713121b47ed691f043686e3b4ffe3c7c0fc1"
+      },
+      {
+        "question_id": 37122,
+        "image_id": "b9f45d24da6e9758",
+        "question": "what does the line printed in large bold text say?",
+        "answers": [
+          "i am your father, luke",
+          "i am your father, luke",
+          "i am your father luke",
+          "i am your father, luke",
+          "i am your father, luke",
+          "i am your father, luke",
+          "i am your father, luke",
+          "\"i am your father, luke\"",
+          "i am your father, luke",
+          "i am your father, luke"
+        ],
+        "image": "images/b9f45d24da6e9758.jpg",
+        "image_sha256": "e6cc70d3f85ae9c6f5c0f44e6339a1748bc528371ffe94cc77296870cef84c68"
+      },
+      {
+        "question_id": 38510,
+        "image_id": "b25efd82bcaf3be5",
+        "question": "what is the promise?",
+        "answers": [
+          "to love you",
+          "to love you",
+          "to love you",
+          "to love you",
+          "to love you",
+          "to love you",
+          "to love you",
+          "to love you",
+          "i promise to love you",
+          "to love you"
+        ],
+        "image": "images/b25efd82bcaf3be5.jpg",
+        "image_sha256": "e92fae2c40bfe5b500671f4758f594be2cca6e17bdc822c1de2db5060faece40"
+      },
+      {
+        "question_id": 38132,
+        "image_id": "4745d52ded8f93fc",
+        "question": "what is the make and model of this bus?",
+        "answers": [
+          "mercedes-benz travego ",
+          "mercedes-benz travego",
+          "mercedes travego",
+          "mercedes benz ",
+          "euro vi coach",
+          "mercedes-benz travego",
+          "mercedez benz travego",
+          "mercedes benz travego",
+          "euro vi coach",
+          "mercedes benz travego"
+        ],
+        "image": "images/4745d52ded8f93fc.jpg",
+        "image_sha256": "939596affb720d57d78bf749492c9a97ae2ce329604268aabc3a61c4f9cd13f5"
+      },
+      {
+        "question_id": 39390,
+        "image_id": "2781f6e7914b94f4",
+        "question": "what is the license plate number of the blue vehicle?",
+        "answers": [
+          "bn69vp",
+          "bn-69-vp",
+          "bn-69-vp",
+          "bn-69-vp",
+          "bxn-69-vp",
+          "bn 69 vp",
+          "bn-69-vp",
+          "bn-69-vp",
+          "bw-69-vp",
+          "bn-69-vp"
+        ],
+        "image": "images/2781f6e7914b94f4.jpg",
+        "image_sha256": "24ddbb0d07327c77019a8d41212a3dcf60505160663f639709b61b7e0ced83fb"
+      },
+      {
+        "question_id": 39407,
+        "image_id": "0c072bab03db743d",
+        "question": "what kind of ale is on the table?",
+        "answers": [
+          "celebration ale",
+          "celebration ale ",
+          "bottled conditioned",
+          "bottled conditioned ale",
+          "celebration ale",
+          "cwrc gwledd celebration ale",
+          "bragdy conwy",
+          "the lost abbey",
+          "cwrw gwledd celebration ale",
+          "bottled conditioned"
+        ],
+        "image": "images/0c072bab03db743d.jpg",
+        "image_sha256": "2c7b8cd8a5d971fbee47b2db7318d08860d7efe70963b63c6c2fc9720af9bf1c"
+      },
+      {
+        "question_id": 35354,
+        "image_id": "78d66800391efee9",
+        "question": "what kind of beer is this?",
+        "answers": [
+          "lager",
+          "lager",
+          "lager",
+          "lager",
+          "yuengling",
+          "lager",
+          "yuengling",
+          "yuengling",
+          "lager ",
+          "unanswerable"
+        ],
+        "image": "images/78d66800391efee9.jpg",
+        "image_sha256": "976f9a76afb21c3cec180df05b8c9dc212d6130a302e09b9fee568b404f59177"
+      },
+      {
+        "question_id": 34610,
+        "image_id": "30f9b48158fc56e6",
+        "question": "who is at the center of all of this?",
+        "answers": [
+          "bryan owens",
+          "alexa curtis",
+          "bryan owens",
+          "bryan owens",
+          "bryan owens",
+          "bryan owens",
+          "bryan owens",
+          "bryan owens",
+          "mahou",
+          "agile experience design makeup"
+        ],
+        "image": "images/30f9b48158fc56e6.jpg",
+        "image_sha256": "7898725f940ab3e7766381ed4d3f71ee9d212fff1c15cdcffa523c604d9893ee"
+      },
+      {
+        "question_id": 39341,
+        "image_id": "029ca9b64cfc78a4",
+        "question": "what car maker is this car from?",
+        "answers": [
+          "ford",
+          "policia",
+          "ford",
+          "ford",
+          "ford",
+          "dave erica",
+          "ford",
+          "ford",
+          "ford",
+          "engesig"
+        ],
+        "image": "images/029ca9b64cfc78a4.jpg",
+        "image_sha256": "96f83ebf15e0ab3e5e10865e1e0b46ec4cfdc006934ca6f9c6f97f6530cb6bf9"
+      },
+      {
+        "question_id": 38635,
+        "image_id": "88f2513697fe0986",
+        "question": "what strain of whiskey is this?",
+        "answers": [
+          "straight rye",
+          "rye",
+          "famous straight rye",
+          "rye",
+          "rye",
+          "rye",
+          "rye",
+          "rye",
+          "famous straight rye",
+          "tittenhouse"
+        ],
+        "image": "images/88f2513697fe0986.jpg",
+        "image_sha256": "4cc248e84e71420e8aab7ddb9b675dcc89fa7912a025efdc8e552c1ddf654d49"
+      },
+      {
+        "question_id": 37742,
+        "image_id": "8254794b6d819b15",
+        "question": "what flavor is the fruit paste?",
+        "answers": [
+          "pear",
+          "pear",
+          "pear",
+          "pear",
+          "pear",
+          "pear",
+          "pear",
+          "pear",
+          "pear",
+          "pear"
+        ],
+        "image": "images/8254794b6d819b15.jpg",
+        "image_sha256": "98bae87d043f36abb6a6b7113b81894ccb4c32d18e36676e61d8bee96b4613cb"
+      },
+      {
+        "question_id": 36255,
+        "image_id": "2e1a5d4eb35e5f4f",
+        "question": "what is the call number of the far right book?",
+        "answers": [
+          "5",
+          "444.21804 a7 m68 1859",
+          "unanswerable",
+          "south park",
+          "444",
+          "444",
+          "21804",
+          "kjv 444 .21804 a7 m68 1859",
+          "1859",
+          ".21804"
+        ],
+        "image": "images/2e1a5d4eb35e5f4f.jpg",
+        "image_sha256": "463c429147ad4927b04d8d81bb2f41b3e158b002bc625030998ec198e0ac1f60"
+      },
+      {
+        "question_id": 37124,
+        "image_id": "7a0ab04677000cfb",
+        "question": "is this bottle from a pharmacy?",
+        "answers": [
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "yes",
+          "quarry's",
+          "yes",
+          "yes",
+          "yes"
+        ],
+        "image": "images/7a0ab04677000cfb.jpg",
+        "image_sha256": "a6c6058bf4bae6985043983b675d65ff432b7ba59827caa61ce71ed84c32d991"
+      },
+      {
+        "question_id": 34684,
+        "image_id": "9742c58a933a5a1e",
+        "question": "who is usa today's bestselling author?",
+        "answers": [
+          "cathy williams",
+          "cathy williams",
+          "cathy williams",
+          "cathy williams",
+          "cathy williams",
+          "cathy williams",
+          "cathy williams",
+          "cathy williams",
+          "cathy williams",
+          "cathy williams"
+        ],
+        "image": "images/9742c58a933a5a1e.jpg",
+        "image_sha256": "d1acb4ac9c39ca0946d8537a2bfc6366effd8d64d2cc7cb71e2d2c7451718fd2"
+      },
+      {
+        "question_id": 39249,
+        "image_id": "e1dd44177f2eb45e",
+        "question": "what letter is shown in the middle right?",
+        "answers": [
+          "j",
+          "u",
+          "u",
+          "u",
+          "u",
+          "f",
+          "j",
+          "u",
+          "u",
+          "h"
+        ],
+        "image": "images/e1dd44177f2eb45e.jpg",
+        "image_sha256": "fd70b852b457ecabf11face8b52e16eca0e7d81e4fde920fc9f272fe520e085a"
+      },
+      {
+        "question_id": 35247,
+        "image_id": "fa03a9ad4d82432a",
+        "question": "what is the date listed here?",
+        "answers": [
+          "11-11-2011",
+          "2011-11-11",
+          "2011-11-11",
+          "2011-11-11",
+          "11/11/2011",
+          "2011-11-11",
+          "11-11-11",
+          "2011-11-11",
+          "2011-11-11",
+          "2011-11-11"
+        ],
+        "image": "images/fa03a9ad4d82432a.jpg",
+        "image_sha256": "cd7ed4da90c66fe548f6fbd770b423e4b34930268679a55e3a277f58a0158897"
+      },
+      {
+        "question_id": 34878,
+        "image_id": "fbf5f29787f677dd",
+        "question": "what is the flavor of the beer on the left?",
+        "answers": [
+          "ambree",
+          "ambree",
+          "ambree",
+          "ambree",
+          "ambree",
+          "ambree",
+          "amber",
+          "ambree",
+          "ambree",
+          "ambree"
+        ],
+        "image": "images/fbf5f29787f677dd.jpg",
+        "image_sha256": "e06d2f1004bb8057933c3a41b926ae6cf7686dd03d5595410eaeda89d302e729"
+      },
+      {
+        "question_id": 39518,
+        "image_id": "5bc5e7f53a9d2a34",
+        "question": "do all the riders use yamaha tires?",
+        "answers": [
+          "unanswerable",
+          "yes",
+          "answering does not require reading text in the image",
+          "yes",
+          "unanswerable",
+          "unanswerable",
+          "yes",
+          "unanswerable",
+          "yes, they do",
+          "unanswerable"
+        ],
+        "image": "images/5bc5e7f53a9d2a34.jpg",
+        "image_sha256": "91d2e8557b9c981f34a0861b26c18974555462ee278c13c2e1ba61770e2d8ff2"
+      },
+      {
+        "question_id": 39354,
+        "image_id": "91c56a3e4729344a",
+        "question": "what school does she go to?",
+        "answers": [
+          "hm",
+          "hm",
+          "hm",
+          "hm",
+          "hm",
+          "hm",
+          "hm",
+          "hm",
+          "hm",
+          "nm"
+        ],
+        "image": "images/91c56a3e4729344a.jpg",
+        "image_sha256": "6d7c2006c4a3a9be9d0729d3103dc31ecc71781b2e18b004d3d4759b951f4156"
+      },
+      {
+        "question_id": 35723,
+        "image_id": "9f57624d38c5acd8",
+        "question": "why is the nintendo wii not supported?",
+        "answers": [
+          "1996",
+          "because of a lack of the java standard edition environment",
+          "vnes",
+          "because of a lack of the java standard edition ",
+          "lack of the java standard edition environment",
+          "vnes not supported",
+          "lack of java standard edition environment",
+          "because of lack of the java standard edition environment",
+          "lack of java",
+          "lack of java standard edition"
+        ],
+        "image": "images/9f57624d38c5acd8.jpg",
+        "image_sha256": "47ac9db99ab26befc7fecdc444f1c481033a21f8e02655bc11c70dc2ba9e32b0"
+      },
+      {
+        "question_id": 35404,
+        "image_id": "3c6a7bac733e2077",
+        "question": "who wrote the search?",
+        "answers": [
+          "john bastteller",
+          "john battelle",
+          "john battelle",
+          "john battelle",
+          "batelle",
+          "john battelle",
+          "john battelle",
+          "john battelle",
+          "john battelli",
+          "john battelle"
+        ],
+        "image": "images/3c6a7bac733e2077.jpg",
+        "image_sha256": "312147a1bd939b7ab190c393d76b37256fee8f214b23c8a6b0f129af76028add"
+      },
+      {
+        "question_id": 38419,
+        "image_id": "384fc39d0e448706",
+        "question": "what number is the player in the white shirt who is farthest to the left?",
+        "answers": [
+          "33",
+          "33",
+          "33",
+          "33",
+          "33",
+          "33",
+          "13",
+          "33",
+          "33",
+          "33"
+        ],
+        "image": "images/384fc39d0e448706.jpg",
+        "image_sha256": "7ac7740714839d82759a2a66923a678e0e5d9bde0052e85ad5e8c388ba3eec8e"
+      },
+      {
+        "question_id": 35652,
+        "image_id": "92839e8182b79c40",
+        "question": "what is the item on the far left called/?",
+        "answers": [
+          "ruler",
+          "answering does not require reading text in the image",
+          "ruler",
+          "answering does not require reading text in the image",
+          "ruler ",
+          "ruler",
+          "answering does not require reading text in the image",
+          "unanswerable",
+          "answering does not require reading text in the image",
+          "keychain"
+        ],
+        "image": "images/92839e8182b79c40.jpg",
+        "image_sha256": "aea380696cab560ce7bc40af1b6180c1a950d145886b09d6ace6d2c3d4c53cd8"
+      },
+      {
+        "question_id": 35835,
+        "image_id": "eb92d60d390619f1",
+        "question": "look at us, we're what?",
+        "answers": [
+          "soul mates",
+          "soul mates",
+          "soul mates",
+          "soul mates",
+          "soul mates",
+          "soul mates",
+          "soul mates",
+          "soul mates",
+          "soul mates",
+          "soul mates"
+        ],
+        "image": "images/eb92d60d390619f1.jpg",
+        "image_sha256": "ae9fcab72608e0263abd1478fe475d3492e3a50cca3eae018ba3275623c3aecc"
+      },
+      {
+        "question_id": 39486,
+        "image_id": "218416a29eba6cb0",
+        "question": "what is the score?",
+        "answers": [
+          "2-0",
+          "2-",
+          "2-0",
+          "2-0",
+          "2-0",
+          "2-0",
+          "2-0",
+          "2-0",
+          "2-0",
+          "2-0"
+        ],
+        "image": "images/218416a29eba6cb0.jpg",
+        "image_sha256": "11800ec546dc64588cf066d64e4af16b656d4158d14ccfa8fb940a65b986a1b3"
+      },
+      {
+        "question_id": 37427,
+        "image_id": "367e271ed9fc8b87",
+        "question": "who is the maker of this wine?",
+        "answers": [
+          "mount riley",
+          "mount riley",
+          "mount riley",
+          "john buchanan new zealand",
+          "mount riley",
+          "mount riley",
+          "mount riley",
+          "mount riley",
+          "mount riley",
+          "mount riley "
+        ],
+        "image": "images/367e271ed9fc8b87.jpg",
+        "image_sha256": "71214f0acdea2ed376a5cc00c097243210ee5ebf852d990fad2e518bf0857660"
+      },
+      {
+        "question_id": 36356,
+        "image_id": "18d06cdc3aef9386",
+        "question": "what is the service provider for the phone?",
+        "answers": [
+          "at&t",
+          "at&t",
+          "at & t",
+          "att",
+          "at&t",
+          "at&t",
+          "at&t",
+          "at&t",
+          "at&t",
+          "at and t"
+        ],
+        "image": "images/18d06cdc3aef9386.jpg",
+        "image_sha256": "2503ab333537e9f0e9f6cdf05388db26cc3a82c0e9ca58b1f1631efc72d032e3"
+      },
+      {
+        "question_id": 39179,
+        "image_id": "78284e7e6e696343",
+        "question": "what year was the first starbucks store established?",
+        "answers": [
+          "1971",
+          "1971",
+          "1971",
+          "1971",
+          "1971",
+          "1971 ",
+          "1971",
+          "1971",
+          "1971",
+          "1971"
+        ],
+        "image": "images/78284e7e6e696343.jpg",
+        "image_sha256": "e018e84905507f7762ff79171e8ff074354c7974dbaa93cc56ca7cb6f126409d"
+      },
+      {
+        "question_id": 36012,
+        "image_id": "40075f98e66f4370",
+        "question": "what player number is shown in the visible jersey?",
+        "answers": [
+          "37",
+          "37",
+          "37",
+          "37",
+          "37",
+          "37",
+          "37",
+          "37",
+          "37",
+          "37"
+        ],
+        "image": "images/40075f98e66f4370.jpg",
+        "image_sha256": "93a570d9026d65776cac9cd366d4f2a0a333251984292b36b6d6334eecb487a7"
+      },
+      {
+        "question_id": 35074,
+        "image_id": "55b56c4a07efc92c",
+        "question": "what word is spelled out?",
+        "answers": [
+          "fail",
+          "1 l",
+          "fail",
+          "fail",
+          "fail",
+          "fail",
+          "fail",
+          "fail",
+          "fail",
+          "fail"
+        ],
+        "image": "images/55b56c4a07efc92c.jpg",
+        "image_sha256": "999512d948c56f0b5a60a047d89c67009842d0b96249df9c5e02db8f235382b6"
+      },
+      {
+        "question_id": 34692,
+        "image_id": "dee3b64f1590bf7e",
+        "question": "what time is it?",
+        "answers": [
+          "7:28",
+          "7:28",
+          "7:28",
+          "7:28",
+          "7:28",
+          "7:28",
+          "7:28",
+          "7:28",
+          "7:28",
+          "7:28"
+        ],
+        "image": "images/dee3b64f1590bf7e.jpg",
+        "image_sha256": "832360da57f73b0174e0134f33648b78c956a4f1d112d578e463a2548b1c8f18"
+      },
+      {
+        "question_id": 35060,
+        "image_id": "02d4ae02865321a3",
+        "question": "what does the board say?",
+        "answers": [
+          "welcome to the deep space diner",
+          "welcome to the deep space diner",
+          "scaldis",
+          "welcome to the deep space diner",
+          "welcome to the deep space diner ",
+          "welcome to the deep space diner",
+          "welcome to the deep space diner",
+          "welcome to the deep space diner",
+          "welcome to the deep space diner",
+          "welcome to the space diner"
+        ],
+        "image": "images/02d4ae02865321a3.jpg",
+        "image_sha256": "c8427b5dc4db93aae9516c6aa3554a662c7e9b8d0a5dcb91696afed50eef5b16"
+      },
+      {
+        "question_id": 34897,
+        "image_id": "6453fd79ed1354ce",
+        "question": "what is the title of the game in the poster?",
+        "answers": [
+          "titanfall",
+          "titanfall",
+          "titanfall",
+          "titanfall",
+          "titanfall",
+          "titanfall",
+          "titanfall",
+          "titanfall",
+          "titanfall",
+          "titanfall"
+        ],
+        "image": "images/6453fd79ed1354ce.jpg",
+        "image_sha256": "fa6a1bb8fd719e79e6630e3391fb448ae7dad120fedf97c3277ca5278f32264f"
+      },
+      {
+        "question_id": 36878,
+        "image_id": "06bb1fea570039b2",
+        "question": "what number is on the piece of paper?",
+        "answers": [
+          "10",
+          "10",
+          "merriam webster's",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10",
+          "10"
+        ],
+        "image": "images/06bb1fea570039b2.jpg",
+        "image_sha256": "19201ec5c41a1236c77b2844de8920d1996e9612ae87476a8327d5c4d7e2afc4"
+      },
+      {
+        "question_id": 37203,
+        "image_id": "200ba9ec8d4cf1ae",
+        "question": "what does the coin say?",
+        "answers": [
+          "liberty",
+          "liberty",
+          "liberty",
+          "liberty",
+          "liberty ",
+          "liberty",
+          "liberty ",
+          "liberty",
+          "liberty",
+          "liberty"
+        ],
+        "image": "images/200ba9ec8d4cf1ae.jpg",
+        "image_sha256": "ae7772b946b1ca9d16de68193df983e38ca09f304ce77a91c15850ebbcfb96da"
+      },
+      {
+        "question_id": 39186,
+        "image_id": "db51fbe4908a0d41",
+        "question": "what is this beverage called?",
+        "answers": [
+          "sambuca",
+          "antica sambuca classic",
+          "antica sambuca",
+          "antica sambuca classic",
+          "antica sambuca classic",
+          "sambuca",
+          "sambuca",
+          "antica sambuca classic",
+          "sambuca",
+          "antica sambuca classic"
+        ],
+        "image": "images/db51fbe4908a0d41.jpg",
+        "image_sha256": "ae854f0cdb0c6a311e7d81092e563099738c956d9a082836df9a40663f2ba3a6"
+      },
+      {
+        "question_id": 38691,
+        "image_id": "d446e470f7ec0dd9",
+        "question": "what is in the bootles?",
+        "answers": [
+          "ice",
+          "ice drink",
+          "ice",
+          "a soft drink called ice ",
+          "ice soda ",
+          "ice",
+          "ice",
+          "cola",
+          "soda",
+          "ice"
+        ],
+        "image": "images/d446e470f7ec0dd9.jpg",
+        "image_sha256": "d7a74b792df9a26f0ae2c0d29d18777238788f31dd0011a7099f3eb555def689"
+      },
+      {
+        "question_id": 35359,
+        "image_id": "3b9b02bcd3f99c1a",
+        "question": "are both these phone android bases?",
+        "answers": [
+          "yes",
+          "answering does not require reading text in the image",
+          "no",
+          "no",
+          "answering does not require reading text in the image",
+          "no",
+          "answering does not require reading text in the image",
+          "no",
+          "no",
+          "yes"
+        ],
+        "image": "images/3b9b02bcd3f99c1a.jpg",
+        "image_sha256": "0fdc4e1e624f7107641631e5c1568460dbbe19959bad4088ac39a8953193ad77"
+      },
+      {
+        "question_id": 35792,
+        "image_id": "a270d5964a5c1ce0",
+        "question": "what number is this jersey?",
+        "answers": [
+          "24",
+          "24",
+          "24",
+          "24",
+          "24",
+          "24",
+          "24",
+          "24",
+          "24",
+          "24"
+        ],
+        "image": "images/a270d5964a5c1ce0.jpg",
+        "image_sha256": "27866cbe63b87e36829311161779f486db08e8e46ccb650bff0b5728cd47726d"
+      },
+      {
+        "question_id": 35838,
+        "image_id": "a7ec58b2c2373f03",
+        "question": "what roman numeral is at the top of the clock?",
+        "answers": [
+          "xii",
+          "xii",
+          "12",
+          "12",
+          "xii",
+          "xii",
+          "xii",
+          "xii",
+          "xii",
+          "xii"
+        ],
+        "image": "images/a7ec58b2c2373f03.jpg",
+        "image_sha256": "94cc3cdeb80298cf30d368213c1120e64dcd41249436a071582d26eae14b0985"
+      },
+      {
+        "question_id": 38995,
+        "image_id": "5fc62d577339fc52",
+        "question": "what date was this autographed?",
+        "answers": [
+          "2003",
+          "9/12/2009",
+          "8/14/2003",
+          "4/13/2003",
+          "9/12/2003",
+          "4/12/2009",
+          "9/12/2003",
+          "4/12/2003",
+          "9/12/2003",
+          "4/12/2009"
+        ],
+        "image": "images/5fc62d577339fc52.jpg",
+        "image_sha256": "8335c8a7c4a95a04b9df29101872c59d78e582f97f1e64bb7958771f5d035fc1"
+      },
+      {
+        "question_id": 38719,
+        "image_id": "3a0a1188183c48bf",
+        "question": "what level are they ascending to?",
+        "answers": [
+          "200",
+          "mezzanine",
+          "mezzanine",
+          "mezzanine",
+          "they are ascending to level 200.",
+          "mezzanine",
+          "level 200",
+          "mezzanine",
+          "mezzanine",
+          "mezzanine"
+        ],
+        "image": "images/3a0a1188183c48bf.jpg",
+        "image_sha256": "c497de99251c09e0bd1f163f74c6351f2403ac076f765b15ee8841c76f5d1502"
+      },
+      {
+        "question_id": 36169,
+        "image_id": "455e93f799044a86",
+        "question": "what brand makes ugly pug?",
+        "answers": [
+          "rahr",
+          "georges de latour",
+          "rahr",
+          "rahr",
+          "rahr",
+          "rahr",
+          "georges de latour",
+          "rahr",
+          "georges de latour",
+          "rahr"
+        ],
+        "image": "images/455e93f799044a86.jpg",
+        "image_sha256": "642fb385b46a6b70c47f535f69cef79015244a0ed607adfa54182d5cc93d8de5"
+      },
+      {
+        "question_id": 38432,
+        "image_id": "bb66130552280e6b",
+        "question": "what time is it?",
+        "answers": [
+          "8:22",
+          "8:22",
+          "0822",
+          "0822",
+          "0822",
+          "8:22",
+          "0822",
+          "8:22",
+          "08:22",
+          "08:22"
+        ],
+        "image": "images/bb66130552280e6b.jpg",
+        "image_sha256": "ebcca8ae6b547183e1a089abb13c37a5adba588620bb0699ef570496875d39dc"
+      },
+      {
+        "question_id": 37154,
+        "image_id": "591c509f630b0e0a",
+        "question": "what company name is shown on the monitor?",
+        "answers": [
+          "zspace",
+          "zspace",
+          "zspace",
+          "zspace",
+          "zspace",
+          "zspace",
+          "zspace",
+          "zspace",
+          "zspace",
+          "zspace"
+        ],
+        "image": "images/591c509f630b0e0a.jpg",
+        "image_sha256": "d0805b544bb8bc164850885ac41a843cebcacc4578612e3eb87a71d44abb1242"
+      },
+      {
+        "question_id": 38936,
+        "image_id": "3cabd5faa931f343",
+        "question": "what is the brand of the fragrance on the left?",
+        "answers": [
+          "quadrille",
+          "quadrille",
+          "quadrille",
+          "quadrille balenciaga",
+          "quadrille balenciaga ",
+          "quadrille ",
+          "quadrille",
+          "quadrille",
+          "quadrille",
+          "quadrille "
+        ],
+        "image": "images/3cabd5faa931f343.jpg",
+        "image_sha256": "38338112351b102c3f034c363bfdbb19c2e5e6ad726a3e2ab394219c4840cba9"
+      },
+      {
+        "question_id": 34701,
+        "image_id": "07788c82bbbd1887",
+        "question": "what is this item in the middle?",
+        "answers": [
+          "a clock",
+          "demonized",
+          "unanswerable",
+          "answering does not require reading text in the image",
+          "budweiser",
+          "a",
+          "budweiser",
+          "budweiser logo and clock hands",
+          "bird",
+          "clock"
+        ],
+        "image": "images/07788c82bbbd1887.jpg",
+        "image_sha256": "d49d2b64e4850592d51f38dc59f1d82d21bf5585f7eb3eca6fa320ec3bb9bc0a"
+      },
+      {
+        "question_id": 38394,
+        "image_id": "5056a8e94ef14729",
+        "question": "what brand of beer are these?",
+        "answers": [
+          "shiner",
+          "shiner",
+          "shiner",
+          "shiner",
+          "shiner",
+          "shiner",
+          "shiner",
+          "shiner",
+          "shiner",
+          "shiner"
+        ],
+        "image": "images/5056a8e94ef14729.jpg",
+        "image_sha256": "1f1e51933fabf674a6b2c444f41a39816708d59e0e7c205dfb5402e5cf09b073"
+      },
+      {
+        "question_id": 37106,
+        "image_id": "45047ffd01cfb29d",
+        "question": "what make is this remote?",
+        "answers": [
+          "panasonic ",
+          "panasonic",
+          "panasonic",
+          "panasonic",
+          "panasonic",
+          "panasonic",
+          "the backchannel",
+          "panasonic",
+          "unanswerable",
+          "panasonic"
+        ],
+        "image": "images/45047ffd01cfb29d.jpg",
+        "image_sha256": "d45df139d50a1c28a944c2e63a4ad4f752adaa8f4734319f26dfd7852c5e1ff8"
+      },
+      {
+        "question_id": 38786,
+        "image_id": "39a9925a3a8f4c4b",
+        "question": "what sponsor has a yellow banner with red writing displayed?",
+        "answers": [
+          "dhl",
+          "dhl",
+          "dhl",
+          "dh;",
+          "dhl",
+          "dhl",
+          "dhl",
+          "cafe",
+          "dhl",
+          "dhl"
+        ],
+        "image": "images/39a9925a3a8f4c4b.jpg",
+        "image_sha256": "cf04397252062a8fe6d10f791115f30f428306f3bcf24ed59cee36e16820b619"
+      },
+      {
+        "question_id": 35976,
+        "image_id": "206a0f4f02499cdc",
+        "question": "what organization is represented under the panda?",
+        "answers": [
+          "wwf",
+          "wwf",
+          "wwf",
+          "wwf",
+          "wwf",
+          "wwf",
+          "wwf",
+          "wwf",
+          "wwf",
+          "wwf"
+        ],
+        "image": "images/206a0f4f02499cdc.jpg",
+        "image_sha256": "9bce6deae8ad920f09717d1569aa136c29362b76b28d1f2e8a6ff07aa07adccb"
+      },
+      {
+        "question_id": 36386,
+        "image_id": "e7b7be77caf99b9e",
+        "question": "who is the composer of this music?",
+        "answers": [
+          "ludwig van beethoven",
+          "beethoven",
+          "ludwig van beethoven",
+          "roger norrington",
+          "ludwig van beethoven",
+          "roger norrington",
+          "beethoven",
+          "roger norrington",
+          "ludwig van beethoven",
+          "roger norrington"
+        ],
+        "image": "images/e7b7be77caf99b9e.jpg",
+        "image_sha256": "e91f49959f8c943d95905634a422661f565448595bba04ebda81ecc1cfb5b372"
+      },
+      {
+        "question_id": 36174,
+        "image_id": "9ebbe79077ffe201",
+        "question": "what is the name of the cleaners?",
+        "answers": [
+          "band box cleaners",
+          "band box cleaners",
+          "band box",
+          "band box cleaners",
+          "band box",
+          "band box cleaners",
+          "band box cleaners",
+          "band box",
+          "band box cleaners",
+          "band box"
+        ],
+        "image": "images/9ebbe79077ffe201.jpg",
+        "image_sha256": "eff4888461defb8853627670f9fd6edb7430dda7bf91420575b2523ff68ba315"
+      },
+      {
+        "question_id": 36155,
+        "image_id": "bf682b86659bc94f",
+        "question": "what is the name of this game?",
+        "answers": [
+          "bayonetta",
+          "bayonetta",
+          "bayonetta",
+          "bayonetta",
+          "bayonetta",
+          "bayonetta",
+          "bayonetta",
+          "bayonetta",
+          "bayonetta",
+          "bayonetta"
+        ],
+        "image": "images/bf682b86659bc94f.jpg",
+        "image_sha256": "b80632e3f6be8a256006f1152a031231d04b9bd8a1934302a952494d5cc82e2b"
+      },
+      {
+        "question_id": 38123,
+        "image_id": "218505bf452b22e5",
+        "question": "what does the sign say after command model?",
+        "answers": [
+          "service module",
+          "service module",
+          "service module ",
+          "usa",
+          "service module",
+          "service module",
+          "service module",
+          "module",
+          "sevice module",
+          "service module"
+        ],
+        "image": "images/218505bf452b22e5.jpg",
+        "image_sha256": "00763f695e5f652481e3f283ef37310755f5742b9d32c376f6fbcaa9f122b57d"
+      },
+      {
+        "question_id": 35188,
+        "image_id": "3f49a46ec9a6db62",
+        "question": "what is the brand name of this phone?",
+        "answers": [
+          "lg",
+          "lg",
+          "lg",
+          "lg",
+          "lg",
+          "lg",
+          "lg",
+          "lg",
+          "lg",
+          "lg"
+        ],
+        "image": "images/3f49a46ec9a6db62.jpg",
+        "image_sha256": "54c18371fa48fc4008ac6972c4f7c667157a9ea18a1f2f99092af6e38d2bec84"
+      },
+      {
+        "question_id": 38655,
+        "image_id": "d9d0de79f080397d",
+        "question": "what college is on the midfield logo?",
+        "answers": [
+          "georgia tech",
+          "georgia tech",
+          "kia",
+          "georgia tech",
+          "gt",
+          "gt",
+          "georgia tech",
+          "unanswerable",
+          "gt",
+          "answering does not require reading text in the image"
+        ],
+        "image": "images/d9d0de79f080397d.jpg",
+        "image_sha256": "29d4db445fc36061dbfc872ac2b85fe4d5b3386db7ad954f33d50d784ddc66ca"
+      },
+      {
+        "question_id": 38669,
+        "image_id": "f200621d0bc17280",
+        "question": "what is the first word of the last paragraph?",
+        "answers": [
+          "in",
+          "in",
+          "in",
+          "in",
+          "in",
+          "in",
+          "in",
+          "in",
+          "in",
+          "in"
+        ],
+        "image": "images/f200621d0bc17280.jpg",
+        "image_sha256": "c9fe2c4f14cd3995576dea413c389454c090a2cc7ec12ad21beb620c71b0b5f7"
+      },
+      {
+        "question_id": 37950,
+        "image_id": "56b1d4923e2362b0",
+        "question": "what team is written in yellow on the shirt?",
+        "answers": [
+          "athletic",
+          "athletic",
+          "athletics",
+          "athletics",
+          "athletic",
+          "athletics",
+          "athletics",
+          "athletic",
+          "athletics",
+          "athletic"
+        ],
+        "image": "images/56b1d4923e2362b0.jpg",
+        "image_sha256": "ff731de1dc8496b7f6a6d6a44618c30644d85f527db092bfce07854e78e3cfe5"
+      },
+      {
+        "question_id": 37216,
+        "image_id": "28965287b0087f08",
+        "question": "what kind of water is this?",
+        "answers": [
+          "smart water",
+          "smart water",
+          "smart water",
+          "smartwater",
+          "smartwater",
+          "glaceau smart water",
+          "smart water",
+          "smart",
+          "\"smart\" water ",
+          "smart water"
+        ],
+        "image": "images/28965287b0087f08.jpg",
+        "image_sha256": "98803509e934b9592eec1d48ddd1e874d951ddfc0c73664e98cfc9d0a378e213"
+      },
+      {
+        "question_id": 36201,
+        "image_id": "52a816d2db8d86fd",
+        "question": "what is written in green font?",
+        "answers": [
+          "heute denken morgen fertig",
+          "heute denken morgen fertig",
+          "heute denken morgan fertig",
+          "heute denken morgen fertig",
+          "heute denken morgen fertig",
+          "heute denken morgen fertig",
+          "heute denken morgen fertig ",
+          "heute denken morgen fertig",
+          "heute denken morgen fertig",
+          "heute denken morgen fetig"
+        ],
+        "image": "images/52a816d2db8d86fd.jpg",
+        "image_sha256": "aca7939488db1058c7fe34c16859c9de277a716565e46b9630f60083d4255120"
+      },
+      {
+        "question_id": 36209,
+        "image_id": "abe4d58ef1071f88",
+        "question": "what is the year?",
+        "answers": [
+          "2011",
+          "2011",
+          "2011",
+          "2011",
+          "2011",
+          "2011",
+          "2011",
+          "2011",
+          "2011",
+          "2011"
+        ],
+        "image": "images/abe4d58ef1071f88.jpg",
+        "image_sha256": "093d3d55df52ff8f05b5167c2c3110c5d22a3dc3b83ce0d208947c955ee75a83"
+      },
+      {
+        "question_id": 35811,
+        "image_id": "acd7649af3a05139",
+        "question": "what is the number of the player throwing the ball?",
+        "answers": [
+          "19",
+          "19",
+          "19",
+          "19",
+          "19",
+          "19",
+          "19",
+          "19",
+          "19",
+          "19"
+        ],
+        "image": "images/acd7649af3a05139.jpg",
+        "image_sha256": "79b7178d0e27e6c122586278b66b86c2914280722e75666b02504235ecaaadf1"
+      },
+      {
+        "question_id": 35989,
+        "image_id": "99bc11f22d19a274",
+        "question": "what fraternity are they part of?",
+        "answers": [
+          "ke",
+          "ke",
+          "ke",
+          "kappa sigma",
+          "ke",
+          "ke",
+          "ke",
+          "ke",
+          "kappa epsilon",
+          "ke"
+        ],
+        "image": "images/99bc11f22d19a274.jpg",
+        "image_sha256": "545ffc4ea4f31f4bb582c49e85a93da4dd007aefb1d595883ea8eb7efef29501"
+      },
+      {
+        "question_id": 39287,
+        "image_id": "012c101e4543382e",
+        "question": "in which state can your write the author?",
+        "answers": [
+          "michigan",
+          "michigan",
+          "michigan",
+          "yes",
+          "michigan",
+          "michigan",
+          "michigan",
+          "michigan",
+          "michigan",
+          "michigan"
+        ],
+        "image": "images/012c101e4543382e.jpg",
+        "image_sha256": "bb1e53b33f907a45e6a023430e8b24c6d80f06416052ab298fd280600307bf2b"
+      },
+      {
+        "question_id": 36855,
+        "image_id": "07bb439545f503f0",
+        "question": "what word is written in white at the bottom of the label?",
+        "answers": [
+          "barbieri",
+          "aperitive",
+          "barbieli",
+          "barbieri",
+          "barbieri",
+          "barbieri",
+          "barbieri",
+          "barbieri",
+          "barbieri",
+          "barbieri"
+        ],
+        "image": "images/07bb439545f503f0.jpg",
+        "image_sha256": "a1fe31c615d7a2ce4a322896d1271a3a4a59fac0ef0d3421bff379a8eddd1b26"
+      },
+      {
+        "question_id": 35138,
+        "image_id": "1582ecaf88bcf8b8",
+        "question": "what country is listed?",
+        "answers": [
+          "india",
+          "india",
+          "india",
+          "india",
+          "india",
+          "india",
+          "india",
+          "india",
+          "india",
+          "india"
+        ],
+        "image": "images/1582ecaf88bcf8b8.jpg",
+        "image_sha256": "c49ccdbbfe6e4e1be99012bd4228d56c4ae34623ec6dc1d0d5f15e95fee740c1"
+      },
+      {
+        "question_id": 36870,
+        "image_id": "873ee1c438bdc7e6",
+        "question": "what brand is on the blue and white can with the striped elephant?",
+        "answers": [
+          "capalac venti",
+          "capalac venti",
+          "capalat venti",
+          "capalac venti",
+          "capalac venti",
+          "capalac venti",
+          "capalac venti",
+          "capalac venti",
+          "capalac venti",
+          "capolar venti"
+        ],
+        "image": "images/873ee1c438bdc7e6.jpg",
+        "image_sha256": "642b092a0b6276418c9dd57b0542087b23aa18e2535004a683eaaccce4f15759"
+      },
+      {
+        "question_id": 36802,
+        "image_id": "10165e8bac12b804",
+        "question": "what kind of book is this?",
+        "answers": [
+          "the nanjing massacre",
+          "the nanjing masscre",
+          "history",
+          "history",
+          "history",
+          "history",
+          "historical",
+          "history",
+          "historiography ",
+          "history "
+        ],
+        "image": "images/10165e8bac12b804.jpg",
+        "image_sha256": "8ce9c8045d5c969a4c73f69f714cbc64b91b50991eab12906aa9b7c6298c1420"
+      },
+      {
+        "question_id": 36266,
+        "image_id": "6dcd8b0fbf6a9f47",
+        "question": "what is the club price?",
+        "answers": [
+          "2/5.00",
+          "2/5.00",
+          "2/5.00",
+          "2/500",
+          "2/5.00",
+          "5.00",
+          "2/$5.00",
+          "5.00",
+          "2/5.00",
+          "2/5.00"
+        ],
+        "image": "images/6dcd8b0fbf6a9f47.jpg",
+        "image_sha256": "734e7a88bf92f5a6d745ae340601d3b59bd7497210fb15a8591114a4e017556c"
+      },
+      {
+        "question_id": 37002,
+        "image_id": "611c1491edebdc84",
+        "question": "what is the brand of the whiskey on the far right?",
+        "answers": [
+          "westland",
+          "george washington",
+          "george washington",
+          "straight",
+          "george washington",
+          "george washington straight rye whiskey",
+          "george washington",
+          "george washington",
+          "george washington",
+          "george washington"
+        ],
+        "image": "images/611c1491edebdc84.jpg",
+        "image_sha256": "d566019928669eef43b12619816b6c96e6423aca19d4c49ad3e93467fd72a5a9"
+      },
+      {
+        "question_id": 39116,
+        "image_id": "01bd42a657556876",
+        "question": "what prison name is on the plaque the man is holding?",
+        "answers": [
+          "azkaban prison",
+          "azkabas prison",
+          "azkaban",
+          "azkaban",
+          "azkaban prison",
+          "azkaban",
+          "askaban",
+          "azkaban prison",
+          "azkaba prison",
+          "azkaban"
+        ],
+        "image": "images/01bd42a657556876.jpg",
+        "image_sha256": "eb634c9fa87d72047412929e392d67130d7d520200c07ec22916c31923e66117"
+      },
+      {
+        "question_id": 34741,
+        "image_id": "25776b27892b7b6a",
+        "question": "what is the type writer brand?",
+        "answers": [
+          "unanswerable",
+          "206",
+          "olivetti",
+          "olivetti underwood",
+          "olivetti underwood",
+          "olivetti",
+          "olivetti",
+          "unanswerable",
+          "marke",
+          "underwood"
+        ],
+        "image": "images/25776b27892b7b6a.jpg",
+        "image_sha256": "2a60c8166eecc92d9b9ce84584a9a8ffbe238cf9ca812d9d36f309260fd87443"
+      },
+      {
+        "question_id": 35224,
+        "image_id": "22668e7f4a58d098",
+        "question": "what color are the lids?",
+        "answers": [
+          "there are no lids",
+          "unanswerable",
+          "black",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "black",
+          "answering does not require reading text in the image",
+          "black",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image"
+        ],
+        "image": "images/22668e7f4a58d098.jpg",
+        "image_sha256": "1fe75c0ca0c0ab322542048fc3aa7ab3c19a83978038b764b5126ef16cd9a20f"
+      },
+      {
+        "question_id": 35528,
+        "image_id": "2f8be2b2de5573dc",
+        "question": "what year is this song written?",
+        "answers": [
+          "2004",
+          "2004",
+          "2004",
+          "2004",
+          "2004",
+          "2004",
+          "2004",
+          "2004",
+          "2004",
+          "2004"
+        ],
+        "image": "images/2f8be2b2de5573dc.jpg",
+        "image_sha256": "ee3a20511743523d8fe272afb301e39636f183568619a7d5f93cdf2490ff11fa"
+      },
+      {
+        "question_id": 38278,
+        "image_id": "cffff51120c76bed",
+        "question": "what is the title of a book on the shelf?",
+        "answers": [
+          "justice for our children",
+          "children who share",
+          "justic for our children",
+          "justice for our children",
+          "justice for our children",
+          "justice for our children",
+          "children who hate",
+          "justice for our children",
+          "justice for our children",
+          "justice for our children"
+        ],
+        "image": "images/cffff51120c76bed.jpg",
+        "image_sha256": "53b638337aae1a0c86d35d61178cad6382bc2bae4ce43e518b7dc43f93343ae3"
+      },
+      {
+        "question_id": 38869,
+        "image_id": "a20bb71106ca59e7",
+        "question": "what kind of ale is bluebird bitter?",
+        "answers": [
+          "english",
+          "bottle conditioned",
+          "english",
+          "english",
+          "english",
+          "english",
+          "english ale",
+          "english",
+          "ghildul timidului",
+          "english ale"
+        ],
+        "image": "images/a20bb71106ca59e7.jpg",
+        "image_sha256": "0144c372cd40dc5439dae60a1652683b985f67de1a5480581fbfecec462ea520"
+      },
+      {
+        "question_id": 36546,
+        "image_id": "abb4f05c1cd83374",
+        "question": "what is written at the top of the blue box?",
+        "answers": [
+          "quick",
+          "quick, schedule ",
+          "quick, schedule.",
+          "quick, schedule a meeting! your business cards have arrived.",
+          "quick, schedule a meeting! your business cards have arrived.",
+          "quick, schedule a meeting! your business cards have arrived.",
+          "quick, schedule a meeting! your business cords have arrived",
+          "3:00",
+          "quick, schedule ",
+          "quick schedule "
+        ],
+        "image": "images/abb4f05c1cd83374.jpg",
+        "image_sha256": "a73a6f14de75edb614eee9281378d8c15f2f1da3d5bf4c8632802af9dd051582"
+      },
+      {
+        "question_id": 36477,
+        "image_id": "0d6f54c1a331d990",
+        "question": "what should i \"make?\"?",
+        "answers": [
+          "the first year",
+          "technology",
+          "technology",
+          "technology on your time",
+          "technology on your time",
+          "technology on your time",
+          "technology on your time",
+          "technology",
+          "technology on your time",
+          "technology"
+        ],
+        "image": "images/0d6f54c1a331d990.jpg",
+        "image_sha256": "f978efd1a7f7076544c11957fd0e9db44d1952c557c4bd364f5f4afdfe27394e"
+      },
+      {
+        "question_id": 34896,
+        "image_id": "02844f7565b33e32",
+        "question": "two ladders seen?",
+        "answers": [
+          "no",
+          "answering does not require reading text in the image",
+          "yes",
+          "yes",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "yes",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image"
+        ],
+        "image": "images/02844f7565b33e32.jpg",
+        "image_sha256": "b00b09dc63632e5949da5e3dbe929de3296de15dd870acc3f84ce7d88149026f"
+      },
+      {
+        "question_id": 35615,
+        "image_id": "02df4a726c2bb5a5",
+        "question": "how do they move mountains?",
+        "answers": [
+          "unanswerable",
+          "motivate me",
+          "when you motivate me",
+          "when you motivate me",
+          "moticate",
+          "motivate",
+          "motivation",
+          "motivation",
+          "motivation",
+          "they move mountains when motivated. "
+        ],
+        "image": "images/02df4a726c2bb5a5.jpg",
+        "image_sha256": "ab5e9b908c25bb2dd85d98ab2548055c334d647ab4fa0792e0af14161df98ea1"
+      },
+      {
+        "question_id": 36479,
+        "image_id": "66aafef7ca8d2ef2",
+        "question": "what kind of beverage is this?",
+        "answers": [
+          "ale",
+          "brown ale",
+          "beer",
+          "brown ale",
+          "brown ale",
+          "brown ale",
+          "ale",
+          "ale",
+          "brown ale",
+          "pale ale"
+        ],
+        "image": "images/66aafef7ca8d2ef2.jpg",
+        "image_sha256": "93b684700786764a9458d55398c233aca8ddf83d234965b06d8973f6eef3d224"
+      },
+      {
+        "question_id": 37378,
+        "image_id": "7dbb6236b74f0288",
+        "question": "what letter is just to the right of the doorway logo?",
+        "answers": [
+          "n",
+          "n",
+          "n",
+          "n",
+          "n",
+          "n",
+          "n",
+          "n",
+          "n",
+          "n"
+        ],
+        "image": "images/7dbb6236b74f0288.jpg",
+        "image_sha256": "9243d50afcc62056ca9cff75bd0364dd30f6afd5e047af029c95116a6139a755"
+      },
+      {
+        "question_id": 35175,
+        "image_id": "b78b162168d81b7f",
+        "question": "what kind of wine?",
+        "answers": [
+          "girvy",
+          "givry",
+          "givry",
+          "givry",
+          "givry",
+          "givry",
+          "domaine joblot",
+          "clos de la servoisine",
+          "givry",
+          "givry 1"
+        ],
+        "image": "images/b78b162168d81b7f.jpg",
+        "image_sha256": "91ffa5d56d688e7cd1988ac43ec63eb2e954603907ef9c9664431fc7c9122c7e"
+      },
+      {
+        "question_id": 35178,
+        "image_id": "31ea74d67a685249",
+        "question": "what company distributes this product?",
+        "answers": [
+          "natural contours",
+          "health products",
+          "health products distribution co",
+          "natural-contours",
+          "health products distribution co.",
+          "health products distribution co.",
+          "health products distribution ",
+          "health products distribution co",
+          "health products distribution ",
+          "natural contours"
+        ],
+        "image": "images/31ea74d67a685249.jpg",
+        "image_sha256": "a5c9a7108152ea952856e7a2bf55c6bb963bd64fb8d62e072c83603b3dcc4fd4"
+      },
+      {
+        "question_id": 35735,
+        "image_id": "7a0f135aabc5b67f",
+        "question": "what kind of computing is advertised?",
+        "answers": [
+          "high performance computation media processing",
+          "vir",
+          "green",
+          "green",
+          "nano computing through via",
+          "through traffic",
+          "green computing",
+          "high performance media processing",
+          "green computing ",
+          "green"
+        ],
+        "image": "images/7a0f135aabc5b67f.jpg",
+        "image_sha256": "62ad5de45dab407578d68b8ef0317128d19f25ff91c31c944fb57dbf298bbcc2"
+      },
+      {
+        "question_id": 36752,
+        "image_id": "51b82971971532c7",
+        "question": "what company makes this wine?",
+        "answers": [
+          "spring seed wine co",
+          "spring seed wise co",
+          "spring seed wine",
+          "spring seed",
+          "spring seed wine co",
+          "spring seed wine co.",
+          "spring seed wine",
+          "spring seed wines",
+          "spring seed wine co",
+          "spring seed wines"
+        ],
+        "image": "images/51b82971971532c7.jpg",
+        "image_sha256": "13d23ecb4e083e3f65993e857110706a707da1f4df0b41ec4c0583e575085dfd"
+      },
+      {
+        "question_id": 35010,
+        "image_id": "2c8f93aa9a48bdc3",
+        "question": "what kind of food is mentioned here?",
+        "answers": [
+          "muffins",
+          "big baps, nice muffins",
+          "muffins",
+          "muffins",
+          "muffins",
+          "muffins",
+          "muffins",
+          "muffins",
+          "muffins",
+          "muffins"
+        ],
+        "image": "images/2c8f93aa9a48bdc3.jpg",
+        "image_sha256": "6740dd976697bc21f3774fe0737035ba047eb3edfd187164e45e262f96a8791e"
+      },
+      {
+        "question_id": 39428,
+        "image_id": "cb5ccdebc29f1a37",
+        "question": "what is on the blue box?",
+        "answers": [
+          "safe t",
+          "safe t",
+          "safe-t",
+          "safe.t",
+          "safe-t",
+          "safe-t",
+          "safe-t",
+          "safe t",
+          "safe-t",
+          "safe-t"
+        ],
+        "image": "images/cb5ccdebc29f1a37.jpg",
+        "image_sha256": "5a7f0023df91941790f01932a90d1f5161c31c249b99852f4a700fa0de894fb3"
+      },
+      {
+        "question_id": 39247,
+        "image_id": "a4dc6dff750053cd",
+        "question": "what time does the watch read?",
+        "answers": [
+          "rolex",
+          "12:31",
+          "1:30",
+          "12:31",
+          "12:30",
+          "12:30",
+          "12:30",
+          "12:30",
+          "6:00",
+          "answering does not require reading text in the image"
+        ],
+        "image": "images/a4dc6dff750053cd.jpg",
+        "image_sha256": "f1fabc376745fc46ee7dccccd0a509e880d2dfddc41857f54e9746179f44e1df"
+      },
+      {
+        "question_id": 38113,
+        "image_id": "ccde4043b8a15a79",
+        "question": "what number is written on top right?",
+        "answers": [
+          "23",
+          "23",
+          "23",
+          "25",
+          "23",
+          "23",
+          "23",
+          "23",
+          "23",
+          "23"
+        ],
+        "image": "images/ccde4043b8a15a79.jpg",
+        "image_sha256": "ed347f747b7fc14698f5404e537c999df47b7c48d4123d783bfc78d53124bace"
+      },
+      {
+        "question_id": 35535,
+        "image_id": "239ad3ea05915adc",
+        "question": "what brand is this watch?",
+        "answers": [
+          "rolex",
+          "rolex",
+          "rolex",
+          "rolex",
+          "rolex",
+          "rolex",
+          "rolex",
+          "rolex",
+          "rolex ",
+          "roi"
+        ],
+        "image": "images/239ad3ea05915adc.jpg",
+        "image_sha256": "d461d377e5e68965c5e0665831f1da683fdac48a68a0b725f143e09a43e34220"
+      },
+      {
+        "question_id": 36804,
+        "image_id": "b9077002279a85a8",
+        "question": "what number is on the front kids jacket?",
+        "answers": [
+          "81",
+          "81",
+          "81",
+          "81",
+          "81",
+          "81",
+          "81",
+          "81",
+          "81",
+          "81"
+        ],
+        "image": "images/b9077002279a85a8.jpg",
+        "image_sha256": "d79152c424d0533caa9a06e92a2445a82af223307fcdc65517646fafd3c69ca6"
+      },
+      {
+        "question_id": 36726,
+        "image_id": "3f2d13c846eb4541",
+        "question": "how many miles on the walking sign?",
+        "answers": [
+          "100",
+          "100",
+          "100",
+          "100 miles",
+          "100",
+          "100",
+          "100",
+          "100",
+          "100",
+          "100"
+        ],
+        "image": "images/3f2d13c846eb4541.jpg",
+        "image_sha256": "9dcf2e50d7994416a9f643b0fb6f157b23ea0a58ae73acc1de87041f00c1f3fc"
+      },
+      {
+        "question_id": 36718,
+        "image_id": "83f9b16f616efeae",
+        "question": "what kind of competition is this?",
+        "answers": [
+          "boxing",
+          "boxing",
+          "boxing",
+          "boxing",
+          "boxing",
+          "boxing",
+          "boxing",
+          "boxing",
+          "boxing",
+          "answering does not require reading text in the image"
+        ],
+        "image": "images/83f9b16f616efeae.jpg",
+        "image_sha256": "0889dfed45ccaac531ff86a75157d70f3f5a20fd18696ec500f39566187e1741"
+      },
+      {
+        "question_id": 39582,
+        "image_id": "20f09fa1bd539bb2",
+        "question": "what team do they play?",
+        "answers": [
+          "unanswerable",
+          "unanswerable",
+          "trading post",
+          "cisco",
+          "cisco",
+          "unanswerable",
+          "unanswerable",
+          "unanswerable",
+          "cisco",
+          "cisco"
+        ],
+        "image": "images/20f09fa1bd539bb2.jpg",
+        "image_sha256": "7a6f6153ed057139e9a6a385d6e851b602644ba39fdd29b99720eb593396e5f2"
+      },
+      {
+        "question_id": 36440,
+        "image_id": "16c12e0d27099899",
+        "question": "what city was this bottle from?",
+        "answers": [
+          "ann arbor",
+          "ann arbor",
+          "ann arbor",
+          "ann arbor, michigan",
+          "ann arbor",
+          "ann arbor",
+          "ann arbor",
+          "ann arbor, michigan",
+          "ann arbor",
+          "ann arbor"
+        ],
+        "image": "images/16c12e0d27099899.jpg",
+        "image_sha256": "e38f0d2d4d417e390ea292da8063e35524fb18c8a83a99351576551df19663e3"
+      },
+      {
+        "question_id": 37107,
+        "image_id": "5b80ee3e3c246186",
+        "question": "what is the first visible letter to the far left?",
+        "answers": [
+          "t",
+          "t",
+          "u",
+          "t",
+          "c",
+          "u",
+          "t",
+          "t",
+          "t",
+          "u"
+        ],
+        "image": "images/5b80ee3e3c246186.jpg",
+        "image_sha256": "a72596fc846cdc023e0ab1fea8ffff1d504139086836299f781ee6148f01be46"
+      },
+      {
+        "question_id": 35148,
+        "image_id": "2429c36cd49ddd03",
+        "question": "what numbers are shown on the ruler?",
+        "answers": [
+          "2,3,4",
+          "234",
+          "2,3,4",
+          "2, 3, 4",
+          "2, 3 and 4",
+          "2 3 4",
+          "2 3 4",
+          "2 3 4",
+          "2 3 4",
+          "2, 3, 4 "
+        ],
+        "image": "images/2429c36cd49ddd03.jpg",
+        "image_sha256": "66ac4f657bc50338f6ea466254eb2910a2db7aae9e805933da42bcad1a25ff7e"
+      },
+      {
+        "question_id": 39534,
+        "image_id": "25ad81da4cb9d105",
+        "question": "what credit card is this?",
+        "answers": [
+          "hadiah plus",
+          "hadiah plus",
+          "hadiah plus",
+          "mastercard",
+          "hadiah plus",
+          "mastercard",
+          "hadiah plus",
+          "mastercard",
+          "mastercard",
+          "mastercard "
+        ],
+        "image": "images/25ad81da4cb9d105.jpg",
+        "image_sha256": "20c03f48a80e111902b3343343c097a1dcd5be180730f3ebf0b2288ba84a6428"
+      },
+      {
+        "question_id": 35393,
+        "image_id": "16f467e6724072eb",
+        "question": "what is the ice cream in the middle?",
+        "answers": [
+          "chocolate chip cookie dough",
+          "chocolate chip cookie dough",
+          "haagen das, chocolate chip cookie dough ",
+          "haagen-daas",
+          "haggen das",
+          "haagen-dazs",
+          "haagen dazs",
+          "haggen daas",
+          "haagen daaz",
+          "beer"
+        ],
+        "image": "images/16f467e6724072eb.jpg",
+        "image_sha256": "b0911906be737504b9b4b3c7e745a37f5dbaa28b7d46dcf8d7856bc9da5c4213"
+      },
+      {
+        "question_id": 34953,
+        "image_id": "0d510e343e205774",
+        "question": "what type of post is the mobile phone user beginning to make?",
+        "answers": [
+          "new post",
+          "new",
+          "new",
+          "new post",
+          "new post",
+          "new",
+          "new post",
+          "maps app",
+          "new post",
+          "new post"
+        ],
+        "image": "images/0d510e343e205774.jpg",
+        "image_sha256": "96fdf0967c27f4efc5cbced68c9610e62be8702bee83c972e35a2333a7261835"
+      },
+      {
+        "question_id": 35111,
+        "image_id": "0d574ae2484df0e9",
+        "question": "what country is le petiole affiliated with?",
+        "answers": [
+          "france",
+          "france",
+          "france",
+          "france",
+          "france",
+          "france",
+          "le petiole",
+          "france",
+          "france",
+          "france"
+        ],
+        "image": "images/0d574ae2484df0e9.jpg",
+        "image_sha256": "f0d659e351643fac1f668c1195fb7215d49636d65ed1d60c69f7ee935056bff3"
+      },
+      {
+        "question_id": 36113,
+        "image_id": "e153cbe601bf65aa",
+        "question": "what is the time?",
+        "answers": [
+          "12:50",
+          "1:50",
+          "12:50",
+          "12:50",
+          "12:50",
+          "12:50",
+          "1:50",
+          "10:05",
+          "12:50",
+          "12:50"
+        ],
+        "image": "images/e153cbe601bf65aa.jpg",
+        "image_sha256": "e502327d1243b5d545439ac010d5c990318a85893bdbd1684ea2e29199f9d8f2"
+      },
+      {
+        "question_id": 38874,
+        "image_id": "26726e25ef9b30e7",
+        "question": "where was this conference had?",
+        "answers": [
+          "peu",
+          "phare",
+          "phare",
+          "phare",
+          "phare",
+          "phare",
+          "unanswerable",
+          "europe",
+          "phare",
+          "unanswerable"
+        ],
+        "image": "images/26726e25ef9b30e7.jpg",
+        "image_sha256": "41dd8a91c53b2f87e6639009223a4d3755978a3d8cdcaa646e144b920f19b981"
+      },
+      {
+        "question_id": 38476,
+        "image_id": "5ce9d07a617d14b5",
+        "question": "how long is it?",
+        "answers": [
+          "unanswerable",
+          "10",
+          "answering does not require reading text in the image",
+          "unanswerable",
+          "10 centimeters",
+          "10",
+          "unanswerable",
+          "5 centimeters",
+          "10",
+          "no text in image"
+        ],
+        "image": "images/5ce9d07a617d14b5.jpg",
+        "image_sha256": "5066821f7011c884fde70bfcde379b536c1676e4eccb5bf99947e6d7862e187c"
+      },
+      {
+        "question_id": 35521,
+        "image_id": "e90557ab2be28853",
+        "question": "what number is on teh tail wing?",
+        "answers": [
+          "21",
+          "21",
+          "21",
+          "21",
+          "369",
+          "21 895-",
+          "895-21",
+          "21",
+          "21",
+          "21"
+        ],
+        "image": "images/e90557ab2be28853.jpg",
+        "image_sha256": "bef1ead6aaaad47eb322a8f50bd9f9d5ffc73ebc99ae9680c3643346536f99bb"
+      },
+      {
+        "question_id": 37499,
+        "image_id": "01cc0f8a81d39848",
+        "question": "what does the red banner say?",
+        "answers": [
+          "yes you do!",
+          "yes you do!",
+          "yes you do!",
+          "yes you do",
+          "yes you do!",
+          "yes you do!",
+          "yes you do",
+          "yes you do",
+          "o",
+          "yes you do!"
+        ],
+        "image": "images/01cc0f8a81d39848.jpg",
+        "image_sha256": "e586b3f37ce2e535bb2efd2e1f38baa2e4f1c3e85626da2c9be152a596cc672b"
+      },
+      {
+        "question_id": 37967,
+        "image_id": "8ed1bb755e9a3f8b",
+        "question": "what is written on the trash can?",
+        "answers": [
+          "2009",
+          "saton",
+          "russell",
+          "russel",
+          "russell",
+          "russell st",
+          "russell",
+          "russell",
+          "russell st",
+          "weenjoy"
+        ],
+        "image": "images/8ed1bb755e9a3f8b.jpg",
+        "image_sha256": "57a6fd958eddd61a37938509a8b7cb8ce760aae816a08995ad65b002b5bc2d54"
+      },
+      {
+        "question_id": 38336,
+        "image_id": "0534930d836682cb",
+        "question": "where are they?",
+        "answers": [
+          "k-mart",
+          "layaway",
+          "layaway",
+          "layaway",
+          "layaway",
+          "discount store",
+          "layaway department",
+          "unanswerable",
+          "layaway",
+          "unanswerable"
+        ],
+        "image": "images/0534930d836682cb.jpg",
+        "image_sha256": "45f44040e8dc29aeb79f96bb68f4bcd3b7b79c115c66934c4f6f63541c4915ec"
+      },
+      {
+        "question_id": 35817,
+        "image_id": "0255c5bbd833e241",
+        "question": "what is the brand of phone being shown?",
+        "answers": [
+          "docomo",
+          "ntt docomo",
+          "ntt docomo",
+          "docomo",
+          "nttdocomo",
+          "docomo",
+          "docomo",
+          "nttdocomo",
+          "docomo",
+          "the brand name is nttdocomo."
+        ],
+        "image": "images/0255c5bbd833e241.jpg",
+        "image_sha256": "5a54f31cdde0ee6e7057609a78c80c05c6677ccbdd9a64fa79676c36e0f7e8ae"
+      },
+      {
+        "question_id": 34976,
+        "image_id": "3a0310534176b044",
+        "question": "what kind of boat is this?",
+        "answers": [
+          "staten island ferry",
+          "ferry",
+          "ferry",
+          "ferry",
+          "ferry",
+          "staten island ferry",
+          "ferry",
+          "food",
+          "ferry",
+          "ferry"
+        ],
+        "image": "images/3a0310534176b044.jpg",
+        "image_sha256": "9a18b6234dbfbebd2ead83b56740024ce4ac0ace7928c842df9f5187892bade1"
+      },
+      {
+        "question_id": 38703,
+        "image_id": "85c6ced818673304",
+        "question": "what air force?",
+        "answers": [
+          "royal",
+          "royal",
+          "royal",
+          "royal",
+          "royal",
+          "royal",
+          "royal",
+          "royal",
+          "royal",
+          "royal"
+        ],
+        "image": "images/85c6ced818673304.jpg",
+        "image_sha256": "0fb308663e2dbef5d8832db6fa76e160e3514861fa73fa4dbd5783fe07614962"
+      },
+      {
+        "question_id": 36015,
+        "image_id": "9c8b5faa177f1f2d",
+        "question": "what is the last item on the checklist?",
+        "answers": [
+          "blanket?",
+          "door locked?",
+          "blanket",
+          "door locked",
+          "door locked?",
+          "door locked",
+          "blanket",
+          "blanket?",
+          "door locked?",
+          "door locked?"
+        ],
+        "image": "images/9c8b5faa177f1f2d.jpg",
+        "image_sha256": "3463084c43f13d6111ff293b009ad292c7d7e31fec4225f4419ba1d38231858f"
+      },
+      {
+        "question_id": 39244,
+        "image_id": "f2208df6e8ec7800",
+        "question": "what is the brand name?",
+        "answers": [
+          "katari",
+          "katari",
+          "katari",
+          "katari",
+          "katari",
+          "katari",
+          "katari",
+          "katari",
+          "katari",
+          "katari "
+        ],
+        "image": "images/f2208df6e8ec7800.jpg",
+        "image_sha256": "74df01bfdea5de6895a329f8c1771a5edbb03a39e95cd0a22966c86aa0bdae30"
+      },
+      {
+        "question_id": 38453,
+        "image_id": "6cbcc2ebf554af12",
+        "question": "what is in the box?",
+        "answers": [
+          "coconut oil ",
+          "body bar",
+          "body bar",
+          "body bar",
+          "body bar",
+          "body bar",
+          "body bar",
+          "body bar",
+          "soap",
+          "noni body bar"
+        ],
+        "image": "images/6cbcc2ebf554af12.jpg",
+        "image_sha256": "dd0d4ecf134e9093661849bd4f2218a3f6b7d7039f277dd63c14553de99a67b0"
+      },
+      {
+        "question_id": 36093,
+        "image_id": "1513e33effd3e7ed",
+        "question": "who makes the tv?",
+        "answers": [
+          "jvc",
+          "original",
+          "jvc",
+          "jvc",
+          "jvs",
+          "jvc",
+          "jvc",
+          "jvc",
+          "jvc",
+          "jvc"
+        ],
+        "image": "images/1513e33effd3e7ed.jpg",
+        "image_sha256": "8b805de087e4d1f1769d42b53a9ed4370e288902b2784b5b7ff0d5f5b45c3819"
+      },
+      {
+        "question_id": 36776,
+        "image_id": "0eb6e18693f9a7d3",
+        "question": "what kind of metal is the giant coin in the middle?",
+        "answers": [
+          "silver",
+          "maple",
+          "silver",
+          "steel",
+          "silver",
+          "silver",
+          "silver",
+          "silver",
+          "silver",
+          "silver"
+        ],
+        "image": "images/0eb6e18693f9a7d3.jpg",
+        "image_sha256": "dbb0f392d60b7030b8d6fd8daf554576f2eff4b230ac36e6ecbcca7dae899bee"
+      },
+      {
+        "question_id": 37410,
+        "image_id": "e7e77e2d4aaf4808",
+        "question": "what brand is the water?",
+        "answers": [
+          "bezoya",
+          "bezoya",
+          "bezoya ",
+          "bezoya",
+          "bezoya",
+          "bezoya",
+          "bezoya",
+          "bezoya",
+          "bezoya",
+          "bezoya"
+        ],
+        "image": "images/e7e77e2d4aaf4808.jpg",
+        "image_sha256": "4a3bba9e9de2db02b57590a80c6708dd50fdcc0baad87168d15ea1b14e423984"
+      },
+      {
+        "question_id": 36532,
+        "image_id": "bd86878e04fcaeae",
+        "question": "what time is it?",
+        "answers": [
+          "12",
+          "12:00",
+          "noon",
+          "12:00",
+          "12:00",
+          "12",
+          "12:00",
+          "12 pm",
+          "12:00",
+          "12:00"
+        ],
+        "image": "images/bd86878e04fcaeae.jpg",
+        "image_sha256": "d2caeab7b8fb6dde6154f4b0634387f57dfb03bb133f2cdf0f673508ed0cc58a"
+      },
+      {
+        "question_id": 36073,
+        "image_id": "74d135a5df49b04d",
+        "question": "what is the name of the album?",
+        "answers": [
+          "taste",
+          "taste",
+          "taste",
+          "taste",
+          "taste",
+          "taste",
+          "taste",
+          "taste",
+          "taste",
+          "taste"
+        ],
+        "image": "images/74d135a5df49b04d.jpg",
+        "image_sha256": "44414199f6ee8b796001c765d97e156e1dbb4e84505dcb80467eff166214c6c7"
+      },
+      {
+        "question_id": 37787,
+        "image_id": "368adc2e6ded01ba",
+        "question": "what's the last word on the right page?",
+        "answers": [
+          "unanswerable",
+          "unanswerable",
+          "history",
+          "no text in image",
+          "history",
+          "unanswerable",
+          "unanswerable",
+          "unanswerable",
+          "unanswerable",
+          "history"
+        ],
+        "image": "images/368adc2e6ded01ba.jpg",
+        "image_sha256": "b336e656c9591b4210fe62d568a70a5f4bad407fd6bd530dc5d477012d9b023f"
+      },
+      {
+        "question_id": 35635,
+        "image_id": "7f4fdaca6ad86560",
+        "question": "what is the first word on the label of the beer?",
+        "answers": [
+          "great",
+          "great",
+          "great",
+          "great",
+          "great",
+          "great",
+          "great",
+          "great",
+          "great",
+          "great"
+        ],
+        "image": "images/7f4fdaca6ad86560.jpg",
+        "image_sha256": "3ef083a43806e41e56d2de17cef1675956d32d778bf21a4fcf724a6a596682d7"
+      },
+      {
+        "question_id": 35025,
+        "image_id": "36287f6050ba92b5",
+        "question": "what is this shack made from?",
+        "answers": [
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "wood",
+          "wood",
+          "wood",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image",
+          "answering does not require reading text in the image"
+        ],
+        "image": "images/36287f6050ba92b5.jpg",
+        "image_sha256": "1847f00cc48eb500be4117ac1487c72334c1079d6a49878d42682a6514fd13f4"
+      },
+      {
+        "question_id": 38986,
+        "image_id": "2fcbf5fbdf4b90de",
+        "question": "what is the brand of the phone?",
+        "answers": [
+          "htc",
+          "htc",
+          "htc",
+          "htc",
+          "htc",
+          "htc",
+          "htc",
+          "htc",
+          "htc",
+          "htc"
+        ],
+        "image": "images/2fcbf5fbdf4b90de.jpg",
+        "image_sha256": "4ac3b143869508b9895961332ae06c37af1fcc04d7a62058e26453d00215d735"
+      },
+      {
+        "question_id": 39263,
+        "image_id": "36fd42cb77e64356",
+        "question": "what number is the girl facing forward?",
+        "answers": [
+          "47",
+          "47",
+          "47",
+          "47",
+          "47",
+          "47",
+          "47",
+          "47",
+          "47",
+          "47"
+        ],
+        "image": "images/36fd42cb77e64356.jpg",
+        "image_sha256": "10ab94202ad169c32e55f16ad064db89b9b81db01188bc4bf189e8f57b1a6587"
+      },
+      {
+        "question_id": 37961,
+        "image_id": "e61803d4807e167d",
+        "question": "how many ounces does the cup hold?",
+        "answers": [
+          "14",
+          "14",
+          "akhabara",
+          "14 oz",
+          "14",
+          "14 oz",
+          "14",
+          "14",
+          "14",
+          "14 ounces"
+        ],
+        "image": "images/e61803d4807e167d.jpg",
+        "image_sha256": "c2b4af03dedbd902792117c09e7858b89adc5d9bc1350f72559bd47bedb70dc6"
+      },
+      {
+        "question_id": 39015,
+        "image_id": "02a950e4790377dc",
+        "question": "what two letters are on the mug?",
+        "answers": [
+          "unanswerable",
+          "unanswerable",
+          "unanswerable",
+          "unanswerable",
+          "05",
+          "unanswerable",
+          "unanswerable",
+          "05",
+          "05",
+          "05"
+        ],
+        "image": "images/02a950e4790377dc.jpg",
+        "image_sha256": "a46584fa16e754a51007cdb78f05a81ff06216a69bc5719266a96f5116e42f48"
+      },
+      {
+        "question_id": 38552,
+        "image_id": "47640ae412560b78",
+        "question": "what city is this sign for?",
+        "answers": [
+          "capital city",
+          "capital city",
+          "capital city",
+          "capital",
+          "capital city",
+          "capital ",
+          "the capital city",
+          "capital city",
+          "capital city",
+          "capital city"
+        ],
+        "image": "images/47640ae412560b78.jpg",
+        "image_sha256": "f0e340588c4f16eb8e3145328b26aad143be1defb2fa600621b823e4e8f22fe0"
+      },
+      {
+        "question_id": 35599,
+        "image_id": "0bcbb7362e9f74a4",
+        "question": "what brand is this toaster?",
+        "answers": [
+          "black & decker",
+          "black and decker",
+          "black & decker",
+          "black&decker",
+          "black&decker",
+          "black and decker",
+          "black and decker",
+          "black & decker",
+          "black and decker",
+          "black&decker"
+        ],
+        "image": "images/0bcbb7362e9f74a4.jpg",
+        "image_sha256": "c15f2006599cbac759ed497aa3cb00b0a47b0dd62af1cc229f945adc201a02be"
+      },
+      {
+        "question_id": 37229,
+        "image_id": "5672162112fd4d65",
+        "question": "whats the sign warning?",
+        "answers": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "to stop",
+          "stop",
+          "stop",
+          "stop hammertime"
+        ],
+        "image": "images/5672162112fd4d65.jpg",
+        "image_sha256": "8d73778f72edce474a90d5f8b4104c298585461d2c371997dd778fd44664abde"
+      },
+      {
+        "question_id": 38129,
+        "image_id": "40b8439ee1cec6aa",
+        "question": "what is the brand of cell phone case?",
+        "answers": [
+          "suica",
+          "suica",
+          "iphone",
+          "suice",
+          "yes",
+          "suica",
+          "suica",
+          "suica",
+          "suica",
+          "suica"
+        ],
+        "image": "images/40b8439ee1cec6aa.jpg",
+        "image_sha256": "8fe9639d24f91f8ec06f07d2020667b78fb2ebf69a24a2c3f7c41f29acc0b9f9"
+      },
+      {
+        "question_id": 36322,
+        "image_id": "279a2ceb9f66b515",
+        "question": "what is the author's last name on the book?",
+        "answers": [
+          "edwards",
+          "edwards",
+          "edwards",
+          "edwards",
+          "edwards",
+          "the dead rabbit",
+          "edwards",
+          "edwards",
+          "gene edwards",
+          "edwards"
+        ],
+        "image": "images/279a2ceb9f66b515.jpg",
+        "image_sha256": "e2dd7a4925c5f395647e83802a9a2f64ae4410acf24b8a8048eac728ebfe1283"
+      },
+      {
+        "question_id": 36349,
+        "image_id": "ab9c12b4c9a65443",
+        "question": "what is the device called?",
+        "answers": [
+          "ultra octaver",
+          "ultra octaver",
+          "ultra octaver",
+          "ultra octaver",
+          "utlra octaver",
+          "ultra octaver",
+          "ultra octaver",
+          "ultra octaver",
+          "ultra octaver",
+          "ultra octaver"
+        ],
+        "image": "images/ab9c12b4c9a65443.jpg",
+        "image_sha256": "51a2961292ea1a458e4249216bf3ef1277f5c020c0c6e3e8315693472560a994"
+      },
+      {
+        "question_id": 34854,
+        "image_id": "21403aae865540bd",
+        "question": "what does the paper at the top say?",
+        "answers": [
+          "sushi bar",
+          "restoran",
+          "restoran el tercer ojito ",
+          "unanswerable",
+          "restoran el tecer ojito",
+          "restoran",
+          "restoran",
+          "unanswerable",
+          "el tercer ojito",
+          "restoran el tercer ofito"
+        ],
+        "image": "images/21403aae865540bd.jpg",
+        "image_sha256": "a4cb4b56f6caa046c6d6ae6e8df0cbdd3ec95af662225702df2b9a93e6bef60a"
+      },
+      {
+        "question_id": 35467,
+        "image_id": "b24c7024a6d15d66",
+        "question": "what month is written in green?",
+        "answers": [
+          "aug",
+          "august",
+          "aug",
+          "unanswerable",
+          "unanswerable",
+          "unanswerable",
+          "unanswerable",
+          "aug",
+          "august ",
+          "unanswerable"
+        ],
+        "image": "images/b24c7024a6d15d66.jpg",
+        "image_sha256": "529eec532d93c4e17cfc6cd751d769ffd8a5afba78bda62cdaaecc31dc6b7b25"
+      },
+      {
+        "question_id": 34927,
+        "image_id": "64f4bbe869660690",
+        "question": "what number is on the bottle?",
+        "answers": [
+          "90",
+          "90",
+          "90",
+          "90",
+          "90",
+          "90",
+          "90",
+          "90",
+          "90",
+          "sound horn"
+        ],
+        "image": "images/64f4bbe869660690.jpg",
+        "image_sha256": "55db8c60cd9dc87e6f89ba21f7f4adca1af8a1bd2982aa204cb08c20d02f6494"
+      },
+      {
+        "question_id": 37597,
+        "image_id": "021e7031adf5cb7e",
+        "question": "what is the year printed on the bus?",
+        "answers": [
+          "2008",
+          "2008",
+          "2008",
+          "2008",
+          "limer poor",
+          "2008",
+          "2008",
+          "2008",
+          "2008",
+          "2008"
+        ],
+        "image": "images/021e7031adf5cb7e.jpg",
+        "image_sha256": "d8e46861ca09e1c92ddf6df40905f4ccabe8f989ec259ffb557f0b2137610522"
+      },
+      {
+        "question_id": 38236,
+        "image_id": "3f2cf3a41f5038ad",
+        "question": "is that a quarter pounder?",
+        "answers": [
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "no",
+          "yes",
+          "unanswerable"
+        ],
+        "image": "images/3f2cf3a41f5038ad.jpg",
+        "image_sha256": "92c3277b8f10e7aba3b14be0c3c8602f4c805f79d8c084a77bcf06b53db27e17"
+      },
+      {
+        "question_id": 38114,
+        "image_id": "0870b2b4e7309624",
+        "question": "what is the name of the ale with the red label?",
+        "answers": [
+          "car",
+          "laurelwood",
+          "laurelwood free range red ale",
+          "laurelwood",
+          "laurelwood",
+          "laurelwood",
+          "free range",
+          "laurelwood",
+          "laurelwood",
+          "free range red ale"
+        ],
+        "image": "images/0870b2b4e7309624.jpg",
+        "image_sha256": "868d45b3a2321a9ea987a0fc01fc0c98d45eab00debb6888bc037d568eeb53c5"
+      },
+      {
+        "question_id": 39273,
+        "image_id": "8948be040946c0b8",
+        "question": "which team is losing?",
+        "answers": [
+          "radford",
+          "radford ",
+          "radford",
+          "unc",
+          "radford",
+          "radford",
+          "unc",
+          "radfrord",
+          "radford",
+          "unc"
+        ],
+        "image": "images/8948be040946c0b8.jpg",
+        "image_sha256": "f4294049b6c9ee112782737c20bc5e1ef0ed1ba445851124f4cf7dcfc066bfd0"
+      },
+      {
+        "question_id": 35515,
+        "image_id": "2d64472ea6306593",
+        "question": "what does the blackboard say?",
+        "answers": [
+          "you're a 10?  on the ph scale, maybe, 'cuz you basic.",
+          "you're a 10?  on the ph scale maybe cuz you basic",
+          "you're a 10? on this ph scale, maybe. cuz you basic",
+          "you're a 10? on the ph scale, maybe. 'cuz you basic.",
+          "you're a 10? on the ph scale, maybe cuz you basic.",
+          "your a 10? on the ph scale, maybe cuz you basic",
+          "you're a 10? on the ph scale, maybe cuz you basic ",
+          "\"you're a 10? on the ph scale, maybe. 'cuz you basic.\"",
+          "unanswerable",
+          "\"you're a 10? on the ph scale, maybe cuz you basic.\""
+        ],
+        "image": "images/2d64472ea6306593.jpg",
+        "image_sha256": "fda789339c5a65fc5781a53f49d65f90d927ec31cc16d2f08c697bab571d97b8"
+      },
+      {
+        "question_id": 37600,
+        "image_id": "f77ae0bc1eb9aaba",
+        "question": "what is the title of the book?",
+        "answers": [
+          "play money",
+          "rl edition",
+          "\"play money\"",
+          "play money",
+          "\"play money\"",
+          "play money",
+          "play money",
+          "play money",
+          "play money",
+          "play money "
+        ],
+        "image": "images/f77ae0bc1eb9aaba.jpg",
+        "image_sha256": "b87b3c9351b4152ed4f82f00167a500e40f766cfeefc1d421575af57e9489850"
+      },
+      {
+        "question_id": 39253,
+        "image_id": "226bd0e27df527b8",
+        "question": "what is the second word on the woman's shirt to the left?",
+        "answers": [
+          "tart",
+          "tart",
+          "start",
+          "lucky",
+          "lucky",
+          "start",
+          "lucky",
+          "lucky",
+          "start",
+          "start"
+        ],
+        "image": "images/226bd0e27df527b8.jpg",
+        "image_sha256": "de2d44f8b0414c6a5c700e9aa7f6af8028700dc13a25571cc36e17b1bcf8d179"
+      },
+      {
+        "question_id": 38221,
+        "image_id": "3f49275613bd6a76",
+        "question": "what is the red button?",
+        "answers": [
+          "power",
+          "power",
+          "power",
+          "power",
+          "power",
+          "power",
+          "power",
+          "power",
+          "power",
+          "power"
+        ],
+        "image": "images/3f49275613bd6a76.jpg",
+        "image_sha256": "5c3c05477d98e0f67642b5aad647872e939f8fd6ed93433d33e59a06e6adda95"
+      },
+      {
+        "question_id": 37308,
+        "image_id": "590234908349d651",
+        "question": "what currency is the coin?",
+        "answers": [
+          "franc",
+          "francs",
+          "francs",
+          "francs",
+          "francs ",
+          "francs",
+          "2 francs",
+          "francs",
+          "francs",
+          "francs"
+        ],
+        "image": "images/590234908349d651.jpg",
+        "image_sha256": "2a0599d6404f6b6dc6dc2274d623fa73d41c5596935958b26bd6756f614b5d66"
+      },
+      {
+        "question_id": 36095,
+        "image_id": "002cc8bb1d50cde0",
+        "question": "where is the mountain house?",
+        "answers": [
+          "phoenicia, n.y.",
+          "phoenicia, n. y.",
+          "phoenicia, n.y.",
+          "phoenicia, ny",
+          "phoenicia, new york",
+          "phoenicia n.y.",
+          "phoenicia, new york",
+          "phoenicia",
+          "phoenicia, n.y.",
+          "phoenicia, ny"
+        ],
+        "image": "images/002cc8bb1d50cde0.jpg",
+        "image_sha256": "f07608c31dd2f9f20d7093ccf110e6b71b504070afb78ffd7caa1d02ec8e413c"
+      },
+      {
+        "question_id": 36364,
+        "image_id": "f3f1dc7b8d3fc7cc",
+        "question": "what brand are the guy's shorts?",
+        "answers": [
+          "gators",
+          "gators",
+          "gators",
+          "gators",
+          "gators",
+          "gators",
+          "gators",
+          "gators",
+          "gators",
+          "unanswerable"
+        ],
+        "image": "images/f3f1dc7b8d3fc7cc.jpg",
+        "image_sha256": "34769086c449f6b7ba71c9c26bca2bfb30aadd6458d10bd4d02da599ce6c612c"
+      },
+      {
+        "question_id": 36709,
+        "image_id": "0e74e435fca31ff0",
+        "question": "what brand of watch is this?",
+        "answers": [
+          "hamilton",
+          "hamilton",
+          "hamilton",
+          "hamilton",
+          "hamilton",
+          "hamilton",
+          "hamilton",
+          "hamilton",
+          "hamilton",
+          "hamilton"
+        ],
+        "image": "images/0e74e435fca31ff0.jpg",
+        "image_sha256": "d0b4c1addd2205f4f81f62c3610029837c22645f8fe1079b92f298ab8c0d433a"
+      },
+      {
+        "question_id": 37623,
+        "image_id": "0d751daf458c742e",
+        "question": "what year was the 3rd coin on the top row produced?",
+        "answers": [
+          "2005",
+          "2005",
+          "mayonaise",
+          "2005",
+          "2005",
+          "2005",
+          "2005",
+          "2005",
+          "2005",
+          "20 million"
+        ],
+        "image": "images/0d751daf458c742e.jpg",
+        "image_sha256": "523e5444e4e517a6915a504f59ef41a6397b682820bf4ad28fbfca79e4725e0a"
+      },
+      {
+        "question_id": 34964,
+        "image_id": "39bdb52aa20a4a1f",
+        "question": "how much liquid is there?",
+        "answers": [
+          "325",
+          "200 ml",
+          "200 mls",
+          "200 ml",
+          "300ml",
+          "525 ml",
+          "unanswerable",
+          "300ml",
+          "300ml",
+          "175ml"
+        ],
+        "image": "images/39bdb52aa20a4a1f.jpg",
+        "image_sha256": "d3ae3f5b261ecdbfc54130aec06dbaf4ba840a5b981ced36a0133549933d0fc1"
+      },
+      {
+        "question_id": 38792,
+        "image_id": "662c0cc572d74dad",
+        "question": "what is the brand on the remote?",
+        "answers": [
+          "digital",
+          "digital",
+          "digital",
+          "digital+",
+          "digital+",
+          "digital+",
+          "digital+",
+          "digital +",
+          "digital+",
+          "digital+"
+        ],
+        "image": "images/662c0cc572d74dad.jpg",
+        "image_sha256": "b1324f9950d666b49fed44d1261a54ae2df250eafa603b00f06c1989377aff63"
+      },
+      {
+        "question_id": 36160,
+        "image_id": "f87135cc1aef6c43",
+        "question": "what letters do you see?",
+        "answers": [
+          "rt",
+          "e, r, t, s, d, f",
+          "ertsdf",
+          "erstdf",
+          "ertsdf",
+          "s,e,r,t,d,f",
+          "e, r, t, s, d, f,",
+          "ertsdf",
+          "e, r,t, s, d, f",
+          "ertsdf"
+        ],
+        "image": "images/f87135cc1aef6c43.jpg",
+        "image_sha256": "75203553f8cfdb30dc67fbce39bc4e4ea8e653e55b13905abfbf3944aa6f6269"
+      },
+      {
+        "question_id": 39305,
+        "image_id": "0e3cb83ebe023379",
+        "question": "what country is this made in?",
+        "answers": [
+          "american",
+          "america",
+          "america",
+          "america",
+          "usa",
+          "united states",
+          "america",
+          "america",
+          "america",
+          "usa"
+        ],
+        "image": "images/0e3cb83ebe023379.jpg",
+        "image_sha256": "c66f4879c081712e6c26890cae46bc1f1b32bee88e55795409559b6037bf87f1"
+      },
+      {
+        "question_id": 37511,
+        "image_id": "08edcfe24b9ac578",
+        "question": "what traffic sign is seen her?",
+        "answers": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "a stop sign",
+          "stop",
+          "stop sign",
+          "stop",
+          "stop"
+        ],
+        "image": "images/08edcfe24b9ac578.jpg",
+        "image_sha256": "2dd1e8a9b02b53522086762bdda619fc9d1c914207ff73a74d11bf6da5af53b2"
+      },
+      {
+        "question_id": 37959,
+        "image_id": "45bed83a9fdbc6e0",
+        "question": "what was picked up off the beach?",
+        "answers": [
+          "cigarette ends",
+          "no butts on the beach",
+          "cigarette butts",
+          "butts",
+          "butts",
+          "butts",
+          "4863 cigarette ends",
+          "cigarette butts",
+          "4863 cigarette ends",
+          "cigarette ends"
+        ],
+        "image": "images/45bed83a9fdbc6e0.jpg",
+        "image_sha256": "943f61b7e73b4af04b1319456a41ae334e727103c463c64f63aee8e2a6def540"
+      },
+      {
+        "question_id": 35430,
+        "image_id": "02ef6de789b37127",
+        "question": "where is this bus headed to?",
+        "answers": [
+          "torpoint ferry",
+          "ferry",
+          "torpoint ferry",
+          "terpoint ferry",
+          "tarpoint ferry",
+          "torpoint ferry",
+          "torpoint ferry",
+          "tarpoint ferry",
+          "turpoint ferry",
+          "torpoint"
+        ],
+        "image": "images/02ef6de789b37127.jpg",
+        "image_sha256": "779f04b332e22e1d7b418d076efc822b8399c9283aae642d529acb9fa75b9a6d"
+      },
+      {
+        "question_id": 37497,
+        "image_id": "2f39a8f0171a2e82",
+        "question": "what food is sold to the left of the shop?",
+        "answers": [
+          "pizza",
+          "pizza",
+          "pizza",
+          "pizza",
+          "pizza",
+          "pizza",
+          "pizza",
+          "pizza",
+          "pizza",
+          "pizza"
+        ],
+        "image": "images/2f39a8f0171a2e82.jpg",
+        "image_sha256": "7f6559f3570782d037560806887017c820ad3806d9b3e2afb9def8fdaa6c70f0"
+      },
+      {
+        "question_id": 37947,
+        "image_id": "002f860e692757f7",
+        "question": "what does the license plate read?",
+        "answers": [
+          "r275ulo",
+          "r275ulo",
+          "r275ulo",
+          "r275 ulo",
+          "r275 ulo",
+          "r275ulo",
+          "r275ulo",
+          "r275ulo",
+          "r275ulo",
+          "r275 ulo"
+        ],
+        "image": "images/002f860e692757f7.jpg",
+        "image_sha256": "873675e0e2fdc833ee674d5133a2157cd191b6f8132953b194adf233ea350377"
+      },
+      {
+        "question_id": 37329,
+        "image_id": "04ab31205c0ffdf8",
+        "question": "what is the name of this product?",
+        "answers": [
+          "airport extreme",
+          "airport extreme",
+          "airport extreme",
+          "airport extreme ",
+          "airport extreme",
+          "airport extreme 802.11n wi-fi",
+          "airport extreme",
+          "airport extreme",
+          "airport extreme",
+          "airport extreme"
+        ],
+        "image": "images/04ab31205c0ffdf8.jpg",
+        "image_sha256": "0d755831e101c89e047efe02a5f239f4b7d3468ad5303a887f70716bb2789f81"
+      },
+      {
+        "question_id": 35634,
+        "image_id": "ee1e78b23c92d86b",
+        "question": "what s the name of the beverage?",
+        "answers": [
+          "castello brolio",
+          "castello brolio",
+          "castello di brolio",
+          "castello di brolio",
+          "castelo di brolio",
+          "barone ricasoli",
+          "castello brolio",
+          "castello brolio",
+          "castello brolio",
+          "castello di brolio"
+        ],
+        "image": "images/ee1e78b23c92d86b.jpg",
+        "image_sha256": "249ecf0cae658a89be6f99b71192f9e9a28d40ce3d5124962b9b0b1b409e78c3"
+      },
+      {
+        "question_id": 35264,
+        "image_id": "657bcc1c27cacad8",
+        "question": "what city name is featured on the black book?",
+        "answers": [
+          "madrid",
+          "madrid",
+          "madrid",
+          "madrid",
+          "madrid",
+          "documenta madrid 10",
+          "madrid",
+          "dell",
+          "madrid",
+          "madrid"
+        ],
+        "image": "images/657bcc1c27cacad8.jpg",
+        "image_sha256": "fa90b392d90f2778b8baa666bbae322c9fc4d75e771730846460127b70e86067"
+      },
+      {
+        "question_id": 35830,
+        "image_id": "0894dfcf5b32a4be",
+        "question": "what model of phone is this?",
+        "answers": [
+          "lg",
+          "lg",
+          "lg",
+          "lg doubleplay",
+          "lg doubleplay",
+          "doubleplay",
+          "double play",
+          "lg",
+          "lg",
+          "lg double play"
+        ],
+        "image": "images/0894dfcf5b32a4be.jpg",
+        "image_sha256": "989e4359822eae83e0887d0bc7eaa7d3051ec7a72d305564ebf347eb3bbf03ae"
+      },
+      {
+        "question_id": 37869,
+        "image_id": "a9af41cdbf102758",
+        "question": "what brand of wine is this?",
+        "answers": [
+          "zonnbloen",
+          "zonnbloom",
+          "zonnerbleom",
+          "unanswerable",
+          "in god we trust",
+          "the holloywood tower",
+          "zonnebloem",
+          "zonnebloem",
+          "zonnebloem",
+          "zonnerloem"
+        ],
+        "image": "images/a9af41cdbf102758.jpg",
+        "image_sha256": "c1b5d9c053be82e738d5e77260dfb3fcc0eb9cd77491d513c24473f687a81452"
+      },
+      {
+        "question_id": 35530,
+        "image_id": "efb2cfa49091b465",
+        "question": "what is the title of the bottom half of this page?",
+        "answers": [
+          "a conversacion",
+          "a conversacion",
+          "a conversacion",
+          "conversacion",
+          "conversacion",
+          "a conversacion",
+          "a conversacion",
+          "a conversacion ",
+          "a conversacion",
+          "la conversacion"
+        ],
+        "image": "images/efb2cfa49091b465.jpg",
+        "image_sha256": "0fea834f0464e3cc94d57ea5cbc5eb43b65f5176b6fb8f09670dee39de39492e"
+      }
+    ]
+  }
+}

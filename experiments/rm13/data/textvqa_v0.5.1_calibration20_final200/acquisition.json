@@ -1,0 +1,9 @@
+{
+  "split_manifest_sha256": "5b798932b1ad08c85c6328cceab046f191e9dfbbc0a2df01f971f523eeb2e7b6",
+  "annotation_sha256": "4ceb5aadc1a41719d0a3e4dfdf06838bcfee1db569a9a65ee67d31c99893081d",
+  "image_archive_url": "https://dl.fbaipublicfiles.com/textvqa/images/train_val_images.zip",
+  "image_archive_size_bytes": 7072297970,
+  "image_count": 220,
+  "http_range_blocks_cached": 471,
+  "http_range_bytes_cached": 123384818
+}
