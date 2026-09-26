@@ -1,0 +1,4 @@
+layer=ffn_up-0 weights=4958208 activation_values=1290240 sampled_output_channels=4304 N=1120
+layer=ffn_up-13 weights=4958208 activation_values=322560 sampled_output_channels=4304 N=280
+layer=ffn_up-26 weights=4958208 activation_values=322560 sampled_output_channels=4304 N=280
+real_product_pairs=14874624 same_order_reductions=12912 mismatches=0
