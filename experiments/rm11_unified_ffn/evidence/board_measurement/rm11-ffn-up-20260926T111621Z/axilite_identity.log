@@ -1,0 +1,3 @@
+RM11_HLS_IDENTITY dev=/dev/uio6 compatible=xlnx,vision-ffn-unified-tile-1.0,generic-uio addr=0xa0010000 size=0x10000 PASS
+RM11_APM_IDENTITY dev=/dev/uio5 compatible=generic-uio addr=0xa0000000 size=0x10000 PASS
+RM11_AXILITE_INVALID_TASK ret=-4 expected=-4 dma_pointer_used=0 PASS

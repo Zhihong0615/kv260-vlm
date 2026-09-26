@@ -1,0 +1,10 @@
+restore_begin_utc=2026-09-26T11:16:27Z boot_id=2a931c48-99ad-4a3f-b3e1-f42634597098
+remove from slot 0 returns: 0 (Ok)
+unload_rc=0
+fclk0_set_rc=0 fclk0_readback_hz=99999999
+k26-starter-kits: loaded to slot 0
+starter_load_rc=0
+starter_kit_restore=PASS
+fpga_manager=operating
+fclk0_readback_hz=99999999
+restore_end_utc=2026-09-26T11:16:28Z

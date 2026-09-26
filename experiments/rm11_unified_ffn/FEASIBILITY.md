@@ -1,6 +1,6 @@
 # RM11 unified FFN feasibility gate
 
-Status: **real FFN-up captures and A53 numeric gate pass; the single shared-top route and package are complete.** The hash-pinned board runner/package are staged; no custom image has been loaded.
+Status: **real FFN-up captures, A53 and PL numeric gates, the single shared-top route, and one authorized standalone PL run are complete.** The board restored to the starter kit. The current mapping loses to CPU on projected total-call family wall, so do not integrate up into a full VLM run.
 
 ## Frozen evidence before RM11 board access
 
@@ -30,11 +30,11 @@ The HLS arrays stay sized for the existing maximum K, while activation/weight st
 
 1. **PASS:** CPU-only capture has real W/X/Y for `ffn_up-0/-13/-26`; RM05 retains full QID CPU timing and answer `G`. RM11's capture request itself was intentionally stopped after the target tensors.
 2. **PASS:** HLS C-simulation exercised down/up orientations and the padded up tail. The full-tensor numeric gate against the three A53 outputs passes.
-3. **PASS:** the one parameterized image routed at 100 MHz with WNS `+3.158 ns`, WHS `+0.010 ns`, zero DRC errors, and 329 DSP/8,853 CLB sites. Its `.bit.bin` SHA-256 is `53894991503d8d2882dfddb1222f564994222902e03592a19ad23c7d027d7bc6`; the Scheduler has requested exact-hash first-load authorization.
-4. **PENDING authorization:** after the exact-hash first-load request is approved, measure kernel, total PL call, GMAC/s, errors, packing/output movement, and N=1120/280 command coverage for all three captures. CPU call times will come from RM05 board-measured op rows, not the partial RM11 capture wall. Do not load before authorization.
-5. Do not integrate FFN-up into the full VLM unless measured total-call time beats its 86.44-second CPU family time by a useful margin. A result near the 83.1-second equal-throughput estimate is only a roughly 3.9% family win and is not enough evidence for a full request run.
+3. **PASS:** the one parameterized image routed at 100 MHz with WNS `+3.158 ns`, WHS `+0.010 ns`, zero DRC errors, and 329 DSP/8,853 CLB sites. The authorized `.bit.bin` SHA-256 was `53894991503d8d2882dfddb1222f564994222902e03592a19ad23c7d027d7bc6`.
+4. **PASS, bounded standalone only:** one call each for up-0/up-13/up-26 measured kernel, total-call wall, packing, XRT sync, unpack, APM, and numeric error. All numeric gates passed. The weighted 135-call family projection is 80.870240 s kernel wait and 100.323895 s total-call wall versus CPU's 86.440139 s; the projection is 13.883756 s slower, not a measured 135-call run. Raw logs and exact breakdown are in `evidence/board_measurement/rm11-ffn-up-20260926T111621Z/`.
+5. **NO-GO for current up mapping:** its kernel-only estimate beats CPU, but packing and unpacking make total-call time 16.06% slower. Stop before full VLM integration and do not load a second image for this mapping.
 
-Board capture ran after Worker B restored the starter kit and released its slot. The routed package, benchmark, and restore scripts are staged under `/tmp/rm11-ffn-up-capture/`; hashes are pinned in `RM11_RESULTS.md`. The device still reports the starter-kit app, FPGA manager operating, and FCLK0 at 99,999,999 Hz. No RM11 bitstream load or VLM request has been attempted.
+Board capture ran after Worker B restored the starter kit and released its slot. The routed package, benchmark, and restore scripts were staged under `/tmp/rm11-ffn-up-capture/`; hashes are pinned in `RM11_RESULTS.md`. The authorized standalone run logged `starter_kit_restore=PASS`, `run_exit_status=0`, FPGA manager `operating`, and FCLK0 at 99,999,999 Hz. No full VLM request was attempted.
 
 ## Source evidence
 
