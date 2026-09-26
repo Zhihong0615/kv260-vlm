@@ -1,5 +1,17 @@
 # Research go/no-go
 
+> **RM12 decision (2026-09-26): `KEEP_RM10_AND_REASSESS_PERFORMANCE_TARGET`.**
+> The aligned RM10 fixed10 HLS binds 64 generic F32×F32 multipliers after
+> F16 widening; each costs 3 DSP, and the corrected route uses 323 DSP,
+> 41,431 LUT and 8,347/14,640 CLB sites at 100 MHz. An isolated exact
+> F16×F32 product saved 2 DSP but added 2,324 LUT and did not improve the
+> worst-case HLS interval. Boundary/random (2,572,864) and real-tensor
+> (14,874,624 pairs) C-sim comparisons passed, but AMD RTL exceptional-case
+> equivalence and full-array resource/throughput remain unverified. The LUT
+> gate fails, so no full-array route, board image or VLM request was run.
+> RM10 remains the measured strong split: CPU FFN-up + PL FFN-down. See
+> [RM12 result](../experiments/rm12/RM12_RESULTS.md).
+
 > **RM11 decision (2026-09-26): `NO_NEW_METHOD`.** The routed shared FFN
 > engine passed real-tensor numerical checks and restored starter-kit after
 > three KV260 standalone calls, but FFN-up total-call latency was 1.664 s
