@@ -1,0 +1,5 @@
+# Public TextVQA JPEGs and model-generated raw/derived evidence stay local.
+textvqa_v0.5.1_calibration20_final200/images/
+raw/
+derived/
+qcache-*/
