@@ -1,0 +1,30 @@
+{
+  "contract_id": "rm13-vision-ffn-symmetric-g128-v1",
+  "fixture_kind": "real-packed-ffn-up-W4A8-csim-input",
+  "source": "RM11 Q37804 CPU board_capture q37804-cpu, ffn_up-0",
+  "source_capture_root": "/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu",
+  "source_weight_path": "/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/tensors/ffn_up-0.weight.f16",
+  "source_weight_sha256": "c9987b77337c39c44a2b97606985c7376fae8db641b28e35010fb3bb7942f0b7",
+  "source_activation_path": "/home/zhiro/research/kv260-vlm-workers/RM11-A-unified/experiments/rm11_unified_ffn/evidence/board_capture/q37804-cpu/results/tensors/ffn_up-0.activation.f32",
+  "source_activation_sha256": "67694f913a045603c18971a4bb9312b6c23df7a336b567bf4f94a0b33d08b41b",
+  "q_worker_cache_path": "/home/zhiro/research/kv260-vlm-workers/RM13-Q-quality/work/rm13-pilot/wcache/ffn_up-0_w4_g128.bin",
+  "q_worker_cache_sha256": "2f57cda4fe869fd9e0d6ad54bfe368234663fc533d332dacbf18ea9b9b43cde1",
+  "q_worker_cache_source_fnv64": "779a025a17ee2d34",
+  "independent_w4_code_match": "bitwise exact for emitted M slice",
+  "independent_weight_scale_match": "bitwise exact F32 for emitted M slice",
+  "source_layout": {
+    "weight": "GGML W[K,M], K contiguous within output row, little-endian F16",
+    "activation": "token-major X[K,N], K contiguous within token, little-endian F32"
+  },
+  "dimensions": {
+    "K": 1152,
+    "M": 7,
+    "N": 1
+  },
+  "slice": "first output rows and first token rows",
+  "fixture_path": "/tmp/rm13_real_up0_m7_n1.r13",
+  "fixture_bytes": 8912,
+  "fixture_sha256": "c4df19c49e2fa3ccd8c7a47dde15a1fc12534857a90d03a0bc717af1700014c1",
+  "fixture_encoding": "R13W4T01 + u32_le K/M/N + packed W4 [M,G,64] + F32 scales [M,G] + F32 X [N,K]",
+  "packed_layout": "m-major/group-major, low nibble even local K, signed twos-complement [-7,7]"
+}

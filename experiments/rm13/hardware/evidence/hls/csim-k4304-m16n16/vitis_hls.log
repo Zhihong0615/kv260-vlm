@@ -1,0 +1,47 @@
+
+****** Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2024.2 (64-bit)
+  **** SW Build 5238294 on Nov  8 2024
+  **** IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+  **** SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+  **** Start of session at: Sat Sep 26 21:13:51 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source /home/zhiro/research/kv260-vlm/tools/Xilinx/Vitis/2024.2/scripts/vitis_hls/hls.tcl -notrace
+INFO: [HLS 200-10] For user 'zhiro' on host 'zhiro-ThinkBook-16p-G5-IRX' (Linux_x86_64 version 7.0.0-34-generic) on Sat Sep 26 21:13:51 CST 2026
+INFO: [HLS 200-10] On os Ubuntu 24.04.5 LTS
+INFO: [HLS 200-10] In directory '/home/zhiro/research/kv260-vlm-workers/RM13-H-integer'
+WARNING: [HLS 200-2053] The vitis_hls executable is deprecated. Consider using vitis-run --mode hls --tcl
+Sourcing Tcl script '/home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware/run_hls.tcl'
+INFO: [HLS 200-1510] Running: open_project -reset /tmp/rm13-w4a8-k4304-20260926T131350Z-189357/project 
+INFO: [HLS 200-10] Creating and opening project '/tmp/rm13-w4a8-k4304-20260926T131350Z-189357/project'.
+INFO: [HLS 200-1510] Running: set_top rm13_w4a8_tile 
+INFO: [HLS 200-1510] Running: add_files /home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware/w4a8_tile.cpp -cflags -I/home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware -DRM13_K=4304 -DRM13_DEBUG_OUTPUTS=1 -DRM13_TILE_M=16 -DRM13_TILE_N=16 -DRM13_PROCESSING_M=8 -DRM13_PROCESSING_N=16 -ffp-contract=off 
+INFO: [HLS 200-10] Adding design file '/home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware/w4a8_tile.cpp' to the project
+INFO: [HLS 200-1510] Running: add_files -tb /home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware/tb_w4a8_tile.cpp -cflags -I/home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware -DRM13_K=4304 -DRM13_DEBUG_OUTPUTS=1 -DRM13_TILE_M=16 -DRM13_TILE_N=16 -DRM13_PROCESSING_M=8 -DRM13_PROCESSING_N=16 -ffp-contract=off 
+INFO: [HLS 200-10] Adding test bench file '/home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware/tb_w4a8_tile.cpp' to the project
+INFO: [HLS 200-1510] Running: open_solution -reset solution1 
+INFO: [HLS 200-10] Creating and opening solution '/tmp/rm13-w4a8-k4304-20260926T131350Z-189357/project/solution1'.
+INFO: [HLS 200-10] Cleaning up the solution database.
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.2%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1510] Running: set_part xck26-sfvc784-2LV-c 
+INFO: [HLS 200-1611] Setting target device to 'xck26-sfvc784-2LV-c'
+INFO: [HLS 200-1510] Running: create_clock -period 5.0 -name default 
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 5ns.
+INFO: [HLS 200-1510] Running: config_interface -m_axi_max_widen_bitwidth 512 
+INFO: [HLS 200-1510] Running: csim_design 
+INFO: [SIM 211-2] *************** CSIM start ***************
+INFO: [SIM 211-4] CSIM will launch CLANG as the compiler.
+INFO: [HLS 200-2036] Building debug C Simulation binaries
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware/tb_w4a8_tile.cpp in debug mode
+   Compiling ../../../../../../home/zhiro/research/kv260-vlm-workers/RM13-H-integer/experiments/rm13/hardware/w4a8_tile.cpp in debug mode
+   Generating csim.exe
+case M=7 N=3: exact int32 partials=714, exact activation scales=102, F32 outputs within 2e-5 relative/absolute floor; bitwise=21/21
+int32 accumulator boundary sign=1: group0=113792, last=71120, within int32
+int32 accumulator boundary sign=-1: group0=-113792, last=-71120, within int32
+edge checks: offline packed-W4 validator rejects -8; nonfinite X requests fallback before Y writes
+INFO: [SIM 211-1] CSim done with 0 errors.
+INFO: [SIM 211-3] *************** CSIM finish ***************
+INFO: [HLS 200-2161] Finished Command csim_design Elapsed time: 00:00:02; Allocated memory: 0.211 MB.
+INFO: [HLS 200-112] Total CPU user time: 3.63 seconds. Total CPU system time: 0.39 seconds. Total elapsed time: 3.84 seconds; peak allocated memory: 310.129 MB.
