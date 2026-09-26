@@ -5,3 +5,9 @@ DIAG qid=37804 op=ffn_up-13 layer=13 W4A8 K=1152 M=4304 sampled_tokens=1 referen
 LAYER_HIST op=ffn_up-13 elements=4958208 q-7..7=30395,45927,100688,206226,356947,559216,742950,830527,750329,570161,366196,213076,105761,47796,32013 saturated=62408 saturation_fraction=0.0125868056
 DIAG qid=37804 op=ffn_up-26 layer=26 W4A8 K=1152 M=4304 sampled_tokens=1 reference=RM11_original_capture source_fingerprint=match maxabs=2.10592866 rmse=0.454048874 cosine=0.997714993474165
 LAYER_HIST op=ffn_up-26 elements=4958208 q-7..7=29490,43708,95917,197028,349592,556640,752008,847807,762497,572128,362622,207473,102040,46675,32583 saturated=62073 saturation_fraction=0.0125192408
+DIAG qid=37804 op=ffn_down-0 layer=0 W4A8 K=4304 M=1152 sampled_tokens=1 reference=RM11_original_capture source_fingerprint=match maxabs=0.157533467 rmse=0.0253023283 cosine=0.999001874725436
+LAYER_HIST op=ffn_down-0 elements=4958208 q-7..7=27065,25897,52520,110098,223708,470151,915340,1322286,913084,463011,220452,108734,52772,25909,27181 saturated=54246 saturation_fraction=0.0109406463
+DIAG qid=37804 op=ffn_down-13 layer=13 W4A8 K=4304 M=1152 sampled_tokens=1 reference=RM11_original_capture source_fingerprint=match maxabs=0.105013214 rmse=0.0256675336 cosine=0.993841780881639
+LAYER_HIST op=ffn_down-13 elements=4958208 q-7..7=30319,40222,88305,183660,334547,557887,784540,915008,787371,557988,336142,183652,88462,40332,29773 saturated=60092 saturation_fraction=0.0121197013
+DIAG qid=37804 op=ffn_down-26 layer=26 W4A8 K=4304 M=1152 sampled_tokens=1 reference=RM11_original_capture source_fingerprint=match maxabs=1.101017 rmse=0.241560161 cosine=0.996445132137641
+LAYER_HIST op=ffn_down-26 elements=4958208 q-7..7=29578,38397,83673,173923,321479,551633,805825,940564,808465,552892,323206,175429,83863,39210,30071 saturated=59649 saturation_fraction=0.0120303545
